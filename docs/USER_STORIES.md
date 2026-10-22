@@ -17,7 +17,7 @@ _Nothing recorded yet._
 
 ## Epic A — Project Foundation & Unity Scaffold
 - **UH-US-A1 ⬜** As a developer, I have a Unity project scaffolded under Unity.Hare with the folder layout (Scenes/Scripts/Prefabs/Art/Audio) the other MindAttic Unity games use, so the rebuild starts from a consistent baseline
-- **UH-US-A2 ⬜** As a developer, I have the reverse-engineering notes from gmlHARE/gmlRabbit (objects, scripts, rooms) captured in docs/ so the GML source of truth survives even if R:\ becomes unavailable
+- **UH-US-A2 ✅** As a developer, I have the reverse-engineering notes from gmlHARE/gmlRabbit (objects, scripts, rooms) captured in docs/ so the GML source of truth survives even if R:\ becomes unavailable
 - **UH-US-A3 ⬜** As a developer, I can import the existing Unity HARE proof-of-concept (Assets/Resources, Scripts/Player, Scripts/Weapon, Scripts/Rock) as a starting reference without being blocked by it
 
 
@@ -93,7 +93,7 @@ _Nothing recorded yet._
 |---|---|---|---|---|---|
 | UH-T1 | 2026-10-21 | docs | closed | Start the permanent ticket log in the ticket database | — |
 | UH-T2 | 2026-10-21 | chore | open | Scaffold Unity.Hare project (folders, .gitignore, Unity version, docs layout) | UH-US-A1 |
-| UH-T3 | 2026-10-21 | docs | open | Write reverse-engineering notes for gmlHARE/gmlRabbit object, script and room catalog | UH-US-A2 |
+| UH-T3 | 2026-10-21 | docs | closed | Write reverse-engineering notes for gmlHARE/gmlRabbit object, script and room catalog | 19d3c0f |
 | UH-T4 | 2026-10-21 | chore | open | Bring in Unity HARE POC scripts as reference under Assets/Legacy or similar | UH-US-A3 |
 | UH-T5 | 2026-10-21 | feature | open | Implement player ship movement controller (thrust, rotate, boost, brake, leap) | UH-US-B1 |
 | UH-T6 | 2026-10-21 | feature | open | Implement player health, damage, death and respawn | UH-US-B2 |
