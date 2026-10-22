@@ -22,7 +22,7 @@ _Nothing recorded yet._
 
 
 ## Epic B — Player Ship: Movement & Control
-- **UH-US-B1 ⬜** As a player, I can fly obj_player's ship with thrust/rotate controls (boost, brake, leap) matching the original's alarm-driven state machine
+- **UH-US-B1 ✅** As a player, I can fly obj_player's ship with thrust/rotate controls (boost, brake, leap) matching the original's alarm-driven state machine
 - **UH-US-B2 ⬜** As a player, I can take damage and die/respawn (player_hurt, reset_player) with the same health/lives rules as the GML original
 - **UH-US-B3 ⬜** As a player, I can raise a shield (player_shield/obj_shield/obj_shieldwall) that blocks incoming damage for a limited time
 
@@ -95,7 +95,7 @@ _Nothing recorded yet._
 | UH-T2 | 2026-10-21 | chore | closed | Scaffold Unity.Hare project (folders, .gitignore, Unity version, docs layout) | 71b3ce1 |
 | UH-T3 | 2026-10-21 | docs | closed | Write reverse-engineering notes for gmlHARE/gmlRabbit object, script and room catalog | 19d3c0f |
 | UH-T4 | 2026-10-21 | chore | closed | Bring in Unity HARE POC scripts as reference under Assets/Legacy or similar | d5af888 |
-| UH-T5 | 2026-10-21 | feature | open | Implement player ship movement controller (thrust, rotate, boost, brake, leap) | UH-US-B1 |
+| UH-T5 | 2026-10-21 | feature | closed | Implement player ship movement controller (thrust, rotate, boost, brake, leap) | 7624113 |
 | UH-T6 | 2026-10-21 | feature | open | Implement player health, damage, death and respawn | UH-US-B2 |
 | UH-T7 | 2026-10-21 | feature | open | Implement player shield ability | UH-US-B3 |
 | UH-T8 | 2026-10-21 | feature | open | Implement vulcan weapon (spin-up/spin-down, looping fire, ammo) | UH-US-C1 |
