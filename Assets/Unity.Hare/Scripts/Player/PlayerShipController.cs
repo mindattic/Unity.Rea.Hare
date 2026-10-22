@@ -3,11 +3,12 @@ using UnityEngine.InputSystem;
 
 namespace Unity.Hare.Player
 {
-    /// <summary>Mirrors obj_player's two top-level states (GML: state_idle / state_moving).</summary>
+    /// <summary>Mirrors obj_player's top-level states (GML: state_idle / state_moving / state_dead).</summary>
     public enum PlayerFlightState
     {
         Idle,
-        Moving
+        Moving,
+        Dead
     }
 
     /// <summary>
@@ -178,6 +179,7 @@ namespace Unity.Hare.Player
         /// <summary>Perching on a rock/structure (par_rock/par_structure); the Rocks epic (UH-T19/UH-T20) calls this.</summary>
         public void Land()
         {
+            if (State == PlayerFlightState.Dead) return;
             State = PlayerFlightState.Idle;
             IsBoosting = false;
             IsBraking = false;
@@ -211,6 +213,38 @@ namespace Unity.Hare.Player
         }
 
         void OnDestroy() => DropShield();
+
+        /// <summary>
+        /// GML: player_hurt's "HP reached 0" branch. Stops the ship dead (speed = 0) and drops every
+        /// active flight mode; PlayerHealth calls this and later calls <see cref="Respawn"/>.
+        /// </summary>
+        public void Die()
+        {
+            State = PlayerFlightState.Dead;
+            IsBoosting = false;
+            IsBraking = false;
+            DropShield();
+            Speed = 0f;
+            turnInput = 0f;
+            if (body != null) body.linearVelocity = Vector2.zero;
+        }
+
+        /// <summary>
+        /// GML: reset_player's flight half. Puts the ship back in flight at flight_speed along
+        /// <paramref name="direction"/> from <paramref name="position"/>. Energy is left alone and
+        /// refills on its own, like the original's obj_energybar "fill" mode.
+        /// </summary>
+        public void Respawn(Vector2 position, float direction)
+        {
+            transform.position = new Vector3(position.x, position.y, transform.position.z);
+            State = PlayerFlightState.Moving;
+            IsBoosting = false;
+            IsBraking = false;
+            DropShield(); // reset_player: with(obj_shieldwall) instance_destroy()
+            Direction = direction;
+            Speed = flightSpeed;
+            transform.rotation = Quaternion.Euler(0f, 0f, Direction);
+        }
 
         void FixedUpdate() => Step(Time.fixedDeltaTime);
 
