@@ -1,0 +1,168 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class WeaponBase : MonoBehaviour
+{
+
+    private PlayerMovement playerMovement;
+
+    private AudioSource weaponSource;
+
+    public float fireRate = 10;
+    public LayerMask whatToHit = 10;
+
+    float timeToFire = 0;
+    Transform firePoint;
+
+    float spawnInterval = 0;
+    public float spawnRate = 10;
+
+    public Transform bulletTrailPrefab;
+    public Transform muzzleFlashPrefab;
+
+
+    private List<AudioClip> weaponSounds = new List<AudioClip>();
+
+    public enum WEAPON
+    {
+        VULCAN = 0,
+        SHOTGUN = 1,
+        RAILGUN = 2,
+        LASER = 3,
+        FLAMETHROWER = 4
+    }
+    public WEAPON currentWeapon = WEAPON.VULCAN;
+
+    public enum WEAPON_STATE
+    {
+        IDLE,
+        PREFIRE,
+        FIRING,
+        POSTFIRE,
+        RELOADING
+    }
+    public WEAPON_STATE weaponState = WEAPON_STATE.IDLE;
+
+    private float preFireDuration = 0f;
+    private float postFireDuration = 0f;
+
+    void Awake()
+    {
+
+    }
+
+    void Start()
+    {
+        // gameObject.SetActive(false);
+        GameObject player = GameObject.Find("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
+        firePoint = transform.FindChild("FirePoint");
+
+        weaponSource = GetComponent<AudioSource>();
+        weaponSource.clip = null;
+
+        currentWeapon = WEAPON.VULCAN;
+        weaponSounds.AddRange(new List<AudioClip> {
+             (AudioClip)Resources.Load("Audio/SoundEffects/sfx_vulcan_loop")
+        });
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerMovement.collisionState == PlayerMovement.PLAYER_COLLISION_STATE.IN_AIR)
+        {
+            // gameObject.SetActive(false);
+            // return;
+        }
+        //gameObject.SetActive(true);
+
+        //rotation
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+        mousePos.x = mousePos.x - objectPos.x;
+        mousePos.y = mousePos.y - objectPos.y;
+
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        if (Input.GetMouseButton(0) && Time.time > timeToFire)
+        {
+            timeToFire = Time.time + 1 / fireRate;
+            Shoot();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            weaponState = WEAPON_STATE.IDLE;
+            StopSoundEffect();
+        }
+    }
+
+    private void Shoot()
+    {
+        Vector2 mousePosition = Input.mousePosition;
+        Vector2 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+        mousePosition.x = mousePosition.x - objectPos.x;
+        mousePosition.y = mousePosition.y - objectPos.y;
+
+        // firePoint.position.Set(firePoint.position.x, firePoint.position.y + Random.Range(-100f, 100f), firePoint.position.z);
+
+        if (Time.time >= spawnInterval)
+        {
+            if(weaponState == WEAPON_STATE.IDLE)
+            {
+                weaponState = WEAPON_STATE.FIRING;
+                LoopSoundEffect();
+            }
+            Effect();
+            spawnInterval = Time.time + 1 / spawnRate;
+        }
+
+        Vector2 firePointPosition = new Vector2(firePoint.position.x, firePoint.position.y);
+        RaycastHit2D hit = Physics2D.Raycast(firePointPosition, mousePosition - firePointPosition, 100, whatToHit);
+        // Debug.DrawLine(firePointPosition, (mousePosition-firePointPosition) * 100, Color.cyan);
+        if (hit.collider != null)
+        {
+            //Debug.DrawLine(firePointPosition, hit.point, Color.red);
+            //Debug.Log("Hit:" + hit.collider.name + " Damage:" + damage);
+        }
+    }
+
+    void Effect()
+    {
+        Vector3 r = new Vector3(0, Random.Range(-0.2f, 0.2f), 0);
+        Instantiate(bulletTrailPrefab, firePoint.position + r, firePoint.rotation);
+        Transform clone = Instantiate(muzzleFlashPrefab, firePoint.position, firePoint.rotation) as Transform;
+        clone.parent = firePoint;
+        float size = Random.Range(0.35f, 0.6f);
+        clone.localScale = new Vector3(size, size, 0);
+        //yield return 0;
+        Destroy(clone.gameObject, 0.02f);
+    }
+
+    void PlaySoundEffect()
+    {
+        weaponSource.Stop();
+        weaponSource.loop = false;
+        weaponSource.clip = weaponSounds[(int)currentWeapon];
+        weaponSource.Play();
+    }
+
+    void StopSoundEffect()
+    {
+        weaponSource.Stop();
+        weaponSource.loop = false;
+    }
+
+    void LoopSoundEffect()
+    {
+        if (weaponSource.isPlaying)
+            return;
+
+        weaponSource.Stop();
+        weaponSource.loop = true;
+        weaponSource.clip = weaponSounds[(int)currentWeapon];
+        weaponSource.Play();
+    }
+}

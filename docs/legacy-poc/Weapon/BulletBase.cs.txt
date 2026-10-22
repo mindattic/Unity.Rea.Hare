@@ -1,0 +1,30 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class BulletBase : MonoBehaviour
+{
+
+    public int moveSpeed = 100;
+    public float duration = 1f;
+    public int damage = 10;
+
+    void Update()
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
+        Destroy(gameObject, duration);
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Rock")
+        {
+            other.gameObject.GetComponent<RockMovement>().rotation += damage;
+            Destroy(gameObject);
+        }
+    }
+
+    //void OnBecameInvisible()
+    //{
+    //    Destroy(gameObject);
+    //}
+}

@@ -1,0 +1,493 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PlayerMovement : MonoBehaviour
+{
+
+    private float currentSpeed = 10;            //Current speed
+    public float speedStandard = 10;            //Standard movement speed
+    public float speedBoost = 20;               //Max movement speed
+    public float speedBrake = 5;                //Min movement speed
+
+    private float rotateInput;                    //Input flag
+    private float currentRotation = 10;         //Current rotation 
+    public float rotationStandard = 10;         //Standard rotation speed
+    public float rotationBrake = 10;
+    public float rotationBoost = 10;
+
+    //private float decelerationSpeed;
+    //private float accelerationSpeed;
+    public float brakeDuration = 3f;            //Brake Duration
+    public float boostDuration = 3f;            //Boost Duration
+
+    private float spin;                         //Spin factor
+
+    private GameWorld gameWorld;                //Reference to world object
+    private AudioSource gameAudio;              //Reference to global audio source
+
+    private Rigidbody2D rigid2D;                //Reference to object's rigidBody2D
+    private SpriteRenderer spriteRenderer;      //Reference to object's sprite
+
+    private GameObject bigBlueArrow;
+
+    public Sprite sprIdle;                      //Idle sprite
+    public Sprite sprFlight;                       //Flight sprite
+
+    private Vector2 contactNormal;              //Normal of contact surface
+
+
+    private float energy = 100;
+    private float maxEnergy = 100;
+    private float drain = 1;
+
+    public enum PLAYER_FREE_SPIN
+    {
+        NOT_FREE_SPINNING = 1,
+        FREE_SPINNING = 2,
+        RECOVERING = 3
+    }
+    public PLAYER_FREE_SPIN freeSpinState = PLAYER_FREE_SPIN.NOT_FREE_SPINNING;
+    public float freeSpinSpeed = 5;
+
+
+    private void Awake()
+    {
+
+    }
+
+    void Start()
+    {
+        GameObject g = GameObject.Find("Game");
+        gameWorld = g.GetComponent<GameWorld>();
+        gameAudio = g.GetComponent<AudioSource>();
+
+        rigid2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    
+        sprIdle = Resources.Load<Sprite>("Actors/Rabbit/rabbit-idle_0");
+        sprFlight = Resources.Load<Sprite>("Actors/Rabbit/rabbit-fly_0");
+
+        SetCollisionState(PLAYER_COLLISION_STATE.IN_AIR);
+        //spritesIdle = Resources.LoadAll<Sprite>("rabbit-idle");
+        //spritesFly = Resources.LoadAll<Sprite>("rabbit-fly");
+
+    }
+
+
+    public enum PLAYER_COLLISION_STATE
+    {
+        IN_AIR = 1,
+        ON_GROUND = 2
+    }
+    public PLAYER_COLLISION_STATE collisionState = PLAYER_COLLISION_STATE.IN_AIR;
+    private float lastCollisionStateChange = 0f;
+    private bool collisionStateChanged = true;
+
+    void SetCollisionState(PLAYER_COLLISION_STATE state)
+    {
+        collisionState = state;
+        lastCollisionStateChange = Time.time;
+        collisionStateChanged = true;
+    }
+
+    float GetCollisionStateTimeElapsed()
+    {
+        return Time.time - lastCollisionStateChange;
+    }
+
+    public enum PLAYER_FLIGHT_STATE
+    {
+        STANDARD = 1,
+        BRAKING = 2,
+        BOOSTING = 3
+    }
+    public PLAYER_FLIGHT_STATE flightState = PLAYER_FLIGHT_STATE.STANDARD;
+    public PLAYER_FLIGHT_STATE previousFlightState = PLAYER_FLIGHT_STATE.STANDARD;
+
+    private float lastFlightStateChange = 0f;
+    private bool flightStateChanged = false;
+
+    void SetFlightState(PLAYER_FLIGHT_STATE state)
+    {
+        previousFlightState = flightState;
+        flightState = state;
+        lastFlightStateChange = Time.time;
+        flightStateChanged = true;
+    }
+
+    float GetFlightStateTimeElapsed()
+    {
+        return Time.time - lastFlightStateChange;
+    }
+
+    public void Reset()
+    {
+        rigid2D.MovePosition(Vector3.zero);
+    }
+
+    void Update()
+    {
+        if (gameWorld.isPaused)
+            return;
+
+        CheckCollisonStateChanged();
+        CheckFlightStateChanged();
+        CheckInput();
+    }
+
+
+    private void CheckCollisonStateChanged()
+    { //If collision state just changed...
+        if (collisionStateChanged)
+        {
+            collisionStateChanged = false;
+
+            if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+            {
+                currentSpeed = speedStandard + spin;
+                spin = 0;
+                spriteRenderer.sprite = sprFlight;
+            }
+            else if (collisionState == PLAYER_COLLISION_STATE.ON_GROUND)
+            {
+                spriteRenderer.sprite = sprIdle;
+            }
+        }
+    }
+
+    private void CheckFlightStateChanged()
+    {
+
+        //If flight state just changed...
+        if (flightStateChanged)
+        {
+            flightStateChanged = false;
+
+            if (flightState == PLAYER_FLIGHT_STATE.STANDARD)
+            {
+                /*
+                if (speed < movementSpeed)
+                    speed += accelerationSpeed * Time.deltaTime;
+                else if (speed > movementSpeed)
+                    speed -= decelerationSpeed * Time.deltaTime;
+                else
+                */
+                currentSpeed = speedStandard;
+                currentRotation = rotationStandard;
+            }
+            else if (flightState == PLAYER_FLIGHT_STATE.BRAKING)
+            {
+                /*
+                if (currentSpeed > movementSpeed)
+                    currentSpeed -= decelerationSpeed * Time.deltaTime;
+                else
+                    flightStateChanged = false;
+                */
+                currentSpeed = speedBrake;
+                currentRotation = rotationBrake;
+            }
+            else if (flightState == PLAYER_FLIGHT_STATE.BOOSTING)
+            {
+                /*
+                if (currentSpeed < movementSpeed)
+                    currentSpeed += accelerationSpeed * Time.deltaTime;
+                else
+                    flightStateChanged = false;
+                */
+                currentSpeed = speedBoost;
+                currentRotation = rotationBoost;
+            }
+        }
+        else
+        {
+            if (flightState != PLAYER_FLIGHT_STATE.STANDARD)
+            {
+                if (flightState == PLAYER_FLIGHT_STATE.BRAKING && GetFlightStateTimeElapsed() >= brakeDuration)
+                    SetFlightState(PLAYER_FLIGHT_STATE.STANDARD);
+                else if (flightState == PLAYER_FLIGHT_STATE.BOOSTING && GetFlightStateTimeElapsed() >= boostDuration)
+                    SetFlightState(PLAYER_FLIGHT_STATE.STANDARD);
+            }
+
+        }
+    }
+
+    private void CheckInput()
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+        {
+            Input_IN_AIR();
+        }
+        else if (collisionState == PLAYER_COLLISION_STATE.ON_GROUND)
+        {
+            Input_ON_GROUND();
+        }
+    }
+
+
+    public void Input_IN_AIR()
+    {
+
+        //Turning
+        if (Input.GetKey(KeyCode.A))
+        {
+            rotateInput = currentRotation;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            rotateInput = -currentRotation;
+        }
+        else
+        {
+            rotateInput = 0f;
+        }
+
+        //Braking / Boosting
+        if (IsKeyBrakeDown && flightState != PLAYER_FLIGHT_STATE.BOOSTING)
+        {
+            SetFlightState(PLAYER_FLIGHT_STATE.BRAKING);
+        }
+        else if (IsKeyBoostDown && flightState != PLAYER_FLIGHT_STATE.BRAKING)
+        {
+            SetFlightState(PLAYER_FLIGHT_STATE.BOOSTING);
+        }
+
+
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            freeSpinState = PLAYER_FREE_SPIN.FREE_SPINNING;
+        }
+        else if (freeSpinState == PLAYER_FREE_SPIN.FREE_SPINNING)
+        {
+            freeSpinState = PLAYER_FREE_SPIN.RECOVERING;
+        }
+
+    }
+
+    public bool IsKeyBrakeDown
+    {
+        get { return (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.S)); }
+    }
+
+    public bool IsKeyBoostDown
+    {
+        get { return (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)); }
+    }
+
+    public void Input_ON_GROUND()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Detach();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameWorld.isPaused)
+            return;
+
+        Move();
+        Rotate();
+        FreeSpin();
+    }
+
+    private void Move()
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+        {
+            // Create a vector in the direction the player is facing with a magnitude based on the input, speed and the time between frames.
+            Vector2 movement = transform.up * currentSpeed * Time.deltaTime;
+
+            // Apply this movement to the rigidbody's position.
+            rigid2D.MovePosition(rigid2D.position + movement);
+        }
+
+    }
+
+    private void Rotate()
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+        {
+            // Determine the number of degrees to be turned based on the input, speed and time between frames.
+            float rotation = rotateInput * currentRotation * Time.deltaTime;
+
+            // Apply this rotation to the rigidbody's rotation.
+            rigid2D.MoveRotation(rigid2D.rotation + rotation);
+        }
+    }
+
+    private void FreeSpin()
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+        {
+            if (freeSpinState == PLAYER_FREE_SPIN.FREE_SPINNING)
+            {
+                spriteRenderer.transform.Rotate(new Vector3(0, 0, freeSpinSpeed));
+            }
+            else if (freeSpinState == PLAYER_FREE_SPIN.RECOVERING && spriteRenderer.transform.rotation.eulerAngles.z != rigid2D.transform.rotation.eulerAngles.z)
+            {
+                if (!inRange(spriteRenderer.transform.rotation.eulerAngles.z, rigid2D.transform.rotation.eulerAngles.z, freeSpinSpeed))
+                {
+                    spriteRenderer.transform.Rotate(new Vector3(0, 0, freeSpinSpeed));
+                }
+                else
+                {
+                    spriteRenderer.transform.rotation = rigid2D.transform.rotation;
+                    freeSpinState = PLAYER_FREE_SPIN.NOT_FREE_SPINNING;
+                }
+            }
+            else
+            {
+                freeSpinState = PLAYER_FREE_SPIN.NOT_FREE_SPINNING;
+            }
+        }
+
+    }
+    public void Attach(Collision2D other)
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.IN_AIR)
+        {
+
+            AbortFreeSpin();
+
+            // find collision point and normal. You may want to average over all contacts
+            Vector2 point = other.contacts[0].point;
+            Vector2 dir = -other.contacts[0].normal; // you need vector pointing TOWARDS the collision, not away from it
+
+            // step back a bit
+            point -= dir;
+
+            // cast a ray twice as far as your step back. This seems to work in all situations, at least when speeds are not ridiculously big   
+            RaycastHit2D hit = Physics2D.Raycast(point, dir, 2);
+            if (hit.collider != null)
+            {
+                rigid2D.isKinematic = true;
+                rigid2D.MovePosition(point);
+                rigid2D.transform.parent = other.transform;
+                contactNormal = hit.normal;
+                rigid2D.transform.rotation = Quaternion.FromToRotation(Vector3.up, contactNormal);
+                SetCollisionState(PLAYER_COLLISION_STATE.ON_GROUND);
+                SetFlightState(PLAYER_FLIGHT_STATE.STANDARD);
+            }
+        }
+    }
+
+
+    void AbortFreeSpin()
+    {
+        freeSpinState = PLAYER_FREE_SPIN.NOT_FREE_SPINNING;
+        spriteRenderer.transform.rotation = rigid2D.transform.rotation;
+    }
+
+
+    public void Detach()
+    {
+        if (collisionState == PLAYER_COLLISION_STATE.ON_GROUND)
+        {
+            rigid2D.isKinematic = false;
+
+            spin = transform.parent.gameObject.GetComponent<RockMovement>().rotation / 25;
+            transform.parent = null;
+
+            SetCollisionState(PLAYER_COLLISION_STATE.IN_AIR);
+            SetFlightState(PLAYER_FLIGHT_STATE.STANDARD);
+
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Rock")
+        {
+            Attach(other);
+        }
+    }
+
+
+
+    Vector2 FindClosestVertex(PolygonCollider2D poly, Vector2 point)
+    {
+        var dist = Mathf.Infinity;
+        var result = Vector3.zero;
+
+        foreach (Vector2 corner in poly.points)
+        {
+            var test = transform.TransformPoint(corner);
+            var d = Vector2.Distance(test, point);
+            if (d < dist)
+            {
+                dist = d;
+                result = test;
+            }
+        }
+        return result;
+    }
+
+
+    //public void OnTriggerEnter(Collider other)
+    //{
+
+
+    //}
+
+    //public void OnTriggerStay(Collider other)
+    //{
+
+    //    if (other.gameObject.tag == "Rock")
+    //    {
+    //        transform.parent = other.transform;
+    //    }
+    //}
+
+    //public void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Rock")
+    //    {
+    //        state = PLAYER_STATE.IN_AIR;
+    //        transform.parent = null;
+    //    }
+    //}
+
+
+
+    bool showText = true;
+    Rect textArea = new Rect(0, 0, Screen.width, Screen.height);
+
+    void OnGUI()
+    {
+
+        if (showText)
+        {
+            string s = "";
+            s += "Current Speed: " + currentSpeed + "\n";
+            s += "Current Rotation: " + currentRotation + "\n";
+            s += "Rotation Input: " + rotateInput + "\n";
+            s += "Collision State: " + collisionState + "\n";
+            s += "Flight State: " + flightState + "\n";
+            GUI.Label(textArea, s);
+        }
+
+    }
+
+
+
+    bool inRange(float a, float b, float range)
+    {
+        return (a <= b + range && a >= b - range); //Matt's Line
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

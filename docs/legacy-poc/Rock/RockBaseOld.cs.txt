@@ -1,0 +1,84 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class RockBaseOld : MonoBehaviour {
+
+    private float speed;               //Current speed
+
+    public float movementSpeed = 1f;
+    public float rotationSpeed = 10f;
+
+    private Rigidbody2D rigid2D;       // Reference to objects rigidbody
+
+    private GameWorld gameWorld;              //Reference to world object
+    private AudioSource gameAudio;             //Reference to global audio source
+
+    private PlayerBase playerBase;
+    private PlayerMovement playerMovement;
+
+    public Vector2 initialForce;
+
+    private void Awake()
+    {
+        rigid2D = GetComponent<Rigidbody2D>();
+        rigid2D.AddForce(initialForce);
+    }
+
+    void Start()
+    {
+        GameObject g = GameObject.Find("Game");
+        gameWorld = g.GetComponent<GameWorld>();
+        gameAudio = g.GetComponent<AudioSource>();
+
+        GameObject player = GameObject.Find("Player");
+        playerBase = player.GetComponent<PlayerBase>();
+        playerMovement = player.GetComponent<PlayerMovement>();
+    }
+
+    public void Reset()
+    {
+
+    }
+
+    void Update()
+    {
+        if (gameWorld.isPaused)
+            return;
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameWorld.isPaused)
+            return;
+
+       Move();
+        Rotate();
+    }
+
+    private void Move()
+    {
+        speed = movementSpeed;
+
+        // Create a vector in the direction the player is facing with a magnitude based on the input, speed and the time between frames.
+        Vector2 movement = transform.up * speed * Time.deltaTime;
+
+        // Apply this movement to the rigidbody's position.
+        rigid2D.MovePosition(rigid2D.position + movement);
+    }
+
+    private void Rotate()
+    {
+        // Determine the number of degrees to be turned based on the input, speed and time between frames.
+        float rotation = rotationSpeed * Time.deltaTime;
+
+        // Apply this rotation to the rigidbody's rotation.
+        rigid2D.MoveRotation(rigid2D.rotation + rotation);
+    }
+
+
+   
+
+
+
+
+}

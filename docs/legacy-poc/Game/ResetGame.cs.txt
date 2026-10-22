@@ -1,0 +1,150 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class ResetGame : MonoBehaviour
+{
+
+    private GameObject g;                      //Reference to game object
+    private GameWorld gameWorld;              //Reference to world object
+    private AudioSource gameAudio;             //Reference to global audio source
+
+    private GameObject player;
+
+    public const int TOOLBOX = 31;
+
+
+    private GameObject rockPrefab;
+
+    void Awake()
+    {
+
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        g = GameObject.Find("Game");
+        gameWorld = g.GetComponent<GameWorld>();
+        gameAudio = g.GetComponent<AudioSource>();
+
+        player = GameObject.Find("Player");
+
+        rockPrefab = Resources.Load<GameObject>("Prefabs/Rock/Rock"); //GameObject.Find("RockPrefab");
+
+        Reset();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            Reset();
+    }
+
+    void FixedUpdate()
+    {
+
+    }
+
+    private GameObject[] FindGameObjectsWithTags(string[] tags)
+    {
+        List<GameObject> combinedList = new List<GameObject>();
+        for (int i = 0; i < tags.Length; i++)
+        {
+            GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(tags[i]);
+            combinedList.AddRange(taggedObjects);
+        }
+        return combinedList.ToArray();
+    }
+
+
+    private void DestroyGameObjectsByTag(string tag, int exceptionLayer = TOOLBOX)
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(tag);
+
+        if (gameObjects != null && gameObjects.Length > 0)
+        {
+            for (var i = 0; i < gameObjects.Length; i++)
+            {
+                if (gameObjects[i].layer != exceptionLayer)
+                    Destroy(gameObjects[i]);
+            }
+        }
+    }
+
+    public void Reset()
+    {
+
+        //Reset player
+        PlayerBase playerBase = player.GetComponent<PlayerBase>();
+        playerBase.Reset();
+
+        //Destroy all instances of object by tag
+        //DestroyGameObjectsByTag("Rock");
+
+        /*
+      GameObject clone;
+        int c;
+        int r;
+        int encounterCount = 1;
+        int hazardCount = 1;
+        for (c = 0; c <= gameWorld.cells.Length - 1; c++)
+        {
+            r = Random.Range(0, 3);
+            switch (r)
+            {
+                case 0:
+                    clone = (GameObject)Instantiate(hazard, gameWorld.cells[c].Center + new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f)), Quaternion.identity);
+                    HazardBase ob = clone.GetComponent<HazardBase>();
+                    clone.name = string.Format("Hazard {0}", hazardCount);
+                    hazardCount++;
+                    gameWorld.SetLayer(clone.transform, 0); //Recursively set all layers to 0
+                    break;
+                case 1:
+                    clone = (GameObject)Instantiate(encounter, gameWorld.cells[c].Center + new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f)), Quaternion.identity);
+                    clone.name = string.Format("Encounter {0}", encounterCount);
+                    encounterCount++;
+                    clone.layer = 0;
+                    break;
+            }
+
+           
+        }
+
+
+        */
+
+        GameObject clone;
+        float min = -100f;
+        float max = 100f;
+        for (int i = 0; i < 20; i++)
+        {
+            clone = (GameObject)Instantiate(rockPrefab, new Vector3(Random.Range(min, max), Random.Range(min, max), 0), Quaternion.identity);
+            RockMovement rb = clone.GetComponent<RockMovement>();
+            clone.name = string.Format("Rock {0}", i + 1);
+            rb.rotation = Random.Range(0f, 20f);
+            rb.velocity = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
+
+        }
+
+
+
+    }
+
+    /*
+    private void StartLevel1()
+    {
+        StartCoroutine(PlayStartLevel1());
+    }
+
+    private IEnumerator PlayStartLevel1()
+    {
+        //Play start sound effect
+        gameAudio.clip = sfxStart[Random.Range(0, sfxStart.Length)];
+        gameAudio.Play();
+        yield return new WaitForSeconds(gameAudio.clip.length);
+        gameWorld.isPaused = false;
+    }
+    */
+
+}

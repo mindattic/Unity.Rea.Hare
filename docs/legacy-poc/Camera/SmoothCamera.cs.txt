@@ -1,0 +1,52 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class SmoothCamera : MonoBehaviour
+{
+
+    private float interpVelocity;
+    public float minimumDistance;
+    public float followDistance;
+    public GameObject target;
+    public Vector3 offset;
+    Vector3 targetPosition;
+    public float speed = 0.5f;
+
+    float cameraDistanceMax = 20f;
+    float cameraDistanceMin = 5f;
+    float cameraDistance = 10f;
+    float scrollSpeed = 0.5f;
+
+    // Use this for initialization
+    void Start()
+    {
+        targetPosition = transform.position;
+    }
+
+    void Update()
+    {
+        //if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit point;
+        //    Physics.Raycast(ray, out point, 25);
+        //    Vector3 Scrolldirection = ray.GetPoint(5);
+        //    float step = scrollSpeed * Time.deltaTime;
+        //    transform.position = Vector3.MoveTowards(transform.position, Scrolldirection, Input.GetAxis("Mouse ScrollWheel") * step);
+        //}
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (target)
+        {
+            Vector3 posNoZ = transform.position;
+            posNoZ.z = target.transform.position.z;
+            Vector3 targetDirection = (target.transform.position - posNoZ);
+            interpVelocity = targetDirection.magnitude * 5f;
+            targetPosition = transform.position + (targetDirection.normalized * interpVelocity * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition + offset, speed);
+        }
+    }
+}

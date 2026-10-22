@@ -1,0 +1,57 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class GameWorld : MonoBehaviour
+{
+    public int width;
+    public int height;
+    public Rect borders;
+
+   
+    public int currentLevel;
+
+    public bool isPaused;
+    public bool playMusic = false;
+    public bool playSound = true;
+
+    private void Awake()
+    {
+        borders.x = 0;
+        borders.width = width;
+        borders.y = 0;
+        borders.height = height;
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Pause))
+            isPaused = !isPaused;
+    }
+
+    public Vector2 RandomPosition()
+    {
+        return new Vector2(Random.Range(0, borders.width), Random.Range(0, borders.height));
+    }
+
+    /// <summary>
+    /// Recursively sets GameObject's layer to newLayer
+    /// </summary>
+    /// <param name="layerNumber">The new layer</param>
+    /// <param name="trans">Start transform</param>
+    public void SetLayer(Transform trans, int layerNumber)
+    {
+        trans.gameObject.layer = layerNumber;
+        foreach (Transform child in trans)
+        {
+            child.gameObject.layer = layerNumber;
+            if (child.childCount > 0)
+            {
+                SetLayer(child.transform, layerNumber);
+            }
+        }
+    }
+
+
+}
