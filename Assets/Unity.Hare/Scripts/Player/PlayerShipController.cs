@@ -13,7 +13,8 @@ namespace Unity.Hare.Player
     /// <summary>
     /// Ports obj_player's flight state machine (gmlHARE, Create/Step/Alarm events): continuous
     /// forward flight along <see cref="Direction"/> at <see cref="Speed"/>, A/D rotation,
-    /// boost/brake gated by an energy resource, and leap-from-idle within a facing tolerance.
+    /// boost/brake gated by an energy resource, leap-from-idle within a facing tolerance, and the
+    /// Idle-only shield (player_shield/obj_shieldwall) that drains the same energy.
     /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are expressed here as
     /// per-second rates. Exact speed/energy numbers are the original's ratios (brake is half of
     /// flight speed, boost is double); absolute values are placeholders to retune once real
@@ -39,6 +40,9 @@ namespace Unity.Hare.Player
         [Header("Leap (GML: jump_arc, only from Idle)")]
         [SerializeField] float jumpArcDegrees = 100f;
 
+        [Header("Shield (GML: player_shield / obj_shieldwall, only from Idle)")]
+        [SerializeField] float shieldRadius = 0.75f;
+
         Rigidbody2D body;
         float turnInput;
 
@@ -48,6 +52,21 @@ namespace Unity.Hare.Player
         public float Energy { get; private set; }
         public float Direction { get; private set; } = 270f;
         public float Speed { get; private set; }
+
+        /// <summary>GML: shielding. While true, weapons hold fire (fire_primary/fire_secondary) and incoming hits are blocked.</summary>
+        public bool IsShielding { get; private set; }
+
+        /// <summary>The live obj_shieldwall instance while <see cref="IsShielding"/>, else null.</summary>
+        public ShieldWall Shield { get; private set; }
+
+        /// <summary>GML: mouse_angle, degrees in GML's math convention. The shield wall faces this way.</summary>
+        public float AimDirection { get; private set; } = 270f;
+
+        /// <summary>
+        /// The damage gate the health ticket (UH-T6, player_hurt) consults: a raised shield absorbs
+        /// the hit instead of costing HP.
+        /// </summary>
+        public bool BlocksDamage => IsShielding;
 
         void Awake() => ResetState();
 
@@ -61,6 +80,7 @@ namespace Unity.Hare.Player
         {
             body = GetComponent<Rigidbody2D>();
             body.gravityScale = 0f;
+            DropShield(); // GML reset_player: shielding = false; with(obj_shieldwall) instance_destroy()
             State = PlayerFlightState.Moving;
             IsBoosting = false;
             IsBraking = false;
@@ -80,9 +100,38 @@ namespace Unity.Hare.Player
             if (keyboard.dKey.isPressed) turn -= 1f; // GML rotate_clockwise: direction -= turn_speed
             SetTurnInput(turn);
 
-            if (keyboard.wKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame) TryBoost();
-            if (keyboard.sKey.wasPressedThisFrame || keyboard.leftShiftKey.wasPressedThisFrame) TryBrake();
+            UpdateAimFromMouse();
+
+            // GML key-press events: the boost and brake keys raise the shield instead while Idle.
+            if (keyboard.wKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)
+            {
+                if (State == PlayerFlightState.Moving) TryBoost(); else TryShield();
+            }
+            if (keyboard.sKey.wasPressedThisFrame || keyboard.leftShiftKey.wasPressedThisFrame)
+            {
+                if (State == PlayerFlightState.Moving) TryBrake(); else TryShield();
+            }
+
+            // GML key-release events (Idle only): drop the shield and let energy refill.
+            bool shieldKeyReleased = keyboard.wKey.wasReleasedThisFrame || keyboard.spaceKey.wasReleasedThisFrame
+                || keyboard.sKey.wasReleasedThisFrame || keyboard.leftShiftKey.wasReleasedThisFrame;
+            if (shieldKeyReleased && State == PlayerFlightState.Idle) DropShield();
         }
+
+        void UpdateAimFromMouse()
+        {
+            var mouse = Mouse.current;
+            var cam = Camera.main;
+            if (mouse == null || cam == null) return;
+
+            Vector3 screen = mouse.position.ReadValue();
+            screen.z = -cam.transform.position.z;
+            Vector2 offset = (Vector2)cam.ScreenToWorldPoint(screen) - (Vector2)transform.position;
+            if (offset.sqrMagnitude > Mathf.Epsilon) SetAimDirection(Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg);
+        }
+
+        /// <summary>Degrees, GML's math convention (0 = +x, CCW positive).</summary>
+        public void SetAimDirection(float degrees) => AimDirection = Mathf.Repeat(degrees, 360f);
 
         /// <summary>-1 (clockwise, D) .. +1 (counterclockwise, A), matching GML's direction sign.</summary>
         public void SetTurnInput(float value) => turnInput = Mathf.Clamp(value, -1f, 1f);
@@ -117,6 +166,7 @@ namespace Unity.Hare.Player
             if (State != PlayerFlightState.Idle) return false;
             if (Mathf.Abs(Mathf.DeltaAngle(Direction, aimDirection)) > jumpArcDegrees) return false;
 
+            DropShield(); // GML player_leap: shielding = false; with(obj_shieldwall) instance_destroy()
             Direction = aimDirection;
             Speed = flightSpeed;
             IsBoosting = false;
@@ -135,10 +185,42 @@ namespace Unity.Hare.Player
             body.linearVelocity = Vector2.zero;
         }
 
-        void FixedUpdate()
+        /// <summary>
+        /// GML: player_shield. Only while perched (Idle) and with at least 33% energy; spawns the
+        /// obj_shieldwall hitbox, which drains energy until released or empty.
+        /// </summary>
+        public bool TryShield()
         {
-            float dt = Time.fixedDeltaTime;
+            if (State != PlayerFlightState.Idle || IsShielding) return false;
+            if (Energy < maxEnergy * minEnergyFractionToStart) return false; // GML: sfx_disabled
+
+            IsShielding = true;
+            var go = new GameObject("ShieldWall");
+            Shield = go.AddComponent<ShieldWall>();
+            Shield.Init(this, shieldRadius);
+            return true;
+        }
+
+        /// <summary>GML: shield key release, leap, reset_player, or energy hitting zero.</summary>
+        public void DropShield()
+        {
+            IsShielding = false;
+            if (Shield == null) return;
+            if (Application.isPlaying) Destroy(Shield.gameObject); else DestroyImmediate(Shield.gameObject);
+            Shield = null;
+        }
+
+        void OnDestroy() => DropShield();
+
+        void FixedUpdate() => Step(Time.fixedDeltaTime);
+
+        /// <summary>One physics step; public so EditMode tests can drive it (FixedUpdate never runs there).</summary>
+        public void Step(float dt)
+        {
             TickEnergy(dt);
+
+            // GML obj_player Step "Shielding": the wall collapses once the energy bar is empty.
+            if (IsShielding && Energy <= 0f) DropShield();
 
             if (State != PlayerFlightState.Moving)
             {
@@ -171,7 +253,7 @@ namespace Unity.Hare.Player
 
         void TickEnergy(float dt)
         {
-            if (IsBoosting || IsBraking)
+            if (IsBoosting || IsBraking || IsShielding)
                 Energy = Mathf.Max(0f, Energy - energyDrainPerSecond * dt);
             else
                 Energy = Mathf.Min(maxEnergy, Energy + energyFillPerSecond * dt);
