@@ -106,6 +106,30 @@ Projectile/VFX objects: `obj_bullet`, `obj_laser`, `obj_railgun`, `obj_rail_swir
 Flying/insect-style, each with an `ai_*` script and an `_emitter` spawner object: `obj_butterfly`
 (`ai_butterfly`), `obj_firefly` (`ai_firefly`), `obj_fly` (`ai_fly`), `obj_dagger`.
 
+What they actually do in gmlHARE (checked for UH-T13):
+
+- Butterfly, firefly and fly have no parent and no collision events, so they are ambient swarm
+  life, not `par_enemy`: nothing shoots them and they never touch the ship. Each emitter creates
+  its whole swarm in Create (100 butterflies, 28 fireflies, 32 flies); nothing in HARE.gmx's rooms
+  or level scripts places those emitters. Each insect starts at a random point in the room's lower
+  half with dX = dY = 1, and Alarm 0 (first `irandom_range(5, 30)`) runs its `ai_*` script and
+  re-arms; Step adds dX/dY every step.
+- `ai_butterfly` (re-arm 5-60 steps): dX, dY in [-2, 2]; upper half forces dY = 2, within 120 px
+  of the floor dY = -2, within 10 px of a side wall dX = +/-2; image_xscale follows dX.
+  `ai_firefly` (5-30): dX in [-3, 3], dY in [-1, 1]; upper half dY = 1; walls dX = +/-3; a 1-in-5
+  blink toggles `spr_firefly`/`spr_firefly_dark`. `ai_fly` (5-30): dX in [-4, 4], dY in [-2, 2];
+  upper half dY = 1; walls dX = +/-4. Fireflies and flies have no floor rule. `obj_fly`'s
+  `image_index = choose(spr_fly, spr_fly2)` sets a frame index, so `spr_fly2` never shows.
+- `obj_dagger` is the only `par_enemy` of the four and has no `ai_*` script. Spawned at rest with
+  random heading and blade angle, it rotates the blade 0.5 degrees/step (`check_rotate_clockwise`)
+  until within 2 degrees (`a_near_b`), launches (`ef_ring`) and flies for 120-240 steps (Alarm 1),
+  gaining 1 px/step every 8 steps up to 8 (Alarm 0) with smoke every 20 steps (Alarm 2), then
+  brakes 1 px/step every 8 steps, picks a new heading and rotates again. More than 96 px outside
+  the room it reverses. Bullets, rockets, rocket explosions and the shield wall kill it for 10
+  points and a `random_pickup`; the laser, railgun and flame destroy it without either. It pushes
+  2 px/step away from overlapping `par_enemy`, and hurts the ship through `obj_player`'s
+  `par_enemy` collision.
+
 Set-piece enemies: `obj_hydra`, `obj_phalanx` + `obj_phalanx_shield`, `obj_meatball` (+
 `obj_meatball_gib` on death), `obj_wraith` (+ `obj_wraith_blur`), `obj_sawblade`, `obj_worm`
 (`obj_worm_segment`, `obj_worm_head_gib`, `obj_worm_gib`), `obj_trilobyte`, `obj_mimic` (+

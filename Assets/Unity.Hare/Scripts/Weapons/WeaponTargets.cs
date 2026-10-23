@@ -66,6 +66,17 @@ namespace Unity.Hare.Weapons
         /// <summary>GML pixels per Unity world unit (Unity's default sprite import PPU).</summary>
         public const float PixelsPerUnit = 100f;
 
+        /// <summary>room_gamescreen's size in GML pixels.</summary>
+        public const float RoomWidthPx = 3840f;
+        public const float RoomHeightPx = 2160f;
+
+        /// <summary>
+        /// room_gamescreen in world units, centred on the origin, for code that needs room_width /
+        /// room_height before levels define their own rooms (UH-T20/UH-T21). GML's y grows downward,
+        /// so GML y = 0 is this rect's yMax.
+        /// </summary>
+        public static Rect Room => new Rect(-Px(RoomWidthPx) / 2f, -Px(RoomHeightPx) / 2f, Px(RoomWidthPx), Px(RoomHeightPx));
+
         public static float Px(float pixels) => pixels / PixelsPerUnit;
         public static float Steps(float steps) => steps / StepsPerSecond;
 
