@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
@@ -47,6 +48,12 @@ namespace Unity.Hare.Enemies
 
         protected override bool RocketHit(Rocket rocket) => ParentDisguised;
 
-        protected override bool BulletHit(Bullet bullet) => ParentDisguised;
+        /// <summary>A complete disguise stops the bullet with a tiny explosion (at other.x + hspeed; the illusion never moves by speed, so hspeed is 0).</summary>
+        protected override bool BulletHit(Bullet bullet)
+        {
+            if (!ParentDisguised) return false;
+            TinyExplosionAt(bullet);
+            return true;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 using Object = UnityEngine.Object;
@@ -275,6 +276,17 @@ namespace Unity.Hare.Enemies
         protected static bool IsEnemyRound(Bullet bullet) => bullet != null && bullet.FromEnemy;
 
         protected static Vector2 PositionOf(Bullet bullet, Vector2 fallback) => bullet != null ? (Vector2)bullet.transform.position : fallback;
+
+        protected static Vector2 PositionOf(Rocket rocket, Vector2 fallback) => rocket != null ? (Vector2)rocket.transform.position : fallback;
+
+        /// <summary>GML tiny_explosion = instance_create(other.x, other.y, obj_tinyexplosion) for a bullet.</summary>
+        protected TinyExplosion TinyExplosionAt(Bullet bullet) => TinyExplosion.Spawn(PositionOf(bullet, Position));
+
+        /// <summary>GML tiny_explosion = instance_create(other.x, other.y, obj_tinyexplosion) for a rocket.</summary>
+        protected TinyExplosion TinyExplosionAt(Rocket rocket) => TinyExplosion.Spawn(PositionOf(rocket, Position));
+
+        /// <summary>The kill branch's ef_smokeup (c_black) and ef_firework (c_orange) at x, y.</summary>
+        protected void DeathBurst(int size) => DeathEffects.Burst(Position, size);
 
         /// <summary>Beams and flame destroy the instance; rockets and explosions run its own events.</summary>
         public void OnWeaponHit(in WeaponHit hit)

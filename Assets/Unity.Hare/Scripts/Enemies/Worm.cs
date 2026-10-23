@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -41,6 +42,8 @@ namespace Unity.Hare.Enemies
         public const int BulletDamage = 16;
         public const int RocketDamage = 42;
         public const int Points = 100;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Large;
 
         readonly List<WormSegment> segments = new List<WormSegment>();
         float headingAlarm;
@@ -157,17 +160,27 @@ namespace Unity.Hare.Enemies
             if (IsExposed)
             {
                 if (Rgb > DeathRgb) Rgb -= RocketDamage;
-                else Gib(EnemyDeathCause.Rocket, true);
+                else
+                {
+                    TinyExplosionAt(rocket);
+                    Gib(EnemyDeathCause.Rocket, true);
+                }
             }
             return true;
         }
 
         protected override bool BulletHit(Bullet bullet)
         {
+            // Every bullet puffs where it is spent; the kill branch adds a second puff.
+            TinyExplosionAt(bullet);
             if (IsExposed)
             {
                 if (Rgb > DeathRgb) Rgb -= BulletDamage;
-                else Gib(EnemyDeathCause.Bullet, IsPlayerRound(bullet));
+                else
+                {
+                    TinyExplosionAt(bullet);
+                    Gib(EnemyDeathCause.Bullet, IsPlayerRound(bullet));
+                }
             }
             return true;
         }
@@ -177,6 +190,7 @@ namespace Unity.Hare.Enemies
             Vector2 at = Position;
             Vector2 jaw = JawPosition;
             GrenadeExplosion.Spawn(at);
+            DeathBurst(DeathEffectSize);
             Die(cause, Points, awardsScore, true);
             FadingDebris.WormGibs(at);
             FadingDebris.Gib(DebrisKind.WormHeadGib, jaw);

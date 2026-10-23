@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -24,6 +25,8 @@ namespace Unity.Hare.Enemies
         public const float FadePerStep = 0.02f;
         public const float SizePx = 200f;
         public const int Points = 10;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Medium;
         /// <summary>illusion_asset: 1-5 are spr_rock1-5, 6 is spr_asteroid_experiment.</summary>
         public const int IllusionAssets = 6;
 
@@ -99,6 +102,7 @@ namespace Unity.Hare.Enemies
         protected override bool RocketHit(Rocket rocket)
         {
             if (IllusionAlpha >= 1f) return false;
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Rocket, Points, true, true);
             return true;
         }
@@ -107,7 +111,9 @@ namespace Unity.Hare.Enemies
         {
             if (IllusionAlpha >= 1f || IsEnemyRound(bullet)) return false;
             Vector2 at = PositionOf(bullet, Position);
+            TinyExplosion.Spawn(at);
             new GameObject("RocketExplosion").AddComponent<RocketExplosion>().Init(at);
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Bullet, Points, IsPlayerRound(bullet), true);
             return true;
         }

@@ -231,7 +231,7 @@ namespace Unity.Hare.Tests.EditMode
         // ---- Grenade explosion ----
 
         [Test]
-        public void GrenadeExplosionLastsFiftyStepsAndHurtsNothing()
+        public void GrenadeExplosionLastsFortyFiveStepsAndHurtsNothing()
         {
             int exploded = 0;
             System.Action<GrenadeExplosion> onExploded = _ => exploded++;
@@ -243,7 +243,8 @@ namespace Unity.Hare.Tests.EditMode
                 Assert.AreEqual(new Vector2(1f, 2f), (Vector2)blast.transform.position);
                 Assert.IsNull(blast.GetComponent<Collider2D>(), "obj_grenade_explosion has no collision events");
 
-                for (int i = 0; i < 49; i++) Assert.IsTrue(blast.Tick(Step));
+                // spr_grenade_explode has 9 frames at image_speed 0.2.
+                for (int i = 0; i < 44; i++) Assert.IsTrue(blast.Tick(Step));
                 Assert.IsFalse(blast.Tick(Step));
                 Assert.IsTrue(blast == null);
             }

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Enemies;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
@@ -26,6 +27,9 @@ namespace Unity.Hare.Tests.EditMode
             DestroyAll<RocketExplosion>();
             DestroyAll<GrenadeExplosion>();
             DestroyAll<FadingDebris>();
+            DestroyAll<TinyExplosion>();
+            DestroyAll<GmlEffectBurst>();
+            DestroyAll<DeathParticle>();
             DestroyAll<PlayerShipController>();
         }
 

@@ -215,6 +215,37 @@ What the spawners actually do in gmlHARE (checked for UH-T15):
   sizes its margin with the caller's undefined `scale`, and the globals `enemy_count`/`current_enemy`
   are never reset. The port does what they meant.
 
+What the enemies' deaths show in gmlHARE (checked for UH-T16):
+
+- No enemy has a Destroy event; every effect is written into the kill branch of its own collision
+  event, so kills that come from the other side (laser, railgun, flame: `with(inst) instance_destroy()`)
+  show nothing. Each kill branch calls `effect_create_above(ef_smokeup, x, y, size, c_black)` and
+  `effect_create_above(ef_firework, x, y, size, c_orange)` at the enemy: size 0 for the dagger, hydra,
+  sawblade, trilobyte, wraith and enemy mine, 1 for the phalanx and mimic, 2 for the meatball, worm head
+  and worm segments. Rocket-explosion kills (dagger, hydra, sawblade) and shield-wall kills show no
+  smoke or sparks; the shield wall's dagger and sawblade kills spawn an `obj_tinyexplosion` at the enemy.
+- `obj_tinyexplosion` (spr_explosion, 7 frames at image_speed 0.2, drawn at alpha 0.5, depth -4, gone
+  at Animation End after 35 steps) is created at the bullet (`other.x, other.y`) on every bullet kill and
+  on the non-lethal bullet hits of the hydra, meatball, wraith (the stun), worm and segments (any bullet,
+  plus a second on the kill), the mimic's bullet kill (with an `obj_rocket_explosion` there too), the
+  disguised mimic illusion's stopped bullet, and at the rocket on a worm's rocket kill. Its
+  `sfx_bullet_explosion` line is commented out; the port leaves it silent (on every bullet impact it
+  reads as a mix choice, not a defect).
+- `obj_grenade_explosion`: spr_grenade_explode has 9 frames, not 10, so it lasts 45 steps; it plays
+  `sfx_explode` only when `in_view(x, y)`.
+- The enemy mine's rocket and bullet hits add the size-0 pair; its fuse and proximity detonations are
+  only the `obj_rocket_explosion`. Gibs and the wraith blur stand still while `paused`.
+- `ef_firework` and `ef_smokeup` are GameMaker's built-in effects; their parameters come from the
+  runner (YoYo Games' open GameMaker-HTML5 `Effects.js`, `Eff_Effect03`/`Eff_Effect05`), which scales
+  speeds, gravity, size changes and lives by `Speed_Factor` = 30 / room speed (0.25 at 120 steps/s).
+  Firework: 75 / 150 / 250 `pt_shape_flare` particles, size 0.1-0.2, alpha 1 to 0.4, gravity down.
+  Smokeup: 6 / 11 / 16 `pt_shape_explosion` puffs within 5 / 15 / 30 px, rising, shrinking, alpha 0.4
+  to 0, living 100 / 120 / 200 steps. The two 64 px shape textures are the runner's (Apache 2.0).
+- `spawn_death_particles(x, y)` (sfx_death; 3-6 large, 12-18 medium, 32-48 small `obj_death_particle`
+  within 32 px; each 1-8 px/step on a whole heading, spin -9..9, alpha 0.9 losing 0.002 a step for 450
+  steps) belongs to the Scrap Mental boss and the rabbit's death, not to the regular enemies.
+  `obj_oval_explosion` is never created by anything.
+
 ## Rocks & environment
 
 Destructible rock field: `obj_rock1`..`obj_rock5`, `par_rock`, scripts `create_new_rock`,

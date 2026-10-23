@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -30,6 +31,8 @@ namespace Unity.Hare.Enemies
         public const float RegenEverySteps = 120f;
         public const float SprayBulletSpeedPxPerStep = 2f;
         public const int Points = 50;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Large;
         /// <summary>spr_meatball's bbox centre sits 34 px above its origin (meatball_gib uses y - 34).</summary>
         public static readonly Vector2 CentreOffsetPx = new Vector2(-0.5f, 34f);
 
@@ -93,7 +96,7 @@ namespace Unity.Hare.Enemies
         protected override bool RocketHit(Rocket rocket)
         {
             if (Rgb > BurstRgb) Rgb -= RocketDamage;
-            else Burst(EnemyDeathCause.Rocket, 1, true);
+            else Burst(EnemyDeathCause.Rocket, 1, true, null);
             return true;
         }
 
@@ -105,18 +108,25 @@ namespace Unity.Hare.Enemies
                 // Pushback: x += other.hspeed / 2.
                 if (bullet != null) Teleport(Position + Gml.Dir(bullet.Direction) * (bullet.Speed / Gml.StepsPerSecond / 2f));
                 Rgb -= BulletDamage;
+                TinyExplosionAt(bullet);
             }
-            else Burst(EnemyDeathCause.Bullet, 2, IsPlayerRound(bullet));
+            else Burst(EnemyDeathCause.Bullet, 2, IsPlayerRound(bullet), bullet);
             return true;
         }
 
-        /// <summary>"Explosive destruction": a ring of 15-30 bullets, the blast, the gibs.</summary>
-        void Burst(EnemyDeathCause cause, int minSpeed, bool awardsScore)
+        /// <summary>
+        /// "Explosive destruction": a ring of 15-30 bullets, a tiny explosion where the bullet was
+        /// (the rocket branch has none: its rocket explodes instead), the grenade blast, the large
+        /// ef_smokeup and ef_firework, then the gibs.
+        /// </summary>
+        void Burst(EnemyDeathCause cause, int minSpeed, bool awardsScore, Bullet bullet)
         {
             Vector2 at = Position;
             int count = IRandom(15, 30);
             for (int i = 0; i < count; i++) Fire(at, IRandom(0, 359), IRandom(minSpeed, 4));
+            if (cause == EnemyDeathCause.Bullet) TinyExplosionAt(bullet);
             GrenadeExplosion.Spawn(at);
+            DeathBurst(DeathEffectSize);
             Die(cause, Points, awardsScore, true);
             FadingDebris.MeatballGibs(at);
         }

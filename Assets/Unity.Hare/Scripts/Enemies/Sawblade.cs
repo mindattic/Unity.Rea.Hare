@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -26,6 +27,8 @@ namespace Unity.Hare.Enemies
         public const float LeadSteps = 2f;
         public const int JitterPx = 48;
         public const int Points = 10;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
 
         float swarmAlarm;
 
@@ -84,6 +87,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool RocketHit(Rocket rocket)
         {
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Rocket, Points, true, true);
             return true;
         }
@@ -91,6 +95,8 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(Bullet bullet)
         {
             if (IsEnemyRound(bullet)) return false;
+            TinyExplosionAt(bullet);
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Bullet, Points, IsPlayerRound(bullet), true);
             return true;
         }
@@ -100,7 +106,9 @@ namespace Unity.Hare.Enemies
         /// <summary>GML collision with obj_shieldwall: 10 points, a pickup, a tiny explosion.</summary>
         public void OnShieldHit(ShieldWall wall, Vector2 normal)
         {
-            if (!IsDead) Die(EnemyDeathCause.ShieldWall, Points, true, true);
+            if (IsDead) return;
+            TinyExplosion.Spawn(Position);
+            Die(EnemyDeathCause.ShieldWall, Points, true, true);
         }
     }
 }

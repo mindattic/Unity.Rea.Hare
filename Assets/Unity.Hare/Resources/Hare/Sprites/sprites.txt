@@ -1,0 +1,21 @@
+# GML sprite origins, copied from gmlHARE's sprites/*.sprite.gmx: name xorig yorig width height frames
+spr_explosion 16 16 32 32 7
+spr_grenade_explode 100 91 200 182 9
+spr_death_particle_large 18 18 36 36 1
+spr_death_particle_medium 9 9 18 18 1
+spr_death_particle_small 3 3 7 7 1
+spr_meatball_gib1 32 31 65 63 1
+spr_meatball_gib2 42 32 85 65 1
+spr_meatball_gib3 38 30 77 61 1
+spr_meatball_gib4 42 22 84 45 1
+spr_meatball_gib5 37 41 75 82 1
+spr_meatball_gib6 27 37 55 75 1
+spr_worm_gib1 21 21 42 43 1
+spr_worm_gib2 25 23 51 47 1
+spr_worm_gib3 22 20 44 40 1
+spr_worm_gib4 31 24 62 49 1
+spr_worm_gib5 34 24 69 49 1
+spr_worm_gib6 28 25 56 51 1
+spr_worm_gib7 26 27 53 55 1
+spr_worm_gib8 28 27 57 55 1
+spr_worm_head 32 64 128 128 1

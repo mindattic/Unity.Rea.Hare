@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 using Object = UnityEngine.Object;
@@ -29,6 +30,8 @@ namespace Unity.Hare.Enemies
         public const float TurnDegreesPerStep = 3f;
         public const float DetonateRangePx = 24f;
         public const int Points = 1;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
         /// <summary>spr_mine's bbox (18x11).</summary>
         public static readonly Vector2 SizePx = new Vector2(18f, 11f);
 
@@ -149,6 +152,7 @@ namespace Unity.Hare.Enemies
         public bool OnRocketHit(Rocket rocket)
         {
             if (gone) return false;
+            DeathEffects.Burst(transform.position, DeathEffectSize);
             Remove(EnemyDeathCause.Rocket, true);
             return true;
         }
@@ -159,6 +163,7 @@ namespace Unity.Hare.Enemies
             if (gone) return false;
             bool fromPlayer = bullet != null && !bullet.FromEnemy && bullet.Owner != null &&
                 bullet.Owner.GetComponentInParent<PlayerShipController>() != null;
+            DeathEffects.Burst(transform.position, DeathEffectSize);
             Detonate(EnemyDeathCause.Bullet, bullet != null ? (Vector2)bullet.transform.position : (Vector2)transform.position, fromPlayer);
             return true;
         }

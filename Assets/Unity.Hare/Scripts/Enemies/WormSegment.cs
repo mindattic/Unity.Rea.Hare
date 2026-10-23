@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
@@ -13,6 +14,8 @@ namespace Unity.Hare.Enemies
     public class WormSegment : SetPieceEnemy
     {
         public const int Points = 10;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Large;
 
         float spinAlarm;
 
@@ -65,17 +68,27 @@ namespace Unity.Hare.Enemies
             if (IsExposed)
             {
                 if (Rgb > Worm.DeathRgb) Rgb -= Worm.RocketDamage;
-                else Gib(EnemyDeathCause.Rocket, true);
+                else
+                {
+                    TinyExplosionAt(rocket);
+                    Gib(EnemyDeathCause.Rocket, true);
+                }
             }
             return true;
         }
 
         protected override bool BulletHit(Bullet bullet)
         {
+            // Every bullet puffs where it is spent; the kill branch adds a second puff.
+            TinyExplosionAt(bullet);
             if (IsExposed)
             {
                 if (Rgb > Worm.DeathRgb) Rgb -= Worm.BulletDamage;
-                else Gib(EnemyDeathCause.Bullet, IsPlayerRound(bullet));
+                else
+                {
+                    TinyExplosionAt(bullet);
+                    Gib(EnemyDeathCause.Bullet, IsPlayerRound(bullet));
+                }
             }
             return true;
         }
@@ -84,6 +97,7 @@ namespace Unity.Hare.Enemies
         {
             Vector2 at = Position;
             GrenadeExplosion.Spawn(at);
+            DeathBurst(DeathEffectSize);
             Die(cause, Points, awardsScore, true);
             FadingDebris.WormGibs(at);
             if (Head != null && !Head.IsDead) Head.OnSegmentKilled();

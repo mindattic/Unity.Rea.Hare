@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
@@ -22,7 +23,9 @@ namespace Unity.Hare.Enemies
     /// destroying themselves the step after alpha reaches 0. obj_meatball_gib, obj_worm_gib and
     /// obj_worm_head_gib start opaque on a random heading (0-359), angle, spin (-5..5), speed (1..3)
     /// and fade (0.004..0.010); obj_wraith_blur starts at alpha 0.3, fades 0.005 and sits still
-    /// unless the wraith is stunned. No collision events: nothing can hit them.
+    /// unless the wraith is stunned. While the game is paused they stand still and neither spin nor
+    /// fade. No collision events: nothing can hit them. Gibs draw at depth 0, under the enemies
+    /// (-3); the wraith blur at -2.
     /// </summary>
     public class FadingDebris : MonoBehaviour
     {
@@ -37,6 +40,12 @@ namespace Unity.Hare.Enemies
         public float Alpha { get; private set; }
         /// <summary>GML image_xscale (wraith blurs face their heading).</summary>
         public int Facing { get; private set; } = 1;
+        /// <summary>The GML sprite this piece shows (spr_meatball_gib1..6, spr_worm_gib1..8, spr_worm_head).</summary>
+        public string SpriteName => Kind == DebrisKind.MeatballGib ? "spr_meatball_gib" + Variant
+            : Kind == DebrisKind.WormGib ? "spr_worm_gib" + Variant
+            : Kind == DebrisKind.WormHeadGib ? "spr_worm_head" : null;
+
+        SpriteRenderer spriteRenderer;
 
         /// <summary>Every new piece, for the VFX epic to give it a sprite.</summary>
         public static event Action<FadingDebris> Spawned;
@@ -57,6 +66,11 @@ namespace Unity.Hare.Enemies
             d.FadePerStep = fadePerStep;
             d.Facing = facing;
             go.transform.rotation = Quaternion.Euler(0f, 0f, imageAngle);
+            if (d.SpriteName != null)
+            {
+                d.spriteRenderer = HareArt.Show(go, d.SpriteName, 0, alpha);
+                d.spriteRenderer.flipX = facing < 0;
+            }
             Spawned?.Invoke(d);
             return d;
         }
@@ -98,6 +112,7 @@ namespace Unity.Hare.Enemies
         /// <summary>One GML step; false once the piece is gone.</summary>
         public bool Tick(float dt)
         {
+            if (Gml.Paused) return true;
             float steps = dt * Gml.StepsPerSecond;
             Vector2 next = (Vector2)transform.position + Gml.Dir(Direction) * Gml.Px(SpeedPxPerStep * steps);
             transform.position = new Vector3(next.x, next.y, transform.position.z);
@@ -107,6 +122,7 @@ namespace Unity.Hare.Enemies
             if (Alpha > 0f)
             {
                 Alpha -= FadePerStep * steps;
+                if (spriteRenderer != null) spriteRenderer.color = new Color(1f, 1f, 1f, Mathf.Max(0f, Alpha));
                 return true;
             }
             if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);

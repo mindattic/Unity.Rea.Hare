@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -50,6 +51,8 @@ namespace Unity.Hare.Enemies
         public const float BlurFadePerStep = 0.005f;
         public const float StunnedBlurSpeedPxPerStep = 2f;
         public const int Points = 50;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
 
         float blurAlarm;
         float recoverAlarm = Off;
@@ -179,6 +182,7 @@ namespace Unity.Hare.Enemies
         protected override bool RocketHit(Rocket rocket)
         {
             if (State != WraithState.Stunned) return false;
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Rocket, Points, true, true);
             return true;
         }
@@ -186,6 +190,7 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(Bullet bullet)
         {
             if (!IsPlayerRound(bullet)) return false;
+            TinyExplosionAt(bullet);
             State = WraithState.Stunned;
             firstPass = true;
             ImageAlpha = 1f;

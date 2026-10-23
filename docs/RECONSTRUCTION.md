@@ -77,7 +77,7 @@ generated `Main.unity`, the only art is none, the only audio is six weapon wavs)
 | Insects and dagger | `ai_*`, `obj_dagger` | Built | done: UH-T13 |
 | Set-piece enemies (8) | `obj_hydra` ... `obj_mimic` | Built (`SetPieceEnemy` family) | done: UH-T14 |
 | Emitters, wormholes, `generate_enemy_list` | `par_enemy_emitter`, `obj_wormhole*` | Built (`EnemyEmitter`, `WormholeEmitter`, `EnemyList`) but not driven by a level | done: UH-T15; level hook in UH-T57 |
-| Death effects, gibs, death particles | `spawn_death_particles`, `*_gib` | In progress | UH-T16 |
+| Death effects, gibs, death particles | `spawn_death_particles`, `*_gib`, `obj_tinyexplosion`, `ef_smokeup`/`ef_firework` | Built (`DeathEffects`, `GmlEffects`, `TinyExplosion`, `DeathParticle`) with the original sprites and sounds; `spawn_death_particles` waits on its callers (UH-T54, UH-T68) | done: UH-T16 |
 | Rocks | `par_rock`, `obj_rock1-5`, `create_new_rock`, `move_rocks`, `rock_destroyed` | In progress | UH-T17 |
 | Structures and covers | `par_structure`, `par_structure_cover` | None | UH-T56 |
 | Weather and ambience | clouds, rain, snow, sand, fog | None | UH-T18 |

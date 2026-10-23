@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -83,6 +84,8 @@ namespace Unity.Hare.Enemies
         /// <summary>size = sprite_get_width(spr_dagger).</summary>
         public const float SizePx = 96f;
         /// <summary>Collision par_enemy: x/y += lengthdir(2, away).</summary>
+        /// <summary>The size of the ef_smokeup and ef_firework its bullet and rocket kills create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
         public const float SeparationPxPerStep = 2f;
         public const int Points = 10;
         /// <summary>spr_dagger's bounding box (18..94 x 26..69 of a 96x96 sprite centred at 48,48).</summary>
@@ -267,9 +270,13 @@ namespace Unity.Hare.Enemies
         /// <summary>Laser, railgun and flame destroy it outright; a rocket or its explosion runs the dagger's own event.</summary>
         public void OnWeaponHit(in WeaponHit hit)
         {
+            if (dead) return;
             switch (hit.Kind)
             {
-                case WeaponHitKind.Rocket: Die(DaggerDeathCause.Rocket, true, true); break;
+                case WeaponHitKind.Rocket:
+                    DeathEffects.Burst(transform.position, DeathEffectSize);
+                    Die(DaggerDeathCause.Rocket, true, true);
+                    break;
                 case WeaponHitKind.RocketExplosion: Die(DaggerDeathCause.RocketExplosion, true, true); break;
                 case WeaponHitKind.Laser: Die(DaggerDeathCause.Laser, false, false); break;
                 case WeaponHitKind.Railgun: Die(DaggerDeathCause.Railgun, false, false); break;
@@ -285,12 +292,19 @@ namespace Unity.Hare.Enemies
         {
             if (dead || (bullet != null && bullet.FromEnemy)) return false;
             bool fromPlayer = bullet != null && bullet.Owner != null && bullet.Owner.GetComponentInParent<PlayerShipController>() != null;
+            TinyExplosion.Spawn(bullet != null ? (Vector2)bullet.transform.position : (Vector2)transform.position);
+            DeathEffects.Burst(transform.position, DeathEffectSize);
             Die(DaggerDeathCause.Bullet, fromPlayer, true);
             return true;
         }
 
         /// <summary>GML collision with obj_shieldwall: dies with a tiny explosion.</summary>
-        public void OnShieldHit(ShieldWall wall, Vector2 normal) => Die(DaggerDeathCause.ShieldWall, true, true);
+        public void OnShieldHit(ShieldWall wall, Vector2 normal)
+        {
+            if (dead) return;
+            TinyExplosion.Spawn(transform.position);
+            Die(DaggerDeathCause.ShieldWall, true, true);
+        }
 
         void OnTriggerStay2D(Collider2D other)
         {

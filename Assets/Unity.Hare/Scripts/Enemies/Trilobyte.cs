@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
@@ -25,6 +26,8 @@ namespace Unity.Hare.Enemies
         public const float AlignToleranceDegrees = 3f;
         public const float CurveEverySteps = 10f;
         public const int Points = 10;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
         /// <summary>spr_trilobyte's bbox (3..54 x 7..55 of 64x64, origin 32,32).</summary>
         public static readonly Vector2 HitboxSizePx = new Vector2(52f, 49f);
         public static readonly Vector2 HitboxOffsetPx = new Vector2(-3.5f, 1f);
@@ -94,6 +97,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool RocketHit(Rocket rocket)
         {
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Rocket, Points, true, true);
             return true;
         }
@@ -101,6 +105,8 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(Bullet bullet)
         {
             if (IsEnemyRound(bullet)) return false;
+            TinyExplosionAt(bullet);
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Bullet, Points, IsPlayerRound(bullet), true);
             return true;
         }

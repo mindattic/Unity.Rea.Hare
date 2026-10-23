@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
@@ -28,6 +29,8 @@ namespace Unity.Hare.Enemies
         public const float EngageRangePx = 100f;
         public const float ChaseSpeedPxPerStep = 1f;
         public const int Points = 10;
+        /// <summary>The size of the ef_smokeup and ef_firework its kill branches create.</summary>
+        public const int DeathEffectSize = DeathEffects.Small;
 
         readonly float[] targetAngle = new float[MaxArms];
         readonly float[] currentAngle = new float[MaxArms];
@@ -123,6 +126,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool RocketHit(Rocket rocket)
         {
+            DeathBurst(DeathEffectSize);
             Die(EnemyDeathCause.Rocket, Points, true, true);
             return true;
         }
@@ -130,8 +134,13 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(Bullet bullet)
         {
             if (IsEnemyRound(bullet)) return false;
+            TinyExplosionAt(bullet);
             Arms -= 1;
-            if (Arms < 0) Die(EnemyDeathCause.Bullet, Points, IsPlayerRound(bullet), true);
+            if (Arms < 0)
+            {
+                DeathBurst(DeathEffectSize);
+                Die(EnemyDeathCause.Bullet, Points, IsPlayerRound(bullet), true);
+            }
             return true;
         }
 
