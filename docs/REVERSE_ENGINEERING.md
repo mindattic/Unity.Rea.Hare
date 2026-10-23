@@ -249,7 +249,52 @@ What the enemies' deaths show in gmlHARE (checked for UH-T16):
 ## Rocks & environment
 
 Destructible rock field: `obj_rock1`..`obj_rock5`, `par_rock`, scripts `create_new_rock`,
-`move_rocks`, `rock_destroyed`. Ambient/weather layers: `obj_cloud`/`obj_cloud1-4`/
+`move_rocks`, `rock_destroyed`.
+
+What the rock field actually does in gmlHARE (checked for UH-T17):
+
+- Every rock is a `par_rock` instance (depth 3); `obj_rock1-5` are empty children nothing creates
+  except `room_boss1`, which no script enters. Create picks `spr_rock1-5` or `spr_asteroid_experiment`
+  (precise masks, 186-273 px wide), image_angle and direction 0-359, speed 0 for `stationary_percent`
+  of rocks and `irandom_range(-15, 15) * 0.1` px/step otherwise (`Speed` keeps it through pauses),
+  spin `irandom_range(-30, 30) * 0.01` degrees/step (0 within 0.03), `spin_max` 4, image_blend grey
+  RGB 255. Alarm 0 every `room_speed / 4` (30 steps) heals RGB by 1; Alarm 1 every 30 steps slows a
+  spin wound past `original_spin` by 0.96.
+- Step (unpaused): speed = Speed, image_angle += spin; more than its sprite width outside the room it
+  is destroyed (fling_player if the ship stands on it) and `create_new_rock` replaces it. The depth 1/2
+  swap for a rock the ship perches on belongs to landing (UH-T53).
+- Hits: any `obj_bullet` above RGB 128 darkens 4, `motion_add(other.direction, 0.1)` (speed capped at
+  3), `add_spin(id, 0.06)` and is spent in an `obj_tinyexplosion` at the bullet plus the rock's
+  hspeed/vspeed. An `obj_rocket` darkens 20, pushes 0.5, spins 0.25 and becomes an
+  `obj_rocket_explosion` there. At RGB 128 or below the next hit breaks it: 10 points with float text
+  (a bullet's only when `other.owner == player.id`, a rocket's always), `ef_smokeup`/`ef_firework`
+  size 2, an `obj_grenade_explosion`, `rock_destroyed`. The bullet's own par_rock event still spends it
+  in a tiny explosion; `obj_rocket` has no par_rock event, so a rocket that breaks a rock flies on.
+  Nothing else touches rocks (laser, railgun, flame, rocket explosions, shield wall, enemies); the
+  laser's `draw_beam` is drawn only up to the first rock or structure. 32 bullets or 7 rockets bring a
+  fresh rock to its breaking hit.
+- `rock_destroyed(id, x, y)`: 8-12 `obj_flotsum` within 40 px, fling_player if it was the ship's
+  `current_rock`, `create_new_rock`. `obj_flotsum` (depth 0, `spr_flotsum1-5`, no collisions) drifts
+  1-3 px/step on a random heading, turns -5..5 degrees/step and fades 0.002-0.01 a step until gone.
+- `setup_level` destroys every rock, places `irandom_range(rock_min, rock_max)` at
+  `irandom_range(player_size, room - player_size)` (player_size = spr_rabbit_idle's 96 px) with spin
+  rolled again, then `move_rocks` destroys those in the top 800 px within 400 px of the centre line
+  (the ship's spawn point) without replacing them. Per level: rocks 15-30 (default, 1, 2, 6, 7, 9,
+  generator), 15-20 (3), 20 (4), 0 (5), 20-24 (8); stationary_percent 50 (default, 1, generator), 25
+  (2), 15 (3), 75 (6), 30 (7), 60 (8).
+- `create_new_rock`: a rock at x = -size or room_width + size, random height, speed `±irandom_range(0,
+  15) * 0.1` by side, spin rolled again.
+- Fixed defects (the port plays as meant): `create_new_rock` and `setup_level` zero the caller's
+  `spin`, not the rock's, when the roll is near zero (the rock's now); Alarm 1's negative branch
+  (`spin < -original_spin`, `spin *= -0.96`) flipped a negative spin's sign every quarter second (now
+  it slows like a positive one); `add_spin`'s negative branch snapped any negative spin to
+  `-spin_max` (now it mirrors the positive one); `create_new_rock` set a random heading after the
+  speed sign it chose for its side, so half the new rocks left at once and the still ones parked
+  outside the room for good, thinning the field (a new rock now heads into the room at 0.1-1.5
+  px/step); `obj_flotsum` stored `Speed = speed` every step but never restored it, so a pause froze
+  every shard for good (it drifts on now).
+
+Ambient/weather layers: `obj_cloud`/`obj_cloud1-4`/
 `obj_cloud_emitter`, `obj_rain_emitter`/`obj_raindrop`, `obj_snow_emitter`, `obj_sand_emitter`,
 `obj_fog_emitter`, `obj_flotsum`, `obj_earthball`/`obj_moon_surface`/`obj_surface_reflection`.
 

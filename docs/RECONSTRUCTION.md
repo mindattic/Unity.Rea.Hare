@@ -78,10 +78,10 @@ generated `Main.unity`, the only art is none, the only audio is six weapon wavs)
 | Set-piece enemies (8) | `obj_hydra` ... `obj_mimic` | Built (`SetPieceEnemy` family) | done: UH-T14 |
 | Emitters, wormholes, `generate_enemy_list` | `par_enemy_emitter`, `obj_wormhole*` | Built (`EnemyEmitter`, `WormholeEmitter`, `EnemyList`) but not driven by a level | done: UH-T15; level hook in UH-T57 |
 | Death effects, gibs, death particles | `spawn_death_particles`, `*_gib`, `obj_tinyexplosion`, `ef_smokeup`/`ef_firework` | Built (`DeathEffects`, `GmlEffects`, `TinyExplosion`, `DeathParticle`) with the original sprites and sounds; `spawn_death_particles` waits on its callers (UH-T54, UH-T68) | done: UH-T16 |
-| Rocks | `par_rock`, `obj_rock1-5`, `create_new_rock`, `move_rocks`, `rock_destroyed` | In progress | UH-T17 |
+| Rocks | `par_rock`, `obj_rock1-5`, `create_new_rock`, `move_rocks`, `rock_destroyed`, `obj_flotsum` | Built (`Rock`, `RockField`, `Flotsum`) with the original sprites, breaking with the UH-T16 death effects; `fling_player` waits on landing (UH-T53), the level values on UH-T20/UH-T57 | done: UH-T17 |
 | Structures and covers | `par_structure`, `par_structure_cover` | None | UH-T56 |
 | Weather and ambience | clouds, rain, snow, sand, fog | None | UH-T18 |
-| Backdrop props | `obj_moon_surface`, `obj_flotsum`, `obj_surface_reflection`, backgrounds | None | UH-T58 |
+| Backdrop props | `obj_moon_surface`, `obj_surface_reflection`, backgrounds (`obj_flotsum` is built with the rocks) | None | UH-T58 |
 | Pickups | carrot, coin, chip, cartridge, `random_pickup`, `spawn_chips` | None | UH-T23 |
 | VFX | muzzle flash, oval/tiny/rocket/grenade explosion, rail swirl | Rocket and grenade explosion logic only | UH-T31 |
 | Level data and the ten levels | `level_01-10`, `level_default`, composition/objective/setting | None (`EnemyComposition` is a start) | UH-T20 |
@@ -211,5 +211,5 @@ ticket and added to REVERSE_ENGINEERING.md before it is built, as AGENTS.md rule
 
 Not read in full, so the owning ticket must do it first: the sprite and sound frame data (UH-T46,
 UH-T47), `obj_conversation` and the story text (UH-T28), `obj_upgrade_*` costs and effects (UH-T24),
-`par_rock` and `move_rocks` (UH-T17), the weather emitters (UH-T18), and `obj_btn_*` handlers
+the weather emitters (UH-T18), and `obj_btn_*` handlers
 (UH-T26, UH-T64).
