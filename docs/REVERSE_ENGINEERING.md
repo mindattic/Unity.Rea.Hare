@@ -185,6 +185,32 @@ What the set pieces actually do in gmlHARE (checked for UH-T14):
 Spawning: per-enemy `obj_*_emitter` objects plus `generate_enemy_list` /
 `level_enemygenerator` scripts drive pacing per level.
 
+What the spawners actually do in gmlHARE (checked for UH-T15):
+
+- There are no per-enemy emitter objects; one `par_enemy_emitter` serves every type.
+  `setup_level` rolls `rnd_X = irandom_range(X_min, X_max)` per type and places that many emitters
+  at random points (`instance = obj_X`, `instance_min/max = X_min/X_max`, waits 200-500 steps,
+  scale 0.25, meatball 0.70, wraith/phalanx 0.35, worm 0.50). Mimics get no emitter: they are
+  created outright.
+- `par_enemy_emitter` is a spinning `spr_vortex` (550 px, alpha 0.5, angles -5/-6 a step) that Alarm 0
+  walks idle → open → spawn → close → idle. Create arms it at 1-240 steps, but idle's first pass
+  (which runs the same step) jumps to a random point at least 550 x scale px inside the room and
+  re-arms the wait. Open (120 steps) grows 0.01 a step, spawn creates one enemy and waits 120, close
+  shrinks for 120. Growth and spawning only happen unpaused and while
+  `instance_number(instance) < instance_max`, so the cap is room-wide and kills get topped back up.
+- Generator mode (`gm_generator`, `obj_btn_diff0`/`diff100`/`level09`): `generate_enemy_list(difficulty)`
+  draws `irandom_range(1, 9)` uniformly (hydra, sawblade, dagger 1 point; mimic, trilobyte 2;
+  phalanx 5; wraith 8; meatball 10; worm 15) until the points reach the difficulty.
+  `obj_wormhole_emitter` opens 10% of the list at once, then one `obj_wormhole` every
+  `1 + room_speed * irandom_range(0, 8)` steps (the first after `0..4` s); once the list is spent it
+  destroys itself and calls `set_level_complete`. Each `obj_wormhole` (scale per `create_wormhole`:
+  0.25, dagger/phalanx/wraith 0.35, worm 0.5, mimic/meatball 1.0) idles 240 steps, opens for 240,
+  releases its enemy unconditionally, waits 240 and shrinks away.
+- Source slips: `setup_level` calls `instance_create(obj_wormhole_emitter, 0, 0)` and
+  `create_wormhole` calls `instance_create(obj_wormhole, 0, 0)` with arguments swapped, `create_wormhole`
+  sizes its margin with the caller's undefined `scale`, and the globals `enemy_count`/`current_enemy`
+  are never reset. The port does what they meant.
+
 ## Rocks & environment
 
 Destructible rock field: `obj_rock1`..`obj_rock5`, `par_rock`, scripts `create_new_rock`,

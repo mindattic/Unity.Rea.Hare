@@ -90,6 +90,12 @@ namespace Unity.Hare.Weapons
         /// </summary>
         public static Rect Room => new Rect(-Px(RoomWidthPx) / 2f, -Px(RoomHeightPx) / 2f, Px(RoomWidthPx), Px(RoomHeightPx));
 
+        /// <summary>
+        /// GML globals paused (set by set_level_complete and the pause menu). Objects that read it
+        /// skip their gated work while it is true; alarms keep counting like GML's.
+        /// </summary>
+        public static bool Paused { get; set; }
+
         public static float Px(float pixels) => pixels / PixelsPerUnit;
         public static float Steps(float steps) => steps / StepsPerSecond;
 
