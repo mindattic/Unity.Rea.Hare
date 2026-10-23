@@ -5,21 +5,19 @@ using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
 {
-    /// <summary>The vulcan's sound cues, in the order the original plays them.</summary>
+    /// <summary>The vulcan's sound cues, in the order the original plays them (the reloads are <see cref="PlayerAmmo.Reloaded"/>).</summary>
     public enum VulcanSound
     {
         SpinUp,
         LoopStart,
         LoopStop,
         SpinDown,
-        EmptyClip,
-        ReloadHalf,
-        ReloadFull
+        EmptyClip
     }
 
     /// <summary>
     /// Ports the vulcan (gmlHARE: fire_primary's weapon_vulcan branch, shoot_vulcan,
-    /// stop_vulcan_sfx, the left-mouse held/released events and the ammo-regen alarm of obj_player).
+    /// stop_vulcan_sfx and the left-mouse held/released events of obj_player).
     ///
     /// While the trigger is held the gun fires obj_bullets at the aim. Spin-up: the first shot
     /// waits base_rate (30 steps) and every shot after it 3 steps less, down to 9 steps — the
@@ -28,11 +26,10 @@ namespace Unity.Hare.Weapons
     /// barrel turns, and releasing the trigger (or running dry) stops the loop, plays the
     /// spin-down and drops the rate back to base_rate (GML: stop_vulcan_sfx; fire_rate = base_rate).
     ///
-    /// Ammo is the ground primary pool: 120 rounds (set_ammo_cost's vulcan max), 1 per shot
-    /// (subtract_ground_ammo). An empty gun clicks (sfx_empty_clip) instead of firing. Holding the
-    /// trigger stops regeneration; releasing it re-arms the regen alarm, which then adds 10 rounds
-    /// every second (ammo_regen_delay = room_speed) with the reload sounds. The shared air/ground
-    /// economy is UH-T12's; this component owns the vulcan's slice of it until then.
+    /// Ammo is <see cref="PlayerAmmo"/>'s ground primary pool (Create's 150; set_ammo_cost caps
+    /// the vulcan at 120 on landing), 1 per shot (subtract_ground_ammo). An empty gun clicks
+    /// (sfx_empty_clip) instead of firing. Holding the trigger stops regeneration; releasing it
+    /// re-arms the regen alarm, which then adds 10 rounds every second with the reload sounds.
     ///
     /// The vulcan is a ground weapon: like fire_primary it fires only while perched (Idle), never
     /// while dead or shielding. Steps are room_gamescreen's 120 per second.
@@ -47,12 +44,6 @@ namespace Unity.Hare.Weapons
         [SerializeField] int minRateSteps = 9;
         [SerializeField] int spinUpDecrementSteps = 3;
 
-        [Header("Ammo (ground_ammo_primary*, set_ammo_cost, alarm_ammo_regen)")]
-        [SerializeField] int maxAmmo = 120;
-        [SerializeField] int ammoCost = 1;
-        [SerializeField] int regenAmount = 10;
-        [SerializeField] float regenDelaySeconds = 1f;
-
         [Header("Bullet (obj_bullet; distances are placeholders until sprites set the world scale)")]
         [SerializeField] float bulletSpeed = 8f;
         [SerializeField] float bulletLifetime = 3f;
@@ -62,24 +53,23 @@ namespace Unity.Hare.Weapons
         [SerializeField] float muzzleJitter = 0.05f;
         [SerializeField] Sprite bulletSprite;
 
-        [Header("Sound (sfx_vulcan_*, sfx_empty_clip, sfx_reload_*)")]
+        [Header("Sound (sfx_vulcan_*, sfx_empty_clip; the reloads are PlayerAmmo's)")]
         [SerializeField] AudioClip spinUpClip;
         [SerializeField] AudioClip loopClip;
         [SerializeField] AudioClip spinDownClip;
         [SerializeField] AudioClip emptyClipClip;
-        [SerializeField] AudioClip reloadHalfClip;
-        [SerializeField] AudioClip reloadFullClip;
 
         PlayerShipController ship;
+        PlayerAmmo ammo;
         AudioSource loopSource;
         AudioSource oneShotSource;
         float cooldown;
-        float regenTimer;
-        bool regenArmed;
         float emptyClickTimer;
 
-        public int Ammo { get; private set; }
-        public int MaxAmmo => maxAmmo;
+        /// <summary>The ship's shared ammo economy; the vulcan spends ground_ammo_primary.</summary>
+        public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
+        public int Ammo => AmmoEconomy.Current(AmmoPool.GroundPrimary);
+        public int MaxAmmo => AmmoEconomy.Max(AmmoPool.GroundPrimary);
         public bool TriggerHeld { get; private set; }
 
         /// <summary>GML: can_shoot. False until the fire_rate alarm (alarm_reset_fire) runs out.</summary>
@@ -122,6 +112,7 @@ namespace Unity.Hare.Weapons
         public void ResetState()
         {
             ship = GetComponent<PlayerShipController>();
+            ammo = PlayerAmmo.Of(gameObject);
             if (loopSource == null)
             {
                 loopSource = gameObject.AddComponent<AudioSource>();
@@ -133,14 +124,12 @@ namespace Unity.Hare.Weapons
                 oneShotSource = gameObject.AddComponent<AudioSource>();
                 oneShotSource.playOnAwake = false;
             }
-            Ammo = maxAmmo;
+            if (TriggerHeld) ammo.ReleaseTrigger(this);
             FireRateSteps = baseRateSteps;
             cooldown = 0f;
             TriggerHeld = false;
             IsSpinning = false;
             IsLoopPlaying = false;
-            regenArmed = false;
-            regenTimer = 0f;
             emptyClickTimer = 0f;
             if (loopSource.isPlaying) loopSource.Stop();
         }
@@ -160,7 +149,7 @@ namespace Unity.Hare.Weapons
         public void PressTrigger()
         {
             TriggerHeld = true;
-            regenArmed = false;
+            AmmoEconomy.PressTrigger(this);
         }
 
         /// <summary>GML: global left released. Spin down, reset the rate, re-arm ammo regen.</summary>
@@ -169,11 +158,10 @@ namespace Unity.Hare.Weapons
             TriggerHeld = false;
             if (IsSpinning) SpinDown();
             FireRateSteps = baseRateSteps;
-            regenArmed = true;
-            regenTimer = regenDelaySeconds;
+            AmmoEconomy.ReleaseTrigger(this);
         }
 
-        /// <summary>Advances the fire cooldown and ammo regen, and fires if the trigger is held.</summary>
+        /// <summary>Advances the fire cooldown and fires if the trigger is held (regen is <see cref="PlayerAmmo.Tick"/>'s).</summary>
         public void Tick(float dt)
         {
             // Snap float residue to zero so a 30-step wait is 30 steps, not 31.
@@ -183,19 +171,7 @@ namespace Unity.Hare.Weapons
             // A ship that dies mid-burst can't keep the barrel spinning.
             if (IsSpinning && ship.State == PlayerFlightState.Dead) SpinDown();
 
-            if (TriggerHeld)
-            {
-                TryFire();
-            }
-            else if (regenArmed)
-            {
-                regenTimer -= dt;
-                if (regenTimer <= 0f)
-                {
-                    Regenerate();
-                    regenTimer += regenDelaySeconds;
-                }
-            }
+            if (TriggerHeld) TryFire();
         }
 
         /// <summary>
@@ -206,7 +182,7 @@ namespace Unity.Hare.Weapons
         {
             if (!CanShoot || ship.State != PlayerFlightState.Idle || ship.IsShielding) return false;
 
-            if (Ammo < ammoCost)
+            if (!AmmoEconomy.HasAmmo(AmmoPool.GroundPrimary))
             {
                 // GML: if(!audio_is_playing(sfx_empty_clip)) -- one click per clip length while held.
                 if (emptyClickTimer <= 0f)
@@ -225,7 +201,7 @@ namespace Unity.Hare.Weapons
             }
 
             var bullet = SpawnBullet();
-            Ammo = Mathf.Max(0, Ammo - ammoCost);
+            AmmoEconomy.Subtract(AmmoPool.GroundPrimary); // subtract_ground_ammo
 
             if (!IsLoopPlaying)
             {
@@ -266,14 +242,6 @@ namespace Unity.Hare.Weapons
             Play(VulcanSound.SpinDown);
         }
 
-        /// <summary>GML: alarm_ammo_regen. Tops up the pool and plays the matching reload sound.</summary>
-        void Regenerate()
-        {
-            if (Ammo >= maxAmmo) { Ammo = maxAmmo; return; }
-            Ammo = Mathf.Min(maxAmmo, Ammo + regenAmount);
-            Play(Ammo >= maxAmmo ? VulcanSound.ReloadFull : VulcanSound.ReloadHalf);
-        }
-
         void Play(VulcanSound sound)
         {
             switch (sound)
@@ -284,17 +252,12 @@ namespace Unity.Hare.Weapons
                 case VulcanSound.LoopStop:
                     loopSource.Stop();
                     break;
-                case VulcanSound.ReloadFull:
-                    oneShotSource.Stop(); // GML: audio_stop_sound(sfx_reload_half)
-                    PlayOneShot(reloadFullClip);
-                    break;
                 default:
                     PlayOneShot(sound switch
                     {
                         VulcanSound.SpinUp => spinUpClip,
                         VulcanSound.SpinDown => spinDownClip,
                         VulcanSound.EmptyClip => emptyClipClip,
-                        VulcanSound.ReloadHalf => reloadHalfClip,
                         _ => null
                     });
                     break;
@@ -317,8 +280,6 @@ namespace Unity.Hare.Weapons
             loopClip = Load("sfx_vulcan_loop");
             spinDownClip = Load("sfx_vulcan_spindown");
             emptyClipClip = Load("sfx_empty_clip");
-            reloadHalfClip = Load("sfx_reload_half");
-            reloadFullClip = Load("sfx_reload_full");
         }
 #endif
     }

@@ -213,6 +213,7 @@ namespace Unity.Hare.Tests.EditMode
             var launcher = NewLauncher();
             int empties = 0;
             launcher.OutOfAmmo += () => empties++;
+            launcher.TriggerHeld = true;
             for (int i = 0; i < 8; i++)
             {
                 launcher.Rearm();
@@ -222,7 +223,8 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsFalse(launcher.TryFire());
             Assert.AreEqual(1, empties);
 
-            launcher.Tick(1f);
+            launcher.TriggerHeld = false; // GML: releasing starts Alarm 10
+            launcher.AmmoEconomy.Tick(1f);
             Assert.AreEqual(1, launcher.Ammo);
         }
 

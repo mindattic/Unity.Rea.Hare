@@ -211,7 +211,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.Greater(dry, 0);
 
             loadout.SetTrigger(false);
-            Run(loadout.Tick, 1f + Step);
+            Run(dt => { loadout.Tick(dt); loadout.AmmoEconomy.Tick(dt); }, 1f + Step);
             Assert.AreEqual(4, loadout.Ammo(AirWeapon.Rocket));
         }
 

@@ -80,6 +80,23 @@ What those names actually do in gmlHARE (checked for UH-T11):
   (`spr_grenade_explode`, alpha 0.7, `sfx_explode`) spawned where rocks, meatballs, scrapmentals
   and worms are destroyed.
 
+The ammo economy in gmlHARE (checked for UH-T12):
+
+- obj_player Create holds four pools (current/max/cost/regen): `ground_ammo_primary` 150/150/1/10,
+  `ground_ammo_secondary` 12/12/4/2, `air_ammo_primary` 20/20/1/4, `air_ammo_secondary` 8/8/1/1.
+  `fire_primary`/`fire_secondary` fire only if the pool holds at least the cost, then subtract it
+  and clamp at 0 (`subtract_ground_ammo` for the ground primary, inline copies for the others);
+  otherwise `sfx_empty_clip`.
+- `set_ammo_cost` runs on landing (`par_rock`/`par_structure` collisions), `player_leap` and
+  `fling_player`, not on a weapon switch. Every cost is 1 except the shotgun as ground secondary
+  (4). It writes maxima only for the vulcan as ground primary (120), the shotgun as ground
+  secondary (12) and rockets as air primary (20), and never touches the current count, so the
+  vulcan keeps Create's 150 until a regen tick snaps it to 120. The rocket branch sets
+  `air_ammo_secondary_cost`, a slip that is harmless because every air cost is 1.
+- Alarm 9 (`alarm_ammo_regen`) refills both primaries with `sfx_reload_half`/`sfx_reload_full`;
+  Alarm 10 refills both secondaries silently; each re-arms itself every `room_speed`. Neither is
+  set in Create: the global left release starts both, the left press stops only Alarm 9.
+
 Projectile/VFX objects: `obj_bullet`, `obj_laser`, `obj_railgun`, `obj_rail_swirl`,
 `obj_rocket`/`obj_rocket_explosion`, `obj_muzzleflash`, `obj_oval_explosion`,
 `obj_tinyexplosion`.

@@ -24,23 +24,14 @@ namespace Unity.Hare.Weapons
     /// Per weapon, as in the GML: the laser (shoot_laser/obj_laser) stays on until the trigger is
     /// released and only then can fire again; the railgun (shoot_railgun) re-arms after 240 steps;
     /// rockets (shoot_rocket) after 25 steps. Switching weapons re-arms immediately
-    /// (next_air_weapon: can_shoot = true). Ammo numbers are obj_player's (laser/railgun draw on
-    /// ground_ammo_primary 150, regen 10; rockets on air_ammo_primary 20, regen 4), regenerating
-    /// every room_speed steps while the trigger is up; UH-T12 owns the shared ammo economy and may
-    /// fold these pools into it. Sounds are left to the Audio epic through the events below.
+    /// (next_air_weapon: can_shoot = true). Ammo is the ship's shared <see cref="PlayerAmmo"/>:
+    /// the laser and railgun are GML ground weapons and spend ground_ammo_primary (shared with the
+    /// vulcan), rockets spend air_ammo_primary; the trigger stops and restarts the regen alarms
+    /// like the original's left mouse. Sounds are left to the Audio epic through the events below.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
     public class AirWeaponLoadout : MonoBehaviour
     {
-        [Serializable]
-        class AmmoPool
-        {
-            public int max;
-            public int cost = 1;
-            public int regen;
-            [NonSerialized] public int current;
-        }
-
         [Header("Muzzle (GML: gunX/gunY = x + lengthdir(-13, image_angle); origin = gun + lengthdir(34, mouse_angle))")]
         [SerializeField] float gunOffsetPx = -13f;
         [SerializeField] float muzzleOffsetPx = 34f;
@@ -50,18 +41,12 @@ namespace Unity.Hare.Weapons
         [SerializeField] float railgunCooldownSteps = 240f;
         [SerializeField] float rocketCooldownSteps = 25f;
 
-        [Header("Ammo (GML: obj_player Create)")]
-        [SerializeField] AmmoPool laserAmmo = new AmmoPool { max = 150, regen = 10 };
-        [SerializeField] AmmoPool railgunAmmo = new AmmoPool { max = 150, regen = 10 };
-        [SerializeField] AmmoPool rocketAmmo = new AmmoPool { max = 20, regen = 4 };
-        [SerializeField] float ammoRegenDelaySteps = 120f;
-
         [Header("Unlocked air weapons")]
         [SerializeField] List<AirWeapon> unlocked = new List<AirWeapon> { AirWeapon.Laser, AirWeapon.Railgun, AirWeapon.Rocket };
 
         PlayerShipController ship;
+        PlayerAmmo ammo;
         float cooldown;
-        float regenTimer;
         bool triggerHeld;
 
         public AirWeapon Current { get; private set; }
@@ -91,31 +76,23 @@ namespace Unity.Hare.Weapons
         public void ResetState()
         {
             ship = GetComponent<PlayerShipController>();
+            ammo = PlayerAmmo.Of(gameObject);
             StopLaser();
-            foreach (var pool in Pools()) pool.current = pool.max;
             Current = unlocked.Count > 0 ? unlocked[0] : AirWeapon.Rocket;
             CanShoot = true;
             cooldown = 0f;
+            if (triggerHeld) ammo.ReleaseTrigger(this);
             triggerHeld = false;
-            regenTimer = Gml.Steps(ammoRegenDelaySteps);
         }
 
-        IEnumerable<AmmoPool> Pools()
-        {
-            yield return laserAmmo;
-            yield return railgunAmmo;
-            yield return rocketAmmo;
-        }
+        /// <summary>The ship's shared ammo economy.</summary>
+        public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
 
-        AmmoPool PoolFor(AirWeapon weapon) => weapon switch
-        {
-            AirWeapon.Laser => laserAmmo,
-            AirWeapon.Railgun => railgunAmmo,
-            _ => rocketAmmo
-        };
+        /// <summary>The pool <paramref name="weapon"/> spends: laser/railgun ground_ammo_primary, rockets air_ammo_primary.</summary>
+        public static AmmoPool PoolFor(AirWeapon weapon) => weapon == AirWeapon.Rocket ? AmmoPool.AirPrimary : AmmoPool.GroundPrimary;
 
-        public int Ammo(AirWeapon weapon) => PoolFor(weapon).current;
-        public int MaxAmmo(AirWeapon weapon) => PoolFor(weapon).max;
+        public int Ammo(AirWeapon weapon) => AmmoEconomy.Current(PoolFor(weapon));
+        public int MaxAmmo(AirWeapon weapon) => AmmoEconomy.Max(PoolFor(weapon));
 
         public bool IsUnlocked(AirWeapon weapon) => unlocked.Contains(weapon);
 
@@ -168,23 +145,28 @@ namespace Unity.Hare.Weapons
 
         /// <summary>
         /// The secondary trigger. Releasing it drops the laser and re-arms it (GML global left
-        /// release: with(obj_laser) instance_destroy(); can_shoot = true) and restarts ammo regen.
+        /// release: with(obj_laser) instance_destroy(); can_shoot = true) and restarts ammo regen;
+        /// pressing stops the primary regen (<see cref="PlayerAmmo.PressTrigger"/>).
         /// </summary>
         public void SetTrigger(bool held)
         {
             if (held == triggerHeld) return;
             triggerHeld = held;
-            if (held) return;
+            if (held)
+            {
+                AmmoEconomy.PressTrigger(this);
+                return;
+            }
 
             if (ActiveLaser != null || Current == AirWeapon.Laser)
             {
                 StopLaser();
                 CanShoot = true;
             }
-            regenTimer = Gml.Steps(ammoRegenDelaySteps);
+            AmmoEconomy.ReleaseTrigger(this);
         }
 
-        /// <summary>Re-arm timer, ammo regen, and firing while the trigger is held.</summary>
+        /// <summary>Re-arm timer and firing while the trigger is held (regen is <see cref="PlayerAmmo.Tick"/>'s).</summary>
         public void Tick(float dt)
         {
             if (ActiveLaser != null && (Ship.State == PlayerFlightState.Dead || Ship.IsShielding)) StopLaser();
@@ -195,19 +177,7 @@ namespace Unity.Hare.Weapons
                 if (cooldown <= 0f) { cooldown = 0f; CanShoot = true; } // GML alarm 0: can_shoot = true
             }
 
-            if (triggerHeld)
-            {
-                TryFire();
-            }
-            else
-            {
-                regenTimer -= dt;
-                if (regenTimer <= 0f)
-                {
-                    foreach (var pool in Pools()) pool.current = Mathf.Min(pool.max, pool.current + pool.regen);
-                    regenTimer += Gml.Steps(ammoRegenDelaySteps);
-                }
-            }
+            if (triggerHeld) TryFire();
         }
 
         /// <summary>GML fire_secondary for the current air weapon. Returns true if a shot went out.</summary>
@@ -215,13 +185,11 @@ namespace Unity.Hare.Weapons
         {
             if (!CanShoot || !IsUnlocked(Current) || Ship.State == PlayerFlightState.Dead || Ship.IsShielding) return false;
 
-            var pool = PoolFor(Current);
-            if (pool.current < pool.cost)
+            if (!AmmoEconomy.TrySpend(PoolFor(Current))) // GML: x_ammo_primary >= cost, then subtract and clamp at 0
             {
                 DryFired?.Invoke(Current);
                 return false;
             }
-            pool.current = Mathf.Max(0, pool.current - pool.cost);
             CanShoot = false;
 
             switch (Current)

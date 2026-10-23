@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -68,6 +69,12 @@ namespace Unity.Hare.Player
         /// the hit instead of costing HP.
         /// </summary>
         public bool BlocksDamage => IsShielding;
+
+        /// <summary>Raised after the ship perches (GML landing collisions; they call set_ammo_cost).</summary>
+        public event Action Landed;
+
+        /// <summary>Raised after the ship leaps off a perch (GML player_leap; it calls set_ammo_cost).</summary>
+        public event Action Leapt;
 
         void Awake() => ResetState();
 
@@ -173,6 +180,7 @@ namespace Unity.Hare.Player
             IsBoosting = false;
             IsBraking = false;
             State = PlayerFlightState.Moving;
+            Leapt?.Invoke();
             return true;
         }
 
@@ -185,6 +193,7 @@ namespace Unity.Hare.Player
             IsBraking = false;
             Speed = 0f;
             body.linearVelocity = Vector2.zero;
+            Landed?.Invoke();
         }
 
         /// <summary>

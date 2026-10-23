@@ -17,9 +17,8 @@ namespace Unity.Hare.Weapons
     /// uses while perched: only from state_idle, never while shielding or dead, one shot per
     /// cooldown (GML can_shoot + alarm_reset_fire / alarm_reset_fire_secondary), and only with
     /// enough ammo for the shot (GML ground_ammo_* &gt;= ground_ammo_*_cost, else sfx_empty_clip).
-    /// Ammo refills by a fixed amount every regen interval while the weapon isn't firing (Alarms
-    /// 9/10, ammo_regen_delay = room_speed). This clip is per weapon; the shared air/ground ammo
-    /// economy (set_ammo_cost, subtract_ground_ammo) is UH-T12's and can take it over.
+    /// Ammo is the ship's shared <see cref="PlayerAmmo"/> economy: each weapon spends the pool its
+    /// slot and firing state select (<see cref="AmmoPool"/>), and the regen alarms live there too.
     /// Positions use 1 unit = 100 GML pixels; speeds keep the original's ratio to flight_speed
     /// (5 px/step there, 5 units/s in <see cref="PlayerShipController"/>), so GML px/step map to
     /// units/s one to one. Both are placeholders until real sprites set the world scale.
@@ -35,7 +34,8 @@ namespace Unity.Hare.Weapons
         [SerializeField] float muzzleDistance = 0.34f;
 
         PlayerShipController player;
-        float regenTimer;
+        PlayerAmmo ammo;
+        bool triggerHeld;
 
         /// <summary>Fires after every successful shot (muzzle flash, shell, sound: UH-T30/UH-T31).</summary>
         public event Action Fired;
@@ -44,14 +44,22 @@ namespace Unity.Hare.Weapons
         public event Action OutOfAmmo;
 
         public WeaponSlot Slot { get => slot; set => slot = value; }
-        public int Ammo { get; private set; }
         public float CooldownRemaining { get; private set; }
 
         protected abstract float CooldownSeconds { get; }
-        public abstract int MaxAmmo { get; }
-        public abstract int AmmoCost { get; }
-        protected abstract int AmmoRegenPerInterval { get; }
-        protected virtual float AmmoRegenIntervalSeconds => 1f; // ammo_regen_delay = room_speed
+
+        /// <summary>
+        /// The pool this weapon spends: perched weapons fire_primary's ground_ammo_primary or
+        /// fire_secondary's ground_ammo_secondary by slot; <see cref="MineLauncher"/> overrides.
+        /// </summary>
+        public virtual AmmoPool AmmoPool => slot == WeaponSlot.Primary ? AmmoPool.GroundPrimary : AmmoPool.GroundSecondary;
+
+        /// <summary>The ship's shared ammo economy.</summary>
+        public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
+
+        public int Ammo => AmmoEconomy.Current(AmmoPool);
+        public int MaxAmmo => AmmoEconomy.Max(AmmoPool);
+        public int AmmoCost => AmmoEconomy.Cost(AmmoPool);
 
         protected PlayerShipController Player => player;
 
@@ -64,9 +72,9 @@ namespace Unity.Hare.Weapons
         public void ResetState()
         {
             player = GetComponent<PlayerShipController>();
-            Ammo = MaxAmmo;
+            ammo = PlayerAmmo.Of(gameObject);
             CooldownRemaining = 0f;
-            regenTimer = AmmoRegenIntervalSeconds;
+            TriggerHeld = false;
         }
 
         /// <summary>GML gunX/gunY then originX/originY: where the projectiles leave the barrel.</summary>
@@ -91,22 +99,20 @@ namespace Unity.Hare.Weapons
             && InFiringState(player)
             && !player.IsShielding
             && CooldownRemaining <= 0f
-            && Ammo >= AmmoCost;
+            && AmmoEconomy.HasAmmo(AmmoPool);
 
         /// <summary>One trigger pull. Returns true if the weapon shot.</summary>
         public bool TryFire()
         {
             if (player == null || !InFiringState(player) || player.IsShielding) return false;
             if (CooldownRemaining > 0f) return false;
-            if (Ammo < AmmoCost)
+            if (!AmmoEconomy.TrySpend(AmmoPool)) // GML: x_ammo_y >= cost, then subtract and clamp at 0
             {
                 OutOfAmmo?.Invoke();
                 return false;
             }
 
-            Ammo -= AmmoCost;
             CooldownRemaining = CooldownSeconds;
-            regenTimer = AmmoRegenIntervalSeconds; // GML mouse press: alarm[alarm_ammo_regen] = 0, re-armed on release
             Shoot(MuzzlePosition, player.AimDirection);
             Fired?.Invoke();
             return true;
@@ -122,29 +128,25 @@ namespace Unity.Hare.Weapons
         protected abstract void Shoot(Vector2 origin, float aim);
 
         /// <summary>
-        /// GML mouse1_down: while this weapon's trigger is held the ammo regen alarm is stopped
-        /// (alarm[alarm_ammo_regen] = 0 on press) and it restarts with its full delay on release.
+        /// GML mouse1_down: pressing stops the primary regen alarm and releasing restarts both
+        /// (<see cref="PlayerAmmo.PressTrigger"/>, <see cref="PlayerAmmo.ReleaseTrigger"/>).
         /// </summary>
-        public bool TriggerHeld { get; set; }
+        public bool TriggerHeld
+        {
+            get => triggerHeld;
+            set
+            {
+                if (value == triggerHeld) return;
+                triggerHeld = value;
+                if (value) AmmoEconomy.PressTrigger(this); else AmmoEconomy.ReleaseTrigger(this);
+            }
+        }
 
-        /// <summary>Cooldown and ammo regen; public so EditMode tests can drive time.</summary>
+        /// <summary>The re-arm cooldown; public so EditMode tests can drive time. Regen is <see cref="PlayerAmmo.Tick"/>'s.</summary>
         public void Tick(float dt)
         {
             CooldownRemaining -= dt;
             if (CooldownRemaining <= 1e-5f) CooldownRemaining = 0f; // whole GML steps must not leave float dust
-
-            if (TriggerHeld)
-            {
-                regenTimer = AmmoRegenIntervalSeconds;
-                return;
-            }
-
-            regenTimer -= dt;
-            while (regenTimer <= 1e-5f)
-            {
-                Ammo = Mathf.Min(MaxAmmo, Ammo + AmmoRegenPerInterval);
-                regenTimer += AmmoRegenIntervalSeconds;
-            }
         }
 
         void Update()

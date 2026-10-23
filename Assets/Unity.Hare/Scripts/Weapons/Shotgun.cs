@@ -9,8 +9,8 @@ namespace Unity.Hare.Weapons
     /// shield walls like vulcan rounds), each starting 0..12 px further along the aim than the
     /// muzzle and flying at 12 px/step along the aim plus a whole-degree spread of -8..+8. One
     /// blast per room_speed (1 s, alarm_reset_fire_secondary). In HARE the shotgun is the default
-    /// ground secondary (Ctrl + left mouse): 12 ammo, 4 per blast, +2 per second (obj_player
-    /// Create, set_ammo_cost).
+    /// ground secondary (Ctrl + left mouse): ground_ammo_secondary, 12 ammo, 4 per blast, +2 per
+    /// second; as a ground primary it costs 1 of ground_ammo_primary (<see cref="PlayerAmmo"/>).
     /// </summary>
     public class Shotgun : PerchedWeapon, IGroundWeapon
     {
@@ -25,11 +25,6 @@ namespace Unity.Hare.Weapons
         [SerializeField] Sprite pelletSprite;
         [SerializeField] float cooldownSeconds = 1f; // alarm_reset_fire_secondary = room_speed
 
-        [Header("Ammo (GML ground_ammo_secondary)")]
-        [SerializeField] int maxAmmo = 12;
-        [SerializeField] int ammoCost = 4;
-        [SerializeField] int ammoRegen = 2;
-
         readonly List<Bullet> lastBlast = new List<Bullet>();
 
         public int PelletCount => pelletCount;
@@ -41,9 +36,6 @@ namespace Unity.Hare.Weapons
         public IReadOnlyList<Bullet> LastBlast => lastBlast;
 
         protected override float CooldownSeconds => cooldownSeconds;
-        public override int MaxAmmo => maxAmmo;
-        public override int AmmoCost => ammoCost;
-        protected override int AmmoRegenPerInterval => ammoRegen;
 
         public Shotgun() : base(WeaponSlot.Secondary) { }
 

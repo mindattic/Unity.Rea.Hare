@@ -140,11 +140,11 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsFalse(shotgun.TryFire());
             Assert.AreEqual(1, empty);
 
-            // Releasing re-arms the regen alarm with its full delay.
+            // Releasing starts the regen alarm with its full delay.
             shotgun.TriggerHeld = false;
-            shotgun.Tick(0.9f);
+            shotgun.AmmoEconomy.Tick(0.9f);
             Assert.AreEqual(0, shotgun.Ammo);
-            shotgun.Tick(0.11f);
+            shotgun.AmmoEconomy.Tick(0.11f);
             Assert.AreEqual(2, shotgun.Ammo);
         }
 
@@ -152,12 +152,14 @@ namespace Unity.Hare.Tests.EditMode
         public void ShotgunAmmoRefillsTwoPerSecondUpToTwelve()
         {
             var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
+            shotgun.TriggerHeld = true;
             shotgun.TryFire();
+            shotgun.TriggerHeld = false;
             Assert.AreEqual(8, shotgun.Ammo);
 
-            shotgun.Tick(1f);
+            shotgun.AmmoEconomy.Tick(1f);
             Assert.AreEqual(10, shotgun.Ammo);
-            shotgun.Tick(5f);
+            shotgun.AmmoEconomy.Tick(5f);
             Assert.AreEqual(12, shotgun.Ammo);
         }
 
