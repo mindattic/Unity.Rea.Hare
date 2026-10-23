@@ -50,6 +50,19 @@ namespace Unity.Hare.Weapons
     }
 
     /// <summary>
+    /// Something whose own GML collision event with obj_rocket decides whether the rocket goes
+    /// off. obj_rocket itself only collides with bullets and shields, so a target without the event
+    /// (an unstunned obj_wraith, a hidden obj_mimic) lets it fly through, obj_phalanx_shield bounces
+    /// it, and most enemies blow it up. A <see cref="Rocket"/> asks this before its default
+    /// <see cref="IWeaponTarget"/> hit.
+    /// </summary>
+    public interface IRocketTarget
+    {
+        /// <returns>True when the rocket explodes here (GML: obj_rocket_explosion at the rocket, rocket destroyed).</returns>
+        bool OnRocketHit(Rocket rocket);
+    }
+
+    /// <summary>
     /// GML draw_beam's blockers (par_rock, par_structure): the laser beam is drawn only up to the
     /// first of these. The rock and structure tickets implement it.
     /// </summary>

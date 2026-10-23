@@ -277,10 +277,13 @@ namespace Unity.Hare.Enemies
             }
         }
 
-        /// <summary>GML collision with obj_bullet: both go; points only for the ship's own rounds.</summary>
+        /// <summary>
+        /// GML collision with obj_bullet: both go; points only for the ship's own rounds. Enemy
+        /// rounds (other.owner == ID) pass through.
+        /// </summary>
         public bool OnProjectileHit(Bullet bullet)
         {
-            if (dead) return false;
+            if (dead || (bullet != null && bullet.FromEnemy)) return false;
             bool fromPlayer = bullet != null && bullet.Owner != null && bullet.Owner.GetComponentInParent<PlayerShipController>() != null;
             Die(DaggerDeathCause.Bullet, fromPlayer, true);
             return true;

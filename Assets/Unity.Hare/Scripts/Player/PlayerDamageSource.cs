@@ -15,7 +15,17 @@ namespace Unity.Hare.Player
         [Tooltip("Destroy this object when its hit lands (bullets). Leave off for enemies and explosions.")]
         [SerializeField] bool destroyOnHit;
 
-        public bool IgnoresSpawnProtection => ignoresSpawnProtection;
+        public bool IgnoresSpawnProtection
+        {
+            get => ignoresSpawnProtection;
+            set => ignoresSpawnProtection = value;
+        }
+
+        public bool DestroyOnHit
+        {
+            get => destroyOnHit;
+            set => destroyOnHit = value;
+        }
 
         void OnTriggerEnter2D(Collider2D other) => TryHit(other);
         void OnTriggerStay2D(Collider2D other) => TryHit(other);

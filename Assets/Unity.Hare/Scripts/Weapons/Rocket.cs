@@ -7,7 +7,8 @@ namespace Unity.Hare.Weapons
     /// Ports obj_rocket (gmlHARE). Launched at rest; after 50 steps it ignites at 1 px/step and
     /// gains 1 px/step every 4 steps up to 6. On its first step it locks onto the nearest
     /// par_enemy and, whenever that target is within 100 px, turns toward it at 3 degrees/step. It
-    /// explodes (obj_rocket_explosion) on any <see cref="IWeaponTarget"/>, is shot down by a
+    /// explodes (obj_rocket_explosion) on any <see cref="IWeaponTarget"/> unless the target is an
+    /// <see cref="IRocketTarget"/> that lets it through or bounces it, is shot down by a
     /// <see cref="Bullet"/>, bounces off a shield wall
     /// along the wall's normal (once per wall, GML last_impact), and can hit its own ship only once
     /// it is older than room_speed (obj_player's obj_rocket collision checks other.age).
@@ -30,7 +31,7 @@ namespace Unity.Hare.Weapons
         float accelerateTimer;
         bool lockAttempted;
         IEnemyTarget target;
-        ShieldWall lastImpact;
+        Object lastImpact;
         bool exploded;
 
         /// <summary>Age in seconds (GML age, in steps / 120).</summary>
@@ -149,6 +150,13 @@ namespace Unity.Hare.Weapons
                 return;
             }
 
+            var rocketTarget = other.GetComponentInParent<IRocketTarget>();
+            if (rocketTarget != null)
+            {
+                if (rocketTarget.OnRocketHit(this)) Explode();
+                return;
+            }
+
             var weaponTarget = other.GetComponentInParent<IWeaponTarget>();
             if (weaponTarget == null) return;
             weaponTarget.OnWeaponHit(new WeaponHit(WeaponHitKind.Rocket, transform.position, Gml.Dir(Direction)));
@@ -156,10 +164,16 @@ namespace Unity.Hare.Weapons
         }
 
         /// <summary>GML obj_rocket collision with obj_shieldwall: direction = normal_detect(...), once per wall.</summary>
-        public void OnShieldHit(ShieldWall wall, Vector2 normal)
+        public void OnShieldHit(ShieldWall wall, Vector2 normal) => Deflect(wall, normal);
+
+        /// <summary>
+        /// GML direction = image_angle = normal_detect(...) off <paramref name="surface"/> (a shield
+        /// wall or obj_phalanx_shield), once per surface (last_impact).
+        /// </summary>
+        public void Deflect(Object surface, Vector2 normal)
         {
-            if (exploded || wall == lastImpact) return;
-            lastImpact = wall;
+            if (exploded || surface == lastImpact) return;
+            lastImpact = surface;
             SetDirection(Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg);
         }
 

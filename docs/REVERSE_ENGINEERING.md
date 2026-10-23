@@ -135,6 +135,53 @@ Set-piece enemies: `obj_hydra`, `obj_phalanx` + `obj_phalanx_shield`, `obj_meatb
 (`obj_worm_segment`, `obj_worm_head_gib`, `obj_worm_gib`), `obj_trilobyte`, `obj_mimic` (+
 `obj_mimic_illusion`), `obj_scrapmental`, `obj_enemy_mine`.
 
+What the set pieces actually do in gmlHARE (checked for UH-T14):
+
+- Every enemy's `ID` is -1 and so is the `owner` of every bullet an enemy fires, so each
+  "`other.owner != ID`" bullet event means "not an enemy's round": enemy fire passes through
+  enemies. Points go only to `other.owner == player.id` bullets; rocket kills always score.
+  `obj_rocket` itself only collides with bullets and shields, so a rocket goes off on an enemy only
+  if that enemy's own `obj_rocket` event destroys it. The laser, railgun and flame destroy any
+  `par_enemy` from their side (no points, pickup or gibs), parts included.
+- `obj_hydra` (10 pts): body spins `rot_dir` (+/-1 a step, flipping every 100-1000 then 100-6000
+  steps); 2-5 turrets retarget every 200-400 steps and turn 2 degrees/step the long way (the
+  original negates `check_rotate_clockwise`), each firing one 2 px/step bullet from 28 px out on
+  arrival. Chases at 1 px/step beyond 100 px. Each player bullet removes a turret (`arms -= 1`);
+  the hit after the last kills. Rockets and rocket explosions kill outright.
+- `obj_phalanx` (20 pts): spins +/-2, creeps at 0.5 px/step beyond 100 px; any player bullet or
+  rocket on the body kills. Its `obj_phalanx_shield` (spr_shield_hitbox, the half disc ahead of its
+  angle) follows it, turns 0.2 degrees/step toward the ship, and bounces bullets and rockets along
+  the normal (the projectiles' own events, once per shot); it destroys itself once the phalanx is gone.
+- `obj_meatball` (50 pts): sprays 4-6 bullets (2 px/step, random directions) on step 1 and every
+  80-200 steps; chases at 1 px/step beyond 100 px. Grey `RGB` starts at 255 and heals 1 per 120
+  steps; above 128 a player bullet costs 5 and shoves it `hspeed/2`, a rocket 16 (the rocket still
+  explodes). The next hit bursts it: 15-30 bullets, `obj_grenade_explosion`, `meatball_gib`
+  (8-12 gibs). No rocket-explosion event.
+- `obj_wraith` (50 pts): alpha breathes 0.3-0.6; floats toward the ship at 2 px/step until within
+  300 px, then charges at a point 600 px past the ship from 2 px/step (+0.015, max 5) and, within
+  32 px of it, reappears 350-400 px from the ship. A player bullet stuns it for 4-7 s; only a
+  stunned wraith dies to rockets, which otherwise fly through. `obj_wraith_blur` afterimages
+  every 10 steps.
+- `obj_sawblade` (10 pts): beyond 400 px drifts in at 0.5 px/step; within, swarms at 2 px/step to
+  a point re-picked every 30-60 steps (ship + 2x its velocity + up to 48 px jitter; GML (0, 0)
+  before the first pick). Dies to bullets, rockets, rocket explosions and the shield wall.
+- `obj_worm` (head 100 pts, segment 10): 1 + 5-7 `obj_worm_segment`s, each following the part ahead
+  at the head's speed once that part's centre is 4 px outside its bounding box. Wanders at
+  1 px/step (+/-90 jolts every 200-800 steps, 2-4 degree bends every 20); every 2-5 s spits 12-24
+  `spr_sliver` bullets from 128 px out along its jaw. Only a part without a live child takes damage
+  (RGB -16 a bullet, -42 a rocket, dies past 128), though any bullet is spent and any rocket
+  explodes. A dying segment adds `(10 - segment_count) * 0.1` to the head's speed.
+- `obj_trilobyte` (10 pts): crawls at 2 px/step, never chasing; +/-20 nudges every 240-620 steps,
+  1-6 degree bends every 10, body turning 2 degrees/step; lays an `obj_enemy_mine` every
+  240-620 steps. `obj_enemy_mine` (a `par_projectile`) arms after 3 s, homes at 1 px/step within
+  200 px, and becomes an `obj_rocket_explosion` within 24 px, after its 20-30 s fuse, or when any
+  bullet or rocket hits it (1 pt for the ship's).
+- `obj_mimic` (10 pts): drifts along direction 0 at -1.5..1.5 px/step under an
+  `obj_mimic_illusion` rock; within 275 px of the ship the disguise fades 0.02 a step. While it is
+  complete the illusion stops every bullet and explodes every rocket harmlessly and the mimic lets
+  them through; once it slips, shots kill the mimic, and a bullet kill also spawns an
+  `obj_rocket_explosion`.
+
 Spawning: per-enemy `obj_*_emitter` objects plus `generate_enemy_list` /
 `level_enemygenerator` scripts drive pacing per level.
 
