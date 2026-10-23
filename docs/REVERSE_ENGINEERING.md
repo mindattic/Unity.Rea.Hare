@@ -7,6 +7,10 @@ source actually contains, so the rebuild has a durable reference even if the sou
 (`R:\...`) become unavailable. They record facts observed in the source, not implementation
 decisions — those live in the ticket backlog (`UH-*` in the MindAttic ticket database).
 
+> The parity and standards audit (UH-T34) lives in [RECONSTRUCTION.md](RECONSTRUCTION.md): it recounts the
+> original (150 objects, 96 scripts, 10 rooms, 214 sprites, 75 sounds), lists what the rebuild still lacks and
+> gives the build order. Counts below that disagree with it are superseded by it.
+
 ## Source locations
 
 - `R:\Projects\_PRE_2022\_PRE_2021\_PRE_2020\_PRE_2017\gmlRabbit\Rabbit\10-10-13_6.31am` —
