@@ -64,6 +64,22 @@ Air-to-air loadout: `shoot_vulcan` (spin-up/spin-down + looping fire sound, per 
 Ground/surface loadout: `obj_mine`/`shoot_mine`, grenades (`obj_grenade_explosion`). Cycling via
 `next_ground_weapon`. Shared ammo economy: `set_ammo_cost`, `subtract_ground_ammo`.
 
+What those names actually do in gmlHARE (checked for UH-T11):
+
+- "Ground" and "air" are the ship's state, not the target: `fire_primary`/`fire_secondary` fire
+  the `ground_*` weapon while perched (`state_idle`) and the `air_*` weapon while flying.
+- `next_ground_weapon` (Q, key press 81) steps `ground_weapon`, the perched primary: vulcan,
+  laser, railgun, shotgun, flamer, back to vulcan, with `sfx_switch` and `can_shoot = true`.
+  `next_air_weapon` toggles `air_weapon` between rocket and mine.
+- The mine is the default air secondary (`air_weapon_secondary = weapon_mine`, 8 ammo, 1 per
+  mine, +1/s). `obj_mine` drifts at 1 px/step on a random heading, arms after 1 s (ring + beep),
+  then chases the nearest `par_enemy` within 300 px at 2 px/step (or holds still), detonates as
+  `obj_rocket_explosion` under 24 px or after 8-10 s, and is destroyed by any `obj_bullet`.
+  `shoot_mine` plays `sfx_fire_grenade` and re-arms after the mine's `delay` of 30 steps.
+- There is no grenade weapon. `obj_grenade_explosion` is a non-damaging 50-step blast
+  (`spr_grenade_explode`, alpha 0.7, `sfx_explode`) spawned where rocks, meatballs, scrapmentals
+  and worms are destroyed.
+
 Projectile/VFX objects: `obj_bullet`, `obj_laser`, `obj_railgun`, `obj_rail_swirl`,
 `obj_rocket`/`obj_rocket_explosion`, `obj_muzzleflash`, `obj_oval_explosion`,
 `obj_tinyexplosion`.

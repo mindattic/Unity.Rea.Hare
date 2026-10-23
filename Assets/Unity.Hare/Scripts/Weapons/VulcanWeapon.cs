@@ -38,7 +38,7 @@ namespace Unity.Hare.Weapons
     /// while dead or shielding. Steps are room_gamescreen's 120 per second.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
-    public class VulcanWeapon : MonoBehaviour
+    public class VulcanWeapon : MonoBehaviour, IGroundWeapon
     {
         public const float StepsPerSecond = 120f;
 
@@ -96,6 +96,19 @@ namespace Unity.Hare.Weapons
 
         public int BaseRateSteps => baseRateSteps;
         public int MinRateSteps => minRateSteps;
+
+        public GroundWeapon GroundKind => GroundWeapon.Vulcan;
+        /// <summary>The vulcan only ever answers fire_primary.</summary>
+        public bool IsGroundPrimary => true;
+
+        /// <summary>GML next_ground_weapon: can_shoot = true.</summary>
+        public void Rearm() => cooldown = 0f;
+
+        /// <summary>Switched away mid-burst: release the trigger (spin down, re-arm regen).</summary>
+        public void Holster()
+        {
+            if (TriggerHeld) ReleaseTrigger();
+        }
 
         /// <summary>Raised for every bullet fired; VFX (muzzle flash, cartridge, UH-T31) hooks in here.</summary>
         public event Action<Bullet> Fired;

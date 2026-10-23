@@ -12,7 +12,7 @@ namespace Unity.Hare.Weapons
     /// ground secondary (Ctrl + left mouse): 12 ammo, 4 per blast, +2 per second (obj_player
     /// Create, set_ammo_cost).
     /// </summary>
-    public class Shotgun : PerchedWeapon
+    public class Shotgun : PerchedWeapon, IGroundWeapon
     {
         [Header("Blast (GML shoot_shotgun)")]
         [SerializeField] int pelletCount = 16;       // count
@@ -46,6 +46,10 @@ namespace Unity.Hare.Weapons
         protected override int AmmoRegenPerInterval => ammoRegen;
 
         public Shotgun() : base(WeaponSlot.Secondary) { }
+
+        public GroundWeapon GroundKind => GroundWeapon.Shotgun;
+        /// <summary>next_ground_weapon can also put the shotgun in the primary slot; set <see cref="PerchedWeapon.Slot"/> to Primary for that.</summary>
+        public bool IsGroundPrimary => Slot == WeaponSlot.Primary;
 
         protected override void Shoot(Vector2 origin, float aim)
         {

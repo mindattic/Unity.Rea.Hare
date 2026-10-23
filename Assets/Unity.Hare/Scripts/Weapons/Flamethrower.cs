@@ -10,7 +10,7 @@ namespace Unity.Hare.Weapons
     /// (set_ammo_cost); as a ground primary it draws on the 150-round pool that refills 10 per
     /// second (obj_player Create).
     /// </summary>
-    public class Flamethrower : PerchedWeapon
+    public class Flamethrower : PerchedWeapon, IGroundWeapon
     {
         [Header("Stream (GML shoot_flamer / obj_flame)")]
         [SerializeField] float flameSpeed = 4f;                                         // speed = 4
@@ -35,6 +35,9 @@ namespace Unity.Hare.Weapons
         protected override int AmmoRegenPerInterval => ammoRegen;
 
         public Flamethrower() : base(WeaponSlot.Primary) { }
+
+        public GroundWeapon GroundKind => GroundWeapon.Flamer;
+        public bool IsGroundPrimary => Slot == WeaponSlot.Primary;
 
         protected override void Shoot(Vector2 origin, float aim)
         {

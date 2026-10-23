@@ -79,10 +79,16 @@ namespace Unity.Hare.Weapons
             }
         }
 
+        /// <summary>
+        /// GML fire_primary/fire_secondary's state branch this weapon fires from: perched
+        /// (state_idle) by default; <see cref="MineLauncher"/> fires from the in-air branch.
+        /// </summary>
+        protected virtual bool InFiringState(PlayerShipController ship) => ship.State == PlayerFlightState.Idle;
+
         /// <summary>True when a trigger pull right now would shoot.</summary>
         public bool CanFire =>
             player != null
-            && player.State == PlayerFlightState.Idle
+            && InFiringState(player)
             && !player.IsShielding
             && CooldownRemaining <= 0f
             && Ammo >= AmmoCost;
@@ -90,7 +96,7 @@ namespace Unity.Hare.Weapons
         /// <summary>One trigger pull. Returns true if the weapon shot.</summary>
         public bool TryFire()
         {
-            if (player == null || player.State != PlayerFlightState.Idle || player.IsShielding) return false;
+            if (player == null || !InFiringState(player) || player.IsShielding) return false;
             if (CooldownRemaining > 0f) return false;
             if (Ammo < AmmoCost)
             {
@@ -105,6 +111,12 @@ namespace Unity.Hare.Weapons
             Fired?.Invoke();
             return true;
         }
+
+        /// <summary>GML next_ground_weapon / next_air_weapon: can_shoot = true, the switch re-arms the gun.</summary>
+        public void Rearm() => CooldownRemaining = 0f;
+
+        /// <summary>Put away by a weapon switch: let go of the trigger so ammo regen resumes.</summary>
+        public void Holster() => TriggerHeld = false;
 
         /// <summary>Spawn this weapon's projectiles from <paramref name="origin"/> toward <paramref name="aim"/> (degrees).</summary>
         protected abstract void Shoot(Vector2 origin, float aim);
