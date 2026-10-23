@@ -14,9 +14,9 @@ namespace Unity.Hare.Weapons
     {
         [Header("Stream (GML shoot_flamer / obj_flame)")]
         [SerializeField] float flameSpeed = 4f;                                         // speed = 4
-        [SerializeField] float flameLifetime = 42f / 0.3f / WeaponMath.StepsPerSecond;  // 42 frames at image_speed 0.3
+        [SerializeField] float flameLifetime = 42f / 0.3f / Gml.StepsPerSecond;  // 42 frames at image_speed 0.3
         [SerializeField] float flameRadius = 0.5f;                                      // spr_powder_fire's 100 px bbox; scales with the flame
-        [SerializeField] float cooldownSeconds = 8f / WeaponMath.StepsPerSecond;         // alarm_reset_fire = 8
+        [SerializeField] float cooldownSeconds = 8f / Gml.StepsPerSecond;         // alarm_reset_fire = 8
 
         [Header("Ammo (GML ground_ammo_primary)")]
         [SerializeField] int maxAmmo = 150;

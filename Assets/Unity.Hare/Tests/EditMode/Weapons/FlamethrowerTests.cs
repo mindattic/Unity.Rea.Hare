@@ -9,11 +9,11 @@ namespace Unity.Hare.Tests.EditMode
     {
         const float Step = 1f / 120f; // one GML step at room_gamescreen speed
 
-        class Burnable : MonoBehaviour, IFlameTarget
+        class Burnable : MonoBehaviour, IEnemyTarget
         {
             public int Hits;
-            public Flame LastFlame;
-            public void OnFlameHit(Flame flame) { Hits++; LastFlame = flame; }
+            public WeaponHitKind LastKind;
+            public void OnWeaponHit(in WeaponHit hit) { Hits++; LastKind = hit.Kind; }
         }
 
         [TearDown]
@@ -131,9 +131,9 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsTrue(flame.TryBurn(second.GetComponent<Collider2D>()));
             Assert.AreEqual(1, first.Hits);
             Assert.AreEqual(1, second.Hits);
-            Assert.AreSame(flame, first.LastFlame);
+            Assert.AreEqual(WeaponHitKind.Flame, first.LastKind);
 
-            var rock = new GameObject("Rock").AddComponent<BoxCollider2D>(); // par_rock: no IFlameTarget
+            var rock = new GameObject("Rock").AddComponent<BoxCollider2D>(); // par_rock: not an IEnemyTarget
             Assert.IsFalse(flame.TryBurn(rock));
             Assert.IsTrue(flame != null, "a flame is never spent");
         }

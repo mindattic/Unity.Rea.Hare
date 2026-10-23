@@ -74,8 +74,8 @@ namespace Unity.Hare.Weapons
         {
             get
             {
-                Vector2 gun = (Vector2)transform.position + WeaponMath.LengthDir(gunOffset, transform.eulerAngles.z);
-                return gun + WeaponMath.LengthDir(muzzleDistance, player.AimDirection);
+                Vector2 gun = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z) * gunOffset;
+                return gun + Gml.Dir(player.AimDirection) * muzzleDistance;
             }
         }
 

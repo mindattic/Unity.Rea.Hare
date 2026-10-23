@@ -8,7 +8,9 @@ namespace Unity.Hare.Weapons
         Laser,
         Railgun,
         Rocket,
-        RocketExplosion
+        RocketExplosion,
+        /// <summary>A flamethrower <see cref="Flame"/>: always lethal (obj_flame destroys par_enemy).</summary>
+        Flame
     }
 
     /// <summary>One weapon contact, handed to <see cref="IWeaponTarget.OnWeaponHit"/>.</summary>

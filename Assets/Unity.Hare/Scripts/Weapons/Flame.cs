@@ -7,15 +7,17 @@ namespace Unity.Hare.Weapons
     /// One burst of flame (GML: obj_flame, sprite spr_powder_fire). Drifts at 4 px/step along the
     /// aim at alpha 0.75, starts at half size and grows 0.01 scale per step up to full size, so the
     /// stream widens into a cone; it lives for one play of its 42-frame animation at image_speed
-    /// 0.3 (140 steps) and burns through enemies (<see cref="IFlameTarget"/>) without being spent.
-    /// It never touches the ship that fired it, and passes through rocks and structures.
+    /// 0.3 (140 steps) and burns through enemies without being spent: each <see cref="IEnemyTarget"/>
+    /// it touches gets a <see cref="WeaponHitKind.Flame"/> hit, which kills (obj_flame, Collision
+    /// par_enemy: with(other) instance_destroy()). It never touches the ship that fired it, and
+    /// passes through rocks and structures, which the original gave it no collision with.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Flame : MonoBehaviour
     {
         public const float StartScale = 0.5f;                                  // image_xscale = 0.5
         public const float MaxScale = 1f;                                      // grows while < 1
-        public const float GrowPerSecond = 0.01f * WeaponMath.StepsPerSecond;  // grow_rate per step
+        public const float GrowPerSecond = 0.01f * Gml.StepsPerSecond;  // grow_rate per step
         public const float StartAlpha = 0.75f;                                 // image_alpha
 
         public PlayerShipController Owner { get; private set; }
@@ -25,7 +27,7 @@ namespace Unity.Hare.Weapons
         public float Age { get; private set; }
         public float Scale { get; private set; }
 
-        public Vector2 Velocity => WeaponMath.LengthDir(Speed, Direction);
+        public Vector2 Velocity => Gml.Dir(Direction) * Speed;
 
         /// <summary>Called right after AddComponent (Awake does not run in EditMode).</summary>
         public void Init(PlayerShipController owner, float direction, float speed, float lifetime, float radius)
@@ -63,7 +65,10 @@ namespace Unity.Hare.Weapons
             if (Scale < MaxScale) SetScale(Mathf.Min(MaxScale, Scale + GrowPerSecond * dt));
             Age += dt;
             // GML Animation End: instance_destroy(). The tolerance keeps float dust from adding a step.
-            if (Age >= Lifetime - 1e-4f) WeaponMath.DestroyObject(gameObject);
+            if (Age >= Lifetime - 1e-4f)
+            {
+                if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);
+            }
         }
 
         void SetScale(float scale)
@@ -74,14 +79,14 @@ namespace Unity.Hare.Weapons
 
         void OnTriggerEnter2D(Collider2D other) => TryBurn(other);
 
-        /// <summary>Burns <paramref name="other"/> if it is a flame target other than the owner.</summary>
+        /// <summary>Burns <paramref name="other"/> if it is an enemy other than the owner.</summary>
         public bool TryBurn(Collider2D other)
         {
             if (other == null) return false;
             if (Owner != null && other.transform.IsChildOf(Owner.transform)) return false;
-            var target = other.GetComponentInParent<IFlameTarget>();
+            var target = other.GetComponentInParent<IEnemyTarget>();
             if (target == null) return false;
-            target.OnFlameHit(this);
+            target.OnWeaponHit(new WeaponHit(WeaponHitKind.Flame, other.transform.position, Gml.Dir(Direction)));
             return true;
         }
     }

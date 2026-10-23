@@ -52,7 +52,7 @@ namespace Unity.Hare.Weapons
             lastBlast.Clear();
             for (int i = 0; i < pelletCount; i++)
             {
-                Vector2 start = origin + WeaponMath.LengthDir(Random.Range(0f, grouping), aim);
+                Vector2 start = origin + Gml.Dir(aim) * Random.Range(0f, grouping);
                 float direction = aim + Random.Range(-spreadDegrees, spreadDegrees + 1);
 
                 var go = new GameObject("ShotgunPellet");
