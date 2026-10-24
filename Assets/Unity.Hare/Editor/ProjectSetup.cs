@@ -4,6 +4,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Unity.Hare.Player;
+using Unity.Hare.Weapons;
 
 namespace Unity.Hare.EditorTools
 {
@@ -31,6 +33,7 @@ namespace Unity.Hare.EditorTools
             SetUpRendering();
             SetUpProjectSettings();
             if (!File.Exists(ScenePath)) RebuildMainScene();
+            else EnsurePlayerShip();
         }
 
         /// <summary>A URP asset whose only renderer is the 2D renderer, made the default for every quality level.</summary>
@@ -108,10 +111,62 @@ namespace Unity.Hare.EditorTools
             light.lightType = Light2D.LightType.Global;
             light.intensity = 1f;
 
+            AddPlayerShip();
+
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
             Debug.Log("[Unity.Hare] Scene written to " + ScenePath);
+        }
+
+        /// <summary>
+        /// Adds the player ship to the existing main scene if it has none, leaving everything else in the scene (and
+        /// its file IDs) as it was.
+        /// Batch: Unity -batchmode -quit -projectPath . -executeMethod Unity.Hare.EditorTools.ProjectSetup.EnsurePlayerShip
+        /// </summary>
+        [MenuItem("Unity.Hare/Add Player Ship To Main Scene")]
+        public static void EnsurePlayerShip()
+        {
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            foreach (var root in scene.GetRootGameObjects())
+                if (root.GetComponentInChildren<PlayerShipController>(true) != null) return;
+            AddPlayerShip();
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[Unity.Hare] Player ship added to " + ScenePath);
+        }
+
+        /// <summary>
+        /// obj_player with every weapon of its Create (<see cref="ShipLoadout"/>'s default) at the arena's centre, in
+        /// the open scene, with the ported weapon sounds wired in.
+        /// </summary>
+        static GameObject AddPlayerShip()
+        {
+            var ship = PlayerShipBuilder.Build(Vector3.zero, new ShipLoadout(), resetInEditMode: false);
+            foreach (var vulcan in ship.GetComponents<VulcanWeapon>())
+                Wire(vulcan, ("spinUpClip", "sfx_vulcan_spinup"), ("loopClip", "sfx_vulcan_loop"),
+                    ("spinDownClip", "sfx_vulcan_spindown"), ("emptyClipClip", "sfx_empty_clip"));
+            Wire(ship.GetComponent<PlayerAmmo>(), ("reloadHalfClip", "sfx_reload_half"), ("reloadFullClip", "sfx_reload_full"));
+            return ship;
+        }
+
+        const string WeaponSounds = "Assets/Unity.Hare/Audio/Weapons/";
+
+        static void Wire(Object component, params (string field, string clip)[] sounds)
+        {
+            var so = new SerializedObject(component);
+            foreach (var (field, clip) in sounds)
+            {
+                var property = so.FindProperty(field);
+                var asset = AssetDatabase.LoadAssetAtPath<AudioClip>(WeaponSounds + clip + ".wav");
+                if (property == null || asset == null)
+                {
+                    Debug.LogWarning("[Unity.Hare] Could not wire " + clip + " into " + component.GetType().Name + "." + field);
+                    continue;
+                }
+                property.objectReferenceValue = asset;
+            }
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
     }
 }

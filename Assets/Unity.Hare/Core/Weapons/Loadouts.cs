@@ -47,12 +47,18 @@ namespace Unity.Hare.Weapons
         {
             IsActive = true;
             current = null;
+            chosen = false;
             Refresh();
         }
 
+        /// <summary>True once next_ground_weapon (or an upgrade's equip) picked the weapon rather than Create.</summary>
+        bool chosen;
+
         /// <summary>
         /// Re-reads the ship's ground primaries (after adding or removing one, e.g. an upgrade). Keeps the equipped
-        /// weapon if it is still there, else equips the first.
+        /// weapon if the player chose it and it is still there, else equips the first in cycle order: until a switch,
+        /// the ship holds obj_player Create's ground_weapon (the cycle's first, the vulcan) however its guns happened
+        /// to be installed (a scene wakes its components in no promised order).
         /// </summary>
         internal void Refresh()
         {
@@ -61,7 +67,7 @@ namespace Unity.Hare.Weapons
                 if (gun.IsGroundPrimary && !weapons.Contains(gun.GroundKind.Value)) weapons.Add(gun.GroundKind.Value);
             var table = rack.Table;
             weapons.Sort((a, b) => table.GroundOrder(a).CompareTo(table.GroundOrder(b)));
-            if (current == null || !weapons.Contains(current.Value)) current = weapons.Count > 0 ? weapons[0] : (GroundWeapon?)null;
+            if (!chosen || current == null || !weapons.Contains(current.Value)) current = weapons.Count > 0 ? weapons[0] : (GroundWeapon?)null;
         }
 
         /// <summary>GML next_ground_weapon. False when there is nothing else to switch to.</summary>
@@ -88,6 +94,7 @@ namespace Unity.Hare.Weapons
                 if (old != null) rack.Holster(old);
             }
             current = kind;
+            chosen = true;
             var gun = PrimaryGun(kind);
             if (gun != null) rack.Rearm(gun);
             sink.Emit(new GroundWeaponSwitched { Weapon = kind });

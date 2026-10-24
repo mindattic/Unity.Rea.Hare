@@ -119,6 +119,330 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &839698640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 839698655}
+  - component: {fileID: 839698654}
+  - component: {fileID: 839698653}
+  - component: {fileID: 839698652}
+  - component: {fileID: 839698651}
+  - component: {fileID: 839698650}
+  - component: {fileID: 839698649}
+  - component: {fileID: 839698648}
+  - component: {fileID: 839698647}
+  - component: {fileID: 839698646}
+  - component: {fileID: 839698645}
+  - component: {fileID: 839698644}
+  - component: {fileID: 839698643}
+  - component: {fileID: 839698642}
+  - component: {fileID: 839698641}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &839698641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad4105e555cfb94b8c3a67c7777fb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.AirWeaponLoadout
+  gunOffsetPx: -13
+  muzzleOffsetPx: 34
+  mineSprite: {fileID: 0}
+--- !u!114 &839698642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5415f3b2b02546f3b978be1a52b8aa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.GroundWeaponLoadout
+--- !u!114 &839698643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3cb93c3b46492992690ae5952c8977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.MineLauncher
+  slot: 1
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  mineSprite: {fileID: 0}
+--- !u!114 &839698644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700205f5c45aa3344ab9cf69b98d27c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.Shotgun
+  slot: 1
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  pelletCount: 16
+  spreadDegrees: 8
+  grouping: 0.12
+  pelletSpeed: 12
+  pelletLifetime: 2
+  pelletRadius: 0.03
+  pelletSprite: {fileID: 0}
+--- !u!114 &839698645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81853cf6989d3ec4983c54e18a27207c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.Flamethrower
+  slot: 0
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  flameSpeed: 4
+  flameLifetime: 1.1666666
+  flameRadius: 0.5
+--- !u!114 &839698646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700205f5c45aa3344ab9cf69b98d27c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.Shotgun
+  slot: 0
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  pelletCount: 16
+  spreadDegrees: 8
+  grouping: 0.12
+  pelletSpeed: 12
+  pelletLifetime: 2
+  pelletRadius: 0.03
+  pelletSprite: {fileID: 0}
+--- !u!114 &839698647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d315d8fcc7471080476f99e93c8991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.RailgunGun
+  slot: 0
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  beamLengthPx: 2000
+--- !u!114 &839698648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc2e6b5b4de4b0cbee81d94c1dfff47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Player.PlayerSeat
+--- !u!114 &839698649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399503e772c94df09b4104d8b776a427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.LaserGun
+  slot: 0
+  gunOffset: -0.13
+  muzzleDistance: 0.34
+  beamLengthPx: 2000
+--- !u!114 &839698650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ef3277f0e84b4f89ec7cccb0703bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.VulcanWeapon
+  bulletSpeed: 8
+  bulletLifetime: 3
+  bulletRadius: 0.05
+  muzzleDistance: 0.34
+  muzzleJitter: 0.05
+  bulletSprite: {fileID: 0}
+  spinUpClip: {fileID: 8300000, guid: c400192197660b248b26c7bd58559efd, type: 3}
+  loopClip: {fileID: 8300000, guid: af0278de46f4ae645b7e9c1c8ee80df1, type: 3}
+  spinDownClip: {fileID: 8300000, guid: 2d1b8ff0f2133af438653d46d73e4b96, type: 3}
+  emptyClipClip: {fileID: 8300000, guid: 518b9a9ce41a46d4797315be5e08a389, type: 3}
+--- !u!114 &839698651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46fff5946a87d1c47adf2d1976405953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.PlayerAmmo
+  tuning:
+    GroundPrimary:
+      Max: 150
+      Cost: 1
+      Regen: 10
+    GroundSecondary:
+      Max: 12
+      Cost: 4
+      Regen: 2
+    AirPrimary:
+      Max: 20
+      Cost: 1
+      Regen: 4
+    AirSecondary:
+      Max: 8
+      Cost: 1
+      Regen: 1
+    RegenDelaySteps: 120
+    RegenDelaySecondarySteps: 120
+  reloadHalfClip: {fileID: 8300000, guid: 7487a87e58f54ff4d9274add0955b53f, type: 3}
+  reloadFullClip: {fileID: 8300000, guid: 10c0e13ae69756a48b6b28ccd92e713d, type: 3}
+--- !u!114 &839698652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfe82e9617186746995b5ba3464588b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Player.PlayerHealth
+  tuning:
+    MaxHealth: 6
+    StartingLives: 3
+    InvulnerableSteps: 180
+    SpawnProtectionSteps: 180
+    HurtPoseSteps: 60
+    DeathWaitSteps: 320
+    RespawnDirection: 270
+    RespawnDirectionJitter: 30
+  respawnPoint: {fileID: 0}
+  flashCycleSeconds: 0.025
+  reloadSceneOnGameOver: 1
+--- !u!114 &839698653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa522cbca30b8e439dbe461ced010c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Player.PlayerShipController
+  tuning:
+    FlightSpeed: 5
+    BrakeSpeed: 2.5
+    TurnSpeedDegreesPerSecond: 120
+    BrakeTurnSpeedDegreesPerSecond: 240
+    SpeedChangeRatePerSecond: 6
+    MaxEnergy: 100
+    MinEnergyFractionToStart: 0.33
+    EnergyDrainPerSecond: 40
+    EnergyFillPerSecond: 25
+    JumpArcDegrees: 100
+    ShieldRadius: 0.75
+--- !u!50 &839698654
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!4 &839698655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839698640}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236397390
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,3 +670,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 2073383601}
   - {fileID: 1236397392}
+  - {fileID: 839698655}
