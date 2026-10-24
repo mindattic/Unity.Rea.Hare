@@ -39,8 +39,7 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`
   folder (U.HARE-T65)
 
-Still to come, in build order: tuning as data, the Input System
-action asset, the URP seam, the UI, the art, sound and font pipelines, then the rooms,
+Still to come, in build order: the URP seam, the UI, the art, sound and font pipelines, then the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
 database (`tickets ticket list --repo Unity.Hare`).
@@ -73,11 +72,14 @@ powershell -File tools/unity.ps1 -Log editmode -Extra "-runTests -testPlatform E
 
 ## Controls
 
-What the components read today (raw Input System polling; the action asset with gamepad support is UH-T42):
+What the components read today, through the generated `HareControls` wrapper over
+`Assets/Unity.Hare/Scripts/Input/HareControls.inputactions` (UH-T42: an Input Actions asset with
+a keyboard&mouse scheme and a gamepad scheme, replacing the raw `Keyboard.current`/`Mouse.current`
+polling the five views used before):
 
 | Input | Flying | Perched |
 |---|---|---|
-| A / D | turn left / right | |
+| A / D, left/right arrow | turn left / right | |
 | W or Space | boost | raise the shield (held) |
 | S or Left Shift | brake | raise the shield (held) |
 | Mouse | aim | aim |
@@ -86,8 +88,11 @@ What the components read today (raw Input System polling; the action asset with 
 | Q | | next ground primary (vulcan, laser, railgun, shotgun, flamer) |
 | E | next air weapon (rocket, mine) | next air weapon (rocket, mine) |
 
-The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). The leap,
-pause and hotkeys arrive with landing (UH-T53) and the hotkeys ticket (UH-T60).
+The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). `HareControls` also carries a `Meta` action
+map (Leap, Shield, Flashbomb, Helper, Pause, Restart, Map, Debug, Menu) with keyboard and, where it
+makes sense, gamepad bindings already defined as data; nothing reads them yet; they land with
+landing (UH-T53), the hotkeys ticket (UH-T60), flashbombs (UH-T67), the HUD/debug overlay (UH-T59)
+and the map/menu rooms (UH-T19/UH-T26).
 
 ## Project layout
 

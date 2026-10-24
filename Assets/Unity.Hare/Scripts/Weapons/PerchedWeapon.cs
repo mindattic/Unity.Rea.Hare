@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Hare.Content;
 using Unity.Hare.Player;
 
@@ -139,11 +138,10 @@ namespace Unity.Hare.Weapons
 
         bool ReadTrigger()
         {
-            var mouse = Mouse.current;
-            if (mouse == null || !mouse.leftButton.isPressed) return false;
-            var keyboard = Keyboard.current;
-            bool ctrl = keyboard != null && keyboard.ctrlKey.isPressed;
-            return slot == WeaponSlot.Secondary ? ctrl : !ctrl;
+            var controls = player.Controls.Player;
+            bool secondaryRequested = controls.FireSecondary.IsPressed(); // Ctrl + left mouse is fire_secondary
+            bool primaryRequested = controls.FirePrimary.IsPressed() && !secondaryRequested;
+            return slot == WeaponSlot.Secondary ? secondaryRequested : primaryRequested;
         }
 
         protected override void OnPlayerEvent(PlayerEvent e)

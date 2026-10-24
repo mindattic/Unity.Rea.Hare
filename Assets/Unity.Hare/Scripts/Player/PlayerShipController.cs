@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Hare.Content;
+using Unity.Hare.Input;
 
 namespace Unity.Hare.Player
 {
@@ -11,6 +11,10 @@ namespace Unity.Hare.Player
     /// shield) live in Core's <see cref="ShipFlight"/>; this component turns Input System actions into commands,
     /// moves the body from the flight state each physics step and draws the shield wall on the events.
     /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are per-second rates in <see cref="FlightTuning"/>.
+    /// Input comes from <see cref="Controls"/> (UH-T42: the generated <see cref="HareControls"/> wrapper over
+    /// Assets/Unity.Hare/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling; this
+    /// ship's sibling weapon views (<see cref="Weapons.AirWeaponLoadout"/>, <see cref="Weapons.GroundWeaponLoadout"/>,
+    /// <see cref="Weapons.PerchedWeapon"/>, <see cref="Weapons.VulcanWeapon"/>) share this same instance.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerShipController : SeatView
@@ -23,6 +27,24 @@ namespace Unity.Hare.Player
         static FlightTuning Tuning => GameContent.Current.Flight;
 
         Rigidbody2D body;
+        HareControls controls;
+
+        /// <summary>
+        /// The shared input wrapper for this ship (lazy: components on this GameObject run their Awake in an
+        /// undefined order, and EditMode tests call <see cref="ResetState"/> directly without Awake at all).
+        /// </summary>
+        public HareControls Controls
+        {
+            get
+            {
+                if (controls == null)
+                {
+                    controls = new HareControls();
+                    controls.Player.Enable();
+                }
+                return controls;
+            }
+        }
 
         public PlayerFlightState State => Core.Flight.State;
         public bool IsBoosting => Core.Flight.IsBoosting;
@@ -65,39 +87,35 @@ namespace Unity.Hare.Player
 
         void Update()
         {
-            var keyboard = Keyboard.current;
-            if (keyboard == null) return;
+            var player = Controls.Player;
 
-            float turn = 0f;
-            if (keyboard.aKey.isPressed) turn += 1f; // GML rotate_counterclockwise: direction += turn_speed
-            if (keyboard.dKey.isPressed) turn -= 1f; // GML rotate_clockwise: direction -= turn_speed
-            SetTurnInput(turn);
+            // GML rotate_counterclockwise/rotate_clockwise: A (and the left arrow) is +turn_speed, D (and the
+            // right arrow) is -turn_speed; both held cancels to 0, same as the two separate key checks before it.
+            SetTurnInput(player.Rotate.ReadValue<float>());
 
             UpdateAimFromMouse();
 
             // GML key-press events: the boost and brake keys raise the shield instead while Idle.
-            if (keyboard.wKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)
+            if (player.Boost.WasPressedThisFrame())
             {
                 if (State == PlayerFlightState.Moving) TryBoost(); else TryShield();
             }
-            if (keyboard.sKey.wasPressedThisFrame || keyboard.leftShiftKey.wasPressedThisFrame)
+            if (player.Brake.WasPressedThisFrame())
             {
                 if (State == PlayerFlightState.Moving) TryBrake(); else TryShield();
             }
 
             // GML key-release events (Idle only): drop the shield and let energy refill.
-            bool shieldKeyReleased = keyboard.wKey.wasReleasedThisFrame || keyboard.spaceKey.wasReleasedThisFrame
-                || keyboard.sKey.wasReleasedThisFrame || keyboard.leftShiftKey.wasReleasedThisFrame;
+            bool shieldKeyReleased = player.Boost.WasReleasedThisFrame() || player.Brake.WasReleasedThisFrame();
             if (shieldKeyReleased && State == PlayerFlightState.Idle) DropShield();
         }
 
         void UpdateAimFromMouse()
         {
-            var mouse = Mouse.current;
             var cam = Camera.main;
-            if (mouse == null || cam == null) return;
+            if (cam == null) return;
 
-            Vector3 screen = mouse.position.ReadValue();
+            Vector3 screen = Controls.Player.Aim.ReadValue<Vector2>();
             screen.z = -cam.transform.position.z;
             Vector2 offset = (Vector2)cam.ScreenToWorldPoint(screen) - (Vector2)transform.position;
             if (offset.sqrMagnitude > Mathf.Epsilon) SetAimDirection(Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg);
@@ -196,6 +214,12 @@ namespace Unity.Hare.Player
         protected override void OnDestroy()
         {
             RemoveWall();
+            if (controls != null)
+            {
+                controls.Player.Disable();
+                controls.Dispose();
+                controls = null;
+            }
             base.OnDestroy();
         }
     }

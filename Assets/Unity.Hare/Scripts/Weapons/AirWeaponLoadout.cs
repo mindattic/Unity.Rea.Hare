@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Hare.Content;
 using Unity.Hare.Player;
 
@@ -87,12 +86,11 @@ namespace Unity.Hare.Weapons
 
         void Update()
         {
-            var keyboard = Keyboard.current;
-            var mouse = Mouse.current;
-            if (keyboard != null && keyboard.eKey.wasPressedThisFrame) NextAirWeapon();
+            var player = Ship.Controls.Player;
+            if (player.NextAirWeapon.WasPressedThisFrame()) NextAirWeapon(); // GML key press 69 (E)
 
-            bool ctrl = keyboard != null && keyboard.ctrlKey.isPressed; // Ctrl + left mouse is fire_secondary
-            SetTrigger(mouse != null && mouse.leftButton.isPressed && !ctrl);
+            bool secondaryHeld = player.FireSecondary.IsPressed(); // Ctrl + left mouse is fire_secondary
+            SetTrigger(player.FirePrimary.IsPressed() && !secondaryHeld);
             Tick(Time.deltaTime);
         }
 

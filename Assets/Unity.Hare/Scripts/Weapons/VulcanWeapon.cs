@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Hare.Content;
 using Unity.Hare.Player;
 
@@ -98,16 +97,12 @@ namespace Unity.Hare.Weapons
 
         void Update()
         {
-            var mouse = Mouse.current;
-            if (mouse != null)
-            {
-                // Ctrl + left mouse is fire_secondary (the shotgun), not the primary.
-                var keyboard = Keyboard.current;
-                bool ctrl = keyboard != null && keyboard.ctrlKey.isPressed;
-                bool held = mouse.leftButton.isPressed && !ctrl;
-                if (held && (mouse.leftButton.wasPressedThisFrame || !TriggerHeld)) PressTrigger();
-                else if (!held && TriggerHeld) ReleaseTrigger();
-            }
+            var controls = ship.Controls.Player;
+            // Ctrl + left mouse is fire_secondary (the shotgun), not the primary.
+            bool secondaryHeld = controls.FireSecondary.IsPressed();
+            bool held = controls.FirePrimary.IsPressed() && !secondaryHeld;
+            if (held && (controls.FirePrimary.WasPressedThisFrame() || !TriggerHeld)) PressTrigger();
+            else if (!held && TriggerHeld) ReleaseTrigger();
             Tick(Time.deltaTime);
         }
 

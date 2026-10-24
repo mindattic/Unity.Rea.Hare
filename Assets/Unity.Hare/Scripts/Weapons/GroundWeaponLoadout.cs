@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -27,6 +26,8 @@ namespace Unity.Hare.Weapons
     public class GroundWeaponLoadout : SeatView
     {
         readonly List<IGroundWeapon> weapons = new List<IGroundWeapon>();
+        PlayerShipController ship;
+        PlayerShipController Ship => ship != null ? ship : ship = GetComponent<PlayerShipController>();
 
         /// <summary>The equipped ground primary, or null when the ship has none.</summary>
         public GroundWeapon? Current => Core.Ground.Current;
@@ -42,6 +43,7 @@ namespace Unity.Hare.Weapons
         /// <summary>Awake's work, callable from EditMode tests (Awake does not run there). Equips the first in order.</summary>
         public void ResetState()
         {
+            ship = GetComponent<PlayerShipController>();
             Send(new ResetGroundLoadout(Id));
             Rebuild();
         }
@@ -93,8 +95,7 @@ namespace Unity.Hare.Weapons
 
         void Update()
         {
-            var keyboard = Keyboard.current;
-            if (keyboard != null && keyboard.qKey.wasPressedThisFrame) NextGroundWeapon(); // GML key press 81
+            if (Ship.Controls.Player.NextGroundWeapon.WasPressedThisFrame()) NextGroundWeapon(); // GML key press 81 (Q)
         }
 
         protected override void OnPlayerEvent(PlayerEvent e)
