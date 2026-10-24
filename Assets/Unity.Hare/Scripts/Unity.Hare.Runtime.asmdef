@@ -1,0 +1,17 @@
+{
+    "name": "Unity.Hare.Runtime",
+    "rootNamespace": "Unity.Hare",
+    "references": [
+        "Unity.Hare.Core",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

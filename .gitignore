@@ -27,3 +27,6 @@ crashlytics-buildid.txt
 sysinfo.txt
 /artifacts/*
 !/artifacts/*.html
+/Tests/**/bin/
+/Tests/**/obj/
+!Tests/**/*.csproj

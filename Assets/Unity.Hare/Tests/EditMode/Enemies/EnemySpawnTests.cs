@@ -33,50 +33,6 @@ namespace Unity.Hare.Tests.EditMode
             for (int i = 0; i < steps && v != null; i++) v.Tick(Step);
         }
 
-        // ---- generate_enemy_list ----
-
-        [Test]
-        public void DifficultyPointsMatchTheDiffTable()
-        {
-            var expected = new Dictionary<EnemyKind, int>
-            {
-                { EnemyKind.Hydra, 1 }, { EnemyKind.Sawblade, 1 }, { EnemyKind.Dagger, 1 }, { EnemyKind.Mimic, 2 },
-                { EnemyKind.Wraith, 8 }, { EnemyKind.Meatball, 10 }, { EnemyKind.Phalanx, 5 }, { EnemyKind.Worm, 15 },
-                { EnemyKind.Trilobyte, 2 }
-            };
-            foreach (var pair in expected) Assert.AreEqual(pair.Value, EnemyList.DifficultyPoints(pair.Key), pair.Key.ToString());
-        }
-
-        [Test]
-        public void ZeroDifficultyGivesAnEmptyList()
-        {
-            Assert.IsEmpty(EnemyList.Generate(0));
-        }
-
-        [Test]
-        public void ListStopsOnTheFirstPickThatReachesTheDifficulty()
-        {
-            for (int run = 0; run < 50; run++)
-            {
-                var list = EnemyList.Generate(100);
-                int total = EnemyList.TotalPoints(list);
-                Assert.GreaterOrEqual(total, 100);
-                Assert.Less(total - EnemyList.DifficultyPoints(list[list.Count - 1]), 100, "no pick after the target is met");
-            }
-        }
-
-        [Test]
-        public void PicksAreUniformOverTheNineKinds()
-        {
-            var counts = new Dictionary<EnemyKind, int>();
-            for (int run = 0; run < 200; run++)
-                foreach (var kind in EnemyList.Generate(100))
-                    counts[kind] = counts.TryGetValue(kind, out int n) ? n + 1 : 1;
-            Assert.AreEqual(9, counts.Count, "irandom_range(1, 9) reaches every kind");
-            int all = counts.Values.Sum();
-            foreach (var pair in counts) Assert.That(pair.Value / (float)all, Is.InRange(0.08f, 0.145f), pair.Key.ToString());
-        }
-
         // ---- par_enemy_emitter ----
 
         static EnemyEmitter Emitter(EnemyKind kind, int max, int firstAlarm, int wait = 10)

@@ -2,7 +2,8 @@
     "name": "Unity.Hare.Tests.EditMode",
     "rootNamespace": "Unity.Hare.Tests.EditMode",
     "references": [
-        "Unity.Hare",
+        "Unity.Hare.Core",
+        "Unity.Hare.Runtime",
         "Unity.InputSystem"
     ],
     "includePlatforms": [

@@ -59,14 +59,14 @@ namespace Unity.Hare.Enemies
 
         void Start()
         {
-            if (initOnStart && list.Count == 0 && !finished) Init(EnemyList.Generate(difficulty));
+            if (initOnStart && list.Count == 0 && !finished) Init(EnemyList.Generate(difficulty, EnemySpawner.IRandom));
         }
 
         /// <summary>setup_level's generator branch: generate_enemy_list(difficulty), then this emitter's Create.</summary>
         public static WormholeEmitter Create(int difficulty, Rect? room = null, PlayerShipController player = null)
         {
             var emitter = new GameObject("WormholeEmitter").AddComponent<WormholeEmitter>();
-            emitter.Init(EnemyList.Generate(difficulty), room, player);
+            emitter.Init(EnemyList.Generate(difficulty, EnemySpawner.IRandom), room, player);
             return emitter;
         }
 
