@@ -121,7 +121,7 @@ Reference architectures: Unity.SpaceGod and Unity.GridGame.
 | Finding | Evidence | Ticket |
 |---|---|---|
 | No assembly split; Core is not engine-free and not tested outside Unity | one `Unity.Hare` asmdef with `noEngineReferences: false`; one EditMode test asmdef; no dotnet test project | UH-T37 |
-| No README, no BIBLE | neither file in the repo | UH-T38 |
+| No README, no BIBLE | neither file in the repo | done: UH-T38 (README.md, docs/BIBLE.md) |
 | Rules live in MonoBehaviours (player, weapons) | `PlayerShipController`, `PlayerHealth`, `PlayerAmmo`, loadouts | UH-T39 |
 | Rules live in MonoBehaviours (enemies), engine random | `SetPieceEnemy`, enemy scripts, `UnityEngine.Random` | UH-T40 |
 | Tuning and content hard-coded | `SerializeField` constants and literals throughout | UH-T41 |
