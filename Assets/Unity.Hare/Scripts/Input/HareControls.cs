@@ -165,6 +165,15 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimStick"",
+                    ""type"": ""Value"",
+                    ""id"": ""3f5c1a2e-6b7d-4e2a-9c1b-8a2d5f6e7c90"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -228,7 +237,7 @@ namespace Unity.Hare.Input
                     ""id"": ""1243c215-2918-4fd1-84f4-db9cc3bf818d"",
                     ""path"": ""<Gamepad>/leftStick/x"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Invert"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
@@ -336,7 +345,7 @@ namespace Unity.Hare.Input
                 {
                     ""name"": """",
                     ""id"": ""b70a2130-2d9d-40fc-b42b-f7a7641c7c26"",
-                    ""path"": ""OneModifier"",
+                    ""path"": ""OneModifier(modifiersOrder=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -418,6 +427,17 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""NextAirWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a1b2c3d-4e5f-4061-8a2b-9c3d4e5f6071"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""AimStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -556,12 +576,12 @@ namespace Unity.Hare.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""692782ad-0e1e-4f29-b168-1ed10d8078ce"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""1d2e3f40-5162-4738-94a5-b6c7d8e9f0a1"",
+                    ""path"": ""<Keyboard>/slash"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Pause"",
+                    ""action"": ""Helper"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -685,6 +705,7 @@ namespace Unity.Hare.Input
             m_Player_FireSecondary = m_Player.FindAction("FireSecondary", throwIfNotFound: true);
             m_Player_NextGroundWeapon = m_Player.FindAction("NextGroundWeapon", throwIfNotFound: true);
             m_Player_NextAirWeapon = m_Player.FindAction("NextAirWeapon", throwIfNotFound: true);
+            m_Player_AimStick = m_Player.FindAction("AimStick", throwIfNotFound: true);
             // Meta
             m_Meta = asset.FindActionMap("Meta", throwIfNotFound: true);
             m_Meta_Leap = m_Meta.FindAction("Leap", throwIfNotFound: true);
@@ -785,6 +806,7 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Player_FireSecondary;
         private readonly InputAction m_Player_NextGroundWeapon;
         private readonly InputAction m_Player_NextAirWeapon;
+        private readonly InputAction m_Player_AimStick;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -828,6 +850,10 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Player/NextAirWeapon".
             /// </summary>
             public InputAction @NextAirWeapon => m_Wrapper.m_Player_NextAirWeapon;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/AimStick".
+            /// </summary>
+            public InputAction @AimStick => m_Wrapper.m_Player_AimStick;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -878,6 +904,9 @@ namespace Unity.Hare.Input
                 @NextAirWeapon.started += instance.OnNextAirWeapon;
                 @NextAirWeapon.performed += instance.OnNextAirWeapon;
                 @NextAirWeapon.canceled += instance.OnNextAirWeapon;
+                @AimStick.started += instance.OnAimStick;
+                @AimStick.performed += instance.OnAimStick;
+                @AimStick.canceled += instance.OnAimStick;
             }
 
             /// <summary>
@@ -913,6 +942,9 @@ namespace Unity.Hare.Input
                 @NextAirWeapon.started -= instance.OnNextAirWeapon;
                 @NextAirWeapon.performed -= instance.OnNextAirWeapon;
                 @NextAirWeapon.canceled -= instance.OnNextAirWeapon;
+                @AimStick.started -= instance.OnAimStick;
+                @AimStick.performed -= instance.OnAimStick;
+                @AimStick.canceled -= instance.OnAimStick;
             }
 
             /// <summary>
@@ -1219,6 +1251,13 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnNextAirWeapon(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "AimStick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnAimStick(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Meta" which allows adding and removing callbacks.

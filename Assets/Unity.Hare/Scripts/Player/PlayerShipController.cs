@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Unity.Hare.Content;
 using Unity.Hare.Input;
 
@@ -11,9 +12,11 @@ namespace Unity.Hare.Player
     /// shield) live in Core's <see cref="ShipFlight"/>; this component turns Input System actions into commands,
     /// moves the body from the flight state each physics step and draws the shield wall on the events.
     /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are per-second rates in <see cref="FlightTuning"/>.
-    /// Input comes from <see cref="Controls"/> (UH-T42: the generated <see cref="HareControls"/> wrapper over
-    /// Assets/Unity.Hare/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling; this
-    /// ship's sibling weapon views (<see cref="Weapons.AirWeaponLoadout"/>, <see cref="Weapons.GroundWeaponLoadout"/>,
+    /// Input comes from <see cref="Controls"/> (U.HARE-T42: the generated <see cref="HareControls"/> wrapper over
+    /// Assets/Unity.Hare/Scripts/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling
+    /// (the one exception is the <see cref="Mouse"/>.current null check in <see cref="UpdateAim"/>, which only
+    /// gates whether a pointer is present to read screen-space aim from, not a value read); this ship's sibling
+    /// weapon views (<see cref="Weapons.AirWeaponLoadout"/>, <see cref="Weapons.GroundWeaponLoadout"/>,
     /// <see cref="Weapons.PerchedWeapon"/>, <see cref="Weapons.VulcanWeapon"/>) share this same instance.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
@@ -93,7 +96,7 @@ namespace Unity.Hare.Player
             // right arrow) is -turn_speed; both held cancels to 0, same as the two separate key checks before it.
             SetTurnInput(player.Rotate.ReadValue<float>());
 
-            UpdateAimFromMouse();
+            UpdateAim();
 
             // GML key-press events: the boost and brake keys raise the shield instead while Idle.
             if (player.Boost.WasPressedThisFrame())
@@ -110,12 +113,25 @@ namespace Unity.Hare.Player
             if (shieldKeyReleased && State == PlayerFlightState.Idle) DropShield();
         }
 
-        void UpdateAimFromMouse()
+        /// <summary>
+        /// GML mouse_angle: aimed from the right stick while it is past its deadzone (gamepad), else from the
+        /// mouse's screen position (keyboard&amp;mouse); with neither, the aim direction holds.
+        /// </summary>
+        void UpdateAim()
         {
-            var cam = Camera.main;
-            if (cam == null) return;
+            var player = Controls.Player;
 
-            Vector3 screen = Controls.Player.Aim.ReadValue<Vector2>();
+            Vector2 stick = player.AimStick.ReadValue<Vector2>();
+            if (stick.sqrMagnitude > 0.25f) // ~0.5 deadzone, squared
+            {
+                SetAimDirection(Mathf.Atan2(stick.y, stick.x) * Mathf.Rad2Deg);
+                return;
+            }
+
+            var cam = Camera.main;
+            if (cam == null || Mouse.current == null) return; // no pointer device to read a screen position from
+
+            Vector3 screen = player.Aim.ReadValue<Vector2>();
             screen.z = -cam.transform.position.z;
             Vector2 offset = (Vector2)cam.ScreenToWorldPoint(screen) - (Vector2)transform.position;
             if (offset.sqrMagnitude > Mathf.Epsilon) SetAimDirection(Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg);
@@ -217,7 +233,11 @@ namespace Unity.Hare.Player
             if (controls != null)
             {
                 controls.Player.Disable();
-                controls.Dispose();
+                // Dispose() calls Object.Destroy(asset), which Unity refuses outside Play mode (e.g. an EditMode
+                // test's DestroyImmediate on this ship, which still runs OnDestroy synchronously); DestroyImmediate
+                // the underlying asset directly when there is no Play mode to defer the real destroy to.
+                if (Application.isPlaying) controls.Dispose();
+                else UnityEngine.Object.DestroyImmediate(controls.asset);
                 controls = null;
             }
             base.OnDestroy();

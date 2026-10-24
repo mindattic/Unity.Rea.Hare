@@ -41,6 +41,10 @@ namespace Unity.Hare.Weapons
         int Key => key != 0 ? key : key = Seat.AllocateKey();
         Gun Gun => Core.Guns.Find(Key);
 
+        /// <summary>Lazy, like every other cached-component lookup here: Update could in principle run before
+        /// ResetState has (Unity's Awake order across components on one GameObject is undefined).</summary>
+        PlayerShipController Ship => ship != null ? ship : ship = GetComponent<PlayerShipController>();
+
         /// <summary>The ship's shared ammo economy; the vulcan spends ground_ammo_primary.</summary>
         public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
         public int Ammo => AmmoEconomy.Current(AmmoPool.GroundPrimary);
@@ -97,7 +101,7 @@ namespace Unity.Hare.Weapons
 
         void Update()
         {
-            var controls = ship.Controls.Player;
+            var controls = Ship.Controls.Player;
             // Ctrl + left mouse is fire_secondary (the shotgun), not the primary.
             bool secondaryHeld = controls.FireSecondary.IsPressed();
             bool held = controls.FirePrimary.IsPressed() && !secondaryHeld;

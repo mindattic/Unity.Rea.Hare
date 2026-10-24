@@ -73,7 +73,7 @@ powershell -File tools/unity.ps1 -Log editmode -Extra "-runTests -testPlatform E
 ## Controls
 
 What the components read today, through the generated `HareControls` wrapper over
-`Assets/Unity.Hare/Scripts/Input/HareControls.inputactions` (UH-T42: an Input Actions asset with
+`Assets/Unity.Hare/Scripts/Input/HareControls.inputactions` (U.HARE-T42: an Input Actions asset with
 a keyboard&mouse scheme and a gamepad scheme, replacing the raw `Keyboard.current`/`Mouse.current`
 polling the five views used before):
 
@@ -91,8 +91,8 @@ polling the five views used before):
 The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). `HareControls` also carries a `Meta` action
 map (Leap, Shield, Flashbomb, Helper, Pause, Restart, Map, Debug, Menu) with keyboard and, where it
 makes sense, gamepad bindings already defined as data; nothing reads them yet; they land with
-landing (UH-T53), the hotkeys ticket (UH-T60), flashbombs (UH-T67), the HUD/debug overlay (UH-T59)
-and the map/menu rooms (UH-T19/UH-T26).
+landing (U.HARE-T53), the hotkeys ticket (U.HARE-T60), flashbombs (U.HARE-T67), the HUD/debug
+overlay (U.HARE-T59) and the map/menu rooms (U.HARE-T19/U.HARE-T26).
 
 ## Project layout
 

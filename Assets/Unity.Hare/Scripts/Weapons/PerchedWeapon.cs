@@ -69,7 +69,9 @@ namespace Unity.Hare.Weapons
         public int MaxAmmo => AmmoEconomy.Max(AmmoPool);
         public int AmmoCost => AmmoEconomy.Cost(AmmoPool);
 
-        protected PlayerShipController Player => player;
+        /// <summary>Lazy, like every other cached-component lookup here: Update could in principle run before
+        /// ResetState has (Unity's Awake order across components on one GameObject is undefined).</summary>
+        protected PlayerShipController Player => player != null ? player : player = GetComponent<PlayerShipController>();
 
         /// <summary>Only sets the serialized default; scene/prefab values still override it.</summary>
         protected PerchedWeapon(WeaponSlot defaultSlot) => slot = defaultSlot;
@@ -138,7 +140,7 @@ namespace Unity.Hare.Weapons
 
         bool ReadTrigger()
         {
-            var controls = player.Controls.Player;
+            var controls = Player.Controls.Player;
             bool secondaryRequested = controls.FireSecondary.IsPressed(); // Ctrl + left mouse is fire_secondary
             bool primaryRequested = controls.FirePrimary.IsPressed() && !secondaryRequested;
             return slot == WeaponSlot.Secondary ? secondaryRequested : primaryRequested;
