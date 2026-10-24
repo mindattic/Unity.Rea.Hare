@@ -4,70 +4,37 @@ using UnityEngine.InputSystem;
 
 namespace Unity.Hare.Player
 {
-    /// <summary>Mirrors obj_player's top-level states (GML: state_idle / state_moving / state_dead).</summary>
-    public enum PlayerFlightState
-    {
-        Idle,
-        Moving,
-        Dead
-    }
-
     /// <summary>
-    /// Ports obj_player's flight state machine (gmlHARE, Create/Step/Alarm events): continuous
-    /// forward flight along <see cref="Direction"/> at <see cref="Speed"/>, A/D rotation,
-    /// boost/brake gated by an energy resource, leap-from-idle within a facing tolerance, and the
-    /// Idle-only shield (player_shield/obj_shieldwall) that drains the same energy.
-    /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are expressed here as
-    /// per-second rates. Exact speed/energy numbers are the original's ratios (brake is half of
-    /// flight speed, boost is double); absolute values are placeholders to retune once real
-    /// sprites set the project's world scale (UH-T2 note). Energy drain/fill rates are this
-    /// controller's own placeholders until obj_energybar is ported (UH-T15).
+    /// The view on obj_player's flight state machine (gmlHARE, Create/Step/Alarm events). The rules (continuous
+    /// forward flight, boost and brake gated by energy, leap-from-idle within a facing tolerance, the Idle-only
+    /// shield) live in Core's <see cref="ShipFlight"/>; this component turns Input System actions into commands,
+    /// moves the body from the flight state each physics step and draws the shield wall on the events.
+    /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are per-second rates in <see cref="FlightTuning"/>.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerShipController : MonoBehaviour
+    public class PlayerShipController : SeatView
     {
-        [Header("Flight (GML: flight_speed, brake_speed, turn_speed)")]
-        [SerializeField] float flightSpeed = 5f;
-        [SerializeField] float brakeSpeed = 2.5f;
-        [SerializeField] float turnSpeedDegreesPerSecond = 120f;
-        [SerializeField] float brakeTurnSpeedDegreesPerSecond = 240f;
-        [SerializeField] float speedChangeRatePerSecond = 6f;
-
-        [Header("Boost / brake energy (GML: obj_energybar gate at 33%)")]
-        [SerializeField] float maxEnergy = 100f;
-        [SerializeField, Range(0f, 1f)] float minEnergyFractionToStart = 0.33f;
-        [SerializeField] float energyDrainPerSecond = 40f;
-        [SerializeField] float energyFillPerSecond = 25f;
-
-        [Header("Leap (GML: jump_arc, only from Idle)")]
-        [SerializeField] float jumpArcDegrees = 100f;
-
-        [Header("Shield (GML: player_shield / obj_shieldwall, only from Idle)")]
-        [SerializeField] float shieldRadius = 0.75f;
+        [SerializeField] FlightTuning tuning = new FlightTuning();
 
         Rigidbody2D body;
-        float turnInput;
 
-        public PlayerFlightState State { get; private set; } = PlayerFlightState.Moving;
-        public bool IsBoosting { get; private set; }
-        public bool IsBraking { get; private set; }
-        public float Energy { get; private set; }
-        public float Direction { get; private set; } = 270f;
-        public float Speed { get; private set; }
+        public PlayerFlightState State => Core.Flight.State;
+        public bool IsBoosting => Core.Flight.IsBoosting;
+        public bool IsBraking => Core.Flight.IsBraking;
+        public float Energy => Core.Flight.Energy;
+        public float Direction => Core.Flight.Direction;
+        public float Speed => Core.Flight.Speed;
 
         /// <summary>GML: shielding. While true, weapons hold fire (fire_primary/fire_secondary) and incoming hits are blocked.</summary>
-        public bool IsShielding { get; private set; }
+        public bool IsShielding => Core.Flight.IsShielding;
 
         /// <summary>The live obj_shieldwall instance while <see cref="IsShielding"/>, else null.</summary>
         public ShieldWall Shield { get; private set; }
 
         /// <summary>GML: mouse_angle, degrees in GML's math convention. The shield wall faces this way.</summary>
-        public float AimDirection { get; private set; } = 270f;
+        public float AimDirection => Core.Flight.AimDirection;
 
-        /// <summary>
-        /// The damage gate the health ticket (UH-T6, player_hurt) consults: a raised shield absorbs
-        /// the hit instead of costing HP.
-        /// </summary>
+        /// <summary>The damage gate player_hurt consults: a raised shield absorbs the hit instead of costing HP.</summary>
         public bool BlocksDamage => IsShielding;
 
         /// <summary>Raised after the ship perches (GML landing collisions; they call set_ammo_cost).</summary>
@@ -79,22 +46,14 @@ namespace Unity.Hare.Player
         void Awake() => ResetState();
 
         /// <summary>
-        /// Everything Awake would otherwise do, pulled out so EditMode tests can call it directly:
-        /// Awake (and the rest of the MonoBehaviour lifecycle) never runs in EditMode, only in Play
-        /// Mode or a build, so a test that only calls AddComponent never sees body get cached or
-        /// Energy/Speed get initialized.
+        /// Everything Awake would otherwise do, pulled out so EditMode tests can call it directly: Awake (and the
+        /// rest of the MonoBehaviour lifecycle) never runs in EditMode.
         /// </summary>
         public void ResetState()
         {
             body = GetComponent<Rigidbody2D>();
             body.gravityScale = 0f;
-            DropShield(); // GML reset_player: shielding = false; with(obj_shieldwall) instance_destroy()
-            State = PlayerFlightState.Moving;
-            IsBoosting = false;
-            IsBraking = false;
-            Direction = 270f;
-            Speed = flightSpeed;
-            Energy = maxEnergy;
+            Send(new ResetFlight(Id, tuning)); // GML reset_player: drops the shield, back in flight at full energy
             transform.rotation = Quaternion.Euler(0f, 0f, Direction);
         }
 
@@ -139,167 +98,99 @@ namespace Unity.Hare.Player
         }
 
         /// <summary>Degrees, GML's math convention (0 = +x, CCW positive).</summary>
-        public void SetAimDirection(float degrees) => AimDirection = Mathf.Repeat(degrees, 360f);
+        public void SetAimDirection(float degrees) => Send(new SetAim(Id, degrees));
 
         /// <summary>-1 (clockwise, D) .. +1 (counterclockwise, A), matching GML's direction sign.</summary>
-        public void SetTurnInput(float value) => turnInput = Mathf.Clamp(value, -1f, 1f);
+        public void SetTurnInput(float value) => Send(new SetTurn(Id, value));
 
-        /// <summary>GML: player_boost. Instant speed jump, held while energy lasts.</summary>
-        public bool TryBoost()
-        {
-            if (State != PlayerFlightState.Moving || IsBraking) return false;
-            if (Energy < maxEnergy * minEnergyFractionToStart) return false;
+        /// <summary>GML: player_boost.</summary>
+        public bool TryBoost() => Send(new Boost(Id)).Accepted;
 
-            IsBoosting = true;
-            Speed = flightSpeed * 2f;
-            return true;
-        }
+        /// <summary>GML: player_brake.</summary>
+        public bool TryBrake() => Send(new Brake(Id)).Accepted;
 
-        /// <summary>GML: player_brake. Speed eases down to brake_speed over the following steps.</summary>
-        public bool TryBrake()
-        {
-            if (State != PlayerFlightState.Moving || IsBoosting) return false;
-            if (Energy < maxEnergy * minEnergyFractionToStart) return false;
-
-            IsBraking = true;
-            return true;
-        }
-
-        /// <summary>
-        /// GML: player_leap. Only launches from Idle, and only within jump_arc of the current
-        /// facing; aimDirection is degrees, GML's math convention (0 = +x, CCW positive).
-        /// </summary>
-        public bool TryLeap(float aimDirection)
-        {
-            if (State != PlayerFlightState.Idle) return false;
-            if (Mathf.Abs(Mathf.DeltaAngle(Direction, aimDirection)) > jumpArcDegrees) return false;
-
-            DropShield(); // GML player_leap: shielding = false; with(obj_shieldwall) instance_destroy()
-            Direction = aimDirection;
-            Speed = flightSpeed;
-            IsBoosting = false;
-            IsBraking = false;
-            State = PlayerFlightState.Moving;
-            Leapt?.Invoke();
-            return true;
-        }
+        /// <summary>GML: player_leap toward <paramref name="aimDirection"/> degrees (GML's math convention).</summary>
+        public bool TryLeap(float aimDirection) => Send(new Leap(Id, aimDirection)).Accepted;
 
         /// <summary>Perching on a rock/structure (par_rock/par_structure); the Rocks epic (UH-T19/UH-T20) calls this.</summary>
-        public void Land()
-        {
-            if (State == PlayerFlightState.Dead) return;
-            State = PlayerFlightState.Idle;
-            IsBoosting = false;
-            IsBraking = false;
-            Speed = 0f;
-            body.linearVelocity = Vector2.zero;
-            Landed?.Invoke();
-        }
+        public void Land() => Send(new Land(Id));
 
-        /// <summary>
-        /// GML: player_shield. Only while perched (Idle) and with at least 33% energy; spawns the
-        /// obj_shieldwall hitbox, which drains energy until released or empty.
-        /// </summary>
-        public bool TryShield()
-        {
-            if (State != PlayerFlightState.Idle || IsShielding) return false;
-            if (Energy < maxEnergy * minEnergyFractionToStart) return false; // GML: sfx_disabled
-
-            IsShielding = true;
-            var go = new GameObject("ShieldWall");
-            Shield = go.AddComponent<ShieldWall>();
-            Shield.Init(this, shieldRadius);
-            return true;
-        }
+        /// <summary>GML: player_shield. Only while perched (Idle) and with at least 33% energy.</summary>
+        public bool TryShield() => Send(new RaiseShield(Id)).Accepted;
 
         /// <summary>GML: shield key release, leap, reset_player, or energy hitting zero.</summary>
-        public void DropShield()
-        {
-            IsShielding = false;
-            if (Shield == null) return;
-            if (Application.isPlaying) Destroy(Shield.gameObject); else DestroyImmediate(Shield.gameObject);
-            Shield = null;
-        }
-
-        void OnDestroy() => DropShield();
+        public void DropShield() => Send(new DropShield(Id));
 
         /// <summary>
-        /// GML: player_hurt's "HP reached 0" branch. Stops the ship dead (speed = 0) and drops every
-        /// active flight mode; PlayerHealth calls this and later calls <see cref="Respawn"/>.
+        /// GML: player_hurt's "HP reached 0" flight half: the ship stops dead. Health reaches this through the
+        /// rules; it is public for tests and scripted deaths.
         /// </summary>
-        public void Die()
-        {
-            State = PlayerFlightState.Dead;
-            IsBoosting = false;
-            IsBraking = false;
-            DropShield();
-            Speed = 0f;
-            turnInput = 0f;
-            if (body != null) body.linearVelocity = Vector2.zero;
-        }
-
-        /// <summary>
-        /// GML: reset_player's flight half. Puts the ship back in flight at flight_speed along
-        /// <paramref name="direction"/> from <paramref name="position"/>. Energy is left alone and
-        /// refills on its own, like the original's obj_energybar "fill" mode.
-        /// </summary>
-        public void Respawn(Vector2 position, float direction)
-        {
-            transform.position = new Vector3(position.x, position.y, transform.position.z);
-            State = PlayerFlightState.Moving;
-            IsBoosting = false;
-            IsBraking = false;
-            DropShield(); // reset_player: with(obj_shieldwall) instance_destroy()
-            Direction = direction;
-            Speed = flightSpeed;
-            transform.rotation = Quaternion.Euler(0f, 0f, Direction);
-        }
+        public void Die() => Send(new HaltShip(Id));
 
         void FixedUpdate() => Step(Time.fixedDeltaTime);
 
         /// <summary>One physics step; public so EditMode tests can drive it (FixedUpdate never runs there).</summary>
         public void Step(float dt)
         {
-            TickEnergy(dt);
+            Send(new StepFlight(Id, dt));
 
-            // GML obj_player Step "Shielding": the wall collapses once the energy bar is empty.
-            if (IsShielding && Energy <= 0f) DropShield();
-
-            if (State != PlayerFlightState.Moving)
+            var flight = Core.Flight;
+            if (flight.State != PlayerFlightState.Moving)
             {
                 body.linearVelocity = Vector2.zero;
                 return;
             }
 
-            float turnSpeed = IsBraking ? brakeTurnSpeedDegreesPerSecond : turnSpeedDegreesPerSecond;
-            Direction += turnInput * turnSpeed * dt;
-
-            if (IsBoosting && Energy <= 0f)
-            {
-                Speed = Mathf.MoveTowards(Speed, flightSpeed, speedChangeRatePerSecond * dt);
-                if (Mathf.Approximately(Speed, flightSpeed)) IsBoosting = false;
-            }
-            else if (IsBraking)
-            {
-                Speed = Mathf.MoveTowards(Speed, brakeSpeed, speedChangeRatePerSecond * dt);
-                if (Energy <= 0f)
-                {
-                    IsBraking = false;
-                    Speed = flightSpeed;
-                }
-            }
-
-            transform.rotation = Quaternion.Euler(0f, 0f, Direction);
-            Vector2 heading = new Vector2(Mathf.Cos(Direction * Mathf.Deg2Rad), Mathf.Sin(Direction * Mathf.Deg2Rad));
-            body.linearVelocity = heading * Speed;
+            transform.rotation = Quaternion.Euler(0f, 0f, flight.Direction);
+            Vector2 heading = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad));
+            body.linearVelocity = heading * flight.Speed;
         }
 
-        void TickEnergy(float dt)
+        protected override void OnPlayerEvent(PlayerEvent e)
         {
-            if (IsBoosting || IsBraking || IsShielding)
-                Energy = Mathf.Max(0f, Energy - energyDrainPerSecond * dt);
-            else
-                Energy = Mathf.Min(maxEnergy, Energy + energyFillPerSecond * dt);
+            switch (e)
+            {
+                case ShipLanded _:
+                    if (body != null) body.linearVelocity = Vector2.zero;
+                    Landed?.Invoke();
+                    break;
+                case ShipLeapt _:
+                    Leapt?.Invoke();
+                    break;
+                case ShipHalted _:
+                    if (body != null) body.linearVelocity = Vector2.zero;
+                    break;
+                case ShieldRaised raised:
+                    RaiseWall(raised.Radius);
+                    break;
+                case ShieldDropped _:
+                    RemoveWall();
+                    break;
+                case PlayerRespawned respawned:
+                    transform.rotation = Quaternion.Euler(0f, 0f, respawned.Direction);
+                    break;
+            }
+        }
+
+        void RaiseWall(float radius)
+        {
+            RemoveWall();
+            var go = new GameObject("ShieldWall");
+            Shield = go.AddComponent<ShieldWall>();
+            Shield.Init(this, radius);
+        }
+
+        void RemoveWall()
+        {
+            if (Shield == null) return;
+            if (Application.isPlaying) Destroy(Shield.gameObject); else DestroyImmediate(Shield.gameObject);
+            Shield = null;
+        }
+
+        protected override void OnDestroy()
+        {
+            RemoveWall();
+            base.OnDestroy();
         }
     }
 }

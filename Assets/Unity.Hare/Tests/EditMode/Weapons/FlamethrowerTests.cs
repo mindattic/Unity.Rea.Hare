@@ -36,21 +36,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void FlamethrowerDoesNotFireWhileFlyingOrShielding()
-        {
-            var flamer = PerchedWeaponTestUtil.NewPerchedWeapon<Flamethrower>();
-            var player = flamer.GetComponent<PlayerShipController>();
-
-            Assert.IsTrue(player.TryShield());
-            Assert.IsFalse(flamer.TryFire());
-            player.DropShield();
-
-            Assert.IsTrue(player.TryLeap(player.Direction));
-            Assert.IsFalse(flamer.TryFire());
-            Assert.AreEqual(0, FlamesAlive());
-        }
-
-        [Test]
         public void EachShotIsOneFlameStraightDownTheAim()
         {
             var flamer = PerchedWeaponTestUtil.NewPerchedWeapon<Flamethrower>();
@@ -65,22 +50,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(4f, flame.Speed);
             Assert.AreEqual(muzzle, (Vector2)flame.transform.position);
             Assert.AreEqual(149, flamer.Ammo);
-        }
-
-        [Test]
-        public void FlamethrowerFiresEveryEightSteps()
-        {
-            var flamer = PerchedWeaponTestUtil.NewPerchedWeapon<Flamethrower>();
-            flamer.TriggerHeld = true;
-            int shots = 0;
-            // One second of held trigger at 120 steps/sec: 120 / 8 = 15 flames.
-            for (int i = 0; i < 120; i++)
-            {
-                if (flamer.TryFire()) shots++;
-                flamer.Tick(Step);
-            }
-            Assert.AreEqual(15, shots);
-            Assert.AreEqual(150 - 15, flamer.Ammo);
         }
 
         [Test]

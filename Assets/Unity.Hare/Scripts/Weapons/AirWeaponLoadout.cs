@@ -6,55 +6,39 @@ using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
 {
-    /// <summary>The player's secondary air weapons, in next_air_weapon's cycling order.</summary>
-    public enum AirWeapon
-    {
-        Laser,
-        Railgun,
-        Rocket
-    }
-
     /// <summary>
-    /// The player's secondary weapon slot (GML fire_secondary / next_air_weapon on obj_player):
-    /// holds the unlocked air weapons, cycles through them with E (GML key-press 69), and fires the
-    /// current one while the secondary trigger (right mouse) is held. The original fired the
-    /// secondary with Ctrl + left mouse; left mouse is the vulcan's (UH-T8) here, so the secondary
-    /// gets its own button rather than firing both at once. Firing is refused while dead or shielding, and costs ammo.
+    /// The view on the player's secondary weapon slot (GML fire_secondary / next_air_weapon on obj_player). The
+    /// rules live in Core's <see cref="AirLoadout"/>: the unlocked air weapons cycle with E (GML key-press 69) in
+    /// the weapon table's order, and the current one fires while the secondary trigger is held. The original fired
+    /// the secondary with Ctrl + left mouse; left mouse is the vulcan's (UH-T8) here, so the secondary gets its own
+    /// button (right mouse) rather than firing both at once. Firing is refused while dead or shielding, and costs
+    /// ammo.
     ///
-    /// Per weapon, as in the GML: the laser (shoot_laser/obj_laser) stays on until the trigger is
-    /// released and only then can fire again; the railgun (shoot_railgun) re-arms after 240 steps;
-    /// rockets (shoot_rocket) after 25 steps. Switching weapons re-arms immediately
-    /// (next_air_weapon: can_shoot = true). Ammo is the ship's shared <see cref="PlayerAmmo"/>:
-    /// the laser and railgun are GML ground weapons and spend ground_ammo_primary (shared with the
-    /// vulcan), rockets spend air_ammo_primary; the trigger stops and restarts the regen alarms
-    /// like the original's left mouse. Sounds are left to the Audio epic through the events below.
+    /// Per weapon, as in the GML: the laser (shoot_laser/obj_laser) stays on until the trigger is released and only
+    /// then can fire again; the railgun (shoot_railgun) and rockets (shoot_rocket) re-arm after their table
+    /// intervals (240 and 25 steps). Switching weapons re-arms immediately (next_air_weapon: can_shoot = true). Ammo
+    /// is the ship's shared <see cref="PlayerAmmo"/>: the laser and railgun are GML ground weapons and spend
+    /// ground_ammo_primary (shared with the vulcan), rockets spend air_ammo_primary. This component turns input into
+    /// commands and, when the rules fire, spawns the laser, rail or rocket. Sounds are left to the Audio epic
+    /// through the events below.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
-    public class AirWeaponLoadout : MonoBehaviour
+    public class AirWeaponLoadout : SeatView
     {
         [Header("Muzzle (GML: gunX/gunY = x + lengthdir(-13, image_angle); origin = gun + lengthdir(34, mouse_angle))")]
         [SerializeField] float gunOffsetPx = -13f;
         [SerializeField] float muzzleOffsetPx = 34f;
         [SerializeField] float beamLengthPx = 2000f;
 
-        [Header("Re-arm (GML: alarm[alarm_reset_fire], in steps at 120/s)")]
-        [SerializeField] float railgunCooldownSteps = 240f;
-        [SerializeField] float rocketCooldownSteps = 25f;
-
-        [Header("Unlocked air weapons")]
-        [SerializeField] List<AirWeapon> unlocked = new List<AirWeapon> { AirWeapon.Laser, AirWeapon.Railgun, AirWeapon.Rocket };
-
         PlayerShipController ship;
         PlayerAmmo ammo;
-        float cooldown;
-        bool triggerHeld;
 
-        public AirWeapon Current { get; private set; }
+        public AirWeapon Current => Core.Air.Current;
         /// <summary>GML: can_shoot for the secondary slot.</summary>
-        public bool CanShoot { get; private set; } = true;
-        public bool TriggerHeld => triggerHeld;
+        public bool CanShoot => Core.Air.CanShoot;
+        public bool TriggerHeld => Core.Air.TriggerHeld;
         public LaserBeam ActiveLaser { get; private set; }
-        public IReadOnlyList<AirWeapon> Unlocked => unlocked;
+        public IReadOnlyList<AirWeapon> Unlocked => Core.Air.Unlocked;
 
         /// <summary>GML: audio_play_sound(sfx_switch) in next_air_weapon.</summary>
         public event Action<AirWeapon> Switched;
@@ -77,61 +61,32 @@ namespace Unity.Hare.Weapons
         {
             ship = GetComponent<PlayerShipController>();
             ammo = PlayerAmmo.Of(gameObject);
+            Send(new ResetAirLoadout(Id));
             StopLaser();
-            Current = unlocked.Count > 0 ? unlocked[0] : AirWeapon.Rocket;
-            CanShoot = true;
-            cooldown = 0f;
-            if (triggerHeld) ammo.ReleaseTrigger(this);
-            triggerHeld = false;
         }
 
         /// <summary>The ship's shared ammo economy.</summary>
         public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
 
         /// <summary>The pool <paramref name="weapon"/> spends: laser/railgun ground_ammo_primary, rockets air_ammo_primary.</summary>
-        public static AmmoPool PoolFor(AirWeapon weapon) => weapon == AirWeapon.Rocket ? AmmoPool.AirPrimary : AmmoPool.GroundPrimary;
+        public static AmmoPool PoolFor(AirWeapon weapon) => AmmoPools.PoolFor(weapon);
 
         public int Ammo(AirWeapon weapon) => AmmoEconomy.Current(PoolFor(weapon));
         public int MaxAmmo(AirWeapon weapon) => AmmoEconomy.Max(PoolFor(weapon));
 
-        public bool IsUnlocked(AirWeapon weapon) => unlocked.Contains(weapon);
+        public bool IsUnlocked(AirWeapon weapon) => Core.Air.IsUnlocked(weapon);
 
         /// <summary>Adds <paramref name="weapon"/> to the cycle (upgrades/pickups call this).</summary>
-        public void Unlock(AirWeapon weapon)
-        {
-            if (unlocked.Contains(weapon)) return;
-            unlocked.Add(weapon);
-            unlocked.Sort();
-            if (unlocked.Count == 1) Current = weapon;
-        }
+        public void Unlock(AirWeapon weapon) => Send(new UnlockAirWeapon(Id, weapon));
 
         /// <summary>Removes <paramref name="weapon"/> from the cycle; if it was equipped, moves to the next one.</summary>
-        public void Lock(AirWeapon weapon)
-        {
-            if (!unlocked.Contains(weapon)) return;
-            bool wasCurrent = Current == weapon;
-            if (wasCurrent && unlocked.Count > 1) NextAirWeapon();
-            unlocked.Remove(weapon);
-        }
+        public void Lock(AirWeapon weapon) => Send(new LockAirWeapon(Id, weapon));
 
         /// <summary>
-        /// GML next_air_weapon: equip the next unlocked air weapon in order, wrapping around, and
-        /// re-arm. Returns false when there is nothing else to switch to.
+        /// GML next_air_weapon: equip the next unlocked air weapon in order, wrapping around, and re-arm.
+        /// Returns false when there is nothing else to switch to.
         /// </summary>
-        public bool NextAirWeapon()
-        {
-            if (unlocked.Count == 0) return false;
-            int index = unlocked.IndexOf(Current);
-            var next = unlocked[(index + 1) % unlocked.Count];
-            if (next == Current && index >= 0) return false;
-
-            StopLaser();
-            Current = next;
-            CanShoot = true;
-            cooldown = 0f;
-            Switched?.Invoke(Current);
-            return true;
-        }
+        public bool NextAirWeapon() => Send(new NextAirWeapon(Id)).Accepted;
 
         void Update()
         {
@@ -144,75 +99,56 @@ namespace Unity.Hare.Weapons
         }
 
         /// <summary>
-        /// The secondary trigger. Releasing it drops the laser and re-arms it (GML global left
-        /// release: with(obj_laser) instance_destroy(); can_shoot = true) and restarts ammo regen;
-        /// pressing stops the primary regen (<see cref="PlayerAmmo.PressTrigger"/>).
+        /// The secondary trigger. Releasing it drops the laser and re-arms it (GML global left release:
+        /// with(obj_laser) instance_destroy(); can_shoot = true) and restarts ammo regen; pressing stops the
+        /// primary regen.
         /// </summary>
-        public void SetTrigger(bool held)
-        {
-            if (held == triggerHeld) return;
-            triggerHeld = held;
-            if (held)
-            {
-                AmmoEconomy.PressTrigger(this);
-                return;
-            }
-
-            if (ActiveLaser != null || Current == AirWeapon.Laser)
-            {
-                StopLaser();
-                CanShoot = true;
-            }
-            AmmoEconomy.ReleaseTrigger(this);
-        }
+        public void SetTrigger(bool held) => Send(new SetAirTrigger(Id, held));
 
         /// <summary>Re-arm timer and firing while the trigger is held (regen is <see cref="PlayerAmmo.Tick"/>'s).</summary>
-        public void Tick(float dt)
-        {
-            if (ActiveLaser != null && (Ship.State == PlayerFlightState.Dead || Ship.IsShielding)) StopLaser();
-
-            if (!CanShoot && cooldown > 0f)
-            {
-                cooldown -= dt;
-                if (cooldown <= 0f) { cooldown = 0f; CanShoot = true; } // GML alarm 0: can_shoot = true
-            }
-
-            if (triggerHeld) TryFire();
-        }
+        public void Tick(float dt) => Send(new TickAir(Id, dt));
 
         /// <summary>GML fire_secondary for the current air weapon. Returns true if a shot went out.</summary>
-        public bool TryFire()
+        public bool TryFire() => Send(new FireAir(Id)).Accepted;
+
+        protected override void OnPlayerEvent(PlayerEvent e)
         {
-            if (!CanShoot || !IsUnlocked(Current) || Ship.State == PlayerFlightState.Dead || Ship.IsShielding) return false;
-
-            if (!AmmoEconomy.TrySpend(PoolFor(Current))) // GML: x_ammo_primary >= cost, then subtract and clamp at 0
+            switch (e)
             {
-                DryFired?.Invoke(Current);
-                return false;
+                case AirWeaponFired fired:
+                    Spawn(fired.Weapon);
+                    Fired?.Invoke(fired.Weapon);
+                    break;
+                case AirWeaponDryFired dry:
+                    DryFired?.Invoke(dry.Weapon);
+                    break;
+                case AirWeaponSwitched switched:
+                    Switched?.Invoke(switched.Weapon);
+                    break;
+                case AirLaserStopped _:
+                    StopLaser();
+                    break;
             }
-            CanShoot = false;
+        }
 
-            switch (Current)
+        void Spawn(AirWeapon weapon)
+        {
+            switch (weapon)
             {
                 case AirWeapon.Laser:
                     var beamGo = new GameObject("Laser");
                     ActiveLaser = beamGo.AddComponent<LaserBeam>();
                     ActiveLaser.Init(this);
-                    cooldown = 0f; // re-armed only by releasing the trigger
                     break;
                 case AirWeapon.Railgun:
                     var railGo = new GameObject("Railgun");
                     railGo.AddComponent<RailgunShot>().Init(MuzzlePosition, Ship.AimDirection, BeamLengthUnits);
-                    cooldown = Gml.Steps(railgunCooldownSteps);
                     break;
                 default:
                     var rocketGo = new GameObject("Rocket");
                     rocketGo.AddComponent<Rocket>().Init(MuzzlePosition, Ship.AimDirection);
-                    cooldown = Gml.Steps(rocketCooldownSteps);
                     break;
             }
-            Fired?.Invoke(Current);
-            return true;
         }
 
         void StopLaser()
@@ -222,6 +158,10 @@ namespace Unity.Hare.Weapons
             ActiveLaser = null;
         }
 
-        void OnDestroy() => StopLaser();
+        protected override void OnDestroy()
+        {
+            StopLaser();
+            base.OnDestroy();
+        }
     }
 }

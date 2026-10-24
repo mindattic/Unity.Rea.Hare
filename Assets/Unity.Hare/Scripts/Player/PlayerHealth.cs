@@ -5,46 +5,25 @@ using UnityEngine.SceneManagement;
 namespace Unity.Hare.Player
 {
     /// <summary>
-    /// Ports obj_player's health/lives rules (gmlHARE: player_hurt, reset_player, the hit
-    /// collisions and Alarms 1/4/5/6/7). Numbers are the original's, converted from steps at
-    /// room_gamescreen's 120 steps/sec:
-    /// <list type="bullet">
-    /// <item>HP = MAXHP = 6; LIVES = 3 (globals.gml). Every hit costs exactly 1 HP.</item>
-    /// <item>A hit makes the ship invulnerable for flash_time (180 steps = 1.5 s) and plays the
-    /// hurt pose for 60 steps (0.5 s).</item>
-    /// <item>A respawn ("justspawned") is protected for flash_time too; only rocket explosions
-    /// ignore that protection, every other source respects it.</item>
-    /// <item>At 0 HP: LIVES -= 1, the ship stops (state_dead) and after alarm_death_wait (320 steps)
-    /// either reset_player runs (LIVES &gt; 0) or the game restarts.</item>
-    /// <item>reset_player refills HP to MAXHP and flies the ship back in at flight_speed heading
-    /// down (270 +/- 30 degrees) from above the playfield.</item>
-    /// </list>
-    /// The original only counted a hit while the source was on screen (in_view); damage sources
-    /// that need that check should apply it before calling <see cref="TryTakeHit"/>. Hurt sounds,
-    /// the obj_losthealth popup and the HUD hang off <see cref="Damaged"/>/<see cref="Died"/>
-    /// (UH-T25, UH-T27, UH-T30).
+    /// The view on obj_player's health and lives (gmlHARE: player_hurt, reset_player, the hit collisions and
+    /// Alarms 1/4/5/6/7). The rules live in Core's <see cref="ShipHealth"/> (numbers in <see cref="HealthTuning"/>,
+    /// converted from steps at room_gamescreen's 120 steps/sec); this component forwards hits and time as commands,
+    /// flashes the ship while it is invulnerable, flies it back in on a respawn and restarts the scene on game over.
+    /// Hurt sounds, the obj_losthealth popup and the HUD hang off <see cref="Damaged"/>/<see cref="Died"/>
+    /// (UH-T25, UH-T27, UH-T30). The original only counted a hit while the source was on screen (in_view); damage
+    /// sources that need that check apply it before calling <see cref="TryTakeHit"/>.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
-    public class PlayerHealth : MonoBehaviour
+    public class PlayerHealth : SeatView
     {
-        const float StepsPerSecond = 120f;
-
-        [Header("Health (GML: HP, MAXHP, LIVES)")]
-        [SerializeField] int maxHealth = 6;
-        [SerializeField] int startingLives = 3;
-
-        [Header("Timers (GML steps / 120)")]
-        [SerializeField] float invulnerableSeconds = 180f / StepsPerSecond;  // flash_time, alarm_end_flash
-        [SerializeField] float spawnProtectionSeconds = 180f / StepsPerSecond; // alarm_justspawned = flash_time
-        [SerializeField] float hurtPoseSeconds = 60f / StepsPerSecond;       // alarm_hurting
-        [SerializeField] float deathWaitSeconds = 320f / StepsPerSecond;     // alarm_death_wait
-        [SerializeField] float flashCycleSeconds = 3f / StepsPerSecond;      // alarm_flashing re-arms every 3 steps
+        [SerializeField] HealthTuning tuning = new HealthTuning();
 
         [Header("Respawn (GML: reset_player)")]
         [Tooltip("Where the ship re-enters. Empty = the position it started the scene at.")]
         [SerializeField] Transform respawnPoint;
-        [SerializeField] float respawnDirection = 270f;
-        [SerializeField] float respawnDirectionJitter = 30f;
+
+        [Header("Flash (GML Alarm 5: alarm_flashing re-arms every 3 steps)")]
+        [SerializeField] float flashCycleSeconds = 3f / GameClock.StepsPerSecond;
 
         [Header("Game over (GML: game_restart)")]
         [SerializeField] bool reloadSceneOnGameOver = true;
@@ -58,26 +37,21 @@ namespace Unity.Hare.Player
             new Color32(154, 206, 235, 255), // c_cornflowerblue
         };
 
-        PlayerShipController ship;
         SpriteRenderer[] renderers = Array.Empty<SpriteRenderer>();
         Vector2 spawnPosition;
-        float invulnerableTimer;
-        float spawnProtectionTimer;
-        float hurtTimer;
-        float deathTimer;
         float flashClock;
 
-        public int MaxHealth => maxHealth;
-        public int Health { get; private set; }
-        public int Lives { get; private set; }
-        public bool IsDead { get; private set; }
-        public bool IsGameOver { get; private set; }
+        public int MaxHealth => Core.Health.MaxHealth;
+        public int Health => Core.Health.Health;
+        public int Lives => Core.Health.Lives;
+        public bool IsDead => Core.Health.IsDead;
+        public bool IsGameOver => Core.Health.IsGameOver;
         /// <summary>GML: invulnerable. Set by a hit, cleared when flash_time runs out.</summary>
-        public bool IsInvulnerable => invulnerableTimer > 0f;
+        public bool IsInvulnerable => Core.Health.IsInvulnerable;
         /// <summary>GML: justspawned. Set by a (re)spawn, cleared when flash_time runs out.</summary>
-        public bool IsSpawnProtected => spawnProtectionTimer > 0f;
+        public bool IsSpawnProtected => Core.Health.IsSpawnProtected;
         /// <summary>GML: hurting. Drives the *_hurt sprite pose.</summary>
-        public bool IsHurting => hurtTimer > 0f;
+        public bool IsHurting => Core.Health.IsHurting;
 
         /// <summary>Raised after a hit that left the ship alive; the argument is the HP remaining.</summary>
         public event Action<int> Damaged;
@@ -90,105 +64,58 @@ namespace Unity.Hare.Player
         void Awake() => ResetState();
 
         /// <summary>
-        /// Everything Awake does, callable from EditMode tests (see PlayerShipController.ResetState).
-        /// Starts a fresh game: full HP, full lives, spawn-protected like the original's Create event.
+        /// Everything Awake does, callable from EditMode tests. Starts a fresh game: full HP, full lives,
+        /// spawn-protected like the original's Create event.
         /// </summary>
         public void ResetState()
         {
-            ship = GetComponent<PlayerShipController>();
             renderers = GetComponentsInChildren<SpriteRenderer>(true);
             spawnPosition = transform.position;
-            Health = maxHealth;
-            Lives = startingLives;
-            IsDead = false;
-            IsGameOver = false;
-            invulnerableTimer = 0f;
-            hurtTimer = 0f;
-            deathTimer = 0f;
-            spawnProtectionTimer = spawnProtectionSeconds;
+            Send(new ResetHealth(Id, tuning));
             ApplyVisuals();
         }
 
         void Update() => Tick(Time.deltaTime);
 
         /// <summary>
-        /// GML: the player's hit collisions (obj_bullet, obj_rocket, par_enemy, obj_rocket_explosion)
-        /// followed by player_hurt. Returns false when the hit didn't land: dead, still invulnerable
-        /// from the last hit, or spawn-protected (unless <paramref name="ignoresSpawnProtection"/>,
-        /// which only obj_rocket_explosion does in the original).
+        /// GML: the player's hit collisions (obj_bullet, obj_rocket, par_enemy, obj_rocket_explosion) followed by
+        /// player_hurt. Returns false when the hit didn't land: dead, still invulnerable from the last hit, or
+        /// spawn-protected (unless <paramref name="ignoresSpawnProtection"/>, which only obj_rocket_explosion does
+        /// in the original).
         /// </summary>
-        public bool TryTakeHit(bool ignoresSpawnProtection = false)
-        {
-            if (IsDead || IsGameOver) return false;
-            if (IsInvulnerable) return false;
-            if (IsSpawnProtected && !ignoresSpawnProtection) return false;
-
-            invulnerableTimer = invulnerableSeconds;
-            hurtTimer = hurtPoseSeconds;
-            Health = Mathf.Max(0, Health - 1);
-
-            if (Health <= 0)
-                Die();
-            else
-                Damaged?.Invoke(Health);
-            return true;
-        }
+        public bool TryTakeHit(bool ignoresSpawnProtection = false) => Send(new TakeHit(Id, ignoresSpawnProtection)).Accepted;
 
         /// <summary>Advances the original's alarms by <paramref name="deltaTime"/> seconds.</summary>
         public void Tick(float deltaTime)
         {
             if (IsGameOver) return;
-
-            invulnerableTimer = Mathf.Max(0f, invulnerableTimer - deltaTime);
-            spawnProtectionTimer = Mathf.Max(0f, spawnProtectionTimer - deltaTime);
-            hurtTimer = Mathf.Max(0f, hurtTimer - deltaTime);
             flashClock += deltaTime;
-
-            if (IsDead)
-            {
-                deathTimer -= deltaTime;
-                if (deathTimer <= 0f)
-                {
-                    if (Lives > 0) Respawn();
-                    else EndGame();
-                }
-            }
-
+            Send(new TickHealth(Id, deltaTime));
             ApplyVisuals();
         }
 
-        void Die()
+        protected override void OnPlayerEvent(PlayerEvent e)
         {
-            Lives = Mathf.Max(0, Lives - 1);
-            IsDead = true;
-            hurtTimer = 0f; // player_hurt clears hurting on death
-            deathTimer = deathWaitSeconds;
-            ship.Die();
-            Died?.Invoke(Lives);
-        }
-
-        /// <summary>GML: reset_player.</summary>
-        void Respawn()
-        {
-            IsDead = false;
-            Health = maxHealth;
-            invulnerableTimer = 0f;
-            hurtTimer = 0f;
-            spawnProtectionTimer = spawnProtectionSeconds;
-
-            Vector2 position = respawnPoint != null ? (Vector2)respawnPoint.position : spawnPosition;
-            float jitter = UnityEngine.Random.Range(-respawnDirectionJitter, respawnDirectionJitter);
-            ship.Respawn(position, respawnDirection + jitter);
-            Respawned?.Invoke();
-        }
-
-        /// <summary>GML: game_restart, reached once the death wait runs out with no lives left.</summary>
-        void EndGame()
-        {
-            IsGameOver = true;
-            GameOver?.Invoke();
-            if (reloadSceneOnGameOver && Application.isPlaying)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            switch (e)
+            {
+                case PlayerDamaged damaged:
+                    Damaged?.Invoke(damaged.Health);
+                    break;
+                case PlayerDied died:
+                    Died?.Invoke(died.Lives);
+                    break;
+                case PlayerRespawned respawned:
+                    // GML reset_player: fly back in from the respawn point (the rules chose the heading).
+                    Vector2 position = respawnPoint != null ? (Vector2)respawnPoint.position : spawnPosition;
+                    transform.position = new Vector3(position.x, position.y, transform.position.z);
+                    Respawned?.Invoke();
+                    break;
+                case GameEnded _:
+                    GameOver?.Invoke();
+                    if (reloadSceneOnGameOver && Application.isPlaying)
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    break;
+            }
         }
 
         /// <summary>

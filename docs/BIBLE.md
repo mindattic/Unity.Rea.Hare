@@ -124,27 +124,40 @@ Unity.
 
 ### 5.2 Where it is today
 
-UH-T37 made the split (466c012). Most rules still live in Runtime MonoBehaviours; they move to Core in UH-T39
-(player and weapons) and UH-T40 (enemies and spawn pacing).
+UH-T37 made the split (466c012). UH-T39 moved the player and weapon rules into Core; the enemy rules and spawn pacing
+still live in Runtime MonoBehaviours and move in UH-T40.
 
 | Assembly | Folder | Contents | Status |
 |---|---|---|---|
-| `Unity.Hare.Core` | `Assets/Unity.Hare/Core/` | `noEngineReferences`: `EnemyKind`, `EnemyList` (`generate_enemy_list`, with the random injected) | in place; the rest of the rules move in UH-T39, UH-T40 |
-| `Unity.Hare.Runtime` | `Assets/Unity.Hare/Scripts/` | `Player/` (PlayerShipController, PlayerHealth, ShieldWall, PlayerDamageSource), `Weapons/` (VulcanWeapon, Shotgun, Flamethrower, MineLauncher, AirWeaponLoadout, GroundWeaponLoadout, PlayerAmmo, Bullet, Rocket, LaserBeam, RailgunShot, Mine, the explosions, and `Gml`, the unit and step helpers in `WeaponTargets.cs`), `Enemies/` (the insects, Dagger, SetPieceEnemy and its eight set pieces, EnemyMine, EnemyEmitter, Vortex, Wormhole, WormholeEmitter, EnemySpawner, EnemyComposition, FadingDebris), `Rocks/` (Rock, RockField, Flotsum), `Effects/` (DeathEffects, GmlEffects, TinyExplosion, DeathParticle, SpriteAnimation, HareArt) | references Core one way; still holds the rules (UH-T39, UH-T40) and reads input directly (UH-T42) |
+| `Unity.Hare.Core` | `Assets/Unity.Hare/Core/` | `noEngineReferences`: `EnemyKind`, `EnemyList` (`generate_enemy_list`, with the random injected); `GameClock` (the 120 steps/s and 100 px/unit conversions), `PlayerId`; `Player/` (`PlayerWorld` and `PlayerShip`, the `PlayerCommand`s and `PlayerEvent`s, `ShipFlight` the flight/energy/shield machine, `ShipHealth` HP, lives and the timers, `FlightTuning`/`HealthTuning`); `Weapons/` (`AmmoPools` the four pools and regen alarms, `GunRack` the vulcan/shotgun/flamer/mine launcher firing rules, `GroundLoadout`/`AirLoadout` the weapon cycles, `WeaponTable` the fire intervals, cycles and damage as data) | in place; enemy rules and spawn pacing move in UH-T40 |
+| `Unity.Hare.Runtime` | `Assets/Unity.Hare/Scripts/` | `Player/` (PlayerShipController, PlayerHealth, ShieldWall, PlayerDamageSource), `Weapons/` (VulcanWeapon, Shotgun, Flamethrower, MineLauncher, AirWeaponLoadout, GroundWeaponLoadout, PlayerAmmo, Bullet, Rocket, LaserBeam, RailgunShot, Mine, the explosions, and `Gml`, the unit and step helpers in `WeaponTargets.cs`), `Enemies/` (the insects, Dagger, SetPieceEnemy and its eight set pieces, EnemyMine, EnemyEmitter, Vortex, Wormhole, WormholeEmitter, EnemySpawner, EnemyComposition, FadingDebris), `Rocks/` (Rock, RockField, Flotsum), `Effects/` (DeathEffects, GmlEffects, TinyExplosion, DeathParticle, SpriteAnimation, HareArt) | references Core one way; the player and weapon scripts are thin views (`PlayerSeat` and `SeatView` send commands and play events) that still read input directly (UH-T42); the enemies still hold their rules (UH-T40) |
 | `Unity.Hare.Editor` | `Assets/Unity.Hare/Editor/` | `ProjectSetup` (URP 2D assets, project settings, `Main.unity`), `HareArtImporter` (sprite pivots from `sprites.txt`, particle textures) | in place |
-| `Unity.Hare.Tests.EditMode` | `Assets/Unity.Hare/Tests/EditMode/` | NUnit tests of the components: player, weapons, enemies, rocks, effects | in place; pure rule tests move to `Tests/Core.Tests` as rules move to Core |
+| `Unity.Hare.Tests.EditMode` | `Assets/Unity.Hare/Tests/EditMode/` | NUnit tests of the components: the glue of the player and weapon views (`PlayerSeatTests`, projectiles, the shield wall), enemies, rocks, effects | in place; pure rule tests live in `Tests/Core.Tests` once their rules are in Core |
 | `Unity.Hare.Tests.PlayMode` | `Assets/Unity.Hare/Tests/PlayMode/` | empty | scripted play, UH-T70 |
-| `Tests/Core.Tests` | `Tests/Core.Tests/` | dotnet test project compiling `Core/**/*.cs` directly (C# 9, as Unity builds it): `EnemyListTests` | in place; run by `tools/run-core-tests.ps1` |
+| `Tests/Core.Tests` | `Tests/Core.Tests/` | dotnet test project compiling `Core/**/*.cs` directly (C# 9, as Unity builds it): `EnemyListTests`, and the player and weapon rules (`PlayerAmmoTests`, `PlayerHealthTests`, `PlayerFlightTests`, `GunTests`, `LoadoutTests`) | in place; run by `tools/run-core-tests.ps1` |
 
 The Input System action asset is planned in UH-T42, Unity.Shared settings in UH-T43, the pipeline-agnostic URP seam
 in UH-T44, the UI foundation in UH-T45 and the multiplayer kit in UH-T35.
 
-### 5.3 Commands, events and the one authority (planned, UH-T39, UH-T40, UH-T35)
+### 5.3 Commands, events and the one authority (player and weapons done in UH-T39; enemies UH-T40, authority UH-T35)
 
-**Today** each component holds its own state and steps itself in `Update`/`FixedUpdate`, reads the keyboard and
-mouse directly, and announces what happened through C# events (`GrenadeExplosion.Exploded`, the loadouts'
-`Switched`, the weapons' `Fired`), which the effects and, later, audio listen to. The GML global `paused` is the
-static `Gml.Paused`.
+**Today** the player's rules are Core's: a `PlayerWorld` holds one `PlayerShip` per `PlayerId` (flight and energy,
+health and lives, the four ammo pools, the guns, the two weapon loadouts), and state changes only through
+`PlayerCommand`s (`Boost`, `Leap`, `TakeHit`, `FireGun`, `NextAirWeapon`, `TickAmmo` and the rest, each carrying the
+player id), which return a `CommandResult` of whether it took effect and the `PlayerEvent`s it raised (`ShipLanded`,
+`PlayerDamaged`, `GunFired`, `AmmoReloaded`, `AirWeaponFired`, ...). On the Unity side `PlayerSeat` sits on a ship and
+holds its world and id (local play seats one player in a world of its own; there is no global current player), and the
+views (`PlayerShipController`, `PlayerHealth`, `PlayerAmmo`, `VulcanWeapon`, `Shotgun`, `Flamethrower`,
+`MineLauncher`, the loadouts, all `SeatView`s) turn input into commands and play the events: they spawn a bullet when
+`GunFired` arrives, a shield wall on `ShieldRaised`, a sound on `VulcanCue`. Each view still advances its own part of
+the world from `Update`/`FixedUpdate` (`TickAmmo`, `TickGun`, `StepFlight`, ...) until the one-step authority below.
+The enemies, rocks and projectiles still hold their own state and announce through C# events (`GrenadeExplosion.Exploded`).
+The GML global `paused` is the static `Gml.Paused`.
+
+Weapon rhythm is data in `WeaponTable`: the vulcan's `VulcanBaseRateSteps`/`VulcanMinRateSteps`/
+`VulcanSpinUpDecrementSteps` ramp, the other guns' and air weapons' fire intervals in steps, the ground and air
+cycles (`GroundCycle`, `AirCycle`) and per-round damage, so changing a rate or the cycle order is a one-line change
+there and Core tests cover it.
 
 **The target**, as in Unity.SpaceGod and Unity.Chain:
 

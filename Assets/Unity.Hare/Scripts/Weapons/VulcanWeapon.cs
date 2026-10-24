@@ -5,49 +5,24 @@ using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
 {
-    /// <summary>The vulcan's sound cues, in the order the original plays them (the reloads are <see cref="PlayerAmmo.Reloaded"/>).</summary>
-    public enum VulcanSound
-    {
-        SpinUp,
-        LoopStart,
-        LoopStop,
-        SpinDown,
-        EmptyClip
-    }
-
     /// <summary>
-    /// Ports the vulcan (gmlHARE: fire_primary's weapon_vulcan branch, shoot_vulcan,
-    /// stop_vulcan_sfx and the left-mouse held/released events of obj_player).
-    ///
-    /// While the trigger is held the gun fires obj_bullets at the aim. Spin-up: the first shot
-    /// waits base_rate (30 steps) and every shot after it 3 steps less, down to 9 steps — the
-    /// ramp the original's Rabbit build used and gmlHARE kept (commented out) beside its fixed
-    /// fire_rate = 9. The spin-up sound plays on the first shot, the fire loop runs while the
-    /// barrel turns, and releasing the trigger (or running dry) stops the loop, plays the
-    /// spin-down and drops the rate back to base_rate (GML: stop_vulcan_sfx; fire_rate = base_rate).
-    ///
-    /// Ammo is <see cref="PlayerAmmo"/>'s ground primary pool (Create's 150; set_ammo_cost caps
-    /// the vulcan at 120 on landing), 1 per shot (subtract_ground_ammo). An empty gun clicks
-    /// (sfx_empty_clip) instead of firing. Holding the trigger stops regeneration; releasing it
-    /// re-arms the regen alarm, which then adds 10 rounds every second with the reload sounds.
-    ///
-    /// The vulcan is a ground weapon: like fire_primary it fires only while perched (Idle), never
-    /// while dead or shielding. Steps are room_gamescreen's 120 per second.
+    /// The view on the vulcan (gmlHARE: fire_primary's weapon_vulcan branch, shoot_vulcan, stop_vulcan_sfx and the
+    /// left-mouse held/released events of obj_player). The rules live in Core's <see cref="GunRack"/>: while the
+    /// trigger is held the gun fires at the <see cref="WeaponTable"/>'s spin-up ramp (the first shot waits
+    /// base_rate, every shot after it a few steps less, down to the floor), spends one round of the ground primary
+    /// pool per shot, clicks when empty, and spins down on release or running dry. This component reads the mouse,
+    /// spawns the bullet when the rules fire one and plays the cues the rules raise.
+    /// The vulcan is a ground weapon: like fire_primary it fires only while perched (Idle), never while dead or
+    /// shielding. Steps are room_gamescreen's 120 per second.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
-    public class VulcanWeapon : MonoBehaviour, IGroundWeapon
+    public class VulcanWeapon : SeatView, IGroundWeapon
     {
-        public const float StepsPerSecond = 120f;
-
-        [Header("Fire rate in GML steps (base_rate, spin-up floor and decrement)")]
-        [SerializeField] int baseRateSteps = 30;
-        [SerializeField] int minRateSteps = 9;
-        [SerializeField] int spinUpDecrementSteps = 3;
+        public const float StepsPerSecond = GameClock.StepsPerSecond;
 
         [Header("Bullet (obj_bullet; distances are placeholders until sprites set the world scale)")]
         [SerializeField] float bulletSpeed = 8f;
         [SerializeField] float bulletLifetime = 3f;
-        [SerializeField] int bulletDamage = 1;
         [SerializeField] float bulletRadius = 0.05f;
         [SerializeField] float muzzleDistance = 0.34f;
         [SerializeField] float muzzleJitter = 0.05f;
@@ -63,42 +38,36 @@ namespace Unity.Hare.Weapons
         PlayerAmmo ammo;
         AudioSource loopSource;
         AudioSource oneShotSource;
-        float cooldown;
         float emptyClickTimer;
+        int key;
+
+        int Key => key != 0 ? key : key = Seat.AllocateKey();
+        Gun Gun => Core.Guns.Find(Key);
 
         /// <summary>The ship's shared ammo economy; the vulcan spends ground_ammo_primary.</summary>
         public PlayerAmmo AmmoEconomy => ammo != null ? ammo : ammo = PlayerAmmo.Of(gameObject);
         public int Ammo => AmmoEconomy.Current(AmmoPool.GroundPrimary);
         public int MaxAmmo => AmmoEconomy.Max(AmmoPool.GroundPrimary);
-        public bool TriggerHeld { get; private set; }
+        public bool TriggerHeld => Gun != null && Gun.TriggerHeld;
 
         /// <summary>GML: can_shoot. False until the fire_rate alarm (alarm_reset_fire) runs out.</summary>
-        public bool CanShoot => cooldown <= 0f;
+        public bool CanShoot => Gun == null || Gun.CanShoot;
 
         /// <summary>GML: fire_rate, in steps. The wait the next shot will set.</summary>
-        public int FireRateSteps { get; private set; }
+        public int FireRateSteps => Gun != null ? Gun.FireRateSteps : Core.Table.VulcanBaseRateSteps;
 
         /// <summary>GML: played_spinup. True from the first shot until release or running dry.</summary>
-        public bool IsSpinning { get; private set; }
+        public bool IsSpinning => Gun != null && Gun.IsSpinning;
 
         /// <summary>True while the fire loop (sfx_vulcan_loop) is running.</summary>
-        public bool IsLoopPlaying { get; private set; }
+        public bool IsLoopPlaying => Gun != null && Gun.IsLoopPlaying;
 
-        public int BaseRateSteps => baseRateSteps;
-        public int MinRateSteps => minRateSteps;
+        public int BaseRateSteps => Core.Table.VulcanBaseRateSteps;
+        public int MinRateSteps => Core.Table.VulcanMinRateSteps;
 
         public GroundWeapon GroundKind => GroundWeapon.Vulcan;
         /// <summary>The vulcan only ever answers fire_primary.</summary>
         public bool IsGroundPrimary => true;
-
-        /// <summary>GML next_ground_weapon: can_shoot = true.</summary>
-        public void Rearm() => cooldown = 0f;
-
-        /// <summary>Switched away mid-burst: release the trigger (spin down, re-arm regen).</summary>
-        public void Holster()
-        {
-            if (TriggerHeld) ReleaseTrigger();
-        }
 
         /// <summary>Raised for every bullet fired; VFX (muzzle flash, cartridge, UH-T31) hooks in here.</summary>
         public event Action<Bullet> Fired;
@@ -124,12 +93,7 @@ namespace Unity.Hare.Weapons
                 oneShotSource = gameObject.AddComponent<AudioSource>();
                 oneShotSource.playOnAwake = false;
             }
-            if (TriggerHeld) ammo.ReleaseTrigger(this);
-            FireRateSteps = baseRateSteps;
-            cooldown = 0f;
-            TriggerHeld = false;
-            IsSpinning = false;
-            IsLoopPlaying = false;
+            Send(new InstallGun(Id, Key, GunType.Vulcan, WeaponSlot.Primary)); // re-installing resets the gun
             emptyClickTimer = 0f;
             if (loopSource.isPlaying) loopSource.Stop();
         }
@@ -146,74 +110,40 @@ namespace Unity.Hare.Weapons
         }
 
         /// <summary>GML: global left button held (mouse1_down = true; alarm[alarm_ammo_regen] = 0).</summary>
-        public void PressTrigger()
-        {
-            TriggerHeld = true;
-            AmmoEconomy.PressTrigger(this);
-        }
+        public void PressTrigger() => Send(new PullTrigger(Id, Key));
 
         /// <summary>GML: global left released. Spin down, reset the rate, re-arm ammo regen.</summary>
-        public void ReleaseTrigger()
-        {
-            TriggerHeld = false;
-            if (IsSpinning) SpinDown();
-            FireRateSteps = baseRateSteps;
-            AmmoEconomy.ReleaseTrigger(this);
-        }
+        public void ReleaseTrigger() => Send(new ReleaseTrigger(Id, Key));
 
         /// <summary>Advances the fire cooldown and fires if the trigger is held (regen is <see cref="PlayerAmmo.Tick"/>'s).</summary>
         public void Tick(float dt)
         {
-            // Snap float residue to zero so a 30-step wait is 30 steps, not 31.
-            if (cooldown > 0f) cooldown = cooldown - dt < 1e-5f ? 0f : cooldown - dt;
             if (emptyClickTimer > 0f) emptyClickTimer -= dt;
-
-            // A ship that dies mid-burst can't keep the barrel spinning.
-            if (IsSpinning && ship.State == PlayerFlightState.Dead) SpinDown();
-
-            if (TriggerHeld) TryFire();
+            Send(new TickGun(Id, Key, dt));
         }
 
-        /// <summary>
-        /// GML: fire_primary's ground branch with weapon_vulcan. Returns true when a bullet was
-        /// fired; an empty gun clicks and spins down instead.
-        /// </summary>
-        public bool TryFire()
+        /// <summary>GML: fire_primary's ground branch with weapon_vulcan. Returns true when a bullet was fired.</summary>
+        public bool TryFire() => Send(new FireGun(Id, Key)).Accepted;
+
+        protected override void OnPlayerEvent(PlayerEvent e)
         {
-            if (!CanShoot || ship.State != PlayerFlightState.Idle || ship.IsShielding) return false;
-
-            if (!AmmoEconomy.HasAmmo(AmmoPool.GroundPrimary))
+            switch (e)
             {
-                // GML: if(!audio_is_playing(sfx_empty_clip)) -- one click per clip length while held.
-                if (emptyClickTimer <= 0f)
-                {
-                    Play(VulcanSound.EmptyClip);
-                    emptyClickTimer = emptyClipClip != null ? emptyClipClip.length : 0.25f;
-                }
-                if (IsSpinning) SpinDown();
-                return false;
+                case GunFired fired when fired.Key == key:
+                    Fired?.Invoke(SpawnBullet());
+                    break;
+                case GunDryFired dry when dry.Key == key:
+                    // GML: if(!audio_is_playing(sfx_empty_clip)) -- one click per clip length while held.
+                    if (emptyClickTimer <= 0f)
+                    {
+                        Play(VulcanSound.EmptyClip);
+                        emptyClickTimer = emptyClipClip != null ? emptyClipClip.length : 0.25f;
+                    }
+                    break;
+                case VulcanCue cue when cue.Key == key:
+                    Play(cue.Sound);
+                    break;
             }
-
-            if (!IsSpinning)
-            {
-                IsSpinning = true;
-                Play(VulcanSound.SpinUp);
-            }
-
-            var bullet = SpawnBullet();
-            AmmoEconomy.Subtract(AmmoPool.GroundPrimary); // subtract_ground_ammo
-
-            if (!IsLoopPlaying)
-            {
-                IsLoopPlaying = true;
-                Play(VulcanSound.LoopStart);
-            }
-
-            cooldown = FireRateSteps / StepsPerSecond;
-            FireRateSteps = Mathf.Max(minRateSteps, FireRateSteps - spinUpDecrementSteps);
-
-            Fired?.Invoke(bullet);
-            return true;
         }
 
         /// <summary>GML: shoot_vulcan. A bullet from the muzzle along the aim, jittered vertically.</summary>
@@ -228,18 +158,8 @@ namespace Unity.Hare.Weapons
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);
             if (bulletSprite != null) go.AddComponent<SpriteRenderer>().sprite = bulletSprite;
             var bullet = go.AddComponent<Bullet>();
-            bullet.Init(gameObject, aim, bulletSpeed, bulletDamage, bulletLifetime, bulletRadius);
+            bullet.Init(gameObject, aim, bulletSpeed, Core.Table.BulletDamage(GunType.Vulcan), bulletLifetime, bulletRadius);
             return bullet;
-        }
-
-        /// <summary>GML: stop_vulcan_sfx, plus played_spinup = false.</summary>
-        void SpinDown()
-        {
-            IsSpinning = false;
-            if (!IsLoopPlaying) return;
-            IsLoopPlaying = false;
-            Play(VulcanSound.LoopStop);
-            Play(VulcanSound.SpinDown);
         }
 
         void Play(VulcanSound sound)
@@ -268,6 +188,12 @@ namespace Unity.Hare.Weapons
         void PlayOneShot(AudioClip clip)
         {
             if (clip != null && Application.isPlaying) oneShotSource.PlayOneShot(clip);
+        }
+
+        protected override void OnDestroy()
+        {
+            if (key != 0 && HasSeat) Seat.Send(new RemoveGun(Id, key));
+            base.OnDestroy();
         }
 
 #if UNITY_EDITOR

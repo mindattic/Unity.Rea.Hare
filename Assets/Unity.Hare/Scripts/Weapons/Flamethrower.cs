@@ -16,7 +16,6 @@ namespace Unity.Hare.Weapons
         [SerializeField] float flameSpeed = 4f;                                         // speed = 4
         [SerializeField] float flameLifetime = 42f / 0.3f / Gml.StepsPerSecond;  // 42 frames at image_speed 0.3
         [SerializeField] float flameRadius = 0.5f;                                      // spr_powder_fire's 100 px bbox; scales with the flame
-        [SerializeField] float cooldownSeconds = 8f / Gml.StepsPerSecond;         // alarm_reset_fire = 8
 
         public float FlameSpeed => flameSpeed;
         public float FlameLifetime => flameLifetime;
@@ -24,7 +23,7 @@ namespace Unity.Hare.Weapons
         /// <summary>The most recent flame fired (null once it burns out).</summary>
         public Flame LastFlame { get; private set; }
 
-        protected override float CooldownSeconds => cooldownSeconds;
+        protected override GunType GunType => GunType.Flamer;
 
         public Flamethrower() : base(WeaponSlot.Primary) { }
 

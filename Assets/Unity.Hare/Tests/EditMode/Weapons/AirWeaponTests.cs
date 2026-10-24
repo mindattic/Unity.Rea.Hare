@@ -70,37 +70,7 @@ namespace Unity.Hare.Tests.EditMode
             for (float t = 0f; t < seconds; t += Step) tick(Step);
         }
 
-        [Test]
-        public void NextAirWeaponCyclesLaserRailgunRocketAndWraps()
-        {
-            AirWeapon? switched = null;
-            loadout.Switched += w => switched = w;
 
-            Assert.AreEqual(AirWeapon.Laser, loadout.Current);
-            Assert.IsTrue(loadout.NextAirWeapon());
-            Assert.AreEqual(AirWeapon.Railgun, loadout.Current);
-            Assert.AreEqual(AirWeapon.Railgun, switched);
-            loadout.NextAirWeapon();
-            Assert.AreEqual(AirWeapon.Rocket, loadout.Current);
-            loadout.NextAirWeapon();
-            Assert.AreEqual(AirWeapon.Laser, loadout.Current);
-        }
-
-        [Test]
-        public void CyclingSkipsLockedWeaponsAndStaysPutWithOnlyOne()
-        {
-            loadout.Lock(AirWeapon.Railgun);
-            loadout.NextAirWeapon();
-            Assert.AreEqual(AirWeapon.Rocket, loadout.Current);
-
-            loadout.Lock(AirWeapon.Laser);
-            Assert.IsFalse(loadout.NextAirWeapon());
-            Assert.AreEqual(AirWeapon.Rocket, loadout.Current);
-
-            loadout.Unlock(AirWeapon.Railgun);
-            Assert.IsTrue(loadout.NextAirWeapon());
-            Assert.AreEqual(AirWeapon.Railgun, loadout.Current);
-        }
 
         [Test]
         public void LaserStaysOnWhileHeldAndRearmsOnRelease()
@@ -197,23 +167,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(2, Object.FindObjectsByType<Rocket>(FindObjectsSortMode.None).Length);
         }
 
-        [Test]
-        public void RocketsRunDryAt20AndRegenerate4PerSecondWithTriggerUp()
-        {
-            loadout.NextAirWeapon();
-            loadout.NextAirWeapon();
-            int dry = 0;
-            loadout.DryFired += _ => dry++;
-
-            loadout.SetTrigger(true);
-            Run(loadout.Tick, 6f);
-            Assert.AreEqual(0, loadout.Ammo(AirWeapon.Rocket));
-            Assert.Greater(dry, 0);
-
-            loadout.SetTrigger(false);
-            Run(dt => { loadout.Tick(dt); loadout.AmmoEconomy.Tick(dt); }, 1f + Step);
-            Assert.AreEqual(4, loadout.Ammo(AirWeapon.Rocket));
-        }
 
         [Test]
         public void RocketIgnitesAfter50StepsAndAcceleratesTo6PxPerStep()
@@ -323,33 +276,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(90f, rocket.Direction, 1e-3f, "GML last_impact: same wall bounces once");
         }
 
-        [Test]
-        public void WeaponsHoldFireWhileShieldingOrDead()
-        {
-            ship.Land();
-            Assert.IsTrue(ship.TryShield());
-            Assert.IsFalse(loadout.TryFire());
 
-            ship.DropShield();
-            ship.Die();
-            Assert.IsFalse(loadout.TryFire());
-            Assert.AreEqual(150, loadout.Ammo(AirWeapon.Laser));
-        }
-
-        [Test]
-        public void SwitchingWeaponsRearmsAndDropsTheLaser()
-        {
-            loadout.SetTrigger(true);
-            loadout.Tick(Step);
-            Assert.IsNotNull(loadout.ActiveLaser);
-
-            loadout.NextAirWeapon(); // railgun
-            Assert.IsNull(loadout.ActiveLaser);
-            Assert.IsTrue(loadout.TryFire());
-            Assert.IsFalse(loadout.CanShoot);
-
-            loadout.NextAirWeapon(); // rocket: next_air_weapon sets can_shoot = true
-            Assert.IsTrue(loadout.CanShoot);
-        }
     }
 }

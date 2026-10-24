@@ -33,7 +33,7 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   `ef_firework`, gibs and death particles (`Effects/`)
 - the rock field: drift, spin, darkening, healing, breaking, flotsam, replacement (`Rocks/`)
 
-Still to come, in build order: rules moved into Core as commands and events, tuning as data, the Input System
+Still to come, in build order: the enemy rules moved into Core, tuning as data, the Input System
 action asset, Unity.Shared settings, the URP seam, the UI, the art, sound and font pipelines, then the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
@@ -88,7 +88,7 @@ pause and hotkeys arrive with landing (UH-T53) and the hotkeys ticket (UH-T60).
 
 ```
 Assets/Unity.Hare/
-  Core/                Unity.Hare.Core asmdef (noEngineReferences): EnemyKind, EnemyList; the rules move here
+  Core/                Unity.Hare.Core asmdef (noEngineReferences): player and weapon rules (commands, events, tuning), EnemyKind, EnemyList
   Scripts/             Unity.Hare.Runtime asmdef: the components
     Player/  Weapons/  Enemies/  Rocks/  Effects/
   Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter

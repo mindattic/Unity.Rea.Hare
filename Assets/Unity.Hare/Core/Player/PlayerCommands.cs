@@ -1,0 +1,422 @@
+using Unity.Hare.Weapons;
+
+namespace Unity.Hare.Player
+{
+    /// <summary>
+    /// The only way a ship's state changes. A command carries the id of the player it acts for (no global current
+    /// player) and runs on that player's ship in <see cref="PlayerWorld.Execute"/>, which returns whether it took
+    /// effect and the events it raised. Views translate input into these and play the events.
+    /// </summary>
+    public abstract class PlayerCommand
+    {
+        protected PlayerCommand(PlayerId id) => Id = id;
+
+        public PlayerId Id { get; }
+
+        /// <summary>Does the work; false when the command was refused (the rules said no).</summary>
+        internal abstract bool Apply(PlayerShip ship);
+    }
+
+    // ---- Flight, energy and the shield ----
+
+    /// <summary>obj_player Create / reset_player's flight half: back in flight at full energy with no shield.</summary>
+    public sealed class ResetFlight : PlayerCommand
+    {
+        readonly FlightTuning tuning;
+        public ResetFlight(PlayerId id, FlightTuning tuning = null) : base(id) => this.tuning = tuning;
+        internal override bool Apply(PlayerShip ship) { ship.Flight.Reset(tuning ?? ship.Flight.Tuning); return true; }
+    }
+
+    /// <summary>A/D: -1 clockwise .. +1 counterclockwise.</summary>
+    public sealed class SetTurn : PlayerCommand
+    {
+        readonly float value;
+        public SetTurn(PlayerId id, float value) : base(id) => this.value = value;
+        internal override bool Apply(PlayerShip ship) { ship.Flight.SetTurnInput(value); return true; }
+    }
+
+    /// <summary>GML mouse_angle, degrees.</summary>
+    public sealed class SetAim : PlayerCommand
+    {
+        readonly float degrees;
+        public SetAim(PlayerId id, float degrees) : base(id) => this.degrees = degrees;
+        internal override bool Apply(PlayerShip ship) { ship.Flight.SetAimDirection(degrees); return true; }
+    }
+
+    /// <summary>GML player_boost.</summary>
+    public sealed class Boost : PlayerCommand
+    {
+        public Boost(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.TryBoost();
+    }
+
+    /// <summary>GML player_brake.</summary>
+    public sealed class Brake : PlayerCommand
+    {
+        public Brake(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.TryBrake();
+    }
+
+    /// <summary>GML player_leap toward <c>aim</c> degrees; runs set_ammo_cost when it launches.</summary>
+    public sealed class Leap : PlayerCommand
+    {
+        readonly float aim;
+        public Leap(PlayerId id, float aim) : base(id) => this.aim = aim;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (!ship.Flight.TryLeap(aim)) return false;
+            ship.SetAmmoCostFromLoadout();
+            return true;
+        }
+    }
+
+    /// <summary>The ship perched on a rock or structure; runs set_ammo_cost.</summary>
+    public sealed class Land : PlayerCommand
+    {
+        public Land(PlayerId id) : base(id) { }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (!ship.Flight.Land()) return false;
+            ship.SetAmmoCostFromLoadout();
+            return true;
+        }
+    }
+
+    /// <summary>GML player_shield.</summary>
+    public sealed class RaiseShield : PlayerCommand
+    {
+        public RaiseShield(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.TryShield();
+    }
+
+    /// <summary>The shield key was released.</summary>
+    public sealed class DropShield : PlayerCommand
+    {
+        public DropShield(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) { ship.Flight.DropShield(); return true; }
+    }
+
+    /// <summary>Stops the ship dead and drops every flight mode (player_hurt's HP-reached-0 flight half).</summary>
+    public sealed class HaltShip : PlayerCommand
+    {
+        public HaltShip(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) { ship.Flight.Die(); return true; }
+    }
+
+    /// <summary>One physics step of the ship (energy, turning, speed changes).</summary>
+    public sealed class StepFlight : PlayerCommand
+    {
+        readonly float dt;
+        public StepFlight(PlayerId id, float dt) : base(id) => this.dt = dt;
+        internal override bool Apply(PlayerShip ship) { ship.Flight.Step(dt); return true; }
+    }
+
+    // ---- Health and lives ----
+
+    /// <summary>A fresh game: full HP and lives, spawn-protected.</summary>
+    public sealed class ResetHealth : PlayerCommand
+    {
+        readonly HealthTuning tuning;
+        public ResetHealth(PlayerId id, HealthTuning tuning = null) : base(id) => this.tuning = tuning;
+        internal override bool Apply(PlayerShip ship) { ship.Health.Reset(tuning ?? ship.Health.Tuning); return true; }
+    }
+
+    /// <summary>A damage source reached the ship. Accepted when the hit landed.</summary>
+    public sealed class TakeHit : PlayerCommand
+    {
+        readonly bool ignoresSpawnProtection;
+        public TakeHit(PlayerId id, bool ignoresSpawnProtection = false) : base(id) => this.ignoresSpawnProtection = ignoresSpawnProtection;
+        internal override bool Apply(PlayerShip ship) => ship.Health.TryTakeHit(ignoresSpawnProtection);
+    }
+
+    /// <summary>Advances the health alarms (invulnerability, spawn protection, hurt pose, death wait).</summary>
+    public sealed class TickHealth : PlayerCommand
+    {
+        readonly float dt;
+        public TickHealth(PlayerId id, float dt) : base(id) => this.dt = dt;
+        internal override bool Apply(PlayerShip ship) { ship.Health.Tick(dt); return true; }
+    }
+
+    // ---- Ammo ----
+
+    /// <summary>obj_player Create: every pool full, both regen alarms stopped.</summary>
+    public sealed class ResetAmmo : PlayerCommand
+    {
+        readonly AmmoTuning tuning;
+        public ResetAmmo(PlayerId id, AmmoTuning tuning = null) : base(id) => this.tuning = tuning;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Ammo.Reset(tuning);
+            return true;
+        }
+    }
+
+    /// <summary>Runs the two ammo regen alarms.</summary>
+    public sealed class TickAmmo : PlayerCommand
+    {
+        readonly float dt;
+        public TickAmmo(PlayerId id, float dt) : base(id) => this.dt = dt;
+        internal override bool Apply(PlayerShip ship) { ship.Ammo.Tick(dt); return true; }
+    }
+
+    /// <summary>A trigger went down (stops the primary regen).</summary>
+    public sealed class PressAmmoTrigger : PlayerCommand
+    {
+        readonly int holder;
+        public PressAmmoTrigger(PlayerId id, int holder = AmmoPools.DefaultHolder) : base(id) => this.holder = holder;
+        internal override bool Apply(PlayerShip ship) { ship.Ammo.PressTrigger(holder); return true; }
+    }
+
+    /// <summary>A trigger came up (restarts both regen alarms once every holder has let go).</summary>
+    public sealed class ReleaseAmmoTrigger : PlayerCommand
+    {
+        readonly int holder;
+        public ReleaseAmmoTrigger(PlayerId id, int holder = AmmoPools.DefaultHolder) : base(id) => this.holder = holder;
+        internal override bool Apply(PlayerShip ship) { ship.Ammo.ReleaseTrigger(holder); return true; }
+    }
+
+    /// <summary>Tops a pool up to its maximum (pickups, upgrades).</summary>
+    public sealed class RefillAmmo : PlayerCommand
+    {
+        readonly AmmoPool pool;
+        public RefillAmmo(PlayerId id, AmmoPool pool) : base(id) => this.pool = pool;
+        internal override bool Apply(PlayerShip ship) { ship.Ammo.Refill(pool); return true; }
+    }
+
+    /// <summary>Sets a pool's count directly (pickups, upgrades).</summary>
+    public sealed class SetAmmo : PlayerCommand
+    {
+        readonly AmmoPool pool;
+        readonly int value;
+        public SetAmmo(PlayerId id, AmmoPool pool, int value) : base(id) { this.pool = pool; this.value = value; }
+        internal override bool Apply(PlayerShip ship) { ship.Ammo.SetCurrent(pool, value); return true; }
+    }
+
+    /// <summary>GML set_ammo_cost with the weapons it is told about (see <see cref="AmmoPools.SetAmmoCost"/>).</summary>
+    public sealed class SetAmmoCost : PlayerCommand
+    {
+        readonly GroundWeapon? groundWeapon;
+        readonly GroundWeapon? groundWeaponSecondary;
+        readonly AirWeapon? airWeapon;
+        readonly bool airSecondaryIsMine;
+
+        public SetAmmoCost(PlayerId id, GroundWeapon? groundWeapon, GroundWeapon? groundWeaponSecondary, AirWeapon? airWeapon, bool airSecondaryIsMine) : base(id)
+        {
+            this.groundWeapon = groundWeapon;
+            this.groundWeaponSecondary = groundWeaponSecondary;
+            this.airWeapon = airWeapon;
+            this.airSecondaryIsMine = airSecondaryIsMine;
+        }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Ammo.SetAmmoCost(groundWeapon, groundWeaponSecondary, airWeapon, airSecondaryIsMine);
+            return true;
+        }
+    }
+
+    // ---- Guns (vulcan, shotgun, flamer, mine launcher) ----
+
+    /// <summary>Puts a gun on the ship under <c>key</c>, or moves the one under that key to another slot.</summary>
+    public sealed class InstallGun : PlayerCommand
+    {
+        readonly int key;
+        readonly GunType type;
+        readonly WeaponSlot slot;
+
+        public InstallGun(PlayerId id, int key, GunType type, WeaponSlot slot) : base(id)
+        {
+            this.key = key;
+            this.type = type;
+            this.slot = slot;
+        }
+
+        internal override bool Apply(PlayerShip ship) { ship.Guns.Install(key, type, slot); return true; }
+    }
+
+    /// <summary>Takes a gun off the ship.</summary>
+    public sealed class RemoveGun : PlayerCommand
+    {
+        readonly int key;
+        public RemoveGun(PlayerId id, int key) : base(id) => this.key = key;
+        internal override bool Apply(PlayerShip ship) { ship.Guns.Remove(key); return true; }
+    }
+
+    /// <summary>The gun's trigger went down.</summary>
+    public sealed class PullTrigger : PlayerCommand
+    {
+        readonly int key;
+        public PullTrigger(PlayerId id, int key) : base(id) => this.key = key;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            if (gun == null) return false;
+            ship.Guns.PullTrigger(gun);
+            return true;
+        }
+    }
+
+    /// <summary>The gun's trigger came up (the vulcan spins down).</summary>
+    public sealed class ReleaseTrigger : PlayerCommand
+    {
+        readonly int key;
+        public ReleaseTrigger(PlayerId id, int key) : base(id) => this.key = key;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            if (gun == null) return false;
+            ship.Guns.ReleaseTrigger(gun);
+            return true;
+        }
+    }
+
+    /// <summary>One trigger pull on a gun. Accepted when a shot went out (a <see cref="GunFired"/> event).</summary>
+    public sealed class FireGun : PlayerCommand
+    {
+        readonly int key;
+        public FireGun(PlayerId id, int key) : base(id) => this.key = key;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            return gun != null && ship.Guns.TryFire(gun);
+        }
+    }
+
+    /// <summary>Advances a gun's re-arm cooldown (the vulcan also fires while its trigger is held).</summary>
+    public sealed class TickGun : PlayerCommand
+    {
+        readonly int key;
+        readonly float dt;
+        public TickGun(PlayerId id, int key, float dt) : base(id) { this.key = key; this.dt = dt; }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            if (gun == null) return false;
+            ship.Guns.Tick(gun, dt);
+            return true;
+        }
+    }
+
+    /// <summary>GML can_shoot = true for a gun.</summary>
+    public sealed class RearmGun : PlayerCommand
+    {
+        readonly int key;
+        public RearmGun(PlayerId id, int key) : base(id) => this.key = key;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            if (gun == null) return false;
+            ship.Guns.Rearm(gun);
+            return true;
+        }
+    }
+
+    /// <summary>A gun is put away: its trigger lets go so ammo regen resumes.</summary>
+    public sealed class HolsterGun : PlayerCommand
+    {
+        readonly int key;
+        public HolsterGun(PlayerId id, int key) : base(id) => this.key = key;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var gun = ship.Guns.Find(key);
+            if (gun == null) return false;
+            ship.Guns.Holster(gun);
+            return true;
+        }
+    }
+
+    // ---- Ground loadout (next_ground_weapon) ----
+
+    /// <summary>Sets the ground loadout up: nothing equipped, then the first gun in cycle order.</summary>
+    public sealed class ResetGroundLoadout : PlayerCommand
+    {
+        public ResetGroundLoadout(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) { ship.Ground.Reset(); return true; }
+    }
+
+    /// <summary>Re-reads the ground primaries after one was added or removed.</summary>
+    public sealed class RefreshGroundLoadout : PlayerCommand
+    {
+        public RefreshGroundLoadout(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) { ship.Ground.Refresh(); return true; }
+    }
+
+    /// <summary>GML next_ground_weapon (Q).</summary>
+    public sealed class NextGroundWeapon : PlayerCommand
+    {
+        public NextGroundWeapon(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Ground.Next();
+    }
+
+    /// <summary>Equips a ground primary directly (upgrade screen).</summary>
+    public sealed class EquipGroundWeapon : PlayerCommand
+    {
+        readonly GroundWeapon kind;
+        public EquipGroundWeapon(PlayerId id, GroundWeapon kind) : base(id) => this.kind = kind;
+        internal override bool Apply(PlayerShip ship) => ship.Ground.EquipKind(kind);
+    }
+
+    // ---- Air loadout (next_air_weapon, fire_secondary in the air) ----
+
+    /// <summary>Sets the air loadout up: first unlocked weapon equipped, re-armed, trigger up.</summary>
+    public sealed class ResetAirLoadout : PlayerCommand
+    {
+        public ResetAirLoadout(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) { ship.Air.Reset(); return true; }
+    }
+
+    /// <summary>GML next_air_weapon (E).</summary>
+    public sealed class NextAirWeapon : PlayerCommand
+    {
+        public NextAirWeapon(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Air.Next();
+    }
+
+    /// <summary>Adds an air weapon to the cycle.</summary>
+    public sealed class UnlockAirWeapon : PlayerCommand
+    {
+        readonly AirWeapon weapon;
+        public UnlockAirWeapon(PlayerId id, AirWeapon weapon) : base(id) => this.weapon = weapon;
+        internal override bool Apply(PlayerShip ship) { ship.Air.Unlock(weapon); return true; }
+    }
+
+    /// <summary>Removes an air weapon from the cycle.</summary>
+    public sealed class LockAirWeapon : PlayerCommand
+    {
+        readonly AirWeapon weapon;
+        public LockAirWeapon(PlayerId id, AirWeapon weapon) : base(id) => this.weapon = weapon;
+        internal override bool Apply(PlayerShip ship) { ship.Air.Lock(weapon); return true; }
+    }
+
+    /// <summary>The secondary (right mouse) trigger went down or up.</summary>
+    public sealed class SetAirTrigger : PlayerCommand
+    {
+        readonly bool held;
+        public SetAirTrigger(PlayerId id, bool held) : base(id) => this.held = held;
+        internal override bool Apply(PlayerShip ship) { ship.Air.SetTrigger(held); return true; }
+    }
+
+    /// <summary>Advances the air loadout's re-arm timer and fires while the trigger is held.</summary>
+    public sealed class TickAir : PlayerCommand
+    {
+        readonly float dt;
+        public TickAir(PlayerId id, float dt) : base(id) => this.dt = dt;
+        internal override bool Apply(PlayerShip ship) { ship.Air.Tick(dt); return true; }
+    }
+
+    /// <summary>GML fire_secondary for the current air weapon. Accepted when a shot went out.</summary>
+    public sealed class FireAir : PlayerCommand
+    {
+        public FireAir(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Air.TryFire();
+    }
+}

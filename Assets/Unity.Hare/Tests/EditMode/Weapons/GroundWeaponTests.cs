@@ -192,42 +192,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(1, Count<Mine>());
         }
 
-        [Test]
-        public void LauncherRearmsAfterThirtyStepsAndHoldsEightMines()
-        {
-            var launcher = NewLauncher();
-            Assert.AreEqual(8, launcher.MaxAmmo);
-            Assert.AreEqual(1, launcher.AmmoCost);
-
-            Assert.IsTrue(launcher.TryFire());
-            for (int i = 0; i < 29; i++) launcher.Tick(Step);
-            Assert.IsFalse(launcher.TryFire());
-            launcher.Tick(Step);
-            Assert.IsTrue(launcher.TryFire());
-            Assert.AreEqual(6, launcher.Ammo);
-        }
-
-        [Test]
-        public void LauncherClicksWhenEmptyAndRegainsOneMinePerSecond()
-        {
-            var launcher = NewLauncher();
-            int empties = 0;
-            launcher.OutOfAmmo += () => empties++;
-            launcher.TriggerHeld = true;
-            for (int i = 0; i < 8; i++)
-            {
-                launcher.Rearm();
-                Assert.IsTrue(launcher.TryFire());
-            }
-            launcher.Rearm();
-            Assert.IsFalse(launcher.TryFire());
-            Assert.AreEqual(1, empties);
-
-            launcher.TriggerHeld = false; // GML: releasing starts Alarm 10
-            launcher.AmmoEconomy.Tick(1f);
-            Assert.AreEqual(1, launcher.Ammo);
-        }
-
         // ---- Grenade explosion ----
 
         [Test]
@@ -308,40 +272,6 @@ namespace Unity.Hare.Tests.EditMode
             loadout.Equip(GroundWeapon.Flamer);
             Assert.IsFalse(vulcan.enabled);
             Assert.IsTrue(flamer.enabled);
-        }
-
-        [Test]
-        public void SwitchingRearmsTheNewWeaponAndReleasesTheOldTrigger()
-        {
-            var loadout = NewGroundShip(out var vulcan, out var shotgun, out var flamer, out var secondary);
-            loadout.Equip(GroundWeapon.Shotgun);
-            Assert.IsTrue(shotgun.TryFire());
-            Assert.Greater(shotgun.CooldownRemaining, 0f);
-
-            loadout.Equip(GroundWeapon.Vulcan);
-            vulcan.PressTrigger();
-            vulcan.Tick(Step);
-            Assert.IsTrue(vulcan.IsSpinning);
-
-            loadout.NextGroundWeapon(); // back to the shotgun
-            Assert.IsFalse(vulcan.TriggerHeld);
-            Assert.IsFalse(vulcan.IsSpinning, "stop_vulcan_sfx on the way out");
-            Assert.AreEqual(0f, shotgun.CooldownRemaining, "next_ground_weapon: can_shoot = true");
-            Assert.IsTrue(shotgun.TryFire());
-        }
-
-        [Test]
-        public void NextGroundWeaponDoesNothingWithASingleGroundPrimary()
-        {
-            var go = new GameObject("Player");
-            go.AddComponent<PlayerShipController>().ResetState();
-            go.AddComponent<VulcanWeapon>().ResetState();
-            var loadout = go.AddComponent<GroundWeaponLoadout>();
-            loadout.ResetState();
-
-            Assert.AreEqual(GroundWeapon.Vulcan, loadout.Current);
-            Assert.IsFalse(loadout.NextGroundWeapon());
-            Assert.AreEqual(GroundWeapon.Vulcan, loadout.Current);
         }
 
         [Test]

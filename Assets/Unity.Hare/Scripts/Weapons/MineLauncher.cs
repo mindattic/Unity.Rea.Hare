@@ -22,15 +22,9 @@ namespace Unity.Hare.Weapons
         /// <summary>The most recent mine dropped (null once it is gone).</summary>
         public Mine LastMine { get; private set; }
 
-        protected override float CooldownSeconds => Gml.Steps(Mine.RearmSteps);
-
-        /// <summary>fire_secondary's in-air branch spends air_ammo_secondary.</summary>
-        public override AmmoPool AmmoPool => AmmoPool.AirSecondary;
+        protected override GunType GunType => GunType.MineLauncher;
 
         public MineLauncher() : base(WeaponSlot.Secondary) { }
-
-        /// <summary>fire_secondary's "In Air" branch: everything but perched (and dead, which TryFire already refuses).</summary>
-        protected override bool InFiringState(PlayerShipController ship) => ship.State == PlayerFlightState.Moving;
 
         protected override void Shoot(Vector2 origin, float aim)
         {

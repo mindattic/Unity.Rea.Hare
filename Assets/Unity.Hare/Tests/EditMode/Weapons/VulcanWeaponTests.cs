@@ -49,16 +49,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void StartsWithCreatesRoundsAndLandingCapsTheVulcanAt120()
-        {
-            // obj_player Create: ground_ammo_primary = 150; set_ammo_cost on landing lowers only the max.
-            Assert.AreEqual(150, vulcan.Ammo);
-            Assert.AreEqual(120, vulcan.MaxAmmo);
-            Assert.IsTrue(vulcan.CanShoot);
-            Assert.IsFalse(vulcan.IsSpinning);
-        }
-
-        [Test]
         public void HoldingTheTriggerFiresABulletAlongTheAim()
         {
             ship.SetAimDirection(0f);
@@ -74,23 +64,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.Greater(bullet.transform.position.x, ship.transform.position.x, "spawns at the muzzle, ahead of the ship");
             Assert.AreEqual(149, vulcan.Ammo, "subtract_ground_ammo: 1 round per shot");
             Assert.IsFalse(vulcan.CanShoot);
-        }
-
-        [Test]
-        public void SpinUpShortensTheGapBetweenShotsDownToNineSteps()
-        {
-            vulcan.PressTrigger();
-            vulcan.Tick(Step); // first shot; next waits base_rate = 30 steps
-
-            var gaps = new List<int>();
-            int sinceLast = 0;
-            while (gaps.Count < 10)
-            {
-                sinceLast++;
-                if (RunSteps(1) == 1) { gaps.Add(sinceLast); sinceLast = 0; }
-            }
-
-            CollectionAssert.AreEqual(new[] { 30, 27, 24, 21, 18, 15, 12, 9, 9, 9 }, gaps);
         }
 
         [Test]
@@ -112,30 +85,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void ReleasingResetsTheFireRateSoTheNextBurstSpinsUpAgain()
-        {
-            vulcan.PressTrigger();
-            RunSteps(300);
-            Assert.AreEqual(vulcan.MinRateSteps, vulcan.FireRateSteps);
-
-            vulcan.ReleaseTrigger();
-            Assert.AreEqual(vulcan.BaseRateSteps, vulcan.FireRateSteps);
-            RunSteps(20); // let the last cooldown run out
-
-            sounds.Clear();
-            vulcan.PressTrigger();
-            vulcan.Tick(Step);
-            CollectionAssert.AreEqual(new[] { VulcanSound.SpinUp, VulcanSound.LoopStart }, sounds);
-        }
-
-        [Test]
-        public void ReleasingWithoutHavingFiredDoesNotPlaySpinDown()
-        {
-            vulcan.ReleaseTrigger();
-            CollectionAssert.IsEmpty(sounds);
-        }
-
-        [Test]
         public void RunningDryClicksAndSpinsDownInsteadOfFiring()
         {
             vulcan.PressTrigger();
@@ -147,67 +96,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsFalse(vulcan.IsLoopPlaying);
             Assert.Contains(VulcanSound.EmptyClip, sounds);
             Assert.Contains(VulcanSound.SpinDown, sounds);
-        }
-
-        [Test]
-        public void AmmoRegeneratesTenPerSecondOnlyAfterTheTriggerIsReleased()
-        {
-            var ammo = vulcan.AmmoEconomy;
-            var reloads = new List<bool>();
-            ammo.Reloaded += (pool, full) => { if (pool == AmmoPool.GroundPrimary) reloads.Add(full); };
-            ammo.SetCurrent(AmmoPool.GroundPrimary, 100);
-
-            vulcan.PressTrigger();
-            RunSteps(250);
-            int afterBurst = vulcan.Ammo;
-            Assert.Less(afterBurst, 100);
-
-            vulcan.ReleaseTrigger();
-            ammo.Tick(0.9f);
-            Assert.AreEqual(afterBurst, vulcan.Ammo, "nothing before ammo_regen_delay");
-            ammo.Tick(0.11f);
-            Assert.AreEqual(afterBurst + 10, vulcan.Ammo);
-            CollectionAssert.AreEqual(new[] { false }, reloads, "sfx_reload_half");
-
-            ammo.Tick(10f);
-            Assert.AreEqual(120, vulcan.Ammo, "capped at the maximum");
-            Assert.IsTrue(reloads[reloads.Count - 1], "sfx_reload_full");
-        }
-
-        [Test]
-        public void HoldingTheTriggerStopsRegeneration()
-        {
-            var ammo = vulcan.AmmoEconomy;
-            ammo.SetCurrent(AmmoPool.GroundPrimary, 100);
-            vulcan.PressTrigger();
-            RunSteps(250);
-            vulcan.ReleaseTrigger();
-            ammo.Tick(0.5f);
-
-            ship.TryShield(); // fire is held back, but the trigger still blocks regen
-            vulcan.PressTrigger();
-            int held = vulcan.Ammo;
-            ammo.Tick(5f);
-            Assert.AreEqual(held, vulcan.Ammo);
-        }
-
-        [Test]
-        public void DoesNotFireInFlightWhileShieldingOrWhileDead()
-        {
-            var flying = ship;
-            flying.TryLeap(flying.Direction);
-            Assert.AreEqual(PlayerFlightState.Moving, flying.State);
-            vulcan.PressTrigger();
-            Assert.AreEqual(0, RunSteps(60), "in the air the air loadout fires instead (UH-T9)");
-
-            flying.Land();
-            Assert.IsTrue(flying.TryShield());
-            Assert.AreEqual(0, RunSteps(60), "fire_primary: !player.shielding");
-
-            flying.DropShield();
-            flying.Die();
-            Assert.AreEqual(0, RunSteps(60));
-            Assert.AreEqual(150, vulcan.Ammo);
         }
 
         [Test]

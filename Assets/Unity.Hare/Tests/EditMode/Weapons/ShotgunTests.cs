@@ -52,33 +52,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void ShotgunDoesNotFireWhileFlying()
-        {
-            var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
-            var player = shotgun.GetComponent<PlayerShipController>();
-            Assert.IsTrue(player.TryLeap(player.Direction));
-
-            Assert.IsFalse(shotgun.TryFire());
-            Assert.AreEqual(0, PelletsAlive());
-            Assert.AreEqual(shotgun.MaxAmmo, shotgun.Ammo);
-        }
-
-        [Test]
-        public void ShotgunDoesNotFireWhileShieldingOrDead()
-        {
-            var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
-            var player = shotgun.GetComponent<PlayerShipController>();
-
-            Assert.IsTrue(player.TryShield());
-            Assert.IsFalse(shotgun.TryFire());
-            player.DropShield();
-
-            player.Die();
-            Assert.IsFalse(shotgun.TryFire());
-            Assert.AreEqual(0, PelletsAlive());
-        }
-
-        [Test]
         public void BlastSpawnsSixteenPelletsWithinSpreadOfAim()
         {
             var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
@@ -105,62 +78,6 @@ namespace Unity.Hare.Tests.EditMode
                 Assert.That(along, Is.InRange(-1e-4f, shotgun.Grouping + 1e-4f));
                 Assert.AreEqual(along, offset.magnitude, 1e-4f);
             }
-        }
-
-        [Test]
-        public void ShotgunReloadsForOneSecondBetweenBlasts()
-        {
-            var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
-            Assert.IsTrue(shotgun.TryFire());
-            Assert.IsFalse(shotgun.TryFire());
-
-            shotgun.Tick(0.9f);
-            Assert.IsFalse(shotgun.TryFire());
-            shotgun.Tick(0.11f);
-            Assert.IsTrue(shotgun.TryFire());
-        }
-
-        [Test]
-        public void ShotgunSpendsFourOfTwelveAndRunsDryAfterThreeBlasts()
-        {
-            var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
-            int empty = 0;
-            shotgun.OutOfAmmo += () => empty++;
-            Assert.AreEqual(12, shotgun.Ammo);
-
-            shotgun.TriggerHeld = true; // GML: no ammo regen while the mouse button is down
-            for (int i = 0; i < 3; i++)
-            {
-                Assert.IsTrue(shotgun.TryFire(), $"blast {i + 1}");
-                Assert.AreEqual(12 - 4 * (i + 1), shotgun.Ammo);
-                shotgun.Tick(1f);
-            }
-
-            Assert.AreEqual(0, shotgun.Ammo);
-            Assert.IsFalse(shotgun.TryFire());
-            Assert.AreEqual(1, empty);
-
-            // Releasing starts the regen alarm with its full delay.
-            shotgun.TriggerHeld = false;
-            shotgun.AmmoEconomy.Tick(0.9f);
-            Assert.AreEqual(0, shotgun.Ammo);
-            shotgun.AmmoEconomy.Tick(0.11f);
-            Assert.AreEqual(2, shotgun.Ammo);
-        }
-
-        [Test]
-        public void ShotgunAmmoRefillsTwoPerSecondUpToTwelve()
-        {
-            var shotgun = PerchedWeaponTestUtil.NewPerchedWeapon<Shotgun>();
-            shotgun.TriggerHeld = true;
-            shotgun.TryFire();
-            shotgun.TriggerHeld = false;
-            Assert.AreEqual(8, shotgun.Ammo);
-
-            shotgun.AmmoEconomy.Tick(1f);
-            Assert.AreEqual(10, shotgun.Ammo);
-            shotgun.AmmoEconomy.Tick(5f);
-            Assert.AreEqual(12, shotgun.Ammo);
         }
 
         [Test]

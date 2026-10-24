@@ -26,7 +26,7 @@ namespace Unity.Hare.Weapons
         public const int MinDetonateSeconds = 8;              // room_speed * irandom_range(8, 10)
         public const int MaxDetonateSeconds = 10;
         /// <summary>GML delay = 30: shoot_mine re-arms the launcher after this many steps.</summary>
-        public const float RearmSteps = 30f;
+        public const float RearmSteps = WeaponTable.DefaultMineIntervalSteps; // the launcher's interval is weapon data
         public const float RadiusPx = 9f;
 
         Rigidbody2D body;

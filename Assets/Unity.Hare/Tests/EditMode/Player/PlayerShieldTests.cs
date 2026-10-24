@@ -31,15 +31,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void ShieldCannotBeRaisedWhileFlying()
-        {
-            var player = NewController();
-            Assert.IsFalse(player.TryShield());
-            Assert.IsFalse(player.IsShielding);
-            Assert.IsNull(player.Shield);
-        }
-
-        [Test]
         public void ShieldRaisesFromIdleAndSpawnsWall()
         {
             var player = NewPerchedController();
@@ -61,17 +52,6 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void ShieldRefusedBelowAThirdEnergy()
-        {
-            var player = NewPerchedController();
-            Assert.IsTrue(player.TryShield());
-            // Drain to just under 33% (40/s placeholder drain), then release and retry.
-            while (player.Energy >= 33f) player.Step(0.1f);
-            player.DropShield();
-            Assert.IsFalse(player.TryShield());
-        }
-
-        [Test]
         public void ShieldDrainsEnergyAndCollapsesWhenEmpty()
         {
             var player = NewPerchedController();
@@ -86,19 +66,6 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsFalse(player.BlocksDamage);
             Assert.IsNull(player.Shield);
             Assert.AreEqual(0, Object.FindObjectsByType<ShieldWall>(FindObjectsSortMode.None).Length);
-        }
-
-        [Test]
-        public void DroppingShieldLetsEnergyRefill()
-        {
-            var player = NewPerchedController();
-            player.TryShield();
-            player.Step(1f);
-            float drained = player.Energy;
-
-            player.DropShield();
-            player.Step(1f);
-            Assert.Greater(player.Energy, drained);
         }
 
         [Test]

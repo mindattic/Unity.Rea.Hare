@@ -74,10 +74,10 @@ namespace Unity.Hare.Weapons
     public static class Gml
     {
         /// <summary>room_gamescreen's room_speed.</summary>
-        public const float StepsPerSecond = 120f;
+        public const float StepsPerSecond = GameClock.StepsPerSecond;
 
         /// <summary>GML pixels per Unity world unit (Unity's default sprite import PPU).</summary>
-        public const float PixelsPerUnit = 100f;
+        public const float PixelsPerUnit = GameClock.PixelsPerUnit;
 
         /// <summary>room_gamescreen's size in GML pixels.</summary>
         public const float RoomWidthPx = 3840f;
@@ -96,8 +96,8 @@ namespace Unity.Hare.Weapons
         /// </summary>
         public static bool Paused { get; set; }
 
-        public static float Px(float pixels) => pixels / PixelsPerUnit;
-        public static float Steps(float steps) => steps / StepsPerSecond;
+        public static float Px(float pixels) => GameClock.Px(pixels);
+        public static float Steps(float steps) => GameClock.Seconds(steps);
 
         /// <summary>GML lengthdir as a unit vector: degrees, 0 = +x, CCW positive.</summary>
         public static Vector2 Dir(float degrees)

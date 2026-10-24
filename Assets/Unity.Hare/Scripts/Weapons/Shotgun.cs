@@ -19,11 +19,9 @@ namespace Unity.Hare.Weapons
         [SerializeField] int spreadDegrees = 8;      // spread, irandom_range(-spread, spread)
         [SerializeField] float grouping = 0.12f;     // 12 px
         [SerializeField] float pelletSpeed = 12f;    // velocity, 12 px/step
-        [SerializeField] int pelletDamage = 1;
         [SerializeField] float pelletLifetime = 2f;  // GML: destroyed leaving the view; rooms have no bounds yet
         [SerializeField] float pelletRadius = 0.03f; // spr_pellet is 6 px
         [SerializeField] Sprite pelletSprite;
-        [SerializeField] float cooldownSeconds = 1f; // alarm_reset_fire_secondary = room_speed
 
         readonly List<Bullet> lastBlast = new List<Bullet>();
 
@@ -35,7 +33,7 @@ namespace Unity.Hare.Weapons
         /// <summary>The pellets of the most recent blast (some may since have been destroyed).</summary>
         public IReadOnlyList<Bullet> LastBlast => lastBlast;
 
-        protected override float CooldownSeconds => cooldownSeconds;
+        protected override GunType GunType => GunType.Shotgun;
 
         public Shotgun() : base(WeaponSlot.Secondary) { }
 
@@ -55,7 +53,7 @@ namespace Unity.Hare.Weapons
                 go.transform.position = new Vector3(start.x, start.y, transform.position.z);
                 if (pelletSprite != null) go.AddComponent<SpriteRenderer>().sprite = pelletSprite;
                 var pellet = go.AddComponent<Bullet>();
-                pellet.Init(gameObject, direction, pelletSpeed, pelletDamage, pelletLifetime, pelletRadius);
+                pellet.Init(gameObject, direction, pelletSpeed, Core.Table.BulletDamage(GunType.Shotgun), pelletLifetime, pelletRadius);
                 lastBlast.Add(pellet);
             }
         }
