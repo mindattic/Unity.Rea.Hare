@@ -15,6 +15,7 @@ namespace Unity.Hare.Rendering
     public sealed class ScreenOverlayLayer : MonoBehaviour
     {
         static Sprite whitePixel;
+        static Material unlitMaterial;
 
         SpriteRenderer spriteRenderer;
         Camera parentCamera;
@@ -36,6 +37,13 @@ namespace Unity.Hare.Rendering
             if (spriteRenderer != null) return;
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = WhitePixel();
+            // AddComponent<SpriteRenderer>()'s default material is URP's lit Sprite-Lit-Default, which tints
+            // (and can black out) a full-screen fade/flash by whatever Light2D reaches the Overlay layer. A
+            // screen overlay must read exactly the colour it is given, so it uses the unlit sprite shader by
+            // name (no UnityEngine.Rendering.Universal reference: a pipeline without that shader just keeps
+            // Unity's own default material instead).
+            var material = UnlitMaterial();
+            if (material != null) spriteRenderer.sharedMaterial = material;
             spriteRenderer.sortingLayerName = HareSortingLayers.Overlay;
             spriteRenderer.sortingOrder = short.MaxValue;
             spriteRenderer.color = new Color(0f, 0f, 0f, 0f);
@@ -67,12 +75,25 @@ namespace Unity.Hare.Rendering
         static Sprite WhitePixel()
         {
             if (whitePixel != null) return whitePixel;
-            var texture = new Texture2D(1, 1, TextureFormat.RGBA32, false) { name = "HareOverlayPixel" };
+            // DontSave: Initialize() runs in Edit Mode too (ProjectSetup builds the main scene there), and
+            // without this flag Unity bakes this generated texture and sprite into the saved scene even though
+            // Awake rebuilds them fresh every time the scene is loaded (spriteRenderer is never [SerializeField]).
+            var texture = new Texture2D(1, 1, TextureFormat.RGBA32, false) { name = "HareOverlayPixel", hideFlags = HideFlags.DontSave };
             texture.SetPixel(0, 0, Color.white);
             texture.Apply();
             whitePixel = Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
             whitePixel.name = "HareOverlayPixel";
+            whitePixel.hideFlags = HideFlags.DontSave;
             return whitePixel;
+        }
+
+        static Material UnlitMaterial()
+        {
+            if (unlitMaterial != null) return unlitMaterial;
+            var shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default") ?? Shader.Find("Sprites/Default");
+            if (shader == null) return null;
+            unlitMaterial = new Material(shader) { name = "HareOverlayUnlit", hideFlags = HideFlags.DontSave };
+            return unlitMaterial;
         }
     }
 }
