@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Tests.EditMode
