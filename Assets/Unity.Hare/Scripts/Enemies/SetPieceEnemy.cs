@@ -81,12 +81,20 @@ namespace Unity.Hare.Enemies
             if (this != null && result.Body != null && !Core.IsDead) Show(true);
         }
 
-        /// <summary>Sends the nearest ship's position to the world (GML's global player), finding the ship when none was given.</summary>
+        /// <summary>Sends the nearest ship's position to the world now (GML's global player), finding the ship when none was
+        /// given. For driving a body directly, one step at a time, outside the director's own loop (EditMode tests).</summary>
         internal void TrackPlayer()
+        {
+            RegisterPlayer();
+            EnemyDirector.SyncTargets();
+        }
+
+        /// <summary>Finds this view's ship (GML's global player) and tells the director to track it, without syncing: the
+        /// director's own Step does that once for every tracked ship, not once per view.</summary>
+        internal void RegisterPlayer()
         {
             if (player == null) player = Object.FindAnyObjectByType<PlayerShipController>();
             if (player != null) EnemyDirector.Track(player);
-            EnemyDirector.SyncTargets();
         }
 
         /// <summary>Puts the object where Core says the body is. <paramref name="moving"/> moves the kinematic body (so triggers fire); a jump sets the transform.</summary>

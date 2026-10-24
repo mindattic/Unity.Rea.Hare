@@ -23,10 +23,33 @@ namespace Unity.Hare.Enemies
         void Present();
     }
 
-    /// <summary>Steps the enemy world once per physics step, so one order of ticks (and so one order of random draws) plays every run.</summary>
+    /// <summary>
+    /// Steps the enemy world once per physics step, so one order of ticks (and so one order of random draws) plays
+    /// every run. Ordered after every default-order script (the ship among them) so the step always sees this
+    /// frame's ship position, not whichever frame Unity happened to run the two scripts in.
+    /// </summary>
+    [DefaultExecutionOrder(1000)]
     sealed class EnemyDriver : MonoBehaviour
     {
-        void FixedUpdate() => EnemyDirector.Step(Time.fixedDeltaTime);
+        void Awake()
+        {
+            // A driver can outlive its play session (Enter Play Mode Options with domain reload off); destroy any
+            // stray survivor so at most one ever steps the world.
+            if (EnemyDirector.HasOtherDriver(this)) { Destroy(gameObject); return; }
+            EnemyDirector.SetDriver(this);
+        }
+
+        void OnDestroy() => EnemyDirector.ClearDriver(this);
+
+        float lastSteppedAt = -1f;
+
+        void FixedUpdate()
+        {
+            // A backstop against a leaked second driver still stepping this same physics frame.
+            if (Time.fixedTime == lastSteppedAt) return;
+            lastSteppedAt = Time.fixedTime;
+            EnemyDirector.Step(Time.fixedDeltaTime);
+        }
     }
 
     /// <summary>Something that plays the events its Core body raises.</summary>
@@ -54,26 +77,31 @@ namespace Unity.Hare.Enemies
 
         public static EnemyWorld World => world ?? (world = new EnemyWorld(new SeededRandom(seed)));
 
-        /// <summary>Starts a fresh world (and optionally a new seed): nothing survives, every view is forgotten.</summary>
+        /// <summary>
+        /// Starts a fresh world (and optionally a new seed): nothing survives, every view is forgotten.
+        /// <paramref name="newSeed"/> pins that seed until the next <c>Reset(null)</c>; with no argument it clears
+        /// the pin, so a later play session deals its own enemies again instead of replaying a test's seed.
+        /// </summary>
         public static void Reset(int? newSeed = null)
         {
-            if (newSeed.HasValue)
-            {
-                seed = newSeed.Value;
-                seedPinned = true;
-            }
+            seedPinned = newSeed.HasValue;
+            if (newSeed.HasValue) seed = newSeed.Value;
             world = null;
             views.Clear();
             tracked.Clear();
         }
 
-        /// <summary>Each play session deals its own enemies unless a seed was asked for (then it repeats).</summary>
+        /// <summary>
+        /// Each play session deals its own enemies unless a seed was pinned before it started (then it repeats,
+        /// once): <see cref="Reset"/> below always clears the pin, so the session after this one rolls fresh again
+        /// unless something pins a seed for it too.
+        /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetOnLoad()
         {
             if (!seedPinned) seed = Environment.TickCount;
             Reset();
-            driver = null;
+            if (driver != null) { Object.Destroy(driver.gameObject); driver = null; }
         }
 
         // ---- The step ----
@@ -109,7 +137,7 @@ namespace Unity.Hare.Enemies
         public static void Step(float dt)
         {
             foreach (var v in new List<Object>(views.Values))
-                if (v != null && v is EnemyBodyView body) body.TrackPlayer();
+                if (v != null && v is EnemyBodyView body) body.RegisterPlayer();
             SyncTargets();
             Execute(new TickWorld(dt));
             foreach (var v in new List<Object>(views.Values))
@@ -119,9 +147,21 @@ namespace Unity.Hare.Enemies
         static void EnsureDriver()
         {
             if (driver != null || !Application.isPlaying) return;
-            var go = new GameObject("EnemyDirector") { hideFlags = HideFlags.HideAndDontSave };
+            // HideInHierarchy (not HideAndDontSave) so Unity still destroys it when play mode ends, even with
+            // domain reload off; DontDestroyOnLoad keeps it through scene loads within one session.
+            var go = new GameObject("EnemyDirector") { hideFlags = HideFlags.HideInHierarchy };
             Object.DontDestroyOnLoad(go);
-            driver = go.AddComponent<EnemyDriver>();
+            go.AddComponent<EnemyDriver>(); // sets driver itself (Awake), so a surviving duplicate can self-destroy
+        }
+
+        /// <summary>True when another driver is already live (<paramref name="self"/> should not become it).</summary>
+        internal static bool HasOtherDriver(EnemyDriver self) => driver != null && driver != self;
+
+        internal static void SetDriver(EnemyDriver self) => driver = self;
+
+        internal static void ClearDriver(EnemyDriver self)
+        {
+            if (driver == self) driver = null;
         }
 
         /// <summary>A view is going away: its body leaves the world (a death already did) so nothing outlives its scene.</summary>

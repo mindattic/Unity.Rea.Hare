@@ -47,7 +47,19 @@ namespace Unity.Hare.Player
         {
             var health = other.GetComponentInParent<PlayerHealth>();
             if (health == null) return;
-            bool landed = HitOverride != null ? HitOverride(health) : health.TryTakeHit(ignoresSpawnProtection);
+            bool landed;
+            if (HitOverride != null)
+            {
+                // HitOverride routes the hit through HurtPlayer (the enemy world's rules), which does not carry
+                // ignoresSpawnProtection; only obj_rocket_explosion needs it, and RocketExplosion.Touch calls
+                // TryTakeHit directly instead of going through a PlayerDamageSource's HitOverride.
+                Debug.Assert(!ignoresSpawnProtection, $"{name}: ignoresSpawnProtection is set but HitOverride would silently drop it.");
+                landed = HitOverride(health);
+            }
+            else
+            {
+                landed = health.TryTakeHit(ignoresSpawnProtection);
+            }
             if (landed && destroyOnHit)
                 Destroy(gameObject);
         }

@@ -333,10 +333,17 @@ namespace Unity.Hare.Enemies
         internal override bool Apply(EnemyWorld world, EnemyResult result)
         {
             float steps = dt * GameClock.StepsPerSecond;
-            foreach (var e in world.EmitterSnapshot()) e.Tick(steps);
-            foreach (var v in world.VortexSnapshot()) v.Tick(steps);
-            foreach (var b in world.Snapshot()) b.Tick(steps);
-            foreach (var i in world.InsectSnapshot()) i.Tick(steps);
+            // Every snapshot is taken before anything ticks, as GML's alarms have already run for the step by the
+            // time an instance_create happens: a wormhole an emitter opens, or an enemy a vortex releases, this step
+            // is not also ticked this step.
+            var emitters = world.EmitterSnapshot();
+            var vortices = world.VortexSnapshot();
+            var bodies = world.Snapshot();
+            var insects = world.InsectSnapshot();
+            foreach (var e in emitters) e.Tick(steps);
+            foreach (var v in vortices) v.Tick(steps);
+            foreach (var b in bodies) b.Tick(steps);
+            foreach (var i in insects) i.Tick(steps);
             return true;
         }
     }

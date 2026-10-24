@@ -63,7 +63,10 @@ namespace Unity.Hare.Enemies
         readonly Dictionary<int, VortexBody> vortices = new Dictionary<int, VortexBody>();
         readonly Dictionary<int, WormholeEmitterBody> emitters = new Dictionary<int, WormholeEmitterBody>();
         readonly Dictionary<int, PlayerTarget> targets = new Dictionary<int, PlayerTarget>();
-        int nextId;
+        // Shared across every world the process makes (not just this one), so a body's id is never reused after a
+        // Reset: a view that survives its old world's death (its Dispose not yet run) can never alias a same-id
+        // body in the next one.
+        static int nextId;
 
         public EnemyWorld(IRandomSource random, RoomBounds? room = null)
         {
