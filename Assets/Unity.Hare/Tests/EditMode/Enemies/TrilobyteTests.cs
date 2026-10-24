@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_trilobyte's wandering and the obj_enemy_mine it lays.</summary>
     public class TrilobyteTests
     {
-        [SetUp] public void SetUp() => Random.InitState(9090);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(9090);
         [TearDown] public void TearDown() => Cleanup();
 
         static Trilobyte Make(Vector2 at, float direction = 0f)
@@ -59,7 +59,7 @@ namespace Unity.Hare.Tests.EditMode
             while (laid == null && guard++ < 620) Steps(t, 1);
             Assert.IsNotNull(laid);
             Assert.AreEqual(t.Direction, laid.ImageAngle, 1e-3f);
-            Assert.AreSame(t.gameObject, laid.Owner);
+            Assert.AreSame(t, laid.Owner);
             Assert.AreEqual(guard / 10, smokes, "red smoke every 10 steps");
         }
 

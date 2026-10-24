@@ -52,6 +52,14 @@ namespace Unity.Hare.Player
         /// <summary>A key for a gun or trigger holder that is unique on this seat.</summary>
         public int AllocateKey() => ++nextKey;
 
+        /// <summary>Plays events a command run elsewhere (the enemy world hurting this ship) raised on this seat.</summary>
+        public void Play(System.Collections.Generic.IReadOnlyList<PlayerEvent> events)
+        {
+            var raised = EventRaised;
+            if (raised == null) return;
+            foreach (var e in events) raised(e);
+        }
+
         /// <summary>Runs a command on this seat's world and plays its events to the views.</summary>
         public CommandResult Send(PlayerCommand command)
         {

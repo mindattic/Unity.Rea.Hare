@@ -31,6 +31,7 @@ namespace Unity.Hare.Tests.EditMode
             DestroyAll<GmlEffectBurst>();
             DestroyAll<DeathParticle>();
             DestroyAll<PlayerShipController>();
+            EnemyDirector.Reset();
         }
 
         public static PlayerShipController Ship(Vector2 position)
@@ -74,6 +75,13 @@ namespace Unity.Hare.Tests.EditMode
 
         public static int DebrisCount(DebrisKind kind) =>
             Object.FindObjectsByType<FadingDebris>(FindObjectsSortMode.None).Count(d => d.Kind == kind);
+
+        /// <summary>GML x/y = ...: puts an enemy somewhere (a command, since Core owns where it is).</summary>
+        public static void Place(EnemyBodyView enemy, Vector2 at)
+        {
+            EnemyDirector.Execute(new PlaceBody(enemy.Core.Id, at.ToVec2()));
+            enemy.transform.position = at;
+        }
 
         public static Collider2D Hitbox(Component c) => c.GetComponent<Collider2D>();
     }

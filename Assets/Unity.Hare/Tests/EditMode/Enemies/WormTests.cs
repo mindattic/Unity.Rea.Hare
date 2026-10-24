@@ -11,7 +11,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_worm, its segment chain, sliver volleys and tail-first damage.</summary>
     public class WormTests
     {
-        [SetUp] public void SetUp() => Random.InitState(8080);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(8080);
         [TearDown] public void TearDown() => Cleanup();
 
         static Worm Make(Vector2 at, PlayerShipController ship, int segmentCount = 5, float direction = 0f)
@@ -52,7 +52,7 @@ namespace Unity.Hare.Tests.EditMode
             first.Tick(Step);
             Assert.AreEqual(0f, first.SpeedPxPerStep, "the head's centre is inside its box: no move");
 
-            worm.transform.position = new Vector3(2f, 0f, 0f);
+            Place(worm, new Vector2(2f, 0f));
             first.Tick(Step);
             Assert.AreEqual(worm.SpeedPxPerStep, first.SpeedPxPerStep);
             Assert.AreEqual(0f, first.Direction, 1e-3f);

@@ -1,29 +1,22 @@
 using UnityEngine;
 using Unity.Hare.Player;
-using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
 {
     /// <summary>
-    /// Ports obj_wormhole and create_wormhole (gmlHARE): a one-shot vortex for a single enemy of
-    /// the generator's list. create_wormhole sets its scale per kind (see
-    /// <see cref="EnemySpawner.WormholeScale"/>) and drops it at a random point at least sprite
-    /// width x scale inside the room. Create waits one_tick (room_speed * 2 = 240 steps) idle; open
-    /// grows for 240 steps; spawn releases the enemy unconditionally (no cap, no pause check) and
-    /// waits 240; close shrinks to nothing and destroys the wormhole.
+    /// The view on <see cref="WormholeBody"/> (obj_wormhole and create_wormhole, gmlHARE): a one-shot vortex for a single
+    /// enemy of the generator's list. Core waits, opens, releases the enemy unconditionally and closes; this draws it
+    /// and is removed when Core says it has shrunk to nothing.
     /// </summary>
     public class Wormhole : Vortex
     {
         /// <summary>one_tick = room_speed * 2.</summary>
-        public const int OneTickSteps = 240;
+        public const int OneTickSteps = WormholeBody.OneTickSteps;
 
         /// <summary>The enemy this wormhole released, once it has.</summary>
-        public Component Spawned { get; private set; }
+        public Component Spawned => ((WormholeBody)Core).Spawned == null ? null : EnemyDirector.ViewOf<Component>(((WormholeBody)Core).Spawned.Id);
 
-        /// <summary>
-        /// create_wormhole(kind). The original sized its placement margin with the caller's
-        /// (undefined) scale; this uses the wormhole's own, which is what it meant.
-        /// </summary>
+        /// <summary>create_wormhole(kind).</summary>
         public static Wormhole Create(EnemyKind kind, Rect? room = null, PlayerShipController player = null, Vector2? position = null)
         {
             var wormhole = new GameObject("Wormhole").AddComponent<Wormhole>();
@@ -33,42 +26,8 @@ namespace Unity.Hare.Enemies
 
         public void Init(EnemyKind kind, Rect? room = null, PlayerShipController player = null, Vector2? position = null)
         {
-            Instance = kind;
-            Scale = EnemySpawner.WormholeScale(kind);
-            Player = player;
-            SetupVortex(room);
-            Vector2 p = position ?? EnemySpawner.RandomPointInside(Room, SpriteWidthPx * Scale);
-            transform.position = new Vector3(p.x, p.y, transform.position.z);
-            SetAlarm(OneTickSteps);
-        }
-
-        protected override void StepEvent(float steps)
-        {
-            switch (Mode)
-            {
-                case VortexMode.Open:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        SetAlarm(OneTickSteps);
-                    }
-                    Grow(steps);
-                    break;
-
-                case VortexMode.Spawn:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        Spawned = Release();
-                        SetAlarm(OneTickSteps);
-                    }
-                    break;
-
-                case VortexMode.Close:
-                    FirstPass = false;
-                    if (Shrink(steps)) Remove();
-                    break;
-            }
+            var result = EnemyDirector.Execute(new AddWormhole(kind, room?.ToBounds(), position?.ToVec2()), this);
+            Attach(result.Vortex, player);
         }
     }
 }

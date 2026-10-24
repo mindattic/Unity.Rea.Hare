@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_hydra's spinning turrets, chase and turret-stripping hits.</summary>
     public class HydraTests
     {
-        [SetUp] public void SetUp() => Random.InitState(1414);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(1414);
         [TearDown] public void TearDown() => Cleanup();
 
         static Hydra Make(Vector2 at, PlayerShipController ship, int arms = 2)

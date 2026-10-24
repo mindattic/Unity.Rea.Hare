@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_meatball's sprays, darkening damage and explosive burst.</summary>
     public class MeatballTests
     {
-        [SetUp] public void SetUp() => Random.InitState(5050);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(5050);
         [TearDown] public void TearDown() => Cleanup();
 
         static Meatball Make(Vector2 at, PlayerShipController ship)

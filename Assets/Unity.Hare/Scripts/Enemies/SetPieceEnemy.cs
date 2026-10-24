@@ -1,105 +1,37 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
 using Object = UnityEngine.Object;
 
 namespace Unity.Hare.Enemies
 {
-    /// <summary>What removed a set-piece enemy.</summary>
-    public enum EnemyDeathCause
-    {
-        Bullet,
-        Rocket,
-        RocketExplosion,
-        ShieldWall,
-        Laser,
-        Railgun,
-        Flame,
-        /// <summary>The part's owner is gone (GML: if(!instance_exists(parent)) instance_destroy()).</summary>
-        Orphaned,
-        /// <summary>obj_enemy_mine's own alarm[1] detonation.</summary>
-        Fuse,
-        /// <summary>obj_enemy_mine within 24 px of the ship.</summary>
-        Proximity
-    }
-
-    /// <summary>One set-piece enemy death, raised by <see cref="SetPieceEnemy.Killed"/>.</summary>
-    public readonly struct EnemyKill
-    {
-        public readonly EnemyDeathCause Cause;
-        public readonly Vector2 Position;
-        /// <summary>The GML current_score += value (and its float text) when <see cref="AwardsScore"/>.</summary>
-        public readonly int Points;
-        public readonly bool AwardsScore;
-        /// <summary>GML random_pickup(x, y) (UH-T23 spawns the carrot or coin).</summary>
-        public readonly bool DropsPickup;
-
-        public EnemyKill(EnemyDeathCause cause, Vector2 position, int points, bool awardsScore, bool dropsPickup)
-        {
-            Cause = cause;
-            Position = position;
-            Points = points;
-            AwardsScore = awardsScore;
-            DropsPickup = dropsPickup;
-        }
-    }
-
     /// <summary>
-    /// The shared par_enemy body of the gmlHARE set-piece enemies (obj_hydra, obj_phalanx and its
-    /// shield, obj_meatball, obj_wraith, obj_sawblade, obj_worm and its segments, obj_trilobyte,
-    /// obj_mimic and its illusion). It runs GML's step order (alarms, Step, then built-in motion
-    /// along direction at speed px/step), knows the player (GML's global player instance), and
-    /// routes every weapon to the enemy's own collision event: bullets to
-    /// <see cref="BulletHit"/>, rockets to <see cref="RocketHit"/>, rocket explosions to
-    /// <see cref="RocketExplosionHit"/>. The laser, railgun and flame destroy any par_enemy outright
-    /// from their side (with(inst) instance_destroy()), so those kills give no points, pickup or
-    /// gibs. Touching the ship hurts it (obj_player's par_enemy collision).
+    /// The view on a Core <see cref="EnemyBody"/>: it sends the body's time and contacts to the world as commands
+    /// (<see cref="EnemyDirector"/>), shows the body where Core says it is, and plays the events it raises. It holds
+    /// no rules and never changes enemy state itself. The weapons reach it through <see cref="IProjectileTarget"/>
+    /// and <see cref="IRocketTarget"/>; each turns the contact into the matching strike command.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class SetPieceEnemy : MonoBehaviour, IEnemyTarget, IProjectileTarget, IRocketTarget
+    public abstract class EnemyBodyView : MonoBehaviour, IProjectileTarget, IRocketTarget, IEnemyEventSink
     {
-        /// <summary>Collision par_enemy: x/y += lengthdir(2, away).</summary>
-        public const float SeparationPxPerStep = 2f;
-        /// <summary>image_alpha += 0.01 a step until opaque (enemies that fade in).</summary>
-        public const float FadeInPerStep = 0.01f;
-
-        protected const float Off = -1f;
-
-        Rect room;
         Rigidbody2D body;
         PlayerShipController player;
-        bool dead;
-        float direction;
-        float imageAngle;
+        PlayerId? trackedSeat;
 
-        public Rect Room => room;
-        public bool IsDead => dead;
-        public Vector2 Position => transform.position;
+        /// <summary>The Core state this view shows (read-only for presentation).</summary>
+        public EnemyBody Core { get; private set; }
 
-        /// <summary>GML direction, degrees in [0, 360) (GML wraps the built-in).</summary>
-        public float Direction
-        {
-            get => direction;
-            protected set => direction = Mathf.Repeat(value, 360f);
-        }
-
+        public bool IsDead => Core == null || Core.IsDead;
+        public Vector2 Position => Core != null ? Core.Position.ToVector2() : (Vector2)transform.position;
+        public Rect Room => Core.Room.ToRect();
+        /// <summary>GML direction, degrees in [0, 360).</summary>
+        public float Direction => Core.Direction;
         /// <summary>GML speed, px/step; negative moves backwards like GML.</summary>
-        public float SpeedPxPerStep { get; protected set; }
-
+        public float SpeedPxPerStep => Core.SpeedPxPerStep;
         /// <summary>GML image_angle, degrees in [0, 360); turns the hitbox with it.</summary>
-        public float ImageAngle
-        {
-            get => imageAngle;
-            protected set
-            {
-                imageAngle = Mathf.Repeat(value, 360f);
-                transform.rotation = Quaternion.Euler(0f, 0f, imageAngle);
-            }
-        }
-
-        public float ImageAlpha { get; protected set; } = 1f;
+        public float ImageAngle => Core.ImageAngle;
+        public float ImageAlpha => Core.ImageAlpha;
 
         /// <summary>GML player. Found in the scene when not given.</summary>
         public PlayerShipController Player
@@ -108,27 +40,146 @@ namespace Unity.Hare.Enemies
             set => player = value;
         }
 
-        /// <summary>Raised once, just before the enemy is removed.</summary>
-        public event Action<SetPieceEnemy, EnemyKill> Killed;
+        /// <summary>Shapes this view's colliders for its body (the hitbox is presentation; the rules read the bounding box from Core).</summary>
+        protected abstract void Configure();
 
-        /// <summary>Half the GML bounding box (unrotated), in px, for distance_to_object/point.</summary>
-        protected abstract Vector2 BBoxHalfPx { get; }
-        /// <summary>The bounding box centre's offset from the origin, in px (Unity axes, y up).</summary>
-        protected virtual Vector2 BBoxOffsetPx => Vector2.zero;
-        /// <summary>True for enemies with GML's Collision par_enemy push-apart event.</summary>
-        protected virtual bool PushesAwayFromEnemies => false;
+        /// <summary>Plays an event this body raised (the effects every enemy shares are played by the director).</summary>
+        public virtual void OnEnemyEvent(EnemyEvent e) { }
 
-        /// <summary>Shared GML Create: kinematic trigger body, hurtful contact, position, room, player.</summary>
-        protected void Setup(Vector2 position, Rect? room, PlayerShipController player)
+        /// <summary>An obj_bullet this body fired has been made.</summary>
+        public virtual void OnRound(RoundFired fired, Bullet bullet) { }
+
+        /// <summary>Called once, when the body has died, before the object is removed.</summary>
+        protected abstract void OnKilled(EnemyKill kill);
+
+        /// <summary>Shows <paramref name="coreBody"/>: GML Create has run in Core already.</summary>
+        public void Attach(EnemyBody coreBody, PlayerShipController ship)
         {
-            this.room = room ?? Gml.Room;
-            this.player = player != null ? player : FindPlayer();
+            Core = coreBody;
+            if (ship != null) player = ship;
             body = GetComponent<Rigidbody2D>();
             body.bodyType = RigidbodyType2D.Kinematic;
             body.gravityScale = 0f;
-            if (GetComponent<PlayerDamageSource>() == null) gameObject.AddComponent<PlayerDamageSource>();
-            transform.position = new Vector3(position.x, position.y, transform.position.z);
-            dead = false;
+            EnemyDirector.Register(coreBody.Id, this);
+            Configure();
+            Show(false);
+        }
+
+        void FixedUpdate() => Tick(Time.fixedDeltaTime);
+
+        /// <summary>One GML step (alarms, Step, then built-in motion), scaled to <paramref name="dt"/> seconds.</summary>
+        public void Tick(float dt)
+        {
+            if (IsDead) return;
+            TrackPlayer();
+            var result = EnemyDirector.Execute(new TickEnemy(Core.Id, dt));
+            if (this != null && result.Body != null && !Core.IsDead) Show(true);
+        }
+
+        /// <summary>Sends the nearest ship's position to the world (GML's global player), finding the ship when none was given.</summary>
+        void TrackPlayer()
+        {
+            if (player == null) player = Object.FindAnyObjectByType<PlayerShipController>();
+            if (player == null)
+            {
+                if (trackedSeat.HasValue)
+                {
+                    EnemyDirector.Execute(new ClearTarget(trackedSeat.Value));
+                    trackedSeat = null;
+                }
+                return;
+            }
+            var seat = PlayerSeat.Of(player.gameObject);
+            var rb = player.GetComponent<Rigidbody2D>();
+            Vector2 velocity = rb != null ? rb.linearVelocity * Gml.PixelsPerUnit / Gml.StepsPerSecond : Vector2.zero;
+            trackedSeat = seat.Id;
+            EnemyDirector.Execute(new SetTarget(seat.Id, ((Vector2)player.transform.position).ToVec2(), velocity.ToVec2()));
+        }
+
+        /// <summary>Puts the object where Core says the body is. <paramref name="moving"/> moves the kinematic body (so triggers fire); a jump sets the transform.</summary>
+        protected void Show(bool moving)
+        {
+            Vector2 p = Core.Position.ToVector2();
+            if (moving && Application.isPlaying && body != null) body.MovePosition(p);
+            else transform.position = new Vector3(p.x, p.y, transform.position.z);
+            transform.rotation = Quaternion.Euler(0f, 0f, Core.ImageAngle);
+        }
+
+        /// <summary>Runs a command on this body's world and plays its events; shows the body afterwards (a push, a jump).</summary>
+        protected EnemyResult Send(EnemyCommand command)
+        {
+            var result = EnemyDirector.Execute(command);
+            if (this != null && Core != null && !Core.IsDead) Show(false);
+            return result;
+        }
+
+        // ---- Weapon contacts ----
+
+        /// <summary>The ship's own rounds (GML other.owner == player.id): the ones that score.</summary>
+        public static bool IsPlayerRound(Bullet bullet) =>
+            bullet != null && !bullet.FromEnemy && bullet.Owner != null && bullet.Owner.GetComponentInParent<PlayerShipController>() != null;
+
+        BulletShot ShotOf(Bullet bullet) => bullet == null
+            ? new BulletShot(false, false, Core.Position, 0f, 0f)
+            : new BulletShot(bullet.FromEnemy, IsPlayerRound(bullet), ((Vector2)bullet.transform.position).ToVec2(), bullet.Direction, bullet.Speed, bullet.GetInstanceID());
+
+        public bool OnProjectileHit(Bullet bullet)
+        {
+            if (IsDead) return false;
+            var result = Send(new StrikeBullet(Core.Id, ShotOf(bullet)));
+            if (result.Deflection.HasValue && bullet != null) bullet.SetDirection(result.Deflection.Value);
+            return result.Accepted;
+        }
+
+        public bool OnRocketHit(Rocket rocket)
+        {
+            if (IsDead) return false;
+            var result = Send(new StrikeRocket(Core.Id, rocket != null ? rocket.Position.ToVec2() : Core.Position));
+            if (result.Deflection.HasValue && rocket != null) rocket.Deflect(this, GmlMath.Dir(result.Deflection.Value).ToVector2());
+            return result.Accepted;
+        }
+
+        /// <summary>Removes the object (the body is already gone from the world).</summary>
+        protected void RemoveObject()
+        {
+            if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);
+        }
+
+        protected void WatchKill(EnemyEvent e)
+        {
+            if (e is EnemyKilled killed)
+            {
+                OnKilled(killed.Kill);
+                RemoveObject();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The view on the par_enemy bodies (the set-piece enemies, their shield, illusion and segments, the dagger). It
+    /// routes every weapon to the enemy's own collision event in Core: bullets, rockets and rocket explosions to the
+    /// body's own rules. The laser, railgun and flame destroy any par_enemy outright from their side (with(inst)
+    /// instance_destroy()), so those kills give no points, pickup or gibs. Touching the ship hurts it (obj_player's
+    /// par_enemy collision), through <see cref="HurtPlayer"/>.
+    /// </summary>
+    public abstract class SetPieceEnemy : EnemyBodyView, IEnemyTarget
+    {
+        /// <summary>Raised once, just before the enemy is removed.</summary>
+        public event Action<SetPieceEnemy, EnemyKill> Killed;
+
+        /// <summary>Starts the enemy: GML instance_create + Create, then shows it. <paramref name="room"/> defaults to room_gamescreen.</summary>
+        protected void Begin(EnemyKind kind, Vector2 position, Rect? room, PlayerShipController ship, EnemyOptions options)
+        {
+            var result = EnemyDirector.Execute(new SpawnEnemy(kind, position.ToVec2(), room?.ToBounds(), options), this);
+            Attach(result.Body, ship);
+        }
+
+        /// <summary>Hurtful contact with the ship (obj_player's par_enemy collision), routed through Core.</summary>
+        protected void AddDamageSource()
+        {
+            var source = GetComponent<PlayerDamageSource>();
+            if (source == null) source = gameObject.AddComponent<PlayerDamageSource>();
+            source.HitOverride = health => EnemyDirector.Hurt(health, Core.Id);
         }
 
         protected CircleCollider2D UseCircle(float radiusPx, Vector2 offsetPx = default)
@@ -163,181 +214,40 @@ namespace Unity.Hare.Enemies
             return c;
         }
 
-        static PlayerShipController FindPlayer() => Object.FindAnyObjectByType<PlayerShipController>();
-
-        void FixedUpdate() => Tick(Time.fixedDeltaTime);
-
-        /// <summary>One GML step (alarms, Step, then built-in motion), scaled to <paramref name="dt"/> seconds.</summary>
-        public void Tick(float dt)
-        {
-            if (dead) return;
-            if (player == null) player = FindPlayer();
-            float steps = dt * Gml.StepsPerSecond;
-            Alarms(steps);
-            if (dead) return;
-            StepEvent(steps);
-            if (dead) return;
-
-            Vector2 next = Position + Gml.Dir(Direction) * Gml.Px(SpeedPxPerStep * steps);
-            if (Application.isPlaying && body != null) body.MovePosition(next);
-            else transform.position = new Vector3(next.x, next.y, transform.position.z);
-        }
-
-        protected abstract void Alarms(float steps);
-        protected abstract void StepEvent(float steps);
-
-        /// <summary>Counts a GML alarm down; true (and unset) on the step it fires.</summary>
-        protected static bool Ring(ref float alarm, float steps)
-        {
-            if (alarm < 0f) return false;
-            alarm -= steps;
-            if (alarm > 1e-3f) return false;
-            alarm = Off;
-            return true;
-        }
-
-        /// <summary>GML irandom_range(a, b), inclusive.</summary>
-        protected static int IRandom(int min, int max) => UnityEngine.Random.Range(min, max + 1);
-
-        // ---- GML geometry ----
-
-        protected bool HasPlayer => player != null;
-        protected Vector2 PlayerPosition => player.transform.position;
-
-        /// <summary>The ship's GML hspeed/vspeed, px/step.</summary>
-        protected Vector2 PlayerVelocityPxPerStep
-        {
-            get
-            {
-                var rb = player != null ? player.GetComponent<Rigidbody2D>() : null;
-                return rb != null ? rb.linearVelocity * Gml.PixelsPerUnit / Gml.StepsPerSecond : Vector2.zero;
-            }
-        }
-
-        /// <summary>GML distance_to_point: from this enemy's bounding box (0 inside it), in px.</summary>
-        public float DistanceToPointPx(Vector2 point) => BoxDistancePx(Position + PxVec(BBoxOffsetPx), BBoxHalfPx, point);
-
-        /// <summary>GML distance_to_object(player), with the ship taken as a point; infinite without a ship.</summary>
-        public float DistanceToPlayerPx() => HasPlayer ? DistanceToPointPx(PlayerPosition) : float.PositiveInfinity;
-
-        static Vector2 PxVec(Vector2 px) => new Vector2(Gml.Px(px.x), Gml.Px(px.y));
-
-        /// <summary>Px gap between an axis-aligned box (centre in world units, half size in px) and a point.</summary>
-        public static float BoxDistancePx(Vector2 centre, Vector2 halfPx, Vector2 point)
-        {
-            Vector2 d = (point - centre) * Gml.PixelsPerUnit;
-            float dx = Mathf.Max(0f, Mathf.Abs(d.x) - halfPx.x);
-            float dy = Mathf.Max(0f, Mathf.Abs(d.y) - halfPx.y);
-            return Mathf.Sqrt(dx * dx + dy * dy);
-        }
-
-        /// <summary>GML point_direction(a, b): degrees in [0, 360), 0 for the same point.</summary>
-        public static float PointDirection(Vector2 a, Vector2 b)
-        {
-            Vector2 d = b - a;
-            if (d.sqrMagnitude <= Mathf.Epsilon) return 0f;
-            return Mathf.Repeat(Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg, 360f);
-        }
-
-        /// <summary>GML move_towards_point(p, speed): direction to <paramref name="point"/>, speed set.</summary>
-        protected void MoveTowardsPoint(Vector2 point, float speedPxPerStep)
-        {
-            Direction = PointDirection(Position, point);
-            SpeedPxPerStep = speedPxPerStep;
-        }
-
-        /// <summary>GML x &lt; -size || x &gt; room_width + size || ... (outside the room by more than size px).</summary>
-        protected bool OutsideRoom(float sizePx)
-        {
-            float size = Gml.Px(sizePx);
-            Vector2 p = Position;
-            return p.x < room.xMin - size || p.x > room.xMax + size || p.y < room.yMin - size || p.y > room.yMax + size;
-        }
-
-        protected void FadeIn(float steps)
-        {
-            if (ImageAlpha < 1f) ImageAlpha = Mathf.Min(1f, ImageAlpha + FadeInPerStep * steps);
-        }
-
-        /// <summary>GML x/y = ...: a jump, not motion.</summary>
-        protected void Teleport(Vector2 position) => transform.position = new Vector3(position.x, position.y, transform.position.z);
-
-        /// <summary>An obj_bullet fired by this enemy (owner = ID).</summary>
-        protected Bullet Fire(Vector2 origin, float direction, float speedPxPerStep) =>
-            EnemyRounds.Spawn(gameObject, origin, direction, speedPxPerStep);
-
-        // ---- Collisions ----
-
-        /// <summary>The ship's own rounds (GML other.owner == player.id): the ones that score.</summary>
-        protected static bool IsPlayerRound(Bullet bullet) =>
-            bullet != null && !bullet.FromEnemy && bullet.Owner != null && bullet.Owner.GetComponentInParent<PlayerShipController>() != null;
-
-        /// <summary>GML other.owner == ID: an enemy's round, which every "other.owner != ID" event ignores.</summary>
-        protected static bool IsEnemyRound(Bullet bullet) => bullet != null && bullet.FromEnemy;
-
-        protected static Vector2 PositionOf(Bullet bullet, Vector2 fallback) => bullet != null ? (Vector2)bullet.transform.position : fallback;
-
-        protected static Vector2 PositionOf(Rocket rocket, Vector2 fallback) => rocket != null ? (Vector2)rocket.transform.position : fallback;
-
-        /// <summary>GML tiny_explosion = instance_create(other.x, other.y, obj_tinyexplosion) for a bullet.</summary>
-        protected TinyExplosion TinyExplosionAt(Bullet bullet) => TinyExplosion.Spawn(PositionOf(bullet, Position));
-
-        /// <summary>GML tiny_explosion = instance_create(other.x, other.y, obj_tinyexplosion) for a rocket.</summary>
-        protected TinyExplosion TinyExplosionAt(Rocket rocket) => TinyExplosion.Spawn(PositionOf(rocket, Position));
-
-        /// <summary>The kill branch's ef_smokeup (c_black) and ef_firework (c_orange) at x, y.</summary>
-        protected void DeathBurst(int size) => DeathEffects.Burst(Position, size);
-
         /// <summary>Beams and flame destroy the instance; rockets and explosions run its own events.</summary>
         public void OnWeaponHit(in WeaponHit hit)
         {
-            if (dead) return;
+            if (IsDead) return;
             switch (hit.Kind)
             {
-                case WeaponHitKind.Laser: Die(EnemyDeathCause.Laser, 0, false, false); break;
-                case WeaponHitKind.Railgun: Die(EnemyDeathCause.Railgun, 0, false, false); break;
-                case WeaponHitKind.Flame: Die(EnemyDeathCause.Flame, 0, false, false); break;
-                case WeaponHitKind.Rocket: RocketHit(null); break;
-                case WeaponHitKind.RocketExplosion: RocketExplosionHit(); break;
+                case WeaponHitKind.Laser: Send(new StrikeBeam(Core.Id, BeamKind.Laser)); break;
+                case WeaponHitKind.Railgun: Send(new StrikeBeam(Core.Id, BeamKind.Railgun)); break;
+                case WeaponHitKind.Flame: Send(new StrikeBeam(Core.Id, BeamKind.Flame)); break;
+                case WeaponHitKind.Rocket: Send(new StrikeRocket(Core.Id, Core.Position)); break;
+                case WeaponHitKind.RocketExplosion: Send(new StrikeExplosion(Core.Id)); break;
             }
         }
 
-        public bool OnRocketHit(Rocket rocket) => !dead && RocketHit(rocket);
-
-        public bool OnProjectileHit(Bullet bullet) => !dead && BulletHit(bullet);
-
-        /// <summary>GML Collision obj_rocket. True when the rocket explodes here.</summary>
-        protected abstract bool RocketHit(Rocket rocket);
-
-        /// <summary>GML Collision obj_bullet. True when the bullet is destroyed.</summary>
-        protected abstract bool BulletHit(Bullet bullet);
-
-        /// <summary>GML Collision obj_rocket_explosion; most enemies have none.</summary>
-        protected virtual void RocketExplosionHit() { }
-
         void OnTriggerStay2D(Collider2D other)
         {
-            if (dead || !PushesAwayFromEnemies || other == null) return;
+            if (IsDead || !Core.PushesAway || other == null) return;
             var enemy = other.GetComponentInParent<IEnemyTarget>() as Component;
             if (enemy == null || enemy.gameObject == gameObject) return;
             PushAwayFrom(enemy.transform.position, Time.fixedDeltaTime * Gml.StepsPerSecond);
         }
 
         /// <summary>GML collision with par_enemy: x/y += lengthdir(2, point_direction(other, self)).</summary>
-        public void PushAwayFrom(Vector2 other, float steps = 1f)
-        {
-            Vector2 away = Position - other;
-            Vector2 dir = away.sqrMagnitude > Mathf.Epsilon ? away.normalized : Vector2.right;
-            Teleport(Position + dir * Gml.Px(SeparationPxPerStep * steps));
-        }
+        public void PushAwayFrom(Vector2 other, float steps = 1f) => Send(new Separate(Core.Id, other.ToVec2(), steps));
 
-        protected void Die(EnemyDeathCause cause, int points, bool awardsScore, bool dropsPickup)
-        {
-            if (dead) return;
-            dead = true;
-            Killed?.Invoke(this, new EnemyKill(cause, Position, points, awardsScore, dropsPickup));
-            if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);
-        }
+        /// <summary>GML distance_to_point from this enemy's bounding box, px.</summary>
+        public float DistanceToPointPx(Vector2 point) => Core.DistanceToPointPx(point.ToVec2());
+
+        /// <summary>GML distance_to_object(player), the ship taken as a point; infinite without a ship.</summary>
+        public float DistanceToPlayerPx() => Core.DistanceToPlayerPx();
+
+        public override void OnEnemyEvent(EnemyEvent e) => WatchKill(e);
+
+        protected override void OnKilled(EnemyKill kill) => Killed?.Invoke(this, kill);
     }
 
     /// <summary>obj_bullet as the enemies fire it: owner = ID, hurting the ship on contact.</summary>
@@ -361,7 +271,9 @@ namespace Unity.Hare.Enemies
             float speed = Mathf.Max(0.01f, Mathf.Abs(speedPxPerStep));
             bullet.Init(owner, direction, Gml.Px(speedPxPerStep) * Gml.StepsPerSecond, 1, Gml.Steps(reachPx / speed), Gml.Px(RadiusPx));
             bullet.MarkFromEnemy();
-            go.AddComponent<PlayerDamageSource>().DestroyOnHit = true;
+            var source = go.AddComponent<PlayerDamageSource>();
+            source.DestroyOnHit = true;
+            source.HitOverride = health => EnemyDirector.Hurt(health, null);
             Fired?.Invoke(bullet);
             return bullet;
         }

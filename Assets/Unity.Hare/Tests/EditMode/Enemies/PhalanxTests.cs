@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_phalanx and the obj_phalanx_shield that turns to face the ship.</summary>
     public class PhalanxTests
     {
-        [SetUp] public void SetUp() => Random.InitState(2020);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(2020);
         [TearDown] public void TearDown() => Cleanup();
 
         static Phalanx Make(Vector2 at, PlayerShipController ship)

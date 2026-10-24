@@ -14,11 +14,12 @@ namespace Unity.Hare.Tests.EditMode
         static readonly Rect Room = Gml.Room;
 
         [SetUp]
-        public void SetUp() => Random.InitState(4321);
+        public void SetUp() => EnemyDirector.Reset(4321);
 
         [TearDown]
         public void TearDown()
         {
+            EnemyDirector.Reset();
             DestroyAll<Dagger>();
             DestroyAll<Bullet>();
             DestroyAll<Rocket>();
@@ -138,13 +139,13 @@ namespace Unity.Hare.Tests.EditMode
         [Test]
         public void HelpersMatchTheGmlScripts()
         {
-            Assert.IsTrue(Dagger.ANearB(10f, 12f, 2f));
-            Assert.IsFalse(Dagger.ANearB(10f, 12.5f, 2f));
-            Assert.IsFalse(Dagger.ANearB(359f, 0.5f, 2f), "a_near_b does not wrap");
-            Assert.IsTrue(Dagger.CheckRotateClockwise(0f, 90f));
-            Assert.IsFalse(Dagger.CheckRotateClockwise(90f, 0f));
-            Assert.IsTrue(Dagger.CheckRotateClockwise(350f, 10f));
-            Assert.IsFalse(Dagger.CheckRotateClockwise(10f, 350f));
+            Assert.IsTrue(GmlMath.ANearB(10f, 12f, 2f));
+            Assert.IsFalse(GmlMath.ANearB(10f, 12.5f, 2f));
+            Assert.IsFalse(GmlMath.ANearB(359f, 0.5f, 2f), "a_near_b does not wrap");
+            Assert.IsTrue(GmlMath.CheckRotateClockwise(0f, 90f));
+            Assert.IsFalse(GmlMath.CheckRotateClockwise(90f, 0f));
+            Assert.IsTrue(GmlMath.CheckRotateClockwise(350f, 10f));
+            Assert.IsFalse(GmlMath.CheckRotateClockwise(10f, 350f));
         }
 
         [Test]
@@ -152,7 +153,7 @@ namespace Unity.Hare.Tests.EditMode
         {
             var ship = new GameObject("Player").AddComponent<PlayerShipController>();
             var dagger = Spawn(Vector2.zero, 0f, 0f);
-            DaggerKill? kill = null;
+            EnemyKill? kill = null;
             dagger.Killed += (_, k) => kill = k;
 
             var bullet = new GameObject("Bullet").AddComponent<Bullet>();
@@ -160,12 +161,12 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsTrue(bullet.TryHit(dagger.GetComponent<Collider2D>()));
             Assert.IsTrue(bullet == null, "the bullet goes too");
             Assert.IsTrue(dagger == null);
-            Assert.AreEqual(DaggerDeathCause.Bullet, kill.Value.Cause);
+            Assert.AreEqual(EnemyDeathCause.Bullet, kill.Value.Cause);
             Assert.IsTrue(kill.Value.AwardsScore);
             Assert.IsTrue(kill.Value.DropsPickup);
 
             var second = Spawn(Vector2.zero, 0f, 0f);
-            DaggerKill? stray = null;
+            EnemyKill? stray = null;
             second.Killed += (_, k) => stray = k;
             Assert.IsTrue(second.OnProjectileHit(null));
             Assert.IsFalse(stray.Value.AwardsScore, "only other.owner == player.id scores");
@@ -176,28 +177,28 @@ namespace Unity.Hare.Tests.EditMode
         public void RocketsExplodeOnItAndBeamsOrFlameKillItWithoutReward()
         {
             var dagger = Spawn(Vector2.zero, 0f, 0f);
-            DaggerKill? kill = null;
+            EnemyKill? kill = null;
             dagger.Killed += (_, k) => kill = k;
             var rocket = new GameObject("Rocket").AddComponent<Rocket>();
             rocket.Init(Vector2.zero, 0f);
             rocket.Touch(dagger.GetComponent<Collider2D>());
             Assert.IsTrue(dagger == null);
-            Assert.AreEqual(DaggerDeathCause.Rocket, kill.Value.Cause);
+            Assert.AreEqual(EnemyDeathCause.Rocket, kill.Value.Cause);
             Assert.IsTrue(kill.Value.AwardsScore);
             Assert.AreEqual(1, Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None).Length);
 
             var blasted = Spawn(Vector2.zero, 0f, 0f);
-            DaggerKill? blast = null;
+            EnemyKill? blast = null;
             blasted.Killed += (_, k) => blast = k;
             var explosion = Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None)[0];
             explosion.Touch(blasted.GetComponent<Collider2D>());
-            Assert.AreEqual(DaggerDeathCause.RocketExplosion, blast.Value.Cause);
+            Assert.AreEqual(EnemyDeathCause.RocketExplosion, blast.Value.Cause);
             Assert.IsTrue(blast.Value.AwardsScore && blast.Value.DropsPickup);
 
             foreach (var kind in new[] { WeaponHitKind.Laser, WeaponHitKind.Railgun, WeaponHitKind.Flame })
             {
                 var d = Spawn(Vector2.zero, 0f, 0f);
-                DaggerKill? k = null;
+                EnemyKill? k = null;
                 d.Killed += (_, x) => k = x;
                 d.OnWeaponHit(new WeaponHit(kind, Vector2.zero, Vector2.right));
                 Assert.IsTrue(d == null, kind.ToString());
@@ -210,11 +211,11 @@ namespace Unity.Hare.Tests.EditMode
         public void ShieldWallKillsItForPoints()
         {
             var dagger = Spawn(Vector2.zero, 0f, 0f);
-            DaggerKill? kill = null;
+            EnemyKill? kill = null;
             dagger.Killed += (_, k) => kill = k;
             dagger.OnShieldHit(null, Vector2.right);
             Assert.IsTrue(dagger == null);
-            Assert.AreEqual(DaggerDeathCause.ShieldWall, kill.Value.Cause);
+            Assert.AreEqual(EnemyDeathCause.ShieldWall, kill.Value.Cause);
             Assert.IsTrue(kill.Value.AwardsScore && kill.Value.DropsPickup);
         }
 

@@ -23,6 +23,7 @@ namespace Unity.Hare.Tests.EditMode
         public void SetUp()
         {
             Random.InitState(1616);
+            EnemyDirector.Reset(1616);
             Gml.Paused = false;
             effects.Clear();
             puffs.Clear();
@@ -182,7 +183,7 @@ namespace Unity.Hare.Tests.EditMode
         [Test]
         public void GibsShowTheirOriginalSpriteAndFadeTheirRenderer()
         {
-            var gib = FadingDebris.Gib(DebrisKind.WormGib, Vector2.zero);
+            var gib = FadingDebris.Spawn(Gibs.Gib(new SeededRandom(7), DebrisKind.WormGib, Vec2.Zero));
             var renderer = gib.GetComponent<SpriteRenderer>();
             Assert.AreEqual(HareArt.Frame("spr_worm_gib" + gib.Variant), renderer.sprite);
             Assert.IsNotNull(renderer.sprite);
@@ -244,17 +245,17 @@ namespace Unity.Hare.Tests.EditMode
         [Test]
         public void EachEnemyBurstsAtItsOwnSize()
         {
-            Assert.AreEqual(DeathEffects.Small, Dagger.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Small, Hydra.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Small, Sawblade.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Small, Trilobyte.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Small, Wraith.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Small, EnemyMine.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Medium, Phalanx.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Medium, Mimic.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Large, Meatball.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Large, Worm.DeathEffectSize);
-            Assert.AreEqual(DeathEffects.Large, WormSegment.DeathEffectSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Dagger).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Hydra).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Sawblade).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Trilobyte).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Wraith).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Small, EnemyTable.Get(EnemyKind.Trilobyte).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Medium, EnemyTable.Get(EnemyKind.Phalanx).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Medium, EnemyTable.Get(EnemyKind.Mimic).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Large, EnemyTable.Get(EnemyKind.Meatball).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Large, EnemyTable.Get(EnemyKind.Worm).DeathBurstSize);
+            Assert.AreEqual(DeathEffects.Large, EnemyTable.Get(EnemyKind.Worm).DeathBurstSize);
 
             var phalanx = Spawn<Phalanx>();
             phalanx.Init(Vector2.zero, Gml.Room, null);

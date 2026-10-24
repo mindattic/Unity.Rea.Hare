@@ -5,18 +5,6 @@ using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
 {
-    public enum DebrisKind
-    {
-        /// <summary>obj_meatball_gib: spr_meatball_gib1..6.</summary>
-        MeatballGib,
-        /// <summary>obj_worm_gib: spr_worm_gib1..8.</summary>
-        WormGib,
-        /// <summary>obj_worm_head_gib: spr_worm_head.</summary>
-        WormHeadGib,
-        /// <summary>obj_wraith_blur: an afterimage of the wraith's current sprite.</summary>
-        WraithBlur
-    }
-
     /// <summary>
     /// Ports the purely visual leftovers of the set-piece enemies, which share one Step: drift along
     /// direction at speed px/step, spin image_angle by spin_speed, and lose fade_speed alpha a step,
@@ -75,37 +63,10 @@ namespace Unity.Hare.Enemies
             return d;
         }
 
-        /// <summary>One gib with obj_*_gib's random Create.</summary>
-        public static FadingDebris Gib(DebrisKind kind, Vector2 position)
-        {
-            int variant = kind == DebrisKind.MeatballGib ? UnityEngine.Random.Range(1, 7)
-                : kind == DebrisKind.WormGib ? UnityEngine.Random.Range(1, 9) : 1;
-            return Spawn(kind, position, variant,
-                UnityEngine.Random.Range(0, 360),
-                UnityEngine.Random.Range(1, 4),
-                UnityEngine.Random.Range(0, 360),
-                UnityEngine.Random.Range(-5, 6),
-                1f,
-                0.001f * UnityEngine.Random.Range(4, 11));
-        }
-
-        /// <summary>GML meatball_gib(x, y): 8-12 obj_meatball_gib within 40 px of (x, y - 34).</summary>
-        public static int MeatballGibs(Vector2 at) => Scatter(DebrisKind.MeatballGib, at, 8, 12);
-
-        /// <summary>GML worm_gib(x, y): 6-8 obj_worm_gib within 40 px of (x, y - 34).</summary>
-        public static int WormGibs(Vector2 at) => Scatter(DebrisKind.WormGib, at, 6, 8);
-
-        static int Scatter(DebrisKind kind, Vector2 at, int min, int max)
-        {
-            int count = UnityEngine.Random.Range(min, max + 1);
-            for (int i = 0; i < count; i++)
-            {
-                // GML y grows downward, so Y - 34 is 34 px up.
-                var offset = new Vector2(UnityEngine.Random.Range(-40, 41), 34f - UnityEngine.Random.Range(-40, 41));
-                Gib(kind, at + new Vector2(Gml.Px(offset.x), Gml.Px(offset.y)));
-            }
-            return count;
-        }
+        /// <summary>A piece Core dealt (its Create's random values are Core's, from the world's seed).</summary>
+        public static FadingDebris Spawn(DebrisSpec spec) =>
+            Spawn(spec.Kind, spec.Position.ToVector2(), spec.Variant, spec.Direction, spec.SpeedPxPerStep, spec.ImageAngle,
+                spec.SpinPerStep, spec.Alpha, spec.FadePerStep, spec.Facing);
 
         void FixedUpdate() => Tick(Time.fixedDeltaTime);
 

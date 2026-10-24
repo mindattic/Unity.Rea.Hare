@@ -124,22 +124,22 @@ Unity.
 
 ### 5.2 Where it is today
 
-UH-T37 made the split (466c012). UH-T39 moved the player and weapon rules into Core; the enemy rules and spawn pacing
-still live in Runtime MonoBehaviours and move in UH-T40.
+UH-T37 made the split (466c012). UH-T39 moved the player and weapon rules into Core and UH-T40 the enemy rules and
+spawn pacing; what is left in Runtime is presentation.
 
 | Assembly | Folder | Contents | Status |
 |---|---|---|---|
-| `Unity.Hare.Core` | `Assets/Unity.Hare/Core/` | `noEngineReferences`: `EnemyKind`, `EnemyList` (`generate_enemy_list`, with the random injected); `GameClock` (the 120 steps/s and 100 px/unit conversions), `PlayerId`; `Player/` (`PlayerWorld` and `PlayerShip`, the `PlayerCommand`s and `PlayerEvent`s, `ShipFlight` the flight/energy/shield machine, `ShipHealth` HP, lives and the timers, `FlightTuning`/`HealthTuning`); `Weapons/` (`AmmoPools` the four pools and regen alarms, `GunRack` the vulcan/shotgun/flamer/mine launcher firing rules, `GroundLoadout`/`AirLoadout` the weapon cycles, `WeaponTable` the fire intervals, cycles and damage as data) | in place; enemy rules and spawn pacing move in UH-T40 |
-| `Unity.Hare.Runtime` | `Assets/Unity.Hare/Scripts/` | `Player/` (PlayerShipController, PlayerHealth, ShieldWall, PlayerDamageSource), `Weapons/` (VulcanWeapon, Shotgun, Flamethrower, MineLauncher, AirWeaponLoadout, GroundWeaponLoadout, PlayerAmmo, Bullet, Rocket, LaserBeam, RailgunShot, Mine, the explosions, and `Gml`, the unit and step helpers in `WeaponTargets.cs`), `Enemies/` (the insects, Dagger, SetPieceEnemy and its eight set pieces, EnemyMine, EnemyEmitter, Vortex, Wormhole, WormholeEmitter, EnemySpawner, EnemyComposition, FadingDebris), `Rocks/` (Rock, RockField, Flotsum), `Effects/` (DeathEffects, GmlEffects, TinyExplosion, DeathParticle, SpriteAnimation, HareArt) | references Core one way; the player and weapon scripts are thin views (`PlayerSeat` and `SeatView` send commands and play events) that still read input directly (UH-T42); the enemies still hold their rules (UH-T40) |
+| `Unity.Hare.Core` | `Assets/Unity.Hare/Core/` | `noEngineReferences`: `EnemyKind`, `EnemyList` (`generate_enemy_list`); `GameClock` (the 120 steps/s and 100 px/unit conversions), `PlayerId`, `Vec2`/`RoomBounds`, `IRandomSource`/`SeededRandom` (every random draw); `Enemies/` (`EnemyWorld` of `EnemyBody`s changed only by `EnemyCommand`s that return `EnemyEvent`s: `DaggerEnemy`, `HydraEnemy`, `SawbladeEnemy`, `MeatballEnemy`, `PhalanxEnemy` and its shield, `WraithEnemy`, `MimicEnemy` and its illusion, `TrilobyteEnemy` and `EnemyMineBody`, `WormEnemy` and its segments, the three insect bodies, `EmitterBody`/`WormholeBody`/`WormholeEmitterBody` the vortex and generator pacing, `EnemyComposition`, `EnemyTable` the per-enemy stats as data, `GmlMath` the `ai_*` helper scripts, `Gibs`); `Player/` (`PlayerWorld` and `PlayerShip`, the `PlayerCommand`s and `PlayerEvent`s, `ShipFlight` the flight/energy/shield machine, `ShipHealth` HP, lives and the timers, `FlightTuning`/`HealthTuning`); `Weapons/` (`AmmoPools` the four pools and regen alarms, `GunRack` the vulcan/shotgun/flamer/mine launcher firing rules, `GroundLoadout`/`AirLoadout` the weapon cycles, `WeaponTable` the fire intervals, cycles and damage as data) | in place |
+| `Unity.Hare.Runtime` | `Assets/Unity.Hare/Scripts/` | `Player/` (PlayerShipController, PlayerHealth, ShieldWall, PlayerDamageSource), `Weapons/` (VulcanWeapon, Shotgun, Flamethrower, MineLauncher, AirWeaponLoadout, GroundWeaponLoadout, PlayerAmmo, Bullet, Rocket, LaserBeam, RailgunShot, Mine, the explosions, and `Gml`, the unit and step helpers in `WeaponTargets.cs`), `Enemies/` (`EnemyDirector` the scene's authority over the enemy world and `EnemyViews`; the views `EnemyBodyView`/`SetPieceEnemy` with Dagger, the eight set pieces and their parts, EnemyMine, the insect views, Vortex/EnemyEmitter/Wormhole/WormholeEmitter, EnemySpawner, FadingDebris), `Rocks/` (Rock, RockField, Flotsum), `Effects/` (DeathEffects, GmlEffects, TinyExplosion, DeathParticle, SpriteAnimation, HareArt) | references Core one way; the player and weapon scripts are thin views (`PlayerSeat` and `SeatView` send commands and play events) that still read input directly (UH-T42); the enemy views send ticks and weapon contacts to Core and play what comes back |
 | `Unity.Hare.Editor` | `Assets/Unity.Hare/Editor/` | `ProjectSetup` (URP 2D assets, project settings, `Main.unity`), `HareArtImporter` (sprite pivots from `sprites.txt`, particle textures) | in place |
 | `Unity.Hare.Tests.EditMode` | `Assets/Unity.Hare/Tests/EditMode/` | NUnit tests of the components: the glue of the player and weapon views (`PlayerSeatTests`, projectiles, the shield wall), enemies, rocks, effects | in place; pure rule tests live in `Tests/Core.Tests` once their rules are in Core |
 | `Unity.Hare.Tests.PlayMode` | `Assets/Unity.Hare/Tests/PlayMode/` | empty | scripted play, UH-T70 |
-| `Tests/Core.Tests` | `Tests/Core.Tests/` | dotnet test project compiling `Core/**/*.cs` directly (C# 9, as Unity builds it): `EnemyListTests`, and the player and weapon rules (`PlayerAmmoTests`, `PlayerHealthTests`, `PlayerFlightTests`, `GunTests`, `LoadoutTests`) | in place; run by `tools/run-core-tests.ps1` |
+| `Tests/Core.Tests` | `Tests/Core.Tests/` | dotnet test project compiling `Core/**/*.cs` directly (C# 9, as Unity builds it): `EnemyListTests`, the enemy rules (`EnemyBasicsTests`, `EnemySetPieceTests`, `EnemySpawnerTests`, driven by `EnemyRig` on a seeded random), and the player and weapon rules (`PlayerAmmoTests`, `PlayerHealthTests`, `PlayerFlightTests`, `GunTests`, `LoadoutTests`) | in place; run by `tools/run-core-tests.ps1` |
 
 The Input System action asset is planned in UH-T42, Unity.Shared settings in UH-T43, the pipeline-agnostic URP seam
 in UH-T44, the UI foundation in UH-T45 and the multiplayer kit in UH-T35.
 
-### 5.3 Commands, events and the one authority (player and weapons done in UH-T39; enemies UH-T40, authority UH-T35)
+### 5.3 Commands, events and the one authority (player and weapons done in UH-T39; enemies UH-T40; authority UH-T35)
 
 **Today** the player's rules are Core's: a `PlayerWorld` holds one `PlayerShip` per `PlayerId` (flight and energy,
 health and lives, the four ammo pools, the guns, the two weapon loadouts), and state changes only through
@@ -151,8 +151,20 @@ views (`PlayerShipController`, `PlayerHealth`, `PlayerAmmo`, `VulcanWeapon`, `Sh
 `MineLauncher`, the loadouts, all `SeatView`s) turn input into commands and play the events: they spawn a bullet when
 `GunFired` arrives, a shield wall on `ShieldRaised`, a sound on `VulcanCue`. Each view still advances its own part of
 the world from `Update`/`FixedUpdate` (`TickAmmo`, `TickGun`, `StepFlight`, ...) until the one-step authority below.
-The enemies, rocks and projectiles still hold their own state and announce through C# events (`GrenadeExplosion.Exploded`).
-The GML global `paused` is the static `Gml.Paused`.
+The enemies are Core's too (UH-T40): an `EnemyWorld` holds every `EnemyBody` (the nine enemies and their parts, the mine),
+insect, vortex and wormhole emitter, and changes only through `EnemyCommand`s (`SpawnEnemy`, `TickEnemy`, `StrikeBullet`,
+`StrikeRocket`, `StrikeExplosion`, `StrikeBeam`, `StrikeShield`, `Separate`, `AddEmitter`, `AddWormholeEmitter`,
+`PlaceComposition`, `SetTarget` for each seat's ship, `HurtPlayer` and the rest) that return an `EnemyResult` of whether
+it took effect and the `EnemyEvent`s it raised (`EnemySpawned`, `EnemyKilled`, `RoundFired`, `TinyExplosionRaised`,
+`DeathBurstRaised`, `DebrisRaised`, `VortexReleased`, ...). Every random draw, the gib scatter included, comes from the
+world's `IRandomSource`, so `EnemyDirector.Reset(seed)` (or a `SeededRandom` in a Core test) reproduces a run. The enemies
+chase the nearest `PlayerTarget`, one per seat. The player and enemy hit rules meet in `HurtPlayer`: an enemy's
+contact, or an enemy round, hurts a ship through that ship's own `TakeHit`, and the seat plays the events. On the Unity
+side `EnemyDirector` owns the world, runs each view's commands and plays the events (it spawns rounds, effects, debris
+and the views of anything Core made); `EnemyBodyView` and its subclasses only turn ticks and weapon contacts into
+commands and show where Core says the body is. Rocks and projectiles still hold their own state and announce through
+C# events (`GrenadeExplosion.Exploded`). The GML global `paused` is the static `Gml.Paused`, passed into the enemy world
+before each command.
 
 Weapon rhythm is data in `WeaponTable`: the vulcan's `VulcanBaseRateSteps`/`VulcanMinRateSteps`/
 `VulcanSpinUpDecrementSteps` ramp, the other guns' and air weapons' fire intervals in steps, the ground and air
@@ -253,8 +265,8 @@ Working behaviour of the original the rebuild does differently, and why. Status:
 | V6 | The laser and railgun are perched (ground) primaries on Q's cycle, fired with the left mouse; in flight the left mouse fires the air weapon (`next_air_weapon`, E, toggles rocket and mine) and Ctrl + left mouse the mine | the same: `LaserGun` and `RailgunGun` are ground primaries on Q's cycle (left mouse, perched), `AirWeaponLoadout` fires the rocket or mine on the left mouse in flight, cycled with E, and Ctrl + left mouse drops the mine; the right mouse is flight's, not a weapon's. The first port fired laser, railgun and rocket on the right mouse | the weapons were ported (UH-T9) before the ground/air split was read from the source (UH-T11); brought back in line by UH-T74 | matches |
 | V7 | Raw key and mouse events | Input System device polling (`Keyboard.current`, `Mouse.current`) in five scripts | interim, before the action asset | temporary, UH-T42 |
 | V8 | Tuning as Create variables | `[SerializeField]` defaults and constants | interim, before data files | temporary, UH-T41 |
-| V9 | Rules in GML objects | rules in Runtime MonoBehaviours, only `EnemyKind`/`EnemyList` in Core | interim, before the Core move | temporary, UH-T39, UH-T40 |
-| V10 | `engine random` (`irandom_range`, `choose`) | `UnityEngine.Random` in the components; `EnemyList` takes an injected random | testable, seedable randomness belongs in Core | temporary, UH-T40 |
+| V9 | Rules in GML objects | player, weapon and enemy rules in Core (UH-T39, UH-T40); the rocks and projectiles still hold theirs in Runtime | the rules are testable outside Unity and driven by commands | temporary for rocks and projectiles |
+| V10 | `engine random` (`irandom_range`, `choose`) | the enemies draw from the world's seeded `IRandomSource`; the player's world takes an injected range and the rocks and visual effects still use `UnityEngine.Random` | testable, seedable randomness belongs in Core | enemies done (UH-T40); rocks and effects remain |
 | V11 | Gibs and the wraith blur stand still while `paused` | the same (`FadingDebris`, `DeathParticle`); the first port kept them moving | matches gmlHARE's Step gating (UH-T16) | matches |
 | V12 | `spr_grenade_explode` has 9 frames at image speed 0.2, so the blast lasts 45 steps | the same (`GrenadeExplosion.Frames = 9`); the first port assumed 10 frames and 50 steps | read from the sprite (UH-T16) | matches |
 | V13 | One room shown through views, no scenes | `Main.unity` (camera and light only) generated by `ProjectSetup`; one scene per room later | scenes composed in code; the room flow comes with UH-T50 | temporary, UH-T50 |

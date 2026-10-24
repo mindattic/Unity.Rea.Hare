@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_mimic's rock disguise (obj_mimic_illusion) and its reveal.</summary>
     public class MimicTests
     {
-        [SetUp] public void SetUp() => Random.InitState(1010);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(1010);
         [TearDown] public void TearDown() => Cleanup();
 
         static Mimic Make(Vector2 at, PlayerShipController ship, float speed = 0f, float spin = 0f)

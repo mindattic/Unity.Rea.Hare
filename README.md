@@ -26,14 +26,16 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 - the ship's flight, boost, brake, leap and shield (`Player/`), health and hurt (`PlayerHealth`)
 - the shared four-pool ammo economy (`PlayerAmmo`) and every weapon: vulcan, laser, railgun, rocket, shotgun,
   flamethrower, mine (`Weapons/`)
-- the ambient insects, the dagger, the eight set-piece enemies and the enemy mine (`Enemies/`)
-- the vortex emitters and generator mode's wormholes with `generate_enemy_list` (`EnemyEmitter`,
-  `WormholeEmitter`, `Core/EnemyList`)
+- the ambient insects, the dagger, the eight set-piece enemies and the enemy mine: their rules are Core's
+  (`Core/Enemies/`, an `EnemyWorld` changed by commands and driven by a seeded random), the `Enemies/` scripts are
+  views
+- the vortex emitters and generator mode's wormholes with `generate_enemy_list` (`Core/Enemies/Vortexes.cs`,
+  `Core/EnemyList`)
 - death effects with the original sprites and sounds: tiny and grenade explosions, GameMaker's `ef_smokeup` and
   `ef_firework`, gibs and death particles (`Effects/`)
 - the rock field: drift, spin, darkening, healing, breaking, flotsam, replacement (`Rocks/`)
 
-Still to come, in build order: the enemy rules moved into Core, tuning as data, the Input System
+Still to come, in build order: tuning as data, the Input System
 action asset, Unity.Shared settings, the URP seam, the UI, the art, sound and font pipelines, then the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
@@ -87,7 +89,7 @@ pause and hotkeys arrive with landing (UH-T53) and the hotkeys ticket (UH-T60).
 
 ```
 Assets/Unity.Hare/
-  Core/                Unity.Hare.Core asmdef (noEngineReferences): player and weapon rules (commands, events, tuning), EnemyKind, EnemyList
+  Core/                Unity.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
   Scripts/             Unity.Hare.Runtime asmdef: the components
     Player/  Weapons/  Enemies/  Rocks/  Effects/
   Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter

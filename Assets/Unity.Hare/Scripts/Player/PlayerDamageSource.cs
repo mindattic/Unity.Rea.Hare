@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Unity.Hare.Player
@@ -27,6 +28,12 @@ namespace Unity.Hare.Player
             set => destroyOnHit = value;
         }
 
+        /// <summary>
+        /// Routes the hit through the rules that own this source (the enemy world's <c>HurtPlayer</c>) instead of straight to
+        /// the ship; returns whether the hit landed. Empty means the source hurts the ship directly.
+        /// </summary>
+        public Func<PlayerHealth, bool> HitOverride { get; set; }
+
         void OnTriggerEnter2D(Collider2D other) => TryHit(other);
         void OnTriggerStay2D(Collider2D other) => TryHit(other);
         void OnCollisionEnter2D(Collision2D collision) => TryHit(collision.collider);
@@ -40,7 +47,8 @@ namespace Unity.Hare.Player
         {
             var health = other.GetComponentInParent<PlayerHealth>();
             if (health == null) return;
-            if (health.TryTakeHit(ignoresSpawnProtection) && destroyOnHit)
+            bool landed = HitOverride != null ? HitOverride(health) : health.TryTakeHit(ignoresSpawnProtection);
+            if (landed && destroyOnHit)
                 Destroy(gameObject);
         }
     }

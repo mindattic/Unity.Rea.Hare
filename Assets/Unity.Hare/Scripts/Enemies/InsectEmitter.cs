@@ -4,18 +4,10 @@ using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
 {
-    public enum InsectKind
-    {
-        Butterfly,
-        Firefly,
-        Fly
-    }
-
     /// <summary>
-    /// Ports obj_butterfly_emitter, obj_firefly_emitter and obj_fly_emitter (gmlHARE): on Create
-    /// each one creates its whole swarm at once (repeat(100) butterflies, repeat(28) fireflies,
-    /// repeat(32) flies) and then does nothing more; every insect places itself (see
-    /// <see cref="Insect.Init"/>). The emitter draws nothing.
+    /// Ports obj_butterfly_emitter, obj_firefly_emitter and obj_fly_emitter (gmlHARE): on Create each one creates its
+    /// whole swarm at once (repeat(100) butterflies, repeat(28) fireflies, repeat(32) flies) and then does nothing
+    /// more; every insect places itself in Core. The emitter draws nothing.
     /// </summary>
     public class InsectEmitter : MonoBehaviour
     {

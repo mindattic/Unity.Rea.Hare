@@ -10,7 +10,7 @@ namespace Unity.Hare.Tests.EditMode
     /// <summary>UH-T14: obj_wraith's float / charge / reappear loop and its stun.</summary>
     public class WraithTests
     {
-        [SetUp] public void SetUp() => Random.InitState(6060);
+        [SetUp] public void SetUp() => EnemyDirector.Reset(6060);
         [TearDown] public void TearDown() => Cleanup();
 
         static Wraith Make(Vector2 at, PlayerShipController ship)
@@ -38,7 +38,7 @@ namespace Unity.Hare.Tests.EditMode
             Steps(wraith, 1); // first pass: aim 600 px beyond the ship
             Assert.AreEqual(Gml.Px(Wraith.ChargeOvershootPx), wraith.ChargeTarget.x, 1e-3f);
             Assert.AreEqual(0f, wraith.ChargeTarget.y, 1e-3f);
-            Assert.AreEqual(2f + Wraith.ChargeAccelerationPxPerStep, wraith.SpeedPxPerStep, 1e-4f);
+            Assert.AreEqual(2f + WraithEnemy.ChargeAccelerationPxPerStep, wraith.SpeedPxPerStep, 1e-4f);
 
             int reappeared = 0;
             wraith.Reappeared += _ => reappeared++;
@@ -102,8 +102,8 @@ namespace Unity.Hare.Tests.EditMode
             Steps(wraith, 30);
             Assert.AreEqual(3, DebrisCount(DebrisKind.WraithBlur));
             var blur = Object.FindAnyObjectByType<FadingDebris>();
-            Assert.AreEqual(Wraith.BlurFadePerStep, blur.FadePerStep);
-            Assert.That(blur.Alpha, Is.LessThanOrEqualTo(Wraith.BlurAlpha));
+            Assert.AreEqual(WraithEnemy.BlurFadePerStep, blur.FadePerStep);
+            Assert.That(blur.Alpha, Is.LessThanOrEqualTo(WraithEnemy.BlurAlpha));
         }
 
         [Test]

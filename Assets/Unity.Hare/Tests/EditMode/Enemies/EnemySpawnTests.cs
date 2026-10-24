@@ -14,7 +14,7 @@ namespace Unity.Hare.Tests.EditMode
         [SetUp]
         public void SetUp()
         {
-            Random.InitState(1515);
+            EnemyDirector.Reset(1515);
             Gml.Paused = false;
         }
 

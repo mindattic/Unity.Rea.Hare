@@ -7,50 +7,35 @@ using Unity.Hare.Weapons;
 namespace Unity.Hare.Enemies
 {
     /// <summary>
-    /// Ports obj_wormhole_emitter (gmlHARE), the generator mode's pacer (gm_generator, from
-    /// obj_btn_diff0/obj_btn_diff100/obj_btn_level09): setup_level runs
-    /// generate_enemy_list(difficulty) and creates this emitter, which
-    /// <list type="bullet">
-    /// <item>Create: opens a wormhole for the first 10% of the list at once
-    /// (repeat(enemy_count * 0.1), the fraction dropped), then sets Alarm 0 to
-    /// 1 + room_speed * irandom_range(0, 4) steps;</item>
-    /// <item>Alarm 0: opens a wormhole for the next enemy, or, once the list is spent, destroys
-    /// itself and runs set_level_complete; then re-arms 1 + room_speed * irandom_range(0, 8).</item>
-    /// </list>
-    /// So after the opening burst one enemy arrives every 1 step to 8 s (4 s on average), each
-    /// 4 s after its wormhole appears, and the level ends one alarm after the last wormhole opens.
+    /// The view on <see cref="WormholeEmitterBody"/> (obj_wormhole_emitter, gmlHARE), the generator mode's pacer. Core
+    /// keeps the enemy list, the opening burst and the alarm that opens one wormhole after another; this sends each
+    /// step, gives every wormhole it opens a view and, once the list is spent, runs set_level_complete (pauses the room)
+    /// and removes itself.
     /// </summary>
-    /// <remarks>
-    /// setup_level calls instance_create(obj_wormhole_emitter, 0, 0) with its arguments swapped,
-    /// and the globals enemy_count/current_enemy are never reset; the port creates the emitter
-    /// properly and keeps its list and cursor per emitter.
-    /// </remarks>
-    public class WormholeEmitter : MonoBehaviour
+    public class WormholeEmitter : MonoBehaviour, IEnemyEventSink
     {
-        public const float OpeningFraction = 0.1f;
-        /// <summary>Create's rate = 1 + room_speed * irandom_range(0, 4).</summary>
-        public const int FirstRateMaxSeconds = 4;
-        /// <summary>Alarm 0's rate = 1 + room_speed * irandom_range(0, 8).</summary>
-        public const int RateMaxSeconds = 8;
+        public const float OpeningFraction = WormholeEmitterBody.OpeningFraction;
+        public const int FirstRateMaxSeconds = WormholeEmitterBody.FirstRateMaxSeconds;
+        public const int RateMaxSeconds = WormholeEmitterBody.RateMaxSeconds;
 
         [SerializeField] int difficulty = 100;
         [SerializeField] bool initOnStart;
 
-        readonly List<EnemyKind> list = new List<EnemyKind>();
         readonly List<Wormhole> wormholes = new List<Wormhole>();
-        float alarm = -1f;
-        bool finished;
-        Rect room;
         PlayerShipController player;
+        bool initialised;
+
+        /// <summary>The Core state this view shows (read-only for presentation).</summary>
+        public WormholeEmitterBody Core { get; private set; }
 
         /// <summary>GML enemy_list.</summary>
-        public IReadOnlyList<EnemyKind> List => list;
+        public IReadOnlyList<EnemyKind> List => Core != null ? Core.List : Array.Empty<EnemyKind>();
         /// <summary>GML current_enemy: how many wormholes have opened.</summary>
-        public int CurrentEnemy { get; private set; }
+        public int CurrentEnemy => Core != null ? Core.CurrentEnemy : 0;
         /// <summary>Every wormhole this emitter opened, in order.</summary>
         public IReadOnlyList<Wormhole> Wormholes => wormholes;
-        public float AlarmSteps => alarm;
-        public bool Finished => finished;
+        public float AlarmSteps => Core != null ? Core.AlarmSteps : -1f;
+        public bool Finished => Core != null && Core.Finished;
 
         /// <summary>A wormhole just opened.</summary>
         public event Action<WormholeEmitter, Wormhole> WormholeOpened;
@@ -59,42 +44,40 @@ namespace Unity.Hare.Enemies
 
         void Start()
         {
-            if (initOnStart && list.Count == 0 && !finished) Init(EnemyList.Generate(difficulty, EnemySpawner.IRandom));
+            if (initOnStart && !initialised) Begin(new AddWormholeEmitter(difficulty), null);
         }
 
         /// <summary>setup_level's generator branch: generate_enemy_list(difficulty), then this emitter's Create.</summary>
         public static WormholeEmitter Create(int difficulty, Rect? room = null, PlayerShipController player = null)
         {
             var emitter = new GameObject("WormholeEmitter").AddComponent<WormholeEmitter>();
-            emitter.Init(EnemyList.Generate(difficulty, EnemySpawner.IRandom), room, player);
+            emitter.Begin(new AddWormholeEmitter(difficulty, room?.ToBounds()), player);
             return emitter;
         }
 
         /// <summary>GML Create over <paramref name="enemies"/>.</summary>
-        public void Init(IEnumerable<EnemyKind> enemies, Rect? room = null, PlayerShipController player = null, int? firstRateSteps = null)
+        public void Init(IEnumerable<EnemyKind> enemies, Rect? room = null, PlayerShipController player = null, int? firstRateSteps = null) =>
+            Begin(new AddWormholeEmitter(enemies, room?.ToBounds(), firstRateSteps), player);
+
+        void Begin(AddWormholeEmitter command, PlayerShipController ship)
         {
-            list.Clear();
-            list.AddRange(enemies);
+            initialised = true;
+            player = ship;
             wormholes.Clear();
-            CurrentEnemy = 0;
-            finished = false;
-            this.room = room ?? Gml.Room;
-            this.player = player;
-
-            int opening = Mathf.FloorToInt(list.Count * OpeningFraction);
-            for (int i = 0; i < opening; i++) OpenNext();
-
-            alarm = firstRateSteps ?? Rate(FirstRateMaxSeconds);
+            var result = EnemyDirector.Execute(command, this);
+            Core = result.Emitter;
+            EnemyDirector.Register(Core.Id, this);
+            // The opening burst's wormholes were made (and announced) during Create, before this view knew its Core.
+            foreach (var w in Core.Wormholes) Claim(w);
         }
 
-        static int Rate(int maxSeconds) => 1 + (int)Gml.StepsPerSecond * EnemySpawner.IRandom(0, maxSeconds);
-
-        void OpenNext()
+        void Claim(WormholeBody body)
         {
-            var wormhole = Wormhole.Create(list[CurrentEnemy], room, player);
-            CurrentEnemy++;
-            wormholes.Add(wormhole);
-            WormholeOpened?.Invoke(this, wormhole);
+            var view = EnemyDirector.ViewOf<Wormhole>(body.Id);
+            if (view == null || wormholes.Contains(view)) return;
+            if (player != null) view.Player = player;
+            wormholes.Add(view);
+            WormholeOpened?.Invoke(this, view);
         }
 
         void FixedUpdate() => Tick(Time.fixedDeltaTime);
@@ -102,23 +85,21 @@ namespace Unity.Hare.Enemies
         /// <summary>One GML step (Alarm 0), scaled to <paramref name="dt"/> seconds.</summary>
         public void Tick(float dt)
         {
-            if (finished || alarm < 0f) return;
-            alarm -= dt * Gml.StepsPerSecond;
-            if (alarm > 1e-3f) return;
-            alarm = -1f;
+            if (Core == null || Core.Finished) return;
+            EnemyDirector.Execute(new TickWormholeEmitter(Core.Id, dt));
+        }
 
-            if (CurrentEnemy < list.Count)
+        public void OnEnemyEvent(EnemyEvent e)
+        {
+            switch (e)
             {
-                OpenNext();
-                alarm = Rate(RateMaxSeconds);
-            }
-            else
-            {
-                finished = true;
-                // set_level_complete: level_complete = true, obj_level_results, paused = true (UH-T22 shows the results).
-                Gml.Paused = true;
-                LevelCompleted?.Invoke(this);
-                if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);
+                case WormholeOpened opened:
+                    if (Core != null) Claim(opened.Wormhole);
+                    break;
+                case LevelCompleted _:
+                    LevelCompleted?.Invoke(this);
+                    if (Application.isPlaying) Destroy(gameObject); else DestroyImmediate(gameObject);
+                    break;
             }
         }
     }

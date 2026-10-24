@@ -12,11 +12,12 @@ namespace Unity.Hare.Tests.EditMode
         static readonly Rect Room = Gml.Room;
 
         [SetUp]
-        public void SetUp() => Random.InitState(1234);
+        public void SetUp() => EnemyDirector.Reset(1234);
 
         [TearDown]
         public void TearDown()
         {
+            EnemyDirector.Reset();
             foreach (var c in Object.FindObjectsByType<Insect>(FindObjectsSortMode.None))
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
@@ -72,7 +73,7 @@ namespace Unity.Hare.Tests.EditMode
                 butterfly.Tick(Step);
                 if (butterfly.DX != dx) { thinks++; dx = butterfly.DX; }
                 Assert.That(butterfly.ThinkCountdownSteps, Is.LessThanOrEqualTo(Butterfly.ThinkMaxStepsValue));
-                butterfly.transform.position = LowerMiddle; // keep it clear of the bounds rules
+                butterfly.Place(LowerMiddle); // keep it clear of the bounds rules
             }
             // 600 steps at one think every 5..60 steps.
             Assert.That(thinks, Is.InRange(600 / 61, 600 / 5));
@@ -91,20 +92,20 @@ namespace Unity.Hare.Tests.EditMode
                 Assert.AreEqual(butterfly.FacingRight ? 1f : -1f, Mathf.Sign(butterfly.transform.localScale.x));
             }
 
-            butterfly.transform.position = UpperMiddle;
+            butterfly.Place(UpperMiddle);
             butterfly.Think();
             Assert.AreEqual(2f, butterfly.DY, "upper half: dY = 2 (down)");
 
-            butterfly.transform.position = NearFloor;
+            butterfly.Place(NearFloor);
             butterfly.Think();
             Assert.AreEqual(-2f, butterfly.DY, "within 120 px of the floor: dY = -2 (up)");
 
-            butterfly.transform.position = LowerLeftWall;
+            butterfly.Place(LowerLeftWall);
             butterfly.Think();
             Assert.AreEqual(2f, butterfly.DX);
             Assert.IsTrue(butterfly.FacingRight);
 
-            butterfly.transform.position = LowerRightWall;
+            butterfly.Place(LowerRightWall);
             butterfly.Think();
             Assert.AreEqual(-2f, butterfly.DX);
             Assert.IsFalse(butterfly.FacingRight);
@@ -121,21 +122,21 @@ namespace Unity.Hare.Tests.EditMode
                 Assert.That(firefly.DY, Is.InRange(-1f, 1f));
             }
 
-            firefly.transform.position = UpperMiddle;
+            firefly.Place(UpperMiddle);
             firefly.Think();
             Assert.AreEqual(1f, firefly.DY);
 
-            firefly.transform.position = LowerLeftWall;
+            firefly.Place(LowerLeftWall);
             firefly.Think();
             Assert.AreEqual(3f, firefly.DX);
-            firefly.transform.position = LowerRightWall;
+            firefly.Place(LowerRightWall);
             firefly.Think();
             Assert.AreEqual(-3f, firefly.DX);
 
             bool sawUpward = false, sawDownward = false;
             for (int i = 0; i < 200; i++)
             {
-                firefly.transform.position = NearFloor;
+                firefly.Place(NearFloor);
                 firefly.Think();
                 sawUpward |= firefly.DY < 0f;
                 sawDownward |= firefly.DY > 0f;
@@ -152,7 +153,7 @@ namespace Unity.Hare.Tests.EditMode
             bool dark = firefly.IsDark;
             for (int i = 0; i < 2000; i++)
             {
-                firefly.transform.position = LowerMiddle;
+                firefly.Place(LowerMiddle);
                 firefly.Think();
                 if (firefly.IsDark != dark) { toggles++; dark = firefly.IsDark; }
             }
@@ -170,14 +171,14 @@ namespace Unity.Hare.Tests.EditMode
                 Assert.That(fly.DY, Is.InRange(-2f, 2f));
             }
 
-            fly.transform.position = UpperMiddle;
+            fly.Place(UpperMiddle);
             fly.Think();
             Assert.AreEqual(1f, fly.DY);
 
-            fly.transform.position = LowerLeftWall;
+            fly.Place(LowerLeftWall);
             fly.Think();
             Assert.AreEqual(4f, fly.DX);
-            fly.transform.position = LowerRightWall;
+            fly.Place(LowerRightWall);
             fly.Think();
             Assert.AreEqual(-4f, fly.DX);
         }

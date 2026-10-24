@@ -1,32 +1,19 @@
 using UnityEngine;
 using Unity.Hare.Player;
-using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
 {
     /// <summary>
-    /// Ports par_enemy_emitter (gmlHARE), the looping vortex setup_level places per enemy type:
-    /// <list type="bullet">
-    /// <item>Create: Alarm 0 = irandom_range(1, room_speed * 2), idle.</item>
-    /// <item>Idle (first pass): jump to a random point at least sprite width x scale inside the
-    /// room, randomise both angles, wait irandom_range(instance_wait_min, instance_wait_max).</item>
-    /// <item>Open: 120 steps, growing only while unpaused and instance_number(instance) &lt;
-    /// instance_max.</item>
-    /// <item>Spawn (first pass): one enemy if unpaused and still under instance_max; 120 steps.</item>
-    /// <item>Close: 120 steps, shrinking to nothing; then idle again.</item>
-    /// </list>
-    /// instance_max caps the live count of that enemy object across the whole room, so a level
-    /// keeps topping its population back up to the cap as the ship kills them.
+    /// The view on <see cref="EmitterBody"/> (par_enemy_emitter, gmlHARE), the looping vortex setup_level places per
+    /// enemy type. Core runs its idle, open, spawn and close phases, the instance_max cap and the random placement;
+    /// this draws the vortex and shows the enemy each spawn phase released.
     /// </summary>
     public class EnemyEmitter : Vortex
     {
-        /// <summary>Create's alarm[0] = irandom_range(1, room_speed * 2).</summary>
-        public const int FirstAlarmMaxSteps = 240;
-        /// <summary>Open, spawn and close each last alarm[0] = 120 steps.</summary>
-        public const int PhaseSteps = 120;
-        /// <summary>setup_level's instance_wait_min/max for every emitter it places.</summary>
-        public const int DefaultWaitMinSteps = 200;
-        public const int DefaultWaitMaxSteps = 500;
+        public const int FirstAlarmMaxSteps = EmitterBody.FirstAlarmMaxSteps;
+        public const int PhaseSteps = EmitterBody.PhaseSteps;
+        public const int DefaultWaitMinSteps = EmitterBody.DefaultWaitMinSteps;
+        public const int DefaultWaitMaxSteps = EmitterBody.DefaultWaitMaxSteps;
 
         [SerializeField] EnemyKind instance = EnemyKind.Hydra;
         [SerializeField] int instanceMin = 1;
@@ -36,14 +23,19 @@ namespace Unity.Hare.Enemies
 
         bool initialised;
 
+        EmitterBody Rules => (EmitterBody)Core;
+
         /// <summary>GML instance_min: set by setup_level but never read by the emitter.</summary>
-        public int InstanceMin { get; set; } = 1;
+        public int InstanceMin => Rules.InstanceMin;
         /// <summary>GML instance_max: no spawn while this many of the object are alive.</summary>
-        public int InstanceMax { get; set; } = 2;
-        public int WaitMinSteps { get; set; } = DefaultWaitMinSteps;
-        public int WaitMaxSteps { get; set; } = DefaultWaitMaxSteps;
+        public int InstanceMax => Rules.InstanceMax;
+        public int WaitMinSteps => Rules.WaitMinSteps;
+        public int WaitMaxSteps => Rules.WaitMaxSteps;
         /// <summary>GML buffer = sprite_get_width(spr_vortex) * scale.</summary>
-        public float BufferPx => SpriteWidthPx * Scale;
+        public float BufferPx => Rules.BufferPx;
+
+        /// <summary>The enemy released by the latest spawn phase, if any.</summary>
+        public Component LastSpawned => Rules.LastSpawned == null ? null : EnemyDirector.ViewOf<Component>(Rules.LastSpawned.Id);
 
         void Start()
         {
@@ -60,65 +52,9 @@ namespace Unity.Hare.Enemies
             int waitMinSteps = DefaultWaitMinSteps, int waitMaxSteps = DefaultWaitMaxSteps, int? firstAlarmSteps = null)
         {
             initialised = true;
-            transform.position = new Vector3(position.x, position.y, transform.position.z);
-            Instance = kind;
-            InstanceMin = instanceMin;
-            InstanceMax = instanceMax;
-            Scale = scale;
-            WaitMinSteps = waitMinSteps;
-            WaitMaxSteps = waitMaxSteps;
-            Player = player;
-            SetupVortex(room);
-            SetAlarm(firstAlarmSteps ?? Random.Range(1, FirstAlarmMaxSteps + 1));
-        }
-
-        bool BelowCap => EnemySpawner.Count(Instance) < InstanceMax;
-
-        /// <summary>The enemy released by the latest spawn phase, if any.</summary>
-        public Component LastSpawned { get; private set; }
-
-        protected override void StepEvent(float steps)
-        {
-            switch (Mode)
-            {
-                case VortexMode.Idle:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        Vector2 p = EnemySpawner.RandomPointInside(Room, BufferPx);
-                        transform.position = new Vector3(p.x, p.y, transform.position.z);
-                        SetAngles(Random.Range(0, 360), Random.Range(0, 360));
-                        SetAlarm(EnemySpawner.IRandom(WaitMinSteps, WaitMaxSteps));
-                    }
-                    break;
-
-                case VortexMode.Open:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        SetAlarm(PhaseSteps);
-                    }
-                    if (!Gml.Paused && BelowCap) Grow(steps);
-                    break;
-
-                case VortexMode.Spawn:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        LastSpawned = !Gml.Paused && BelowCap ? Release() : null;
-                        SetAlarm(PhaseSteps);
-                    }
-                    break;
-
-                case VortexMode.Close:
-                    if (FirstPass)
-                    {
-                        FirstPass = false;
-                        SetAlarm(PhaseSteps);
-                    }
-                    Shrink(steps);
-                    break;
-            }
+            var result = EnemyDirector.Execute(new AddEmitter(kind, position.ToVec2(), instanceMin, instanceMax, scale,
+                room?.ToBounds(), waitMinSteps, waitMaxSteps, firstAlarmSteps), this);
+            Attach(result.Vortex, player);
         }
     }
 }

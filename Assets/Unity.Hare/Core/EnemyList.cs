@@ -17,24 +17,15 @@ namespace Unity.Hare.Enemies
     public static class EnemyList
     {
         /// <summary>generate_enemy_list's diff_* points.</summary>
-        public static int DifficultyPoints(EnemyKind kind)
-        {
-            switch (kind)
-            {
-                case EnemyKind.Mimic: return 2;
-                case EnemyKind.Wraith: return 8;
-                case EnemyKind.Meatball: return 10;
-                case EnemyKind.Phalanx: return 5;
-                case EnemyKind.Worm: return 15;
-                case EnemyKind.Trilobyte: return 2;
-                default: return 1; // hydra, sawblade, dagger
-            }
-        }
+        public static int DifficultyPoints(EnemyKind kind) => EnemyTable.Get(kind).DifficultyPoints;
 
         /// <summary>
         /// generate_enemy_list(difficulty): the enemies an obj_wormhole_emitter releases, in order.
-        /// <paramref name="irandom"/> is GML irandom_range(a, b), inclusive, supplied by the caller so Core stays engine-free.
+        /// <paramref name="random"/> deals GML irandom_range(1, 9), inclusive.
         /// </summary>
+        public static List<EnemyKind> Generate(int difficulty, IRandomSource random) => Generate(difficulty, random.IRandom);
+
+        /// <summary>generate_enemy_list over a bare irandom_range function.</summary>
         public static List<EnemyKind> Generate(int difficulty, Func<int, int, int> irandom)
         {
             var list = new List<EnemyKind>();

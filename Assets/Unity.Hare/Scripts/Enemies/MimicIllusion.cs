@@ -1,59 +1,22 @@
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Enemies
 {
-    /// <summary>
-    /// Ports obj_mimic_illusion (gmlHARE, par_enemy, masked by spr_rock1): the fake rock riding on
-    /// a <see cref="Mimic"/>, drawn with the mimic's rock sprite, angle and illusion alpha. While
-    /// the disguise is complete it stops every bullet (any owner) and blows up every rocket without
-    /// harm to either of them; otherwise shots pass through. As a par_enemy it still hurts the ship
-    /// on contact, draws rockets and mines, and dies to the laser, railgun or flame (the mimic
-    /// lives on, undisguised but still fading). It removes itself once the mimic is gone.
-    /// </summary>
+    /// <summary>The view on <see cref="MimicIllusionBody"/> (obj_mimic_illusion, masked by spr_rock1): the fake rock riding on a <see cref="Mimic"/>.</summary>
     public class MimicIllusion : SetPieceEnemy
     {
         /// <summary>spr_rock1's bbox (4..238 x 4..163, origin 121,85).</summary>
         public static readonly Vector2 HitboxSizePx = new Vector2(234f, 159f);
         public static readonly Vector2 HitboxOffsetPx = new Vector2(0f, 1.5f);
 
-        public Mimic Parent { get; private set; }
+        MimicIllusionBody Rules => (MimicIllusionBody)Core;
 
-        protected override Vector2 BBoxHalfPx => HitboxSizePx / 2f;
-        protected override Vector2 BBoxOffsetPx => HitboxOffsetPx;
+        public Mimic Parent => EnemyDirector.ViewOf<Mimic>(Rules.Parent.Id);
 
-        public void Init(Mimic parent)
+        protected override void Configure()
         {
-            Parent = parent;
-            Setup(parent.Position, parent.Room, parent.Player);
             UseEllipse(HitboxSizePx, HitboxOffsetPx);
-            SpeedPxPerStep = 0f;
-        }
-
-        bool ParentDisguised => Parent != null && !Parent.IsDead && Parent.IsDisguised;
-
-        protected override void Alarms(float steps) { }
-
-        protected override void StepEvent(float steps)
-        {
-            if (Parent == null || Parent.IsDead)
-            {
-                Die(EnemyDeathCause.Orphaned, 0, false, false);
-                return;
-            }
-            Teleport(Parent.Position);
-            ImageAlpha = Parent.IllusionAlpha;
-        }
-
-        protected override bool RocketHit(Rocket rocket) => ParentDisguised;
-
-        /// <summary>A complete disguise stops the bullet with a tiny explosion (at other.x + hspeed; the illusion never moves by speed, so hspeed is 0).</summary>
-        protected override bool BulletHit(Bullet bullet)
-        {
-            if (!ParentDisguised) return false;
-            TinyExplosionAt(bullet);
-            return true;
+            AddDamageSource();
         }
     }
 }
