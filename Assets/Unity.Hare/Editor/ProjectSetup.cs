@@ -2,18 +2,20 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
+using Unity.Hare.EditorTools.Rendering;
 using Unity.Hare.Player;
+using Unity.Hare.Rendering;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.EditorTools
 {
     /// <summary>
-    /// Writes the project's URP 2D pipeline and its main scene. Both are generated rather than
-    /// hand-made so they stay reproducible, and both are committed: they are written only when
-    /// missing, because Unity gives every object a fresh file ID and regenerating on each run would
-    /// leave a no-op diff. To change them, edit this file, run the menu item, and commit both.
+    /// Writes the project's URP 2D pipeline, its sorting layers and its main scene. All three are generated
+    /// rather than hand-made so they stay reproducible, and all are committed: the pipeline assets and scene
+    /// are written only when missing, because Unity gives every object a fresh file ID and regenerating on each
+    /// run would leave a no-op diff. To change them, edit this file, run the menu item, and commit the result.
+    /// This file never references UnityEngine.Rendering.Universal itself (U.HARE-T44): the 2D pipeline assets,
+    /// camera data and Light2D are created through <see cref="UrpSeam"/>, the one place that does.
     ///
     /// Batch: Unity -batchmode -quit -projectPath . -executeMethod Unity.Hare.EditorTools.ProjectSetup.SetUpAll
     /// </summary>
@@ -41,24 +43,7 @@ namespace Unity.Hare.EditorTools
         public static void SetUpRendering()
         {
             Directory.CreateDirectory(SettingsFolder);
-            var renderer = AssetDatabase.LoadAssetAtPath<Renderer2DData>(RendererPath);
-            if (renderer == null)
-            {
-                renderer = ScriptableObject.CreateInstance<Renderer2DData>();
-                AssetDatabase.CreateAsset(renderer, RendererPath);
-            }
-            var pipeline = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(PipelinePath);
-            if (pipeline == null)
-            {
-                pipeline = UniversalRenderPipelineAsset.Create(renderer);
-                AssetDatabase.CreateAsset(pipeline, PipelinePath);
-            }
-            GraphicsSettings.defaultRenderPipeline = pipeline;
-            for (int level = 0; level < QualitySettings.names.Length; level++)
-            {
-                QualitySettings.SetQualityLevel(level, false);
-                QualitySettings.renderPipeline = null; // every level falls back to the default above
-            }
+            UrpSeam.EnsureUrp2DPipeline(RendererPath, PipelinePath);
             AssetDatabase.SaveAssets();
             Debug.Log("[Unity.Hare] URP 2D pipeline: " + PipelinePath);
         }
@@ -66,7 +51,9 @@ namespace Unity.Hare.EditorTools
         /// <summary>
         /// Zero-gravity 2D world (the player flies under thrust/rotate, not gravity, per the GML
         /// original's player_boost/player_brake); product identity; the Input System as the only
-        /// input backend.
+        /// input backend; the original's 1920x1080 reference resolution (<see cref="LetterboxCamera"/>
+        /// scales it to the window at runtime); the sorting layers' back-to-front order
+        /// (<see cref="HareSortingLayers"/>).
         /// </summary>
         [MenuItem("Unity.Hare/Set Up Project Settings")]
         public static void SetUpProjectSettings()
@@ -75,6 +62,8 @@ namespace Unity.Hare.EditorTools
             PlayerSettings.companyName = "MindAttic";
             PlayerSettings.productName = "Unity.Hare";
             PlayerSettings.colorSpace = ColorSpace.Linear;
+            PlayerSettings.defaultScreenWidth = (int)LetterboxCamera.ReferenceWidth;
+            PlayerSettings.defaultScreenHeight = (int)LetterboxCamera.ReferenceHeight;
 
             var player = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset")[0]);
             var input = player.FindProperty("activeInputHandler");
@@ -83,10 +72,15 @@ namespace Unity.Hare.EditorTools
                 input.intValue = 1; // Input System package only
                 player.ApplyModifiedPropertiesWithoutUndo();
             }
+
+            SortingLayerSetup.EnsureSortingLayers(HareSortingLayers.Order);
             AssetDatabase.SaveAssets();
         }
 
-        /// <summary>The main scene: an orthographic camera over the open arena (room_gamescreen) and a global 2D light.</summary>
+        /// <summary>
+        /// The main scene: the 2D camera rig (<see cref="CameraRig"/>, letterboxed to the reference resolution)
+        /// over the open arena (room_gamescreen) and a global 2D light.
+        /// </summary>
         [MenuItem("Unity.Hare/Rebuild Main Scene")]
         public static void RebuildMainScene()
         {
@@ -94,22 +88,12 @@ namespace Unity.Hare.EditorTools
             Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            var cameraGo = new GameObject("Main Camera") { tag = "MainCamera" };
-            cameraGo.transform.SetPositionAndRotation(new Vector3(0f, 0f, -10f), Quaternion.identity);
-            var camera = cameraGo.AddComponent<Camera>();
-            camera.orthographic = true;
-            camera.orthographicSize = 5.4f;
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = Backdrop;
-            camera.nearClipPlane = 0.3f;
-            camera.farClipPlane = 100f;
-            cameraGo.AddComponent<UniversalAdditionalCameraData>();
-            cameraGo.AddComponent<AudioListener>();
+            var cameras = CameraRig.Build(new Vector3(0f, 0f, -10f), 5.4f, Backdrop);
+            UrpSeam.AddCameraData(cameras.Bars.gameObject);
+            UrpSeam.AddCameraData(cameras.Main.gameObject);
 
             var lightGo = new GameObject("Global Light 2D");
-            var light = lightGo.AddComponent<Light2D>();
-            light.lightType = Light2D.LightType.Global;
-            light.intensity = 1f;
+            UrpSeam.AddGlobalLight2D(lightGo, intensity: 1f);
 
             AddPlayerShip();
 

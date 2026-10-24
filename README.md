@@ -38,8 +38,11 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`
   folder (U.HARE-T65)
+- the presentation seam: sorting layers (`Backdrop`/`Default`/`Overlay`), a 2D camera rig letterboxed to the
+  original's 1920x1080 reference resolution, and the screen-fade/flash layer later tickets will drive
+  (`Rendering/`); URP itself stays behind `Unity.Hare.Editor.Rendering`'s seam
 
-Still to come, in build order: the URP seam, the UI, the art, sound and font pipelines, then the rooms,
+Still to come, in build order: the UI, the art, sound and font pipelines, then the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
 database (`tickets ticket list --repo Unity.Hare`).
@@ -52,8 +55,10 @@ Prerequisites: Unity 6000.4.3f1 and the .NET SDK (for the Core tests). Close the
 In the Editor, open the project and use the **Unity.Hare** menu:
 
 - **Set Up URP 2D** writes the 2D renderer and pipeline assets under `Assets/Unity.Hare/Settings/`.
-- **Set Up Project Settings** sets the Input System as the active input handler.
-- **Rebuild Main Scene** regenerates `Assets/Unity.Hare/Scenes/Main.unity` and the build settings from code.
+- **Set Up Project Settings** sets the Input System as the active input handler, the 1920x1080 reference
+  resolution, and the `Backdrop`/`Default`/`Overlay` sorting layers.
+- **Rebuild Main Scene** regenerates `Assets/Unity.Hare/Scenes/Main.unity` (the 2D camera rig, the global
+  light and the player ship) and the build settings from code.
 
 Run the component tests from **Window > General > Test Runner** (EditMode).
 
@@ -101,7 +106,9 @@ Assets/Unity.Hare/
   Core/                Unity.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
   Scripts/             Unity.Hare.Runtime asmdef: the components
     Player/  Weapons/  Enemies/  Rocks/  Effects/  Settings/ (ActiveProfile, HareSettings)
+    Rendering/         sorting layers, the 2D camera rig and letterbox, the fade/flash overlay layer (no render pipeline reference)
   Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter
+    Rendering/         Unity.Hare.Editor.Rendering asmdef: UrpSeam, SortingLayerSetup (the only code that references UnityEngine.Rendering.Universal)
   Tests/EditMode/      Unity.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
   Tests/PlayMode/      Unity.Hare.Tests.PlayMode: scripted play (UH-T70)
   Resources/Hare/      the original's sprites (with sprites.txt origins), particle shapes, sounds
