@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Enemies
@@ -137,8 +138,9 @@ namespace Unity.Hare.Enemies
         readonly RoomBounds? room;
         readonly int? firstAlarm;
 
+        /// <summary><paramref name="waitMinSteps"/>/<paramref name="waitMaxSteps"/> default to the loaded <see cref="EmitterTiming"/> when null.</summary>
         public AddEmitter(EnemyKind kind, Vec2 position, int instanceMin, int instanceMax, float scale, RoomBounds? room = null,
-            int waitMinSteps = EmitterBody.DefaultWaitMinSteps, int waitMaxSteps = EmitterBody.DefaultWaitMaxSteps, int? firstAlarmSteps = null)
+            int? waitMinSteps = null, int? waitMaxSteps = null, int? firstAlarmSteps = null)
         {
             this.kind = kind;
             this.position = position;
@@ -146,8 +148,8 @@ namespace Unity.Hare.Enemies
             this.instanceMax = instanceMax;
             this.scale = scale;
             this.room = room;
-            waitMin = waitMinSteps;
-            waitMax = waitMaxSteps;
+            waitMin = waitMinSteps ?? GameContent.Current.Emitters.DefaultWaitMinSteps;
+            waitMax = waitMaxSteps ?? GameContent.Current.Emitters.DefaultWaitMaxSteps;
             firstAlarm = firstAlarmSteps;
         }
 

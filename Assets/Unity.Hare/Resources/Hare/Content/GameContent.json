@@ -1,0 +1,82 @@
+{
+  "weapons": {
+    "GroundCycle": ["Vulcan", "Laser", "Railgun", "Shotgun", "Flamer"],
+    "AirCycle": ["Rocket", "Mine"],
+    "VulcanBaseRateSteps": 9,
+    "VulcanMinRateSteps": 9,
+    "VulcanSpinUpDecrementSteps": 3,
+    "ShotgunIntervalSteps": 120,
+    "FlamerIntervalSteps": 8,
+    "MineIntervalSteps": 30,
+    "RailgunIntervalSteps": 240,
+    "RocketIntervalSteps": 25,
+    "VulcanBulletDamage": 1,
+    "ShotgunPelletDamage": 1
+  },
+  "ammo": {
+    "GroundPrimary": { "Max": 150, "Cost": 1, "Regen": 10 },
+    "GroundSecondary": { "Max": 12, "Cost": 4, "Regen": 2 },
+    "AirPrimary": { "Max": 20, "Cost": 1, "Regen": 4 },
+    "AirSecondary": { "Max": 8, "Cost": 1, "Regen": 1 },
+    "RegenDelaySteps": 120,
+    "RegenDelaySecondarySteps": 120
+  },
+  "flight": {
+    "FlightSpeed": 5,
+    "BrakeSpeed": 2.5,
+    "TurnSpeedDegreesPerSecond": 120,
+    "BrakeTurnSpeedDegreesPerSecond": 240,
+    "SpeedChangeRatePerSecond": 6,
+    "MaxEnergy": 100,
+    "MinEnergyFractionToStart": 0.33,
+    "EnergyDrainPerSecond": 40,
+    "EnergyFillPerSecond": 25,
+    "JumpArcDegrees": 100,
+    "ShieldRadius": 0.75
+  },
+  "health": {
+    "MaxHealth": 6,
+    "StartingLives": 3,
+    "InvulnerableSteps": 180,
+    "SpawnProtectionSteps": 180,
+    "HurtPoseSteps": 60,
+    "DeathWaitSteps": 320,
+    "RespawnDirection": 270,
+    "RespawnDirectionJitter": 30
+  },
+  "weaponPhysicals": {
+    "PerchedMuzzle": { "GunOffsetPx": -13, "MuzzleDistancePx": 34 },
+    "AirMuzzle": { "GunOffsetPx": -13, "MuzzleDistancePx": 34 },
+    "Vulcan": { "BulletSpeed": 8, "BulletLifetime": 3, "BulletRadius": 0.05, "MuzzleDistance": 0.34, "MuzzleJitter": 0.05 },
+    "Shotgun": { "PelletCount": 16, "SpreadDegrees": 8, "Grouping": 0.12, "PelletSpeed": 12, "PelletLifetime": 2, "PelletRadius": 0.03 },
+    "Flamer": { "FlameSpeed": 4, "FlameLifetime": 1.1666667, "FlameRadius": 0.5 },
+    "Laser": { "BeamLengthPx": 2000 },
+    "Railgun": { "BeamLengthPx": 2000 }
+  },
+  "emitters": {
+    "FirstAlarmMaxSteps": 240,
+    "PhaseSteps": 120,
+    "DefaultWaitMinSteps": 200,
+    "DefaultWaitMaxSteps": 500
+  },
+  "wormholes": {
+    "OneTickSteps": 240,
+    "OpeningFraction": 0.1,
+    "FirstRateMaxSeconds": 4,
+    "RateMaxSeconds": 8
+  },
+  "enemies": {
+    "Hydra": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 15, "BBoxHalfHeightPx": 15, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": true, "DifficultyPoints": 1, "EmitterScale": 0.25, "WormholeScale": 0.25 },
+    "Sawblade": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 15, "BBoxHalfHeightPx": 15, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": true, "DifficultyPoints": 1, "EmitterScale": 0.25, "WormholeScale": 0.25 },
+    "Dagger": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 38, "BBoxHalfHeightPx": 21.5, "BBoxOffsetXPx": 8, "BBoxOffsetYPx": 0, "PushesAway": true, "DifficultyPoints": 1, "EmitterScale": 0.25, "WormholeScale": 0.35 },
+    "Mimic": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 1, "BBoxHalfWidthPx": 53, "BBoxHalfHeightPx": 53, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 2, "EmitterScale": 0.25, "WormholeScale": 1.0 },
+    "Wraith": { "Points": 50, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 50, "BBoxHalfHeightPx": 56, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 8, "EmitterScale": 0.35, "WormholeScale": 0.35 },
+    "Meatball": { "Points": 50, "PartPoints": 0, "DeathBurstSize": 2, "BBoxHalfWidthPx": 89, "BBoxHalfHeightPx": 83.5, "BBoxOffsetXPx": -0.5, "BBoxOffsetYPx": 34, "PushesAway": true, "DifficultyPoints": 10, "EmitterScale": 0.70, "WormholeScale": 1.0 },
+    "Phalanx": { "Points": 20, "PartPoints": 0, "DeathBurstSize": 1, "BBoxHalfWidthPx": 15, "BBoxHalfHeightPx": 15, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 5, "EmitterScale": 0.35, "WormholeScale": 0.35 },
+    "Worm": { "Points": 100, "PartPoints": 10, "DeathBurstSize": 2, "BBoxHalfWidthPx": 56.5, "BBoxHalfHeightPx": 56.5, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 15, "EmitterScale": 0.50, "WormholeScale": 0.5 },
+    "Trilobyte": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 26, "BBoxHalfHeightPx": 24.5, "BBoxOffsetXPx": -3.5, "BBoxOffsetYPx": 1, "PushesAway": true, "DifficultyPoints": 2, "EmitterScale": 0.25, "WormholeScale": 0.25 }
+  },
+  "levels": { "Levels": [] },
+  "dialogue": { "Lines": [] },
+  "upgrades": { "Upgrades": [] }
+}

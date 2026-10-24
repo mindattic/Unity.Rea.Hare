@@ -10,10 +10,10 @@ namespace Unity.Hare.Enemies
     /// </summary>
     public class EnemyEmitter : Vortex
     {
-        public const int FirstAlarmMaxSteps = EmitterBody.FirstAlarmMaxSteps;
-        public const int PhaseSteps = EmitterBody.PhaseSteps;
-        public const int DefaultWaitMinSteps = EmitterBody.DefaultWaitMinSteps;
-        public const int DefaultWaitMaxSteps = EmitterBody.DefaultWaitMaxSteps;
+        public static int FirstAlarmMaxSteps => EmitterBody.FirstAlarmMaxSteps;
+        public static int PhaseSteps => EmitterBody.PhaseSteps;
+        public static int DefaultWaitMinSteps => EmitterBody.DefaultWaitMinSteps;
+        public static int DefaultWaitMaxSteps => EmitterBody.DefaultWaitMaxSteps;
 
         [SerializeField] EnemyKind instance = EnemyKind.Hydra;
         [SerializeField] int instanceMin = 1;
@@ -49,7 +49,7 @@ namespace Unity.Hare.Enemies
         /// </summary>
         public void Init(EnemyKind kind, Vector2 position, int instanceMin, int instanceMax, float scale,
             Rect? room = null, PlayerShipController player = null,
-            int waitMinSteps = DefaultWaitMinSteps, int waitMaxSteps = DefaultWaitMaxSteps, int? firstAlarmSteps = null)
+            int? waitMinSteps = null, int? waitMaxSteps = null, int? firstAlarmSteps = null)
         {
             initialised = true;
             var result = EnemyDirector.Execute(new AddEmitter(kind, position.ToVec2(), instanceMin, instanceMax, scale,

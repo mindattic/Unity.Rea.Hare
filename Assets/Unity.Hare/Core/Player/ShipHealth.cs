@@ -1,4 +1,5 @@
 using System;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
@@ -15,7 +16,7 @@ namespace Unity.Hare.Player
         readonly EventSink sink;
         readonly ShipFlight flight;
         readonly Func<float, float, float> random;
-        HealthTuning tuning = new HealthTuning();
+        HealthTuning tuning = GameContent.Current.Health;
         float invulnerableTimer;
         float spawnProtectionTimer;
         float hurtTimer;
@@ -46,7 +47,7 @@ namespace Unity.Hare.Player
         /// <summary>A fresh game: full HP, full lives, spawn-protected like the original's Create event.</summary>
         public void Reset(HealthTuning newTuning)
         {
-            tuning = newTuning ?? new HealthTuning();
+            tuning = newTuning ?? GameContent.Current.Health;
             Health = tuning.MaxHealth;
             Lives = tuning.StartingLives;
             IsDead = false;

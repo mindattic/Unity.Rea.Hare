@@ -14,9 +14,9 @@ namespace Unity.Hare.Enemies
     /// </summary>
     public class WormholeEmitter : MonoBehaviour, IEnemyEventSink
     {
-        public const float OpeningFraction = WormholeEmitterBody.OpeningFraction;
-        public const int FirstRateMaxSeconds = WormholeEmitterBody.FirstRateMaxSeconds;
-        public const int RateMaxSeconds = WormholeEmitterBody.RateMaxSeconds;
+        public static float OpeningFraction => WormholeEmitterBody.OpeningFraction;
+        public static int FirstRateMaxSeconds => WormholeEmitterBody.FirstRateMaxSeconds;
+        public static int RateMaxSeconds => WormholeEmitterBody.RateMaxSeconds;
 
         [SerializeField] int difficulty = 100;
         [SerializeField] bool initOnStart;

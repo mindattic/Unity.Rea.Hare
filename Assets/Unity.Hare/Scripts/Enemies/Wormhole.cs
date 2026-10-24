@@ -11,7 +11,7 @@ namespace Unity.Hare.Enemies
     public class Wormhole : Vortex
     {
         /// <summary>one_tick = room_speed * 2.</summary>
-        public const int OneTickSteps = WormholeBody.OneTickSteps;
+        public static int OneTickSteps => WormholeBody.OneTickSteps;
 
         /// <summary>The enemy this wormhole released, once it has.</summary>
         public Component Spawned => ((WormholeBody)Core).Spawned == null ? null : EnemyDirector.ViewOf<Component>(((WormholeBody)Core).Spawned.Id);

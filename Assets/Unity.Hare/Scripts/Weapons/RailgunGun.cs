@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Weapons
 {
@@ -10,8 +11,6 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class RailgunGun : PerchedWeapon, IGroundWeapon
     {
-        [SerializeField] float beamLengthPx = 2000f;
-
         protected override GunType GunType => GunType.Railgun;
 
         public RailgunGun() : base(WeaponSlot.Primary) { }
@@ -19,7 +18,7 @@ namespace Unity.Hare.Weapons
         public GroundWeapon GroundKind => GroundWeapon.Railgun;
         public bool IsGroundPrimary => Slot == WeaponSlot.Primary;
 
-        public float BeamLengthUnits => Gml.Px(beamLengthPx);
+        public float BeamLengthUnits => Gml.Px(GameContent.Current.WeaponPhysicals.Railgun.BeamLengthPx);
 
         protected override void Shoot(Vector2 origin, float aim)
         {

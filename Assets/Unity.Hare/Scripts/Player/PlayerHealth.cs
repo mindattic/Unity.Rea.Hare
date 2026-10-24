@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
@@ -16,7 +17,8 @@ namespace Unity.Hare.Player
     [RequireComponent(typeof(PlayerShipController))]
     public class PlayerHealth : SeatView
     {
-        [SerializeField] HealthTuning tuning = new HealthTuning();
+        /// <summary>The loaded content's health/lives tuning (AGENTS.md rule 4); no longer an Inspector field.</summary>
+        readonly HealthTuning tuning = GameContent.Current.Health;
 
         [Header("Respawn (GML: reset_player)")]
         [Tooltip("Where the ship re-enters. Empty = the position it started the scene at.")]

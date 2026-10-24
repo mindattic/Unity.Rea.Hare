@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Enemies
 {
@@ -183,13 +184,13 @@ namespace Unity.Hare.Enemies
     /// </summary>
     public sealed class EmitterBody : VortexBody
     {
-        /// <summary>Create's alarm[0] = irandom_range(1, room_speed * 2).</summary>
-        public const int FirstAlarmMaxSteps = 240;
-        /// <summary>Open, spawn and close each last alarm[0] = 120 steps.</summary>
-        public const int PhaseSteps = 120;
-        /// <summary>setup_level's instance_wait_min/max for every emitter it places.</summary>
-        public const int DefaultWaitMinSteps = 200;
-        public const int DefaultWaitMaxSteps = 500;
+        /// <summary>Create's alarm[0] = irandom_range(1, room_speed * 2). Loaded content (<see cref="EmitterTiming"/>).</summary>
+        public static int FirstAlarmMaxSteps => GameContent.Current.Emitters.FirstAlarmMaxSteps;
+        /// <summary>Open, spawn and close each last alarm[0] = 120 steps. Loaded content.</summary>
+        public static int PhaseSteps => GameContent.Current.Emitters.PhaseSteps;
+        /// <summary>setup_level's instance_wait_min/max for every emitter it places. Loaded content.</summary>
+        public static int DefaultWaitMinSteps => GameContent.Current.Emitters.DefaultWaitMinSteps;
+        public static int DefaultWaitMaxSteps => GameContent.Current.Emitters.DefaultWaitMaxSteps;
 
         /// <summary>GML instance_min: set by setup_level but never read by the emitter.</summary>
         public int InstanceMin { get; private set; } = 1;
@@ -271,8 +272,8 @@ namespace Unity.Hare.Enemies
     /// </summary>
     public sealed class WormholeBody : VortexBody
     {
-        /// <summary>one_tick = room_speed * 2.</summary>
-        public const int OneTickSteps = 240;
+        /// <summary>one_tick = room_speed * 2. Loaded content (<see cref="WormholeTiming"/>).</summary>
+        public static int OneTickSteps => GameContent.Current.Wormholes.OneTickSteps;
 
         /// <summary>The enemy this wormhole released, once it has.</summary>
         public EnemyBody Spawned { get; private set; }
@@ -336,11 +337,12 @@ namespace Unity.Hare.Enemies
     /// </remarks>
     public sealed class WormholeEmitterBody
     {
-        public const float OpeningFraction = 0.1f;
-        /// <summary>Create's rate = 1 + room_speed * irandom_range(0, 4).</summary>
-        public const int FirstRateMaxSeconds = 4;
-        /// <summary>Alarm 0's rate = 1 + room_speed * irandom_range(0, 8).</summary>
-        public const int RateMaxSeconds = 8;
+        /// <summary>Loaded content (<see cref="WormholeTiming"/>).</summary>
+        public static float OpeningFraction => GameContent.Current.Wormholes.OpeningFraction;
+        /// <summary>Create's rate = 1 + room_speed * irandom_range(0, 4). Loaded content.</summary>
+        public static int FirstRateMaxSeconds => GameContent.Current.Wormholes.FirstRateMaxSeconds;
+        /// <summary>Alarm 0's rate = 1 + room_speed * irandom_range(0, 8). Loaded content.</summary>
+        public static int RateMaxSeconds => GameContent.Current.Wormholes.RateMaxSeconds;
 
         readonly List<EnemyKind> list = new List<EnemyKind>();
         readonly List<WormholeBody> wormholes = new List<WormholeBody>();

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -22,9 +23,7 @@ namespace Unity.Hare.Weapons
         [Header("Trigger (GML: fire_primary / fire_secondary)")]
         [SerializeField] WeaponSlot slot;
 
-        [Header("Muzzle (GML: gunX/gunY = 13 px behind the ship, origin 34 px along mouse_angle)")]
-        [SerializeField] float gunOffset = -0.13f;
-        [SerializeField] float muzzleDistance = 0.34f;
+        static PerchedMuzzleGeometry Muzzle => GameContent.Current.WeaponPhysicals.PerchedMuzzle;
 
         PlayerShipController player;
         PlayerAmmo ammo;
@@ -93,8 +92,9 @@ namespace Unity.Hare.Weapons
         {
             get
             {
-                Vector2 gun = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z) * gunOffset;
-                return gun + Gml.Dir(player.AimDirection) * muzzleDistance;
+                var muzzle = Muzzle;
+                Vector2 gun = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z) * GameClock.Px(muzzle.GunOffsetPx);
+                return gun + Gml.Dir(player.AimDirection) * GameClock.Px(muzzle.MuzzleDistancePx);
             }
         }
 

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -21,12 +22,9 @@ namespace Unity.Hare.Weapons
         public const float StepsPerSecond = GameClock.StepsPerSecond;
 
         [Header("Bullet (obj_bullet; distances are placeholders until sprites set the world scale)")]
-        [SerializeField] float bulletSpeed = 8f;
-        [SerializeField] float bulletLifetime = 3f;
-        [SerializeField] float bulletRadius = 0.05f;
-        [SerializeField] float muzzleDistance = 0.34f;
-        [SerializeField] float muzzleJitter = 0.05f;
         [SerializeField] Sprite bulletSprite;
+
+        static VulcanPhysicalStats Stats => GameContent.Current.WeaponPhysicals.Vulcan;
 
         [Header("Sound (sfx_vulcan_*, sfx_empty_clip; the reloads are PlayerAmmo's)")]
         [SerializeField] AudioClip spinUpClip;
@@ -153,16 +151,17 @@ namespace Unity.Hare.Weapons
         /// <summary>GML: shoot_vulcan. A bullet from the muzzle along the aim, jittered vertically.</summary>
         Bullet SpawnBullet()
         {
+            var stats = Stats;
             float aim = ship.AimDirection;
             Vector2 heading = new Vector2(Mathf.Cos(aim * Mathf.Deg2Rad), Mathf.Sin(aim * Mathf.Deg2Rad));
-            Vector2 origin = (Vector2)transform.position + heading * muzzleDistance;
-            origin.y += UnityEngine.Random.Range(-muzzleJitter, muzzleJitter); // GML: Y + irandom_range(-5,5)
+            Vector2 origin = (Vector2)transform.position + heading * stats.MuzzleDistance;
+            origin.y += UnityEngine.Random.Range(-stats.MuzzleJitter, stats.MuzzleJitter); // GML: Y + irandom_range(-5,5)
 
             var go = new GameObject("VulcanBullet");
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);
             if (bulletSprite != null) go.AddComponent<SpriteRenderer>().sprite = bulletSprite;
             var bullet = go.AddComponent<Bullet>();
-            bullet.Init(gameObject, aim, bulletSpeed, Core.Table.BulletDamage(GunType.Vulcan), bulletLifetime, bulletRadius);
+            bullet.Init(gameObject, aim, stats.BulletSpeed, Core.Table.BulletDamage(GunType.Vulcan), stats.BulletLifetime, stats.BulletRadius);
             return bullet;
         }
 

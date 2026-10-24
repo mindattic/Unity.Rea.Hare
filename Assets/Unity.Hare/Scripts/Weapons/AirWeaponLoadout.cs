@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -24,9 +25,9 @@ namespace Unity.Hare.Weapons
     public class AirWeaponLoadout : SeatView
     {
         [Header("Muzzle (GML: gunX/gunY = x + lengthdir(-13, image_angle); origin = gun + lengthdir(34, mouse_angle))")]
-        [SerializeField] float gunOffsetPx = -13f;
-        [SerializeField] float muzzleOffsetPx = 34f;
         [SerializeField] Sprite mineSprite;
+
+        static PerchedMuzzleGeometry Muzzle => GameContent.Current.WeaponPhysicals.AirMuzzle;
 
         PlayerShipController ship;
         PlayerAmmo ammo;
@@ -46,8 +47,8 @@ namespace Unity.Hare.Weapons
         /// <summary>GML: sfx_empty_clip, out of ammo.</summary>
         public event Action<AirWeapon> DryFired;
 
-        public Vector2 GunPosition => (Vector2)transform.position + Gml.Dir(Ship.Direction) * Gml.Px(gunOffsetPx);
-        public Vector2 MuzzlePosition => GunPosition + Gml.Dir(Ship.AimDirection) * Gml.Px(muzzleOffsetPx);
+        public Vector2 GunPosition => (Vector2)transform.position + Gml.Dir(Ship.Direction) * Gml.Px(Muzzle.GunOffsetPx);
+        public Vector2 MuzzlePosition => GunPosition + Gml.Dir(Ship.AimDirection) * Gml.Px(Muzzle.MuzzleDistancePx);
 
         PlayerShipController Ship => ship != null ? ship : ship = GetComponent<PlayerShipController>();
 

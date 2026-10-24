@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -13,8 +14,6 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class LaserGun : PerchedWeapon, IGroundWeapon
     {
-        [SerializeField] float beamLengthPx = 2000f;
-
         protected override GunType GunType => GunType.Laser;
 
         public LaserGun() : base(WeaponSlot.Primary) { }
@@ -26,7 +25,8 @@ namespace Unity.Hare.Weapons
         public LaserBeam ActiveLaser { get; private set; }
 
         /// <summary>Where the beam ends: 2000 px from the gun, the muzzle being 34 px out.</summary>
-        public Vector2 BeamEndPosition => MuzzlePosition + Gml.Dir(Player.AimDirection) * Gml.Px(beamLengthPx - 34f);
+        public Vector2 BeamEndPosition => MuzzlePosition + Gml.Dir(Player.AimDirection) *
+            Gml.Px(GameContent.Current.WeaponPhysicals.Laser.BeamLengthPx - GameContent.Current.WeaponPhysicals.PerchedMuzzle.MuzzleDistancePx);
 
         protected override void Shoot(Vector2 origin, float aim)
         {

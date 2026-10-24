@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
@@ -35,6 +37,22 @@ namespace Unity.Hare.Player
 
         /// <summary>obj_shieldwall's hitbox radius, world units.</summary>
         public float ShieldRadius = 0.75f;
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidationHelpers.Positive(errors, path + ".FlightSpeed", FlightSpeed);
+            ValidationHelpers.Positive(errors, path + ".BrakeSpeed", BrakeSpeed);
+            ValidationHelpers.Positive(errors, path + ".TurnSpeedDegreesPerSecond", TurnSpeedDegreesPerSecond);
+            ValidationHelpers.Positive(errors, path + ".BrakeTurnSpeedDegreesPerSecond", BrakeTurnSpeedDegreesPerSecond);
+            ValidationHelpers.Positive(errors, path + ".SpeedChangeRatePerSecond", SpeedChangeRatePerSecond);
+            ValidationHelpers.Positive(errors, path + ".MaxEnergy", MaxEnergy);
+            if (MinEnergyFractionToStart < 0f || MinEnergyFractionToStart > 1f)
+                errors.Add($"{path}.MinEnergyFractionToStart: must be between 0 and 1 (was {MinEnergyFractionToStart}).");
+            ValidationHelpers.Positive(errors, path + ".EnergyDrainPerSecond", EnergyDrainPerSecond);
+            ValidationHelpers.Positive(errors, path + ".EnergyFillPerSecond", EnergyFillPerSecond);
+            ValidationHelpers.NonNegative(errors, path + ".JumpArcDegrees", JumpArcDegrees);
+            ValidationHelpers.Positive(errors, path + ".ShieldRadius", ShieldRadius);
+        }
     }
 
     /// <summary>
@@ -59,5 +77,16 @@ namespace Unity.Hare.Player
         /// <summary>reset_player flies the ship back in heading down, give or take the jitter.</summary>
         public float RespawnDirection = 270f;
         public float RespawnDirectionJitter = 30f;
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidationHelpers.Positive(errors, path + ".MaxHealth", MaxHealth);
+            ValidationHelpers.NonNegative(errors, path + ".StartingLives", StartingLives);
+            ValidationHelpers.Positive(errors, path + ".InvulnerableSteps", InvulnerableSteps);
+            ValidationHelpers.Positive(errors, path + ".SpawnProtectionSteps", SpawnProtectionSteps);
+            ValidationHelpers.Positive(errors, path + ".HurtPoseSteps", HurtPoseSteps);
+            ValidationHelpers.Positive(errors, path + ".DeathWaitSteps", DeathWaitSteps);
+            ValidationHelpers.NonNegative(errors, path + ".RespawnDirectionJitter", RespawnDirectionJitter);
+        }
     }
 }

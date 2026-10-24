@@ -1,4 +1,5 @@
 using System;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
@@ -12,7 +13,7 @@ namespace Unity.Hare.Player
     public sealed class ShipFlight
     {
         readonly EventSink sink;
-        FlightTuning tuning = new FlightTuning();
+        FlightTuning tuning = GameContent.Current.Flight;
         float turnInput;
 
         internal ShipFlight(EventSink sink)
@@ -40,7 +41,7 @@ namespace Unity.Hare.Player
         /// <summary>obj_player Create / reset_player: back in flight at full energy, no shield.</summary>
         public void Reset(FlightTuning newTuning)
         {
-            tuning = newTuning ?? new FlightTuning();
+            tuning = newTuning ?? GameContent.Current.Flight;
             DropShield(); // GML reset_player: shielding = false; with(obj_shieldwall) instance_destroy()
             State = PlayerFlightState.Moving;
             IsBoosting = false;

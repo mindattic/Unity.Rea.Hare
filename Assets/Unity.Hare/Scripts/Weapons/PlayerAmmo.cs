@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -13,7 +14,8 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class PlayerAmmo : SeatView
     {
-        [SerializeField] AmmoTuning tuning = new AmmoTuning();
+        /// <summary>The loaded content's ammo economy (AGENTS.md rule 4); no longer an Inspector field.</summary>
+        readonly AmmoTuning tuning = GameContent.Current.Ammo;
 
         [Header("Sound (sfx_reload_half / sfx_reload_full)")]
         [SerializeField] AudioClip reloadHalfClip;

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
@@ -14,7 +15,8 @@ namespace Unity.Hare.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerShipController : SeatView
     {
-        [SerializeField] FlightTuning tuning = new FlightTuning();
+        /// <summary>The loaded content's flight tuning (AGENTS.md rule 4); no longer an Inspector field.</summary>
+        readonly FlightTuning tuning = GameContent.Current.Flight;
 
         Rigidbody2D body;
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Enemies
 {
@@ -83,8 +84,9 @@ namespace Unity.Hare.Enemies
                         continue;
                     }
                     var emitter = world.AddVortex(new EmitterBody());
+                    var timing = GameContent.Current.Emitters;
                     emitter.Create(kind, at, range.Min, range.Max, EnemyTable.Get(kind).EmitterScale, room,
-                        EmitterBody.DefaultWaitMinSteps, EmitterBody.DefaultWaitMaxSteps, null);
+                        timing.DefaultWaitMinSteps, timing.DefaultWaitMaxSteps, null);
                     placed.Emitters.Add(emitter);
                 }
             }

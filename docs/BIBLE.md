@@ -210,23 +210,27 @@ one place (`Gml` in `Scripts/Weapons/WeaponTargets.cs`):
 GML scripts (`level_01`..`level_10` on `level_default`, the composition, objective and setting scripts), tuning is
 object Create variables, and session state is `globals.gml`.
 
-**The rebuild today** keeps tuning as `[SerializeField]` defaults and `const` fields on the components, each
-carrying the original's figure with its GML name in the comment, and two data files of its own:
-`Resources/Hare/Sprites/sprites.txt` (each sprite's GML origin, read by `HareArtImporter`) and the original's
-sprites, particle shapes and sounds under `Resources/Hare/` and `Audio/`.
+**The rebuild today (U.HARE-T41)** loads one validated data file, `Resources/Hare/Content/GameContent.json`, into
+Core's `ContentRegistry` (`Assets/Unity.Hare/Core/Content/`): a plain, dependency-free JSON reader (`MiniJson`)
+feeds a reflective binder (`ContentBinder`) that overlays the file's fields onto each section's compiled-in
+defaults (so a field the file omits, or a missing file entirely, keeps the original's own figure), then every
+section validates itself and every problem — not just the first — comes back in one `ContentValidationException`.
+`ContentBootstrap` (Runtime) loads the file before any scene's Awake runs and falls back to the compiled-in
+defaults, logging the full validation report, if it fails; `Content.Current` is what every rule reads instead of a
+literal. Two data files of its own stand alongside it: `Resources/Hare/Sprites/sprites.txt` (each sprite's GML
+origin, read by `HareArtImporter`) and the original's sprites, particle shapes and sounds under `Resources/Hare/`
+and `Audio/`.
 
-**The target (planned, UH-T41, UH-T20):** one validated data file per concern, loaded by Core and rejected on load
-with a message if any value is out of range:
-
-| Data | Holds | Original source |
-|---|---|---|
-| ship | flight, brake and boost speeds, turn rates, energy, shield, leap tolerance, health and hurt timing | `obj_player` Create, `player_*` |
-| weapons and ammo | each weapon's rate, speed, spread, reach, damage; the four ammo pools' max, cost, regen | `shoot_*`, `fire_*`, `set_ammo_cost`, `obj_player` Create |
-| enemies | per kind: speeds, timers, points, hit rules, RGB damage, death effect size, spawn scale | `obj_*` Create and collision events, `create_wormhole` |
-| rocks | sprites, speeds, spin, `spin_max`, heal and spin-wound rates, hit darkening and pushes, flotsam | `par_rock`, `create_new_rock`, `rock_destroyed`, `obj_flotsum` |
-| levels | room, rock counts and stationary share, enemy min/max per kind, objective, time limit, setting | `level_01`..`level_10`, `level_default`, `level_composition_*`, `level_objective_*`, `level_setting_*` |
-| generator | the point cost per kind, difficulty buttons | `generate_enemy_list`, `obj_btn_diff*` |
-| text | story, conversation, tips, credits | `load_scenario`, `obj_conversation`, `obj_tip`, `credits.txt` |
+| Data | Holds | Original source | Status |
+|---|---|---|---|
+| ship | flight, brake and boost speeds, turn rates, energy, shield, leap tolerance, health and hurt timing | `obj_player` Create, `player_*` | done |
+| weapons and ammo | each weapon's rate, speed, spread, reach, damage, muzzle geometry; the four ammo pools' max, cost, regen | `shoot_*`, `fire_*`, `set_ammo_cost`, `obj_player` Create | done |
+| enemies, generator | per kind: points, death effect size, bbox, push, difficulty points, emitter/wormhole scale | `obj_*` Create and collision events, `create_wormhole`, `generate_enemy_list` | done |
+| emitter/wormhole timings | `par_enemy_emitter`'s alarms and default wait range; `obj_wormhole`/`obj_wormhole_emitter`'s one_tick, opening fraction and re-arm ranges | `EmitterBody`, `WormholeBody`, `WormholeEmitterBody` | done |
+| rocks | sprites, speeds, spin, `spin_max`, heal and spin-wound rates, hit darkening and pushes, flotsam | `par_rock`, `create_new_rock`, `rock_destroyed`, `obj_flotsum` | still `[SerializeField]`/`const` on the components |
+| levels | room, rock counts and stationary share, enemy min/max per kind, objective, time limit, setting | `level_01`..`level_10`, `level_default`, `level_composition_*`, `level_objective_*`, `level_setting_*` | schema only (`LevelCatalog`), empty until U.HARE-T50/U.HARE-T64 |
+| text | story, conversation, tips, credits | `load_scenario`, `obj_conversation`, `obj_tip`, `credits.txt` | schema only (`DialogueCatalog`), empty until U.HARE-T28 |
+| upgrades | garage/upgrade screen's SKILLPOINTS costs | `obj_upgrade_*`, the schematics | schema only (`UpgradeCatalog`), empty until U.HARE-T24 |
 
 Player options (resolution, window, volumes) live in a Unity.Shared profile (planned, UH-T43); campaign progress in
 a save (planned, UH-T65).

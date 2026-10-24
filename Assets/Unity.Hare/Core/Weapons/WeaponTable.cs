@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hare.Content;
 
 namespace Unity.Hare.Weapons
 {
@@ -155,6 +156,24 @@ namespace Unity.Hare.Weapons
                 case GunType.Railgun: return GroundWeapon.Railgun;
                 default: return null;
             }
+        }
+
+        internal void Validate(List<string> errors, string path)
+        {
+            if (GroundCycle == null || GroundCycle.Length == 0) errors.Add($"{path}.GroundCycle: must list at least one weapon.");
+            if (AirCycle == null || AirCycle.Length == 0) errors.Add($"{path}.AirCycle: must list at least one weapon.");
+            ValidationHelpers.Positive(errors, path + ".VulcanBaseRateSteps", VulcanBaseRateSteps);
+            ValidationHelpers.Positive(errors, path + ".VulcanMinRateSteps", VulcanMinRateSteps);
+            if (VulcanMinRateSteps > VulcanBaseRateSteps)
+                errors.Add($"{path}: VulcanMinRateSteps ({VulcanMinRateSteps}) must not be greater than VulcanBaseRateSteps ({VulcanBaseRateSteps}).");
+            ValidationHelpers.NonNegative(errors, path + ".VulcanSpinUpDecrementSteps", VulcanSpinUpDecrementSteps);
+            ValidationHelpers.Positive(errors, path + ".ShotgunIntervalSteps", ShotgunIntervalSteps);
+            ValidationHelpers.Positive(errors, path + ".FlamerIntervalSteps", FlamerIntervalSteps);
+            ValidationHelpers.Positive(errors, path + ".MineIntervalSteps", MineIntervalSteps);
+            ValidationHelpers.Positive(errors, path + ".RailgunIntervalSteps", RailgunIntervalSteps);
+            ValidationHelpers.Positive(errors, path + ".RocketIntervalSteps", RocketIntervalSteps);
+            ValidationHelpers.NonNegative(errors, path + ".VulcanBulletDamage", VulcanBulletDamage);
+            ValidationHelpers.NonNegative(errors, path + ".ShotgunPelletDamage", ShotgunPelletDamage);
         }
     }
 }

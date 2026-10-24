@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hare.Content;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -59,6 +60,24 @@ namespace Unity.Hare.Weapons
                 default: return AirSecondary;
             }
         }
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidatePool(errors, path + ".GroundPrimary", GroundPrimary);
+            ValidatePool(errors, path + ".GroundSecondary", GroundSecondary);
+            ValidatePool(errors, path + ".AirPrimary", AirPrimary);
+            ValidatePool(errors, path + ".AirSecondary", AirSecondary);
+            ValidationHelpers.Positive(errors, path + ".RegenDelaySteps", RegenDelaySteps);
+            ValidationHelpers.Positive(errors, path + ".RegenDelaySecondarySteps", RegenDelaySecondarySteps);
+        }
+
+        static void ValidatePool(List<string> errors, string path, PoolTuning pool)
+        {
+            if (pool == null) { errors.Add($"{path}: must not be null."); return; }
+            ValidationHelpers.Positive(errors, path + ".Max", pool.Max);
+            ValidationHelpers.NonNegative(errors, path + ".Cost", pool.Cost);
+            ValidationHelpers.NonNegative(errors, path + ".Regen", pool.Regen);
+        }
     }
 
     /// <summary>
@@ -93,7 +112,7 @@ namespace Unity.Hare.Weapons
         readonly EventSink sink;
         readonly Pool[] pools = { new Pool(), new Pool(), new Pool(), new Pool() };
         readonly HashSet<int> triggerHolders = new HashSet<int>();
-        AmmoTuning tuning = new AmmoTuning();
+        AmmoTuning tuning = GameContent.Current.Ammo;
 
         internal AmmoPools(EventSink sink)
         {
@@ -121,7 +140,7 @@ namespace Unity.Hare.Weapons
         /// <summary>obj_player Create: every pool full at its starting values, both regen alarms stopped.</summary>
         public void Reset(AmmoTuning newTuning)
         {
-            tuning = newTuning ?? new AmmoTuning();
+            tuning = newTuning ?? GameContent.Current.Ammo;
             foreach (AmmoPool pool in Enum.GetValues(typeof(AmmoPool)))
             {
                 var start = tuning.For(pool);

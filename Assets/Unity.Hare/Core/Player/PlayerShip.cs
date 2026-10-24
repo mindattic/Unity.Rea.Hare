@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hare.Content;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Player
@@ -14,7 +15,7 @@ namespace Unity.Hare.Player
         {
             Id = id;
             Sink = new EventSink(id);
-            Table = table ?? new WeaponTable();
+            Table = table ?? GameContent.Current.Weapons;
             Flight = new ShipFlight(Sink);
             Health = new ShipHealth(Sink, Flight, random);
             Ammo = new AmmoPools(Sink);
