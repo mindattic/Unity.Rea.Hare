@@ -3,7 +3,7 @@
        there is one source of truth and nothing here can reach UnityEngine. -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <RootNamespace>MindAttic.Hare.Tests</RootNamespace>
