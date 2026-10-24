@@ -52,6 +52,9 @@ namespace Unity.Hare.Player
     /// <summary>The vulcan's spin-up, fire loop and spin-down cues.</summary>
     public sealed class VulcanCue : PlayerEvent { public int Key; public VulcanSound Sound; }
 
+    /// <summary>A gun was installed, moved to another slot or removed, so the ground cycle was re-read.</summary>
+    public sealed class GroundLoadoutChanged : PlayerEvent { }
+
     /// <summary>next_ground_weapon equipped <see cref="Weapon"/> (sfx_switch).</summary>
     public sealed class GroundWeaponSwitched : PlayerEvent { public GroundWeapon Weapon; }
 

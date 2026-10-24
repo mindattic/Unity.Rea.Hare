@@ -20,6 +20,15 @@ namespace Unity.Hare.Weapons
         {
             this.sink = sink;
             this.rack = rack;
+            rack.GunsChanged += OnGunsChanged;
+        }
+
+        /// <summary>Follows installs and removals once set up, so the cycle never depends on the order the guns appear in.</summary>
+        void OnGunsChanged()
+        {
+            if (!IsActive) return;
+            Refresh();
+            sink.Emit(new GroundLoadoutChanged());
         }
 
         /// <summary>True once a loadout has been set up for the ship; before that set_ammo_cost reads the guns directly.</summary>

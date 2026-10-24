@@ -101,6 +101,8 @@ namespace Unity.Hare.Weapons
             Reset(tuning);
         }
 
+        public AmmoTuning Tuning => tuning;
+
         /// <summary>GML alarm[alarm_ammo_regen]: seconds left, or -1 while stopped.</summary>
         public float PrimaryRegenTimer { get; private set; } = -1f;
         /// <summary>GML alarm[alarm_ammo_regen_secondary]: seconds left, or -1 while stopped.</summary>

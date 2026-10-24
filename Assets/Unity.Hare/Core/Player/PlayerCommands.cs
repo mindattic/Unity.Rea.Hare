@@ -149,7 +149,7 @@ namespace Unity.Hare.Player
 
         internal override bool Apply(PlayerShip ship)
         {
-            ship.Ammo.Reset(tuning);
+            ship.Ammo.Reset(tuning ?? ship.Ammo.Tuning);
             return true;
         }
     }

@@ -36,6 +36,8 @@ namespace Unity.Hare.Player
         /// <summary>Seats this ship as <paramref name="id"/> in a world an authority owns. Call before any view uses it.</summary>
         public void Bind(PlayerWorld sharedWorld, PlayerId id)
         {
+            if (ship != null)
+                throw new InvalidOperationException("This ship is already seated; add the seat and Bind it before adding the views.");
             world = sharedWorld;
             Id = id;
             ship = world.Has(id) ? world.Get(id) : world.AddPlayer(id);

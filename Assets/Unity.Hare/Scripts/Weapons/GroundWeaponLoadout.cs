@@ -99,7 +99,9 @@ namespace Unity.Hare.Weapons
 
         protected override void OnPlayerEvent(PlayerEvent e)
         {
-            if (e is GroundWeaponSwitched switched)
+            if (e is GroundLoadoutChanged)
+                Rebuild();
+            else if (e is GroundWeaponSwitched switched)
             {
                 Apply();
                 Switched?.Invoke(switched.Weapon);

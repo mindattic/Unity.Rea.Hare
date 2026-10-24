@@ -298,5 +298,17 @@ namespace Unity.Hare.Tests.Core
             rig.Do(new RefreshGroundLoadout(rig.Id));
             CollectionAssert.AreEqual(new[] { GroundWeapon.Vulcan, GroundWeapon.Flamer }, Ground.Weapons.ToArray());
         }
+
+        [Test]
+        public void TheLoadoutFollowsGunsInstalledAfterItWhateverTheOrder()
+        {
+            rig.Do(new ResetGroundLoadout(rig.Id)); // the loadout wakes before the guns
+            rig.Install(1, GunType.Vulcan, WeaponSlot.Primary);
+            rig.Install(2, GunType.Flamer, WeaponSlot.Primary);
+
+            Assert.AreEqual(GroundWeapon.Vulcan, Ground.Current);
+            CollectionAssert.AreEqual(new[] { GroundWeapon.Vulcan, GroundWeapon.Flamer }, Ground.Weapons.ToArray());
+            Assert.AreEqual(2, rig.Seen<GroundLoadoutChanged>().Count());
+        }
     }
 }

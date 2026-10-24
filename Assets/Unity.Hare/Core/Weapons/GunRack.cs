@@ -70,6 +70,9 @@ namespace Unity.Hare.Weapons
 
         public WeaponTable Table => table;
 
+        /// <summary>Raised after a gun is installed, re-seated or removed (the ground loadout follows it).</summary>
+        internal Action GunsChanged;
+
         /// <summary>The guns in the order they were installed.</summary>
         public IReadOnlyList<Gun> Guns => guns;
 
@@ -83,6 +86,7 @@ namespace Unity.Hare.Weapons
             {
                 gun = new Gun(key, type, slot) { FireRateSteps = table.VulcanBaseRateSteps };
                 guns.Add(gun);
+                GunsChanged?.Invoke();
                 return gun;
             }
 
@@ -93,6 +97,7 @@ namespace Unity.Hare.Weapons
             gun.FireRateSteps = table.VulcanBaseRateSteps;
             gun.IsSpinning = false;
             gun.IsLoopPlaying = false;
+            GunsChanged?.Invoke();
             return gun;
         }
 
@@ -102,6 +107,7 @@ namespace Unity.Hare.Weapons
             if (gun == null) return;
             ammo.ReleaseTrigger(key);
             guns.Remove(gun);
+            GunsChanged?.Invoke();
         }
 
         /// <summary>The pool this gun spends: by slot while perched, the mine launcher's air secondary.</summary>
