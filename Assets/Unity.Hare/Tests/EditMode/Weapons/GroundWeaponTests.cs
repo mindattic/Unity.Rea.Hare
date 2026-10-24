@@ -249,7 +249,7 @@ namespace Unity.Hare.Tests.EditMode
 
             Assert.AreEqual(GroundWeapon.Vulcan, loadout.Current);
             Assert.AreEqual(3, loadout.Weapons.Count, "the secondary shotgun is not in the cycle");
-            Assert.IsFalse(loadout.Has(GroundWeapon.Laser));
+            Assert.IsFalse(loadout.Has(GroundWeapon.Laser), "no laser gun on this ship");
 
             Assert.IsTrue(loadout.NextGroundWeapon());
             Assert.AreEqual(GroundWeapon.Shotgun, loadout.Current);

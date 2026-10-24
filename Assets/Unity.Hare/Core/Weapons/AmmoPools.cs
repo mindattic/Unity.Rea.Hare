@@ -115,8 +115,8 @@ namespace Unity.Hare.Weapons
         public int Cost(AmmoPool pool) => pools[(int)pool].Cost;
         public int Regen(AmmoPool pool) => pools[(int)pool].Regen;
 
-        /// <summary>The pool an air weapon spends: laser and railgun are GML ground weapons, rockets spend air_ammo_primary.</summary>
-        public static AmmoPool PoolFor(AirWeapon weapon) => weapon == AirWeapon.Rocket ? AmmoPool.AirPrimary : AmmoPool.GroundPrimary;
+        /// <summary>The pool an air primary spends: rockets and mines fired from fire_primary both spend air_ammo_primary.</summary>
+        public static AmmoPool PoolFor(AirWeapon weapon) => AmmoPool.AirPrimary;
 
         /// <summary>obj_player Create: every pool full at its starting values, both regen alarms stopped.</summary>
         public void Reset(AmmoTuning newTuning)

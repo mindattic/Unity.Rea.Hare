@@ -412,8 +412,10 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual(120f, table.GunIntervalSteps(GunType.Shotgun));
             Assert.AreEqual(8f, table.GunIntervalSteps(GunType.Flamer));
             Assert.AreEqual(30f, table.GunIntervalSteps(GunType.MineLauncher));
-            Assert.AreEqual(240f, table.AirIntervalSteps(AirWeapon.Railgun));
+            Assert.AreEqual(240f, table.GunIntervalSteps(GunType.Railgun));
+            Assert.AreEqual(0f, table.GunIntervalSteps(GunType.Laser));
             Assert.AreEqual(25f, table.AirIntervalSteps(AirWeapon.Rocket));
+            Assert.AreEqual(30f, table.AirIntervalSteps(AirWeapon.Mine));
         }
 
         [Test]

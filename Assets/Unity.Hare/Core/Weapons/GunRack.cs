@@ -35,6 +35,9 @@ namespace Unity.Hare.Weapons
         /// <summary>True while the vulcan's fire loop (sfx_vulcan_loop) is running.</summary>
         public bool IsLoopPlaying { get; internal set; }
 
+        /// <summary>True while the laser's beam is on (obj_laser exists).</summary>
+        public bool IsBeamOn { get; internal set; }
+
         public bool CanShoot => Cooldown <= 0f;
 
         /// <summary>The ground weapon this gun is, or null for the mine launcher.</summary>
@@ -105,6 +108,7 @@ namespace Unity.Hare.Weapons
         {
             var gun = Find(key);
             if (gun == null) return;
+            StopBeam(gun);
             ammo.ReleaseTrigger(key);
             guns.Remove(gun);
             GunsChanged?.Invoke();
@@ -136,12 +140,18 @@ namespace Unity.Hare.Weapons
 
         /// <summary>
         /// Releasing restarts both regen alarms. The vulcan also spins down and drops back to base_rate
-        /// (stop_vulcan_sfx; fire_rate = base_rate).
+        /// (stop_vulcan_sfx; fire_rate = base_rate); the laser's beam goes out and it can shoot again
+        /// (with(obj_laser) instance_destroy(); can_shoot = true).
         /// </summary>
         internal void ReleaseTrigger(Gun gun)
         {
             if (gun.Type != GunType.Vulcan && !gun.TriggerHeld) return;
             gun.TriggerHeld = false;
+            if (gun.Type == GunType.Laser)
+            {
+                StopBeam(gun);
+                gun.Cooldown = 0f;
+            }
             if (gun.Type == GunType.Vulcan)
             {
                 if (gun.IsSpinning) SpinDown(gun);
@@ -172,7 +182,16 @@ namespace Unity.Hare.Weapons
                 return false;
             }
 
-            gun.Cooldown = GameClock.Seconds(table.GunIntervalSteps(gun.Type));
+            if (gun.Type == GunType.Laser)
+            {
+                // The laser stays on and is re-armed only by releasing the trigger.
+                gun.IsBeamOn = true;
+                gun.Cooldown = float.PositiveInfinity;
+            }
+            else
+            {
+                gun.Cooldown = GameClock.Seconds(table.GunIntervalSteps(gun.Type));
+            }
             sink.Emit(new GunFired { Key = gun.Key, Type = gun.Type });
             return true;
         }
@@ -182,6 +201,7 @@ namespace Unity.Hare.Weapons
         {
             if (gun.Type != GunType.Vulcan)
             {
+                if (gun.IsBeamOn && (flight.State == PlayerFlightState.Dead || flight.IsShielding)) StopBeam(gun);
                 gun.Cooldown -= dt;
                 if (gun.Cooldown <= 1e-5f) gun.Cooldown = 0f; // whole GML steps must not leave float dust
                 return;
@@ -228,6 +248,13 @@ namespace Unity.Hare.Weapons
 
             sink.Emit(new GunFired { Key = gun.Key, Type = gun.Type });
             return true;
+        }
+
+        void StopBeam(Gun gun)
+        {
+            if (!gun.IsBeamOn) return;
+            gun.IsBeamOn = false;
+            sink.Emit(new GunBeamStopped { Key = gun.Key });
         }
 
         /// <summary>GML: stop_vulcan_sfx, plus played_spinup = false.</summary>

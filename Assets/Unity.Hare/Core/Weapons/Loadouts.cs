@@ -102,13 +102,12 @@ namespace Unity.Hare.Weapons
     }
 
     /// <summary>
-    /// The player's secondary air weapons (GML fire_secondary / next_air_weapon on obj_player): the unlocked
-    /// weapons, cycled in <see cref="WeaponTable.AirCycle"/> order, and the current one fired while the trigger is
-    /// held. Firing is refused while dead or shielding, and costs ammo from the shared pools.
-    ///
-    /// Per weapon, as in the GML: the laser (shoot_laser/obj_laser) stays on until the trigger is released and only
-    /// then can fire again; the railgun and rockets re-arm after the table's intervals. Switching weapons re-arms
-    /// immediately (next_air_weapon: can_shoot = true).
+    /// The air primary (GML fire_primary's in-air branch / next_air_weapon on obj_player): the rocket or the mine,
+    /// toggled with E and fired with the left mouse while flying. Firing is refused while perched, dead or
+    /// shielding, and costs air_ammo_primary from the shared pools. The rocket and the mine re-arm after the
+    /// table's intervals; switching weapons re-arms immediately (next_air_weapon: can_shoot = true). The laser and
+    /// railgun are perched weapons on Q's cycle (<see cref="GunRack"/>), and the mine as the air secondary
+    /// (Ctrl + left mouse) is the mine launcher gun.
     /// </summary>
     public sealed class AirLoadout
     {
@@ -136,12 +135,9 @@ namespace Unity.Hare.Weapons
 
         public AirWeapon Current { get; private set; }
 
-        /// <summary>GML: can_shoot for the secondary slot.</summary>
+        /// <summary>GML: can_shoot for the primary slot.</summary>
         public bool CanShoot { get; private set; } = true;
         public bool TriggerHeld { get; private set; }
-
-        /// <summary>True while the laser beam is on (obj_laser exists).</summary>
-        public bool IsLaserOn { get; private set; }
 
         public IReadOnlyList<AirWeapon> Unlocked => unlocked;
 
@@ -150,7 +146,6 @@ namespace Unity.Hare.Weapons
         internal void Reset()
         {
             IsActive = true;
-            StopLaser();
             Current = unlocked.Count > 0 ? unlocked[0] : AirWeapon.Rocket;
             CanShoot = true;
             cooldown = 0f;
@@ -184,7 +179,6 @@ namespace Unity.Hare.Weapons
             var next = unlocked[(index + 1) % unlocked.Count];
             if (next == Current && index >= 0) return false;
 
-            StopLaser();
             Current = next;
             CanShoot = true;
             cooldown = 0f;
@@ -192,33 +186,18 @@ namespace Unity.Hare.Weapons
             return true;
         }
 
-        /// <summary>
-        /// The secondary trigger. Releasing it drops the laser and re-arms it (GML global left release:
-        /// with(obj_laser) instance_destroy(); can_shoot = true) and restarts ammo regen; pressing stops the primary regen.
-        /// </summary>
+        /// <summary>The primary trigger (left mouse): pressing stops the primary regen, releasing restarts it.</summary>
         internal void SetTrigger(bool held)
         {
             if (held == TriggerHeld) return;
             TriggerHeld = held;
-            if (held)
-            {
-                ammo.PressTrigger(TriggerHolder);
-                return;
-            }
-
-            if (IsLaserOn || Current == AirWeapon.Laser)
-            {
-                StopLaser();
-                CanShoot = true;
-            }
-            ammo.ReleaseTrigger(TriggerHolder);
+            if (held) ammo.PressTrigger(TriggerHolder);
+            else ammo.ReleaseTrigger(TriggerHolder);
         }
 
         /// <summary>Re-arm timer and firing while the trigger is held.</summary>
         internal void Tick(float dt)
         {
-            if (IsLaserOn && (flight.State == PlayerFlightState.Dead || flight.IsShielding)) StopLaser();
-
             if (!CanShoot && cooldown > 0f)
             {
                 cooldown -= dt;
@@ -228,29 +207,21 @@ namespace Unity.Hare.Weapons
             if (TriggerHeld) TryFire();
         }
 
-        /// <summary>GML fire_secondary for the current air weapon. Returns true if a shot went out.</summary>
+        /// <summary>GML fire_primary's in-air branch for the current air weapon. Returns true if a shot went out.</summary>
         internal bool TryFire()
         {
-            if (!CanShoot || !IsUnlocked(Current) || flight.State == PlayerFlightState.Dead || flight.IsShielding) return false;
+            if (!CanShoot || !IsUnlocked(Current)) return false;
+            if (flight.State == PlayerFlightState.Idle || flight.State == PlayerFlightState.Dead || flight.IsShielding) return false;
 
-            if (!ammo.TrySpend(AmmoPools.PoolFor(Current))) // GML: x_ammo_primary >= cost, then subtract and clamp at 0
+            if (!ammo.TrySpend(AmmoPools.PoolFor(Current))) // GML: air_ammo_primary >= cost, then subtract and clamp at 0
             {
                 sink.Emit(new AirWeaponDryFired { Weapon = Current });
                 return false;
             }
             CanShoot = false;
-
-            if (Current == AirWeapon.Laser) IsLaserOn = true;
-            cooldown = GameClock.Seconds(table.AirIntervalSteps(Current)); // the laser: re-armed only by releasing the trigger
+            cooldown = GameClock.Seconds(table.AirIntervalSteps(Current));
             sink.Emit(new AirWeaponFired { Weapon = Current });
             return true;
-        }
-
-        void StopLaser()
-        {
-            if (!IsLaserOn) return;
-            IsLaserOn = false;
-            sink.Emit(new AirLaserStopped());
         }
     }
 }

@@ -134,15 +134,17 @@ namespace Unity.Hare.Tests.Core
         {
             int vulcan = rig.Install(1, GunType.Vulcan, WeaponSlot.Primary);
             int flamer = rig.Install(2, GunType.Flamer, WeaponSlot.Primary);
-            rig.Do(new ResetAirLoadout(rig.Id)); // its laser is a GML ground weapon too
+            int laser = rig.Install(3, GunType.Laser, WeaponSlot.Primary); // a GML ground weapon too
+            rig.Do(new ResetAirLoadout(rig.Id));
             rig.Landed();
 
             Assert.IsTrue(rig.Do(new FireGun(rig.Id, vulcan)).Accepted);
             Assert.IsTrue(rig.Do(new FireGun(rig.Id, flamer)).Accepted);
+            Assert.IsTrue(rig.Do(new FireGun(rig.Id, laser)).Accepted);
             rig.Do(new Leap(rig.Id, rig.Flight.Direction)); // the air loadout fires in flight
             Assert.IsTrue(rig.Do(new FireAir(rig.Id)).Accepted);
             Assert.AreEqual(147, Ammo.Current(AmmoPool.GroundPrimary));
-            Assert.AreEqual(20, Ammo.Current(AmmoPool.AirPrimary), "rockets spend air_ammo_primary");
+            Assert.AreEqual(19, Ammo.Current(AmmoPool.AirPrimary), "rockets spend air_ammo_primary");
         }
 
         [Test]

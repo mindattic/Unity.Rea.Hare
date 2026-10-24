@@ -75,13 +75,12 @@ What the components read today (raw Input System polling; the action asset with 
 | W or Space | boost | raise the shield (held) |
 | S or Left Shift | brake | raise the shield (held) |
 | Mouse | aim | aim |
-| Left mouse | | fire the ground primary (vulcan, shotgun, flamer) |
+| Left mouse | fire the air weapon (rocket or mine) | fire the ground primary (vulcan, laser, railgun, shotgun, flamer) |
 | Ctrl + left mouse | drop a mine | fire the ground secondary (shotgun) |
-| Right mouse | fire the air weapon (laser, railgun, rocket) | |
-| Q | | next ground primary |
-| E | next air weapon | next air weapon |
+| Q | | next ground primary (vulcan, laser, railgun, shotgun, flamer) |
+| E | next air weapon (rocket, mine) | next air weapon (rocket, mine) |
 
-The right-mouse air loadout is not the original's layout; see [docs/BIBLE.md §8 V6](docs/BIBLE.md#UH-§8). The leap,
+The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). The leap,
 pause and hotkeys arrive with landing (UH-T53) and the hotkeys ticket (UH-T60).
 
 ## Project layout

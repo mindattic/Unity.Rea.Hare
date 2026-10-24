@@ -103,8 +103,12 @@ namespace Unity.Hare.Weapons
             var mouse = Mouse.current;
             if (mouse != null)
             {
-                if (mouse.leftButton.wasPressedThisFrame) PressTrigger();
-                if (mouse.leftButton.wasReleasedThisFrame) ReleaseTrigger();
+                // Ctrl + left mouse is fire_secondary (the shotgun), not the primary.
+                var keyboard = Keyboard.current;
+                bool ctrl = keyboard != null && keyboard.ctrlKey.isPressed;
+                bool held = mouse.leftButton.isPressed && !ctrl;
+                if (held && (mouse.leftButton.wasPressedThisFrame || !TriggerHeld)) PressTrigger();
+                else if (!held && TriggerHeld) ReleaseTrigger();
             }
             Tick(Time.deltaTime);
         }

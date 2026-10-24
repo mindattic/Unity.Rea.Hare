@@ -7,7 +7,7 @@ using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Tests.Core
 {
-    /// <summary>next_ground_weapon and next_air_weapon (the weapon cycles) and fire_secondary's air weapons, run outside Unity.</summary>
+    /// <summary>next_ground_weapon and next_air_weapon (the weapon cycles) the air primary (rocket and mine) and the perched laser and railgun, run outside Unity.</summary>
     public class LoadoutTests
     {
         PlayerRig rig;
@@ -26,95 +26,48 @@ namespace Unity.Hare.Tests.Core
         AirLoadout Air => rig.Ship.Air;
 
         [Test]
-        public void NextAirWeaponCyclesLaserRailgunRocketAndWraps()
+        public void NextAirWeaponTogglesRocketAndMine()
         {
             AirReady();
-            Assert.AreEqual(AirWeapon.Laser, Air.Current);
+            Assert.AreEqual(AirWeapon.Rocket, Air.Current);
             Assert.IsTrue(rig.Do(new NextAirWeapon(rig.Id)).Accepted);
-            Assert.AreEqual(AirWeapon.Railgun, Air.Current);
-            Assert.AreEqual(AirWeapon.Railgun, rig.Seen<AirWeaponSwitched>().Last().Weapon);
+            Assert.AreEqual(AirWeapon.Mine, Air.Current);
+            Assert.AreEqual(AirWeapon.Mine, rig.Seen<AirWeaponSwitched>().Last().Weapon);
             rig.Do(new NextAirWeapon(rig.Id));
             Assert.AreEqual(AirWeapon.Rocket, Air.Current);
-            rig.Do(new NextAirWeapon(rig.Id));
-            Assert.AreEqual(AirWeapon.Laser, Air.Current);
         }
 
         [Test]
-        public void CyclingSkipsLockedWeaponsAndStaysPutWithOnlyOne()
+        public void CyclingStaysPutWithOnlyOneAirWeapon()
         {
             AirReady();
-            rig.Do(new LockAirWeapon(rig.Id, AirWeapon.Railgun));
-            rig.Do(new NextAirWeapon(rig.Id));
-            Assert.AreEqual(AirWeapon.Rocket, Air.Current);
-
-            rig.Do(new LockAirWeapon(rig.Id, AirWeapon.Laser));
+            rig.Do(new LockAirWeapon(rig.Id, AirWeapon.Mine));
             Assert.IsFalse(rig.Do(new NextAirWeapon(rig.Id)).Accepted);
             Assert.AreEqual(AirWeapon.Rocket, Air.Current);
 
-            rig.Do(new UnlockAirWeapon(rig.Id, AirWeapon.Railgun));
+            rig.Do(new UnlockAirWeapon(rig.Id, AirWeapon.Mine));
             Assert.IsTrue(rig.Do(new NextAirWeapon(rig.Id)).Accepted);
-            Assert.AreEqual(AirWeapon.Railgun, Air.Current);
+            Assert.AreEqual(AirWeapon.Mine, Air.Current);
         }
 
         [Test]
         public void TheAirCycleIsData()
         {
-            var table = new WeaponTable { AirCycle = new[] { AirWeapon.Rocket, AirWeapon.Laser } };
+            var table = new WeaponTable { AirCycle = new[] { AirWeapon.Mine, AirWeapon.Rocket } };
             var custom = new PlayerRig(table: table);
             custom.Do(new ResetAirLoadout(custom.Id));
-            Assert.AreEqual(AirWeapon.Rocket, custom.Ship.Air.Current);
+            Assert.AreEqual(AirWeapon.Mine, custom.Ship.Air.Current);
             custom.Do(new NextAirWeapon(custom.Id));
-            Assert.AreEqual(AirWeapon.Laser, custom.Ship.Air.Current);
-            Assert.IsFalse(custom.Ship.Air.IsUnlocked(AirWeapon.Railgun));
-        }
-
-        [Test]
-        public void LaserStaysOnWhileHeldAndRearmsOnRelease()
-        {
-            AirReady();
-            rig.Do(new SetAirTrigger(rig.Id, true));
-            rig.Do(new TickAir(rig.Id, PlayerRig.Step));
-            Assert.IsTrue(Air.IsLaserOn);
-            Assert.IsFalse(Air.CanShoot);
-            Assert.AreEqual(149, rig.Ammo.Current(AmmoPool.GroundPrimary), "one shot per trigger pull");
-
-            rig.RunAir(1f);
-            Assert.AreEqual(1, rig.Seen<AirWeaponFired>().Count(), "no second beam while held");
-            Assert.AreEqual(149, rig.Ammo.Current(AmmoPool.GroundPrimary));
-
-            rig.Do(new SetAirTrigger(rig.Id, false));
-            Assert.AreEqual(1, rig.Seen<AirLaserStopped>().Count(), "release destroys obj_laser");
-            Assert.IsFalse(Air.IsLaserOn);
-            Assert.IsTrue(Air.CanShoot);
-        }
-
-        [Test]
-        public void RailgunRearmsAfter240Steps()
-        {
-            AirReady();
-            rig.Do(new NextAirWeapon(rig.Id));
-            rig.Do(new SetAirTrigger(rig.Id, true));
-            Assert.IsTrue(rig.Do(new FireAir(rig.Id)).Accepted);
-            Assert.AreEqual(AirWeapon.Railgun, rig.Seen<AirWeaponFired>().Single().Weapon);
-
-            Assert.IsFalse(rig.Do(new FireAir(rig.Id)).Accepted);
-            rig.Do(new SetAirTrigger(rig.Id, false));
-            Assert.IsFalse(Air.CanShoot, "releasing does not re-arm the railgun");
-            rig.RunAir(2f - 3 * PlayerRig.Step);
-            Assert.IsFalse(Air.CanShoot, "still re-arming just before 240 steps");
-            rig.RunAir(4 * PlayerRig.Step);
-            Assert.IsTrue(Air.CanShoot);
+            Assert.AreEqual(AirWeapon.Rocket, custom.Ship.Air.Current);
         }
 
         [Test]
         public void RocketsFireEvery25Steps()
         {
             AirReady();
-            rig.Do(new NextAirWeapon(rig.Id));
-            rig.Do(new NextAirWeapon(rig.Id));
             rig.Do(new SetAirTrigger(rig.Id, true));
             rig.Do(new TickAir(rig.Id, PlayerRig.Step));
-            Assert.AreEqual(1, rig.Seen<AirWeaponFired>().Count());
+            Assert.AreEqual(AirWeapon.Rocket, rig.Seen<AirWeaponFired>().Single().Weapon);
 
             rig.RunAir(20 * PlayerRig.Step);
             Assert.AreEqual(1, rig.Seen<AirWeaponFired>().Count());
@@ -123,11 +76,28 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
-        public void RocketsRunDryAt20AndRegenerate4PerSecondWithTriggerUp()
+        public void TheAirMineSpendsTheAirPrimaryAndRearmsAfterTheMinesDelay()
         {
             AirReady();
             rig.Do(new NextAirWeapon(rig.Id));
-            rig.Do(new NextAirWeapon(rig.Id));
+            rig.Do(new SetAirTrigger(rig.Id, true));
+            Assert.IsTrue(rig.Do(new FireAir(rig.Id)).Accepted);
+            Assert.AreEqual(AirWeapon.Mine, rig.Seen<AirWeaponFired>().Single().Weapon);
+            Assert.AreEqual(19, rig.Ammo.Current(AmmoPool.AirPrimary));
+            Assert.AreEqual(8, rig.Ammo.Current(AmmoPool.AirSecondary));
+
+            Assert.IsFalse(rig.Do(new FireAir(rig.Id)).Accepted);
+            rig.Do(new SetAirTrigger(rig.Id, false));
+            rig.RunAir(28 * PlayerRig.Step);
+            Assert.IsFalse(Air.CanShoot);
+            rig.RunAir(3 * PlayerRig.Step);
+            Assert.IsTrue(Air.CanShoot);
+        }
+
+        [Test]
+        public void RocketsRunDryAt20AndRegenerate4PerSecondWithTriggerUp()
+        {
+            AirReady();
 
             rig.Do(new SetAirTrigger(rig.Id, true));
             rig.RunAir(6f);
@@ -144,46 +114,126 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
-        public void AirWeaponsHoldFireWhileShieldingOrDead()
+        public void AirWeaponsHoldFireWhilePerchedShieldingOrDead()
         {
             AirReady();
             rig.Landed();
+            Assert.IsFalse(rig.Do(new FireAir(rig.Id)).Accepted, "perched: left mouse fires the ground weapon");
             Assert.IsTrue(rig.Do(new RaiseShield(rig.Id)).Accepted);
             Assert.IsFalse(rig.Do(new FireAir(rig.Id)).Accepted);
 
             rig.Do(new DropShield(rig.Id));
             rig.Do(new HaltShip(rig.Id));
             Assert.IsFalse(rig.Do(new FireAir(rig.Id)).Accepted);
-            Assert.AreEqual(150, rig.Ammo.Current(AmmoPool.GroundPrimary));
+            Assert.AreEqual(20, rig.Ammo.Current(AmmoPool.AirPrimary));
         }
 
         [Test]
-        public void SwitchingWeaponsRearmsAndDropsTheLaser()
+        public void SwitchingAirWeaponsRearms()
         {
             AirReady();
-            rig.Do(new SetAirTrigger(rig.Id, true));
-            rig.Do(new TickAir(rig.Id, PlayerRig.Step));
-            Assert.IsTrue(Air.IsLaserOn);
-
-            rig.Do(new NextAirWeapon(rig.Id)); // railgun
-            Assert.IsFalse(Air.IsLaserOn);
-            Assert.IsTrue(rig.Do(new FireAir(rig.Id)).Accepted);
+            rig.Do(new FireAir(rig.Id));
             Assert.IsFalse(Air.CanShoot);
 
-            rig.Do(new NextAirWeapon(rig.Id)); // rocket: next_air_weapon sets can_shoot = true
+            rig.Do(new NextAirWeapon(rig.Id)); // next_air_weapon sets can_shoot = true
             Assert.IsTrue(Air.CanShoot);
         }
 
-        [Test]
-        public void ADyingShipSwitchesTheLaserOff()
+        // ---- the laser and railgun are perched primaries on Q's cycle ----
+
+        const int LaserKey = 11;
+        const int RailKey = 12;
+
+        void PerchedWith(params GunType[] types)
         {
-            AirReady();
-            rig.Do(new SetAirTrigger(rig.Id, true));
-            rig.Do(new TickAir(rig.Id, PlayerRig.Step));
-            rig.Do(new HaltShip(rig.Id));
-            rig.Do(new TickAir(rig.Id, PlayerRig.Step));
-            Assert.IsFalse(Air.IsLaserOn);
-            Assert.AreEqual(1, rig.Seen<AirLaserStopped>().Count());
+            int key = 1;
+            foreach (var type in types) rig.Install(key++, type, WeaponSlot.Primary);
+            rig.Do(new ResetGroundLoadout(rig.Id));
+            rig.Landed();
+        }
+
+        [Test]
+        public void QCyclesVulcanLaserRailgunShotgunFlamer()
+        {
+            PerchedWith(GunType.Vulcan, GunType.Laser, GunType.Railgun, GunType.Shotgun, GunType.Flamer);
+            Assert.AreEqual(GroundWeapon.Vulcan, Ground.Current);
+            for (int i = 0; i < 5; i++) rig.Do(new NextGroundWeapon(rig.Id));
+            CollectionAssert.AreEqual(
+                new[] { GroundWeapon.Laser, GroundWeapon.Railgun, GroundWeapon.Shotgun, GroundWeapon.Flamer, GroundWeapon.Vulcan },
+                rig.Seen<GroundWeaponSwitched>().Select(s => s.Weapon).ToArray());
+        }
+
+        [Test]
+        public void TheLaserStaysOnWhileHeldAndRearmsOnRelease()
+        {
+            rig.Install(LaserKey, GunType.Laser, WeaponSlot.Primary);
+            rig.Landed();
+            rig.Do(new PullTrigger(rig.Id, LaserKey));
+            Assert.IsTrue(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted);
+            Assert.IsTrue(rig.Ship.Guns.Find(LaserKey).IsBeamOn);
+            Assert.AreEqual(149, rig.Ammo.Current(AmmoPool.GroundPrimary), "one shot per trigger pull");
+
+            for (int i = 0; i < 240; i++) rig.Do(new TickGun(rig.Id, LaserKey, PlayerRig.Step));
+            Assert.IsFalse(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted, "no second beam while held");
+            Assert.AreEqual(0, rig.Seen<GunDryFired>().Count());
+            Assert.AreEqual(149, rig.Ammo.Current(AmmoPool.GroundPrimary));
+
+            rig.Do(new ReleaseTrigger(rig.Id, LaserKey));
+            Assert.AreEqual(1, rig.Seen<GunBeamStopped>().Count(), "release destroys obj_laser");
+            Assert.IsFalse(rig.Ship.Guns.Find(LaserKey).IsBeamOn);
+            Assert.IsTrue(rig.Ship.Guns.Find(LaserKey).CanShoot);
+        }
+
+        [Test]
+        public void SwitchingAwayFromTheLaserPutsTheBeamOut()
+        {
+            PerchedWith(GunType.Vulcan, GunType.Laser);
+            rig.Do(new NextGroundWeapon(rig.Id)); // laser
+            rig.Do(new PullTrigger(rig.Id, 2));
+            rig.Do(new FireGun(rig.Id, 2));
+            Assert.IsTrue(rig.Ship.Guns.Find(2).IsBeamOn);
+
+            rig.Do(new NextGroundWeapon(rig.Id));
+            Assert.IsFalse(rig.Ship.Guns.Find(2).IsBeamOn);
+            Assert.AreEqual(1, rig.Seen<GunBeamStopped>().Count());
+        }
+
+        [Test]
+        public void AShieldSwitchesTheLaserOff()
+        {
+            rig.Install(LaserKey, GunType.Laser, WeaponSlot.Primary);
+            rig.Landed();
+            rig.Do(new PullTrigger(rig.Id, LaserKey));
+            rig.Do(new FireGun(rig.Id, LaserKey));
+            Assert.IsTrue(rig.Do(new RaiseShield(rig.Id)).Accepted);
+            rig.Do(new TickGun(rig.Id, LaserKey, PlayerRig.Step));
+            Assert.IsFalse(rig.Ship.Guns.Find(LaserKey).IsBeamOn);
+            Assert.AreEqual(1, rig.Seen<GunBeamStopped>().Count());
+        }
+
+        [Test]
+        public void TheRailgunRearmsAfter240Steps()
+        {
+            rig.Install(RailKey, GunType.Railgun, WeaponSlot.Primary);
+            rig.Landed();
+            Assert.IsTrue(rig.Do(new FireGun(rig.Id, RailKey)).Accepted);
+            Assert.AreEqual(149, rig.Ammo.Current(AmmoPool.GroundPrimary));
+            Assert.IsFalse(rig.Do(new FireGun(rig.Id, RailKey)).Accepted);
+
+            rig.RunGun(RailKey, 238);
+            Assert.IsFalse(rig.Ship.Guns.Find(RailKey).CanShoot, "still re-arming just before 240 steps");
+            rig.RunGun(RailKey, 3);
+            Assert.IsTrue(rig.Ship.Guns.Find(RailKey).CanShoot);
+        }
+
+        [Test]
+        public void TheLaserAndRailgunFireOnlyPerched()
+        {
+            rig.Install(LaserKey, GunType.Laser, WeaponSlot.Primary);
+            rig.Install(RailKey, GunType.Railgun, WeaponSlot.Primary); // the ship starts in flight
+            Assert.IsFalse(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted);
+            Assert.IsFalse(rig.Do(new FireGun(rig.Id, RailKey)).Accepted);
+            Assert.AreEqual(150, rig.Ammo.Current(AmmoPool.GroundPrimary));
         }
 
         // ---- ground loadout ----

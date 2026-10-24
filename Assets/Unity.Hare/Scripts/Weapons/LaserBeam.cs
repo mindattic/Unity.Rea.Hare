@@ -7,13 +7,13 @@ namespace Unity.Hare.Weapons
     /// it re-anchors at the muzzle (player gun + 34 px along mouse_angle) and runs 2000 px along the
     /// aim, kills one par_enemy on that line (collision_line), and is drawn by draw_beam in
     /// cornflower blue up to the first rock/structure. As in the original, the kill check uses the
-    /// full line; only the drawing stops at blockers. The loadout creates and destroys it.
+    /// full line; only the drawing stops at blockers. The laser gun creates and destroys it.
     /// </summary>
     public class LaserBeam : MonoBehaviour
     {
         static readonly Color Cornflower = new Color(100f / 255f, 149f / 255f, 237f / 255f);
 
-        AirWeaponLoadout owner;
+        LaserGun owner;
         LineRenderer glow;
         LineRenderer core;
 
@@ -22,9 +22,9 @@ namespace Unity.Hare.Weapons
         /// <summary>Where the drawn beam stops: <see cref="End"/>, or the first <see cref="IBeamBlocker"/>.</summary>
         public Vector2 VisibleEnd { get; private set; }
 
-        public void Init(AirWeaponLoadout loadout)
+        public void Init(LaserGun gun)
         {
-            owner = loadout;
+            owner = gun;
             // draw_beam's stacked widths (8/6/3 cornflower, 1 white) reduced to a glow and a core.
             glow = Gml.AddLine(gameObject, new Color(Cornflower.r, Cornflower.g, Cornflower.b, 0.4f), Gml.Px(6f));
             var coreGo = new GameObject("Core");

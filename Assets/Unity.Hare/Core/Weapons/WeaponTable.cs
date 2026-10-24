@@ -13,12 +13,14 @@ namespace Unity.Hare.Weapons
         Flamer
     }
 
-    /// <summary>The player's secondary air weapons.</summary>
+    /// <summary>
+    /// The air primary: what left mouse fires in flight (GML air_weapon). next_air_weapon (E) toggles rocket and
+    /// mine; the laser and railgun are perched weapons (<see cref="GroundWeapon"/>).
+    /// </summary>
     public enum AirWeapon
     {
-        Laser,
-        Railgun,
-        Rocket
+        Rocket,
+        Mine
     }
 
     /// <summary>GML: which fire script a weapon answers to. Left mouse = fire_primary, Ctrl + left mouse = fire_secondary.</summary>
@@ -34,7 +36,9 @@ namespace Unity.Hare.Weapons
         Vulcan,
         Shotgun,
         Flamer,
-        MineLauncher
+        MineLauncher,
+        Laser,
+        Railgun
     }
 
     /// <summary>The vulcan's sound cues, in the order the original plays them (the reloads are <see cref="Player.AmmoReloaded"/>).</summary>
@@ -58,8 +62,8 @@ namespace Unity.Hare.Weapons
         /// <summary>next_ground_weapon's order; a weapon the ship has no gun for is skipped.</summary>
         public GroundWeapon[] GroundCycle = { GroundWeapon.Vulcan, GroundWeapon.Laser, GroundWeapon.Railgun, GroundWeapon.Shotgun, GroundWeapon.Flamer };
 
-        /// <summary>next_air_weapon's order; also the air weapons the ship starts with.</summary>
-        public AirWeapon[] AirCycle = { AirWeapon.Laser, AirWeapon.Railgun, AirWeapon.Rocket };
+        /// <summary>next_air_weapon's order (E toggles rocket and mine); also the air weapons the ship starts with.</summary>
+        public AirWeapon[] AirCycle = { AirWeapon.Rocket, AirWeapon.Mine };
 
         /// <summary>
         /// The vulcan's fire_rate ramp: the first shot waits base_rate, every shot after it
@@ -101,21 +105,19 @@ namespace Unity.Hare.Weapons
                 case GunType.Vulcan: return VulcanBaseRateSteps;
                 case GunType.Shotgun: return ShotgunIntervalSteps;
                 case GunType.Flamer: return FlamerIntervalSteps;
+                case GunType.Railgun: return RailgunIntervalSteps;
+                case GunType.Laser: return 0f; // stays on; re-armed only by releasing the trigger
                 default: return MineIntervalSteps;
             }
         }
 
-        /// <summary>
-        /// Steps before an air weapon re-arms after a shot. Zero for the laser: it stays on and is re-armed only by
-        /// releasing the trigger.
-        /// </summary>
+        /// <summary>Steps before an air primary re-arms after a shot (shoot_rocket 25, shoot_mine the mine's delay).</summary>
         public float AirIntervalSteps(AirWeapon weapon)
         {
             switch (weapon)
             {
-                case AirWeapon.Railgun: return RailgunIntervalSteps;
                 case AirWeapon.Rocket: return RocketIntervalSteps;
-                default: return 0f;
+                default: return MineIntervalSteps;
             }
         }
 
@@ -149,6 +151,8 @@ namespace Unity.Hare.Weapons
                 case GunType.Vulcan: return GroundWeapon.Vulcan;
                 case GunType.Shotgun: return GroundWeapon.Shotgun;
                 case GunType.Flamer: return GroundWeapon.Flamer;
+                case GunType.Laser: return GroundWeapon.Laser;
+                case GunType.Railgun: return GroundWeapon.Railgun;
                 default: return null;
             }
         }

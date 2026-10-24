@@ -33,8 +33,7 @@ namespace Unity.Hare.Tests.EditMode
         {
             DestroyAll<PlayerShipController>();
             DestroyAll<EnemyWeaponTarget>();
-            DestroyAll<LaserBeam>();
-            DestroyAll<RailgunShot>();
+            DestroyAll<Mine>();
             DestroyAll<Rocket>();
             DestroyAll<RocketExplosion>();
             DestroyAll<ShieldWall>();
@@ -73,85 +72,22 @@ namespace Unity.Hare.Tests.EditMode
 
 
         [Test]
-        public void LaserStaysOnWhileHeldAndRearmsOnRelease()
+        public void TheMineIsTheOtherAirWeaponOnE()
         {
-            loadout.SetTrigger(true);
-            loadout.Tick(Step);
-            var beam = loadout.ActiveLaser;
-            Assert.IsNotNull(beam);
-            Assert.IsFalse(loadout.CanShoot);
-            Assert.AreEqual(149, loadout.Ammo(AirWeapon.Laser), "one shot per trigger pull");
-
-            Run(loadout.Tick, 1f);
-            Assert.AreSame(beam, loadout.ActiveLaser, "no second beam while held");
-            Assert.AreEqual(149, loadout.Ammo(AirWeapon.Laser));
-
-            loadout.SetTrigger(false);
-            Assert.IsTrue(beam == null, "release destroys obj_laser");
-            Assert.IsNull(loadout.ActiveLaser);
-            Assert.IsTrue(loadout.CanShoot);
-        }
-
-        [Test]
-        public void LaserRunsFromMuzzleAlongAimAndKillsTheEnemyOnItsLine()
-        {
-            var onLine = SpawnEnemy(new Vector2(5f, 0f));
-            var offLine = SpawnEnemy(new Vector2(5f, 3f));
-
-            loadout.SetTrigger(true);
-            loadout.Tick(Step);
-            var beam = loadout.ActiveLaser;
-
-            Assert.That(Vector2.Distance(beam.Start, loadout.MuzzlePosition), Is.LessThan(1e-4f));
-            Assert.That(beam.End.x - beam.Start.x, Is.EqualTo(20f - 0.34f).Within(0.01f), "2000 px from the gun, starting 34 px out");
-            Assert.That(beam.End.y, Is.EqualTo(beam.Start.y).Within(1e-4f));
-            Assert.AreEqual(1, onLine.Hits.Count);
-            Assert.AreEqual(WeaponHitKind.Laser, onLine.Hits[0].Kind);
-            Assert.AreEqual(0, offLine.Hits.Count);
-        }
-
-        [Test]
-        public void RailgunRearmsAfter240StepsAndFadesOutAfter80()
-        {
-            loadout.NextAirWeapon();
+            Assert.AreEqual(AirWeapon.Rocket, loadout.Current);
+            Assert.IsTrue(loadout.NextAirWeapon());
+            Assert.AreEqual(AirWeapon.Mine, loadout.Current);
             loadout.SetTrigger(true);
             Assert.IsTrue(loadout.TryFire());
-            var rail = Object.FindAnyObjectByType<RailgunShot>();
-            Assert.IsNotNull(rail);
-            Assert.AreEqual(RailgunShot.DefaultAlpha, rail.Alpha);
-            Assert.That(rail.SwirlPoints.Count, Is.EqualTo(Mathf.CeilToInt(2000f / 56f)));
-
-            Assert.IsFalse(loadout.TryFire());
-            loadout.SetTrigger(false);
-            Assert.IsFalse(loadout.CanShoot, "releasing does not re-arm the railgun");
-            Run(loadout.Tick, 2f - 3 * Step);
-            Assert.IsFalse(loadout.CanShoot, "still re-arming just before 240 steps");
-            Run(loadout.Tick, 4 * Step);
-            Assert.IsTrue(loadout.CanShoot);
-
-            var fresh = new GameObject("Rail").AddComponent<RailgunShot>();
-            fresh.Init(Vector2.zero, 0f, 20f);
-            int steps = 0;
-            while (fresh.Tick(Step)) steps++;
-            Assert.That(steps, Is.InRange(78, 80), "0.8 alpha fading 0.01 per step");
-        }
-
-        [Test]
-        public void RailgunKillsEnemyOnTheRailWhileVisible()
-        {
-            var enemy = SpawnEnemy(new Vector2(8f, 0f));
-            var rail = new GameObject("Rail").AddComponent<RailgunShot>();
-            rail.Init(Vector2.zero, 0f, 20f);
-            rail.Tick(Step);
-            Assert.AreEqual(1, enemy.Hits.Count);
-            Assert.AreEqual(WeaponHitKind.Railgun, enemy.Hits[0].Kind);
+            Assert.IsNotNull(loadout.LastMine);
+            Assert.AreEqual(19, loadout.Ammo(AirWeapon.Mine), "the air primary pays for it");
+            Assert.IsTrue(loadout.NextAirWeapon());
+            Assert.AreEqual(AirWeapon.Rocket, loadout.Current);
         }
 
         [Test]
         public void RocketsFireEvery25StepsFromTheMuzzleAlongTheAim()
         {
-            loadout.NextAirWeapon();
-            loadout.NextAirWeapon();
             ship.SetAimDirection(90f);
             loadout.SetTrigger(true);
             loadout.Tick(Step);

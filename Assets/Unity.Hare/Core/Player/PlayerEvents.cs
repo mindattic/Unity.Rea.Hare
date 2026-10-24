@@ -61,14 +61,14 @@ namespace Unity.Hare.Player
     /// <summary>next_air_weapon equipped <see cref="Weapon"/> (sfx_switch).</summary>
     public sealed class AirWeaponSwitched : PlayerEvent { public AirWeapon Weapon; }
 
-    /// <summary>The air loadout fired <see cref="Weapon"/>: spawn its laser, rail or rocket.</summary>
+    /// <summary>The air loadout fired <see cref="Weapon"/>: spawn its rocket or mine.</summary>
     public sealed class AirWeaponFired : PlayerEvent { public AirWeapon Weapon; }
 
     /// <summary>The air loadout was pulled without ammo.</summary>
     public sealed class AirWeaponDryFired : PlayerEvent { public AirWeapon Weapon; }
 
-    /// <summary>The held laser went out (trigger release, switch, death or shield).</summary>
-    public sealed class AirLaserStopped : PlayerEvent { }
+    /// <summary>The laser gun's beam went out (trigger release, switch, death or shield): destroy obj_laser.</summary>
+    public sealed class GunBeamStopped : PlayerEvent { public int Key; }
 
     /// <summary>Collects the events one command raises, stamping them with the seat they belong to.</summary>
     internal sealed class EventSink
