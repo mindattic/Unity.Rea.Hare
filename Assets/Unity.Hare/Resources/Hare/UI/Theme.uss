@@ -1,0 +1,103 @@
+/* Unity.Hare — UI foundation theme (U.HARE-T45). Every screen (HUD, menus, results, upgrade, story) is built in
+   code with Scripts/UI/HareUi.cs against these classes; nothing is wired up by hand in the Editor. Colours and
+   sizes here are a placeholder pass (dark cockpit navy, cyan accent) until the original's art (U.HARE-T46) and
+   fonts (U.HARE-T48) land — HareFonts.Apply() layers the real faces on top of the font-size/weight this file sets,
+   it never fights them.
+
+   An ".outline-text" box (HareUi.OutlineText) is a stack of plain Labels at pixel offsets, not one element, so a
+   rule meant for its text (size, weight, alignment) targets the box itself and relies on USS inheritance to reach
+   every Label inside it — never ".outline-text > Label", which would also re-style the outline layers apart from
+   the text layer and break the stack. */
+
+.fill { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.row { flex-direction: row; align-items: center; }
+.col { flex-direction: column; }
+.center { align-items: center; justify-content: center; }
+.hidden { display: none; }
+
+.hare-root {
+    font-size: 28px;
+    color: rgb(235, 240, 255);
+    -unity-font-style: normal;
+}
+
+/* ── Outline text (draw_text_outline family) ────────────────────────────────────────────────────────────── */
+.outline-text {
+    font-size: 28px;
+    -unity-text-align: upper-left;
+}
+
+/* ── Windows / dialogs (obj_tip, obj_yesno_dialog) ──────────────────────────────────────────────────────── */
+.hare-window {
+    border-width: 3px;
+    border-color: rgb(90, 200, 220);
+    border-radius: 10px;
+    background-color: rgba(8, 14, 28, 0.92);
+    padding: 24px 28px;
+}
+
+.hare-window-title {
+    font-size: 40px;
+    -unity-font-style: bold;
+    margin-bottom: 14px;
+}
+
+.hare-veil {
+    background-color: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+}
+
+.hare-dialog {
+    min-width: 520px;
+    align-items: center;
+}
+
+.hare-dialog-message {
+    font-size: 30px;
+    margin: 6px 0 20px 0;
+}
+
+.hare-dialog-buttons {
+    justify-content: center;
+}
+
+/* ── Buttons (obj_btn_*) ─────────────────────────────────────────────────────────────────────────────────── */
+.hare-btn {
+    min-height: 72px;
+    min-width: 220px;
+    padding: 0 28px;
+    margin: 6px;
+    border-width: 3px;
+    border-radius: 10px;
+    border-color: rgb(90, 200, 220);
+    background-color: rgb(16, 28, 52);
+    align-items: center;
+    justify-content: center;
+}
+.hare-btn:hover { background-color: rgb(24, 44, 78); border-color: rgb(140, 230, 245); }
+.hare-btn:active { background-color: rgb(10, 18, 34); }
+.hare-btn--small { min-height: 56px; min-width: 140px; padding: 0 18px; }
+
+.hare-btn-label {
+    font-size: 30px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* ── Bars / gauges (health, energy, ammo) ───────────────────────────────────────────────────────────────── */
+.hare-bar {
+    height: 26px;
+    border-width: 2px;
+    border-radius: 6px;
+    border-color: rgb(90, 200, 220);
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+.hare-bar-fill {
+    height: 100%;
+    background-color: rgb(90, 220, 140);
+}
+.hare-bar-fill--low {
+    background-color: rgb(230, 80, 70);
+}

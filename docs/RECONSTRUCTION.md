@@ -128,7 +128,7 @@ Reference architectures: Unity.SpaceGod and Unity.GridGame.
 | Input System used as raw polling, no actions asset, no gamepad | `Keyboard.current` / `Mouse.current` in five scripts | UH-T42 |
 | Unity.Shared profiles and settings not adopted | not in `Packages/manifest.json` | done: UH-T43 (`com.mindattic.unity.shared`, `ActiveProfile`, `HareSettings`) |
 | URP present but no pipeline-agnostic seam, no reference resolution handling | `ProjectSetup` generates the 2D renderer only | done: UH-T44 (`Unity.Hare.Editor.Rendering`'s `UrpSeam`/`SortingLayerSetup`, the `Backdrop`/`Default`/`Overlay` sorting layers, `CameraRig`/`LetterboxCamera`, 1920x1080 reference resolution) |
-| No UI stack (UI Toolkit or MindAttic components) | none | UH-T45 |
+| No UI stack (UI Toolkit or MindAttic components) | none | done: UH-T45 (UI Toolkit: `Scripts/UI/HarePanel`/`HareUiFit` for the PanelSettings and 1920x1080 reference resolution, `Resources/Hare/UI/Theme.uss`, `HareFonts` the `draw_set_font` face seam for U.HARE-T48, `HareUi` the widget kit — `OutlineText` family reproducing `draw_text_outline` exactly, `Button`, `Bar`, `Window`, `Dialog`) |
 | Multiplayer-ready seams and the shared Unity.Multiplayer kit | already ticketed | UH-T35 |
 | Tests are EditMode only; no PlayMode, no scripted play with screenshots | no PlayMode asmdef | UH-T70 |
 | No release polish (name, icon, build settings) | not started | UH-T71 |
