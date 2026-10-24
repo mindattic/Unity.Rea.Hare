@@ -53,6 +53,16 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
+        public void CreateSettingsLoadsTheSharedThemeStyleSheet()
+        {
+            // Without one, native controls (Button, ScrollView) ship unstyled and the panel logs a runtime
+            // warning; Assets/UI Toolkit/'s Editor-auto-generated default theme isn't under Resources and
+            // would be stripped from a player build, so HarePanel carries its own (HareTheme.tss).
+            var settings = NewSettings();
+            Assert.IsNotNull(settings.themeStyleSheet, "Resources/Hare/UI/HareTheme.tss failed to load");
+        }
+
+        [Test]
         public void AttachAddsAUIDocumentWiredToTheGivenSettings()
         {
             host = new GameObject("UI");

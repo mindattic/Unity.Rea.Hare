@@ -79,6 +79,33 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
+        public void EveryAbsoluteLayerIsPinnedToAllFourEdgesSoItMatchesTheBoxsOwnSize()
+        {
+            // Opus review (U.HARE-T45): a layer that only sets left/top shrinks to its own text size instead of
+            // the box's size, so an outline box stretched wider than its text by an ancestor (a window title, a
+            // HUD column) visibly misaligns the outline from the centred/right-aligned main text. Symmetric
+            // left/right and top/bottom insets keep every layer exactly the box's size, whatever that size is.
+            var box = HareUi.OutlineText("HP", 1);
+            foreach (var layer in box.Children())
+            {
+                if (layer.style.position.value != Position.Absolute) continue; // the one in-flow centre layer
+                float left = layer.style.left.value.value, right = layer.style.right.value.value;
+                float top = layer.style.top.value.value, bottom = layer.style.bottom.value.value;
+                Assert.AreEqual(-left, right, 0.001f);
+                Assert.AreEqual(-top, bottom, 0.001f);
+            }
+        }
+
+        [Test]
+        public void OutlineTextBoxCarriesTheSharedOutlineTextClass()
+        {
+            // Theme.uss styles every outline-text box through this class; HareUi must actually add it, not just
+            // name the element "outline-text" (a name is not a class and the stylesheet rule would never match).
+            var box = HareUi.OutlineText("HP");
+            Assert.IsTrue(box.ClassListContains("outline-text"));
+        }
+
+        [Test]
         public void OutlineTextColorUsesTheCallersColoursInsteadOfTheDefaults()
         {
             var box = HareUi.OutlineTextColor("Score", 1, Color.cyan, Color.magenta);
@@ -146,19 +173,39 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void BarStartsAtTheGivenFractionAndIsNotLowAboveAQuarter()
+        public void BarStartsAtTheGivenFractionAndIsPlainAboveTwoThirds()
         {
-            var bar = HareUi.Bar(0.6f);
+            // obj_energybar's own thresholds (HARE.gmx): above two thirds it's neither --low nor --mid.
+            var bar = HareUi.Bar(0.8f);
             var fill = bar.Q(name: "fill");
-            Assert.AreEqual(60f, fill.style.width.value.value, 0.001f);
+            Assert.AreEqual(80f, fill.style.width.value.value, 0.001f);
+            Assert.IsFalse(fill.ClassListContains("hare-bar-fill--low"));
+            Assert.IsFalse(fill.ClassListContains("hare-bar-fill--mid"));
+        }
+
+        [Test]
+        public void BarIsMidAtOrBelowTwoThirdsAboveAThird()
+        {
+            var bar = HareUi.Bar(0.5f);
+            var fill = bar.Q(name: "fill");
+            Assert.IsTrue(fill.ClassListContains("hare-bar-fill--mid"));
             Assert.IsFalse(fill.ClassListContains("hare-bar-fill--low"));
         }
 
         [Test]
-        public void BarGoesLowAtOrBelowAQuarter()
+        public void BarGoesLowAtOrBelowAThird()
         {
-            var bar = HareUi.Bar(0.25f);
-            Assert.IsTrue(bar.Q(name: "fill").ClassListContains("hare-bar-fill--low"));
+            var bar = HareUi.Bar(HareUi.LowThreshold);
+            var fill = bar.Q(name: "fill");
+            Assert.IsTrue(fill.ClassListContains("hare-bar-fill--low"));
+            Assert.IsFalse(fill.ClassListContains("hare-bar-fill--mid"));
+        }
+
+        [Test]
+        public void BarExactlyAtTwoThirdsIsMidNotPlain()
+        {
+            var bar = HareUi.Bar(HareUi.MidThreshold);
+            Assert.IsTrue(bar.Q(name: "fill").ClassListContains("hare-bar-fill--mid"));
         }
 
         [Test]

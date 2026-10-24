@@ -21,6 +21,13 @@
     -unity-font-style: normal;
 }
 
+/* HarePanel.BuildRoot's stage: always exactly 1920x1080 logical pixels, centred by HareUiFit inside whatever
+   larger logical area the panel's match axis produces on a non-16:9 window — the UI's equivalent of
+   LetterboxCamera's pillarbox/letterbox bars. Clipped so nothing a screen adds drifts out into the bars. */
+.hare-stage {
+    overflow: hidden;
+}
+
 /* ── Outline text (draw_text_outline family) ────────────────────────────────────────────────────────────── */
 .outline-text {
     font-size: 28px;
@@ -94,10 +101,16 @@
     background-color: rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
+/* obj_energybar's own three-tier image_blend (HARE.gmx): c_lightgreen above two thirds (globals.gml defines it
+   as rgb(168,157,4) — an odd, olive choice for a name that says "green", but the original's own value, ported
+   exactly), c_yellow down to a third, c_red at or below that (HareUi.LowThreshold/MidThreshold). */
 .hare-bar-fill {
     height: 100%;
-    background-color: rgb(90, 220, 140);
+    background-color: rgb(168, 157, 4);
+}
+.hare-bar-fill--mid {
+    background-color: rgb(255, 255, 0);
 }
 .hare-bar-fill--low {
-    background-color: rgb(230, 80, 70);
+    background-color: rgb(255, 0, 0);
 }
