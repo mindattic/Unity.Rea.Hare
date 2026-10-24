@@ -87,7 +87,7 @@ namespace Unity.Hare.Tests.EditMode
             var beam = laser.ActiveLaser;
 
             Assert.That(Vector2.Distance(beam.Start, laser.MuzzlePosition), Is.LessThan(1e-4f));
-            Assert.That(beam.End.x - beam.Start.x, Is.EqualTo(20f).Within(0.01f), "2000 px from the muzzle");
+            Assert.That(beam.End.x - beam.Start.x, Is.EqualTo(20f - 0.34f).Within(0.01f), "2000 px from the gun, starting 34 px out");
             Assert.That(beam.End.y, Is.EqualTo(beam.Start.y).Within(1e-4f));
             Assert.AreEqual(1, onLine.Hits.Count);
             Assert.AreEqual(WeaponHitKind.Laser, onLine.Hits[0].Kind);

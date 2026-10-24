@@ -38,7 +38,10 @@ namespace Unity.Hare.Weapons
         /// <summary>True while the laser's beam is on (obj_laser exists).</summary>
         public bool IsBeamOn { get; internal set; }
 
-        public bool CanShoot => Cooldown <= 0f;
+        /// <summary>The laser went out or fired and stays disarmed until the trigger is released (GML can_shoot = false).</summary>
+        public bool AwaitingRelease { get; internal set; }
+
+        public bool CanShoot => Cooldown <= 0f && !AwaitingRelease;
 
         /// <summary>The ground weapon this gun is, or null for the mine launcher.</summary>
         public GroundWeapon? GroundKind => WeaponTable.GroundKindOf(Type);
@@ -95,6 +98,8 @@ namespace Unity.Hare.Weapons
 
             gun.Slot = slot;
             gun.Cooldown = 0f;
+            gun.AwaitingRelease = false;
+            gun.IsBeamOn = false;
             gun.TriggerHeld = false;
             ammo.ReleaseTrigger(key);
             gun.FireRateSteps = table.VulcanBaseRateSteps;
@@ -145,13 +150,13 @@ namespace Unity.Hare.Weapons
         /// </summary>
         internal void ReleaseTrigger(Gun gun)
         {
-            if (gun.Type != GunType.Vulcan && !gun.TriggerHeld) return;
-            gun.TriggerHeld = false;
             if (gun.Type == GunType.Laser)
             {
                 StopBeam(gun);
-                gun.Cooldown = 0f;
+                gun.AwaitingRelease = false;
             }
+            if (gun.Type != GunType.Vulcan && !gun.TriggerHeld) return;
+            gun.TriggerHeld = false;
             if (gun.Type == GunType.Vulcan)
             {
                 if (gun.IsSpinning) SpinDown(gun);
@@ -167,7 +172,11 @@ namespace Unity.Hare.Weapons
         }
 
         /// <summary>GML next_ground_weapon / next_air_weapon: can_shoot = true.</summary>
-        internal void Rearm(Gun gun) => gun.Cooldown = 0f;
+        internal void Rearm(Gun gun)
+        {
+            gun.Cooldown = 0f;
+            gun.AwaitingRelease = false;
+        }
 
         /// <summary>One trigger pull. Returns true if the gun shot.</summary>
         internal bool TryFire(Gun gun)
@@ -175,7 +184,7 @@ namespace Unity.Hare.Weapons
             if (gun.Type == GunType.Vulcan) return TryFireVulcan(gun);
 
             if (!InFiringState(gun) || flight.IsShielding) return false;
-            if (gun.Cooldown > 0f) return false;
+            if (!gun.CanShoot) return false;
             if (!ammo.TrySpend(PoolFor(gun))) // GML: x_ammo_y >= cost, then subtract and clamp at 0
             {
                 sink.Emit(new GunDryFired { Key = gun.Key, Type = gun.Type });
@@ -186,7 +195,7 @@ namespace Unity.Hare.Weapons
             {
                 // The laser stays on and is re-armed only by releasing the trigger.
                 gun.IsBeamOn = true;
-                gun.Cooldown = float.PositiveInfinity;
+                gun.AwaitingRelease = true;
             }
             else
             {

@@ -185,6 +185,19 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
+        public void ALaserFiredWithoutAPullStillRearmsOnRelease()
+        {
+            rig.Install(LaserKey, GunType.Laser, WeaponSlot.Primary);
+            rig.Landed();
+            Assert.IsTrue(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted);
+            Assert.IsFalse(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted);
+
+            rig.Do(new ReleaseTrigger(rig.Id, LaserKey));
+            Assert.IsFalse(rig.Ship.Guns.Find(LaserKey).IsBeamOn);
+            Assert.IsTrue(rig.Do(new FireGun(rig.Id, LaserKey)).Accepted);
+        }
+
+        [Test]
         public void SwitchingAwayFromTheLaserPutsTheBeamOut()
         {
             PerchedWith(GunType.Vulcan, GunType.Laser);

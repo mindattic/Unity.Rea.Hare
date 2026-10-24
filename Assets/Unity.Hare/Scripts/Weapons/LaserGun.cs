@@ -25,8 +25,8 @@ namespace Unity.Hare.Weapons
         /// <summary>The beam while it is on, else null.</summary>
         public LaserBeam ActiveLaser { get; private set; }
 
-        /// <summary>Where the 2000 px beam ends.</summary>
-        public Vector2 BeamEndPosition => MuzzlePosition + Gml.Dir(Player.AimDirection) * Gml.Px(beamLengthPx);
+        /// <summary>Where the beam ends: 2000 px from the gun, the muzzle being 34 px out.</summary>
+        public Vector2 BeamEndPosition => MuzzlePosition + Gml.Dir(Player.AimDirection) * Gml.Px(beamLengthPx - 34f);
 
         protected override void Shoot(Vector2 origin, float aim)
         {
