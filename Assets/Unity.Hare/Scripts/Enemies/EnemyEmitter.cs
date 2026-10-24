@@ -39,7 +39,7 @@ namespace Unity.Hare.Enemies
 
         void Start()
         {
-            if (initOnStart && !initialised)
+            if (initOnStart && !initialised && Core == null)
                 Init(instance, transform.position, instanceMin, instanceMax, scale);
         }
 

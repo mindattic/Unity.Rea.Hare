@@ -9,7 +9,7 @@ namespace Unity.Hare.Enemies
     /// idle, open, spawn, close; this sends each step to the world, draws the two layers at Core's scale and angles,
     /// and plays what the vortex released.
     /// </summary>
-    public abstract class Vortex : MonoBehaviour, IEnemyEventSink
+    public abstract class Vortex : MonoBehaviour, IEnemyEventSink, IPresentable
     {
         /// <summary>spr_vortex is 550x550 with its origin centred.</summary>
         public const float SpriteWidthPx = VortexBody.SpriteWidthPx;
@@ -66,7 +66,12 @@ namespace Unity.Hare.Enemies
             return r;
         }
 
-        void FixedUpdate() => Tick(Time.fixedDeltaTime);
+        void OnDestroy() => EnemyDirector.Dispose(Core, this);
+
+        void IPresentable.Present()
+        {
+            if (Core != null && !Core.IsGone) Draw();
+        }
 
         /// <summary>One GML step (Alarm 0, then Step), scaled to <paramref name="dt"/> seconds.</summary>
         public void Tick(float dt)

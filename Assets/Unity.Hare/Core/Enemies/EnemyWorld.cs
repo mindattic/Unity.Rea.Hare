@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Enemies
@@ -224,8 +225,8 @@ namespace Unity.Hare.Enemies
         internal bool ClearTarget(PlayerId id) => targets.Remove(id.Value);
 
         internal IEnumerable<EnemyBody> Snapshot() => live.ToArray();
-        internal IEnumerable<InsectBody> InsectSnapshot() => new List<InsectBody>(insects.Values);
-        internal IEnumerable<VortexBody> VortexSnapshot() => new List<VortexBody>(vortices.Values);
-        internal IEnumerable<WormholeEmitterBody> EmitterSnapshot() => new List<WormholeEmitterBody>(emitters.Values);
+        internal IEnumerable<InsectBody> InsectSnapshot() => insects.Values.OrderBy(i => i.Id).ToList();
+        internal IEnumerable<VortexBody> VortexSnapshot() => vortices.Values.OrderBy(v => v.Id).ToList();
+        internal IEnumerable<WormholeEmitterBody> EmitterSnapshot() => emitters.Values.OrderBy(e => e.Id).ToList();
     }
 }

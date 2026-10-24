@@ -136,6 +136,13 @@ namespace Unity.Hare.Enemies
             return enemy;
         }
 
+        /// <summary>Takes the vortex out of the world without the closing events (its view is gone).</summary>
+        internal void Remove()
+        {
+            IsGone = true;
+            world.RemoveVortex(this);
+        }
+
         /// <summary>The vortex is finished and out of the world.</summary>
         protected void Close()
         {

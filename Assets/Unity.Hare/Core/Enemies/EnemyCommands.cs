@@ -513,6 +513,10 @@ namespace Unity.Hare.Enemies
         {
             var body = world.Get(id);
             if (body != null) { body.Remove(); return true; }
+            var vortex = world.GetVortex(id);
+            if (vortex != null) { vortex.Remove(); return true; }
+            var emitter = world.GetWormholeEmitter(id);
+            if (emitter != null) { world.RemoveWormholeEmitter(emitter); return true; }
             return world.RemoveInsect(id);
         }
     }

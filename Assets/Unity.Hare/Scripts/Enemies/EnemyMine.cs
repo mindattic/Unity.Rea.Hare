@@ -22,7 +22,7 @@ namespace Unity.Hare.Enemies
         public bool IsActive => Rules.IsActive;
         public bool IsGone => IsDead;
         /// <summary>GML owner: the view of whoever laid it.</summary>
-        public Component Owner => EnemyDirector.ViewOf<Component>(Rules.Owner.Id);
+        public Component Owner => Rules.Owner == null ? null : EnemyDirector.ViewOf<Component>(Rules.Owner.Id);
         public float FuseStepsLeft => Rules.FuseStepsLeft;
 
         public event Action<EnemyMine> Armed;

@@ -19,6 +19,10 @@ namespace Unity.Hare.Enemies
         public void Init(Vector2 position, Rect? room = null, PlayerShipController player = null) =>
             Begin(EnemyKind.Phalanx, position, room, player, null);
 
-        protected override void Configure() => UseBox(new Vector2(30f, 30f));
+        protected override void Configure()
+        {
+            UseBox(new Vector2(30f, 30f));
+            AddDamageSource();
+        }
     }
 }

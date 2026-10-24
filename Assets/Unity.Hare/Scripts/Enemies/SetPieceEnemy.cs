@@ -13,11 +13,10 @@ namespace Unity.Hare.Enemies
     /// and <see cref="IRocketTarget"/>; each turns the contact into the matching strike command.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class EnemyBodyView : MonoBehaviour, IProjectileTarget, IRocketTarget, IEnemyEventSink
+    public abstract class EnemyBodyView : MonoBehaviour, IProjectileTarget, IRocketTarget, IEnemyEventSink, IPresentable
     {
         Rigidbody2D body;
         PlayerShipController player;
-        PlayerId? trackedSeat;
 
         /// <summary>The Core state this view shows (read-only for presentation).</summary>
         public EnemyBody Core { get; private set; }
@@ -65,7 +64,13 @@ namespace Unity.Hare.Enemies
             Show(false);
         }
 
-        void FixedUpdate() => Tick(Time.fixedDeltaTime);
+        void OnDestroy() => EnemyDirector.Dispose(Core, this);
+
+        /// <summary>Shows where Core says the body is after the director stepped the world.</summary>
+        void IPresentable.Present()
+        {
+            if (!IsDead) Show(true);
+        }
 
         /// <summary>One GML step (alarms, Step, then built-in motion), scaled to <paramref name="dt"/> seconds.</summary>
         public void Tick(float dt)
@@ -77,23 +82,11 @@ namespace Unity.Hare.Enemies
         }
 
         /// <summary>Sends the nearest ship's position to the world (GML's global player), finding the ship when none was given.</summary>
-        void TrackPlayer()
+        internal void TrackPlayer()
         {
             if (player == null) player = Object.FindAnyObjectByType<PlayerShipController>();
-            if (player == null)
-            {
-                if (trackedSeat.HasValue)
-                {
-                    EnemyDirector.Execute(new ClearTarget(trackedSeat.Value));
-                    trackedSeat = null;
-                }
-                return;
-            }
-            var seat = PlayerSeat.Of(player.gameObject);
-            var rb = player.GetComponent<Rigidbody2D>();
-            Vector2 velocity = rb != null ? rb.linearVelocity * Gml.PixelsPerUnit / Gml.StepsPerSecond : Vector2.zero;
-            trackedSeat = seat.Id;
-            EnemyDirector.Execute(new SetTarget(seat.Id, ((Vector2)player.transform.position).ToVec2(), velocity.ToVec2()));
+            if (player != null) EnemyDirector.Track(player);
+            EnemyDirector.SyncTargets();
         }
 
         /// <summary>Puts the object where Core says the body is. <paramref name="moving"/> moves the kinematic body (so triggers fire); a jump sets the transform.</summary>

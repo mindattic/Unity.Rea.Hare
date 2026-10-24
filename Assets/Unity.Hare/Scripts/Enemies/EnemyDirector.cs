@@ -17,6 +17,18 @@ namespace Unity.Hare.Enemies
         public static RoomBounds ToBounds(this Rect r) => new RoomBounds(r.xMin, r.yMin, r.xMax, r.yMax);
     }
 
+    /// <summary>A view the director shows after it has stepped the world.</summary>
+    public interface IPresentable
+    {
+        void Present();
+    }
+
+    /// <summary>Steps the enemy world once per physics step, so one order of ticks (and so one order of random draws) plays every run.</summary>
+    sealed class EnemyDriver : MonoBehaviour
+    {
+        void FixedUpdate() => EnemyDirector.Step(Time.fixedDeltaTime);
+    }
+
     /// <summary>Something that plays the events its Core body raises.</summary>
     public interface IEnemyEventSink
     {
@@ -32,6 +44,9 @@ namespace Unity.Hare.Enemies
     {
         static EnemyWorld world;
         static int seed = Environment.TickCount;
+        static bool seedPinned;
+        static EnemyDriver driver;
+        static readonly Dictionary<PlayerShipController, PlayerId> tracked = new Dictionary<PlayerShipController, PlayerId>();
         static readonly Dictionary<int, Object> views = new Dictionary<int, Object>();
 
         /// <summary>The seed the current world was dealt from; set it (or call <see cref="Reset"/>) before play to repeat a run.</summary>
@@ -42,20 +57,94 @@ namespace Unity.Hare.Enemies
         /// <summary>Starts a fresh world (and optionally a new seed): nothing survives, every view is forgotten.</summary>
         public static void Reset(int? newSeed = null)
         {
-            if (newSeed.HasValue) seed = newSeed.Value;
+            if (newSeed.HasValue)
+            {
+                seed = newSeed.Value;
+                seedPinned = true;
+            }
             world = null;
             views.Clear();
+            tracked.Clear();
         }
 
+        /// <summary>Each play session deals its own enemies unless a seed was asked for (then it repeats).</summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetOnLoad() => Reset();
+        static void ResetOnLoad()
+        {
+            if (!seedPinned) seed = Environment.TickCount;
+            Reset();
+            driver = null;
+        }
+
+        // ---- The step ----
+
+        /// <summary>Lets the enemies see this ship (GML's player); its seat id is the target's.</summary>
+        public static void Track(PlayerShipController ship)
+        {
+            if (ship != null && !tracked.ContainsKey(ship)) tracked[ship] = PlayerSeat.Of(ship.gameObject).Id;
+        }
+
+        /// <summary>Sends every tracked ship's position to the world, and forgets the ones that are gone.</summary>
+        public static void SyncTargets()
+        {
+            if (tracked.Count == 0) return;
+            var w = World;
+            var ordered = new List<KeyValuePair<PlayerShipController, PlayerId>>(tracked);
+            ordered.Sort((a, b) => a.Value.Value.CompareTo(b.Value.Value));
+            foreach (var pair in ordered)
+            {
+                if (pair.Key == null)
+                {
+                    w.Execute(new ClearTarget(pair.Value));
+                    tracked.Remove(pair.Key);
+                    continue;
+                }
+                var rb = pair.Key.GetComponent<Rigidbody2D>();
+                Vector2 velocity = rb != null ? rb.linearVelocity * Gml.PixelsPerUnit / Gml.StepsPerSecond : Vector2.zero;
+                w.Execute(new SetTarget(pair.Value, ((Vector2)pair.Key.transform.position).ToVec2(), velocity.ToVec2()));
+            }
+        }
+
+        /// <summary>One physics step of the whole enemy world: targets, then every body in id order, then the views show it.</summary>
+        public static void Step(float dt)
+        {
+            foreach (var v in new List<Object>(views.Values))
+                if (v != null && v is EnemyBodyView body) body.TrackPlayer();
+            SyncTargets();
+            Execute(new TickWorld(dt));
+            foreach (var v in new List<Object>(views.Values))
+                if (v != null && v is IPresentable presentable) presentable.Present();
+        }
+
+        static void EnsureDriver()
+        {
+            if (driver != null || !Application.isPlaying) return;
+            var go = new GameObject("EnemyDirector") { hideFlags = HideFlags.HideAndDontSave };
+            Object.DontDestroyOnLoad(go);
+            driver = go.AddComponent<EnemyDriver>();
+        }
+
+        /// <summary>A view is going away: its body leaves the world (a death already did) so nothing outlives its scene.</summary>
+        public static void Dispose(object core, Object view)
+        {
+            int id;
+            if (core is EnemyBody b) id = b.Id;
+            else if (core is InsectBody i) id = i.Id;
+            else if (core is VortexBody v) id = v.Id;
+            else if (core is WormholeEmitterBody e) id = e.Id;
+            else return;
+            if (world == null || !views.TryGetValue(id, out var registered) || !ReferenceEquals(registered, view)) return;
+            views.Remove(id);
+            world.Execute(new RemoveBody(id));
+        }
 
         /// <summary>Runs a command and plays its events. <paramref name="adopter"/> is the view of whatever the command makes.</summary>
         public static EnemyResult Execute(EnemyCommand command, Object adopter = null)
         {
             var w = World;
+            EnsureDriver();
             if (w.Paused != Gml.Paused) w.Execute(new SetPaused(Gml.Paused));
-            if (command is TickVortex) Prune(); // a vortex counts live enemies, so views destroyed from outside must not
+            if (command is TickVortex || command is TickWorld) Prune(); // a vortex counts live enemies, so views destroyed from outside must not
             var result = w.Execute(command);
             if (adopter != null) Adopt(result, adopter);
             Play(result);

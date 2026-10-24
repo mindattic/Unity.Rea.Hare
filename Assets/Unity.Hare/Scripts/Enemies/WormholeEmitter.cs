@@ -44,7 +44,7 @@ namespace Unity.Hare.Enemies
 
         void Start()
         {
-            if (initOnStart && !initialised) Begin(new AddWormholeEmitter(difficulty), null);
+            if (initOnStart && !initialised && Core == null) Begin(new AddWormholeEmitter(difficulty), null);
         }
 
         /// <summary>setup_level's generator branch: generate_enemy_list(difficulty), then this emitter's Create.</summary>
@@ -80,7 +80,7 @@ namespace Unity.Hare.Enemies
             WormholeOpened?.Invoke(this, view);
         }
 
-        void FixedUpdate() => Tick(Time.fixedDeltaTime);
+        void OnDestroy() => EnemyDirector.Dispose(Core, this);
 
         /// <summary>One GML step (Alarm 0), scaled to <paramref name="dt"/> seconds.</summary>
         public void Tick(float dt)

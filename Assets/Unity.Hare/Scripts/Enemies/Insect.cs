@@ -8,7 +8,7 @@ namespace Unity.Hare.Enemies
     /// mines never home on them, and they never touch the ship. The ai_* scripts, alarms and bounds rules live in
     /// Core; this sends each step to the world and shows where the insect is.
     /// </summary>
-    public abstract class Insect : MonoBehaviour
+    public abstract class Insect : MonoBehaviour, IPresentable
     {
         public const int FirstThinkMinSteps = InsectBody.FirstThinkMinSteps;
         public const int FirstThinkMaxSteps = InsectBody.FirstThinkMaxSteps;
@@ -44,7 +44,13 @@ namespace Unity.Hare.Enemies
 
         protected virtual void OnShown() { }
 
-        void FixedUpdate() => Tick(Time.fixedDeltaTime);
+        void OnDestroy() => EnemyDirector.Dispose(Core, this);
+
+        void IPresentable.Present()
+        {
+            Show();
+            OnShown();
+        }
 
         /// <summary>One GML step (Alarm 0, then Step), scaled to <paramref name="dt"/> seconds.</summary>
         public void Tick(float dt)
