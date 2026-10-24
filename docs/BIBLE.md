@@ -216,8 +216,8 @@ feeds a reflective binder (`ContentBinder`) that overlays the file's fields onto
 defaults (so a field the file omits, or a missing file entirely, keeps the original's own figure), then every
 section validates itself and every problem — not just the first — comes back in one `ContentValidationException`.
 `ContentBootstrap` (Runtime) loads the file before any scene's Awake runs and falls back to the compiled-in
-defaults, logging the full validation report, if it fails; `Content.Current` is what every rule reads instead of a
-literal. Two data files of its own stand alongside it: `Resources/Hare/Sprites/sprites.txt` (each sprite's GML
+defaults, logging the full validation report, if it fails; `GameContent.Current` is what every rule reads instead
+of a literal. Two data files of its own stand alongside it: `Resources/Hare/Sprites/sprites.txt` (each sprite's GML
 origin, read by `HareArtImporter`) and the original's sprites, particle shapes and sounds under `Resources/Hare/`
 and `Audio/`.
 
@@ -225,7 +225,7 @@ and `Audio/`.
 |---|---|---|---|
 | ship | flight, brake and boost speeds, turn rates, energy, shield, leap tolerance, health and hurt timing | `obj_player` Create, `player_*` | done |
 | weapons and ammo | each weapon's rate, speed, spread, reach, damage, muzzle geometry; the four ammo pools' max, cost, regen | `shoot_*`, `fire_*`, `set_ammo_cost`, `obj_player` Create | done |
-| enemies, generator | per kind: points, death effect size, bbox, push, difficulty points, emitter/wormhole scale | `obj_*` Create and collision events, `create_wormhole`, `generate_enemy_list` | done |
+| enemies, generator | per kind: points, death effect size, bbox, push, difficulty points, emitter/wormhole scale | `obj_*` Create and collision events, `create_wormhole`, `generate_enemy_list` | partial — each kind's own movement speeds, alarms and hit rules are still literals in its `*Enemy`/`*Body` class, not yet in `EnemyCatalog` |
 | emitter/wormhole timings | `par_enemy_emitter`'s alarms and default wait range; `obj_wormhole`/`obj_wormhole_emitter`'s one_tick, opening fraction and re-arm ranges | `EmitterBody`, `WormholeBody`, `WormholeEmitterBody` | done |
 | rocks | sprites, speeds, spin, `spin_max`, heal and spin-wound rates, hit darkening and pushes, flotsam | `par_rock`, `create_new_rock`, `rock_destroyed`, `obj_flotsum` | still `[SerializeField]`/`const` on the components |
 | levels | room, rock counts and stationary share, enemy min/max per kind, objective, time limit, setting | `level_01`..`level_10`, `level_default`, `level_composition_*`, `level_objective_*`, `level_setting_*` | schema only (`LevelCatalog`), empty until U.HARE-T50/U.HARE-T64 |

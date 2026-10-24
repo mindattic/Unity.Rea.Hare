@@ -1,6 +1,9 @@
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
+using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using Unity.Hare.Content;
 using Unity.Hare.Enemies;
 
@@ -109,9 +112,23 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
-        public void ContentCurrentDefaultsToTheCompiledInRegistry()
+        public void ContentCurrentDefaultsToTheCompiledInNumbers()
         {
-            Assert.AreSame(ContentRegistry.Default, GameContent.Current);
+            Assert.AreEqual(ContentRegistry.Default.Weapons.VulcanBaseRateSteps, GameContent.Current.Weapons.VulcanBaseRateSteps);
+            Assert.AreEqual(ContentRegistry.Default.Flight.FlightSpeed, GameContent.Current.Flight.FlightSpeed);
+        }
+
+        [Test]
+        public void DefaultIsAFreshInstanceEveryTime()
+        {
+            // Every section's fields are public and mutable (the binder overlays onto them), so Default must never
+            // be a cached singleton: mutating one read must never leak into the next read or into another consumer.
+            Assert.AreNotSame(ContentRegistry.Default, ContentRegistry.Default);
+            Assert.AreNotSame(ContentRegistry.Default.Flight, ContentRegistry.Default.Flight);
+
+            var first = ContentRegistry.Default;
+            first.Weapons.VulcanBaseRateSteps = 999;
+            Assert.AreEqual(9, ContentRegistry.Default.Weapons.VulcanBaseRateSteps, "mutating one Default must not affect the next read");
         }
 
         [Test]
@@ -120,6 +137,69 @@ namespace Unity.Hare.Tests.Core
             var ex = Assert.Throws<ContentValidationException>(() =>
                 ContentRegistry.FromJson("{\"weapons\": {\"GroundCycle\": []}}"));
             Assert.IsTrue(ex.Errors.Any(e => e.StartsWith("weapons.GroundCycle")));
+        }
+
+        /// <summary>
+        /// The shipped data file is never otherwise parsed by anything that runs in CI: a bad field name, enum
+        /// value or out-of-range number in it would only ever surface as a logged warning at runtime
+        /// (<see cref="ContentBootstrap"/> falls back to the defaults rather than crashing). This proves it loads
+        /// clean, and that loading it changes nothing: every number still matches the compiled-in default exactly.
+        /// </summary>
+        [Test]
+        public void TheShippedGameContentJsonLoadsAndMatchesTheDefaults()
+        {
+            string json = File.ReadAllText(ShippedGameContentJsonPath());
+            var fromFile = ContentRegistry.FromJson(json);
+            var defaults = ContentRegistry.Default;
+
+            Assert.AreEqual(defaults.Weapons.VulcanBaseRateSteps, fromFile.Weapons.VulcanBaseRateSteps);
+            Assert.AreEqual(defaults.Weapons.VulcanMinRateSteps, fromFile.Weapons.VulcanMinRateSteps);
+            Assert.AreEqual(defaults.Weapons.ShotgunIntervalSteps, fromFile.Weapons.ShotgunIntervalSteps);
+            Assert.AreEqual(defaults.Weapons.RailgunIntervalSteps, fromFile.Weapons.RailgunIntervalSteps);
+            CollectionAssert.AreEqual(defaults.Weapons.GroundCycle, fromFile.Weapons.GroundCycle);
+            CollectionAssert.AreEqual(defaults.Weapons.AirCycle, fromFile.Weapons.AirCycle);
+
+            Assert.AreEqual(defaults.Ammo.GroundPrimary.Max, fromFile.Ammo.GroundPrimary.Max);
+            Assert.AreEqual(defaults.Ammo.AirSecondary.Regen, fromFile.Ammo.AirSecondary.Regen);
+
+            Assert.AreEqual(defaults.Flight.FlightSpeed, fromFile.Flight.FlightSpeed);
+            Assert.AreEqual(defaults.Flight.JumpArcDegrees, fromFile.Flight.JumpArcDegrees);
+
+            Assert.AreEqual(defaults.Health.MaxHealth, fromFile.Health.MaxHealth);
+            Assert.AreEqual(defaults.Health.DeathWaitSteps, fromFile.Health.DeathWaitSteps);
+
+            Assert.AreEqual(defaults.WeaponPhysicals.Vulcan.BulletSpeed, fromFile.WeaponPhysicals.Vulcan.BulletSpeed);
+            Assert.AreEqual(defaults.WeaponPhysicals.Shotgun.PelletCount, fromFile.WeaponPhysicals.Shotgun.PelletCount);
+            Assert.AreEqual(defaults.WeaponPhysicals.Flamer.FlameLifetime, fromFile.WeaponPhysicals.Flamer.FlameLifetime, 1e-4f);
+            Assert.AreEqual(defaults.WeaponPhysicals.Laser.BeamLengthPx, fromFile.WeaponPhysicals.Laser.BeamLengthPx);
+            Assert.AreEqual(defaults.WeaponPhysicals.PerchedMuzzle.MuzzleDistancePx, fromFile.WeaponPhysicals.PerchedMuzzle.MuzzleDistancePx);
+
+            Assert.AreEqual(defaults.Emitters.FirstAlarmMaxSteps, fromFile.Emitters.FirstAlarmMaxSteps);
+            Assert.AreEqual(defaults.Wormholes.OneTickSteps, fromFile.Wormholes.OneTickSteps);
+
+            foreach (EnemyKind kind in System.Enum.GetValues(typeof(EnemyKind)))
+            {
+                var expected = defaults.Enemies.Get(kind);
+                var actual = fromFile.Enemies.Get(kind);
+                Assert.AreEqual(expected.Points, actual.Points, kind.ToString());
+                Assert.AreEqual(expected.PartPoints, actual.PartPoints, kind.ToString());
+                Assert.AreEqual(expected.DeathBurstSize, actual.DeathBurstSize, kind.ToString());
+                Assert.AreEqual(expected.DifficultyPoints, actual.DifficultyPoints, kind.ToString());
+                Assert.AreEqual(expected.EmitterScale, actual.EmitterScale, kind.ToString());
+                Assert.AreEqual(expected.WormholeScale, actual.WormholeScale, kind.ToString());
+                Assert.AreEqual(expected.BBoxHalfPx, actual.BBoxHalfPx, kind.ToString());
+                Assert.AreEqual(expected.BBoxOffsetPx, actual.BBoxOffsetPx, kind.ToString());
+                Assert.AreEqual(expected.PushesAway, actual.PushesAway, kind.ToString());
+            }
+        }
+
+        /// <summary>This file's own path, at compile time, so the shipped data file resolves relative to the repo
+        /// rather than to whatever directory `dotnet test` happens to run from.</summary>
+        static string ShippedGameContentJsonPath([CallerFilePath] string here = "")
+        {
+            // here = .../Tests/Core.Tests/ContentRegistryTests.cs
+            string repoRoot = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(here), "..", ".."));
+            return Path.Combine(repoRoot, "Assets", "Unity.Hare", "Resources", "Hare", "Content", "GameContent.json");
         }
     }
 }

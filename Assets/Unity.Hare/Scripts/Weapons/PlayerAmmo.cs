@@ -14,8 +14,12 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class PlayerAmmo : SeatView
     {
-        /// <summary>The loaded content's ammo economy (AGENTS.md rule 4); no longer an Inspector field.</summary>
-        readonly AmmoTuning tuning = GameContent.Current.Ammo;
+        /// <summary>
+        /// The loaded content's ammo economy (AGENTS.md rule 4); no longer an Inspector field. Read live, not
+        /// cached at construction, so a component built before <see cref="ContentBootstrap"/> runs still picks up
+        /// the loaded file once it does.
+        /// </summary>
+        static AmmoTuning Tuning => GameContent.Current.Ammo;
 
         [Header("Sound (sfx_reload_half / sfx_reload_full)")]
         [SerializeField] AudioClip reloadHalfClip;
@@ -43,7 +47,7 @@ namespace Unity.Hare.Weapons
         void Awake() => ResetState();
 
         /// <summary>GML obj_player Create: every pool full at its starting values, both regen alarms stopped.</summary>
-        public void ResetState() => Send(new ResetAmmo(Id, tuning));
+        public void ResetState() => Send(new ResetAmmo(Id, Tuning));
 
         /// <summary>Subscribes to the ship's events (the reload sounds) without resetting anything.</summary>
         void EnsureSeated() => _ = Seat;

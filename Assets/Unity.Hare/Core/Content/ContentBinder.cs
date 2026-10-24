@@ -54,16 +54,30 @@ namespace Unity.Hare.Content
 
             if (type == typeof(float) || type == typeof(double))
             {
-                if (!(raw is double d)) { errors.Add($"{path}: expected a number."); return false; }
+                if (!(raw is double d) || double.IsNaN(d) || double.IsInfinity(d))
+                {
+                    errors.Add($"{path}: expected a finite number.");
+                    return false;
+                }
+                if (type == typeof(float) && (d > float.MaxValue || d < float.MinValue))
+                {
+                    errors.Add($"{path}: {d} is too large for a 32-bit float.");
+                    return false;
+                }
                 converted = type == typeof(float) ? (object)(float)d : d;
                 return true;
             }
 
             if (type == typeof(int))
             {
-                if (!(raw is double di) || Math.Abs(di - Math.Round(di)) > 1e-6)
+                if (!(raw is double di) || double.IsNaN(di) || double.IsInfinity(di) || Math.Abs(di - Math.Round(di)) > 1e-6)
                 {
                     errors.Add($"{path}: expected a whole number.");
+                    return false;
+                }
+                if (di > int.MaxValue || di < int.MinValue)
+                {
+                    errors.Add($"{path}: {di} does not fit in a 32-bit integer.");
                     return false;
                 }
                 converted = (int)Math.Round(di);

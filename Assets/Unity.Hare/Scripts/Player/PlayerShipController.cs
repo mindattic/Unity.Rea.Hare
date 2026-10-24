@@ -15,8 +15,12 @@ namespace Unity.Hare.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerShipController : SeatView
     {
-        /// <summary>The loaded content's flight tuning (AGENTS.md rule 4); no longer an Inspector field.</summary>
-        readonly FlightTuning tuning = GameContent.Current.Flight;
+        /// <summary>
+        /// The loaded content's flight tuning (AGENTS.md rule 4); no longer an Inspector field. Read live, not
+        /// cached at construction, so a component built before <see cref="ContentBootstrap"/> runs (e.g. Editor
+        /// scene load, or Enter Play Mode without domain reload) still picks up the loaded file once it does.
+        /// </summary>
+        static FlightTuning Tuning => GameContent.Current.Flight;
 
         Rigidbody2D body;
 
@@ -55,7 +59,7 @@ namespace Unity.Hare.Player
         {
             body = GetComponent<Rigidbody2D>();
             body.gravityScale = 0f;
-            Send(new ResetFlight(Id, tuning)); // GML reset_player: drops the shield, back in flight at full energy
+            Send(new ResetFlight(Id, Tuning)); // GML reset_player: drops the shield, back in flight at full energy
             transform.rotation = Quaternion.Euler(0f, 0f, Direction);
         }
 

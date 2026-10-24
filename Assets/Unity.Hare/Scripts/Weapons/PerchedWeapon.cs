@@ -93,8 +93,8 @@ namespace Unity.Hare.Weapons
             get
             {
                 var muzzle = Muzzle;
-                Vector2 gun = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z) * GameClock.Px(muzzle.GunOffsetPx);
-                return gun + Gml.Dir(player.AimDirection) * GameClock.Px(muzzle.MuzzleDistancePx);
+                Vector2 gun = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z) * Gml.Px(muzzle.GunOffsetPx);
+                return gun + Gml.Dir(player.AimDirection) * Gml.Px(muzzle.MuzzleDistancePx);
             }
         }
 

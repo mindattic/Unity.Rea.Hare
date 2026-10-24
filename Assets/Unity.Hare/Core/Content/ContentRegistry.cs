@@ -43,8 +43,14 @@ namespace Unity.Hare.Content
             Upgrades = new UpgradeCatalog();
         }
 
-        /// <summary>The compiled-in numbers (the original's, as reconstructed), validated once, for use when no data file is loaded.</summary>
-        public static ContentRegistry Default { get; } = BuildAndValidate(null);
+        /// <summary>
+        /// The compiled-in numbers (the original's, as reconstructed), freshly built and validated on every read.
+        /// Every section's fields are public and mutable (so the binder can overlay a data file onto them), so this
+        /// is a factory, not a cached singleton: two reads never share an instance, and nothing that mutates one
+        /// ship's tuning (directly, or by holding a reference into it) can leak into another ship, a later test, or
+        /// the "compiled-in" baseline itself.
+        /// </summary>
+        public static ContentRegistry Default => BuildAndValidate(null);
 
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,

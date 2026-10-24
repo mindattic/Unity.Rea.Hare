@@ -17,8 +17,12 @@ namespace Unity.Hare.Player
     [RequireComponent(typeof(PlayerShipController))]
     public class PlayerHealth : SeatView
     {
-        /// <summary>The loaded content's health/lives tuning (AGENTS.md rule 4); no longer an Inspector field.</summary>
-        readonly HealthTuning tuning = GameContent.Current.Health;
+        /// <summary>
+        /// The loaded content's health/lives tuning (AGENTS.md rule 4); no longer an Inspector field. Read live,
+        /// not cached at construction, so a component built before <see cref="ContentBootstrap"/> runs still picks
+        /// up the loaded file once it does.
+        /// </summary>
+        static HealthTuning Tuning => GameContent.Current.Health;
 
         [Header("Respawn (GML: reset_player)")]
         [Tooltip("Where the ship re-enters. Empty = the position it started the scene at.")]
@@ -73,7 +77,7 @@ namespace Unity.Hare.Player
         {
             renderers = GetComponentsInChildren<SpriteRenderer>(true);
             spawnPosition = transform.position;
-            Send(new ResetHealth(Id, tuning));
+            Send(new ResetHealth(Id, Tuning));
             ApplyVisuals();
         }
 
