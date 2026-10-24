@@ -55,10 +55,10 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
-        public void SpinUpShortensTheGapBetweenShotsDownToNineSteps()
+        public void TheVulcanFiresAtGmlHaresFixedNineSteps()
         {
             Press(vulcan);
-            rig.RunGun(vulcan, 1); // first shot; next waits base_rate = 30 steps
+            rig.RunGun(vulcan, 1); // first shot; next waits fire_rate = 9 steps
 
             var gaps = new List<int>();
             int sinceLast = 0;
@@ -68,13 +68,13 @@ namespace Unity.Hare.Tests.Core
                 if (rig.RunGun(vulcan, 1) == 1) { gaps.Add(sinceLast); sinceLast = 0; }
             }
 
-            CollectionAssert.AreEqual(new[] { 30, 27, 24, 21, 18, 15, 12, 9, 9, 9 }, gaps);
+            CollectionAssert.AreEqual(new[] { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 }, gaps);
         }
 
         [Test]
-        public void TheFireIntervalIsDataSoAFixedNineStepRateIsOneLine()
+        public void TheFireIntervalIsDataSoTheEarlierRabbitRampIsOneLine()
         {
-            var table = new WeaponTable { VulcanBaseRateSteps = 9 };
+            var table = new WeaponTable { VulcanBaseRateSteps = 30 };
             var fixedRate = new PlayerRig(table: table);
             int gun = fixedRate.Install(1, GunType.Vulcan, WeaponSlot.Primary);
             fixedRate.Landed();
@@ -88,7 +88,7 @@ namespace Unity.Hare.Tests.Core
                 sinceLast++;
                 if (fixedRate.RunGun(gun, 1) == 1) { gaps.Add(sinceLast); sinceLast = 0; }
             }
-            CollectionAssert.AreEqual(new[] { 9, 9, 9, 9 }, gaps);
+            CollectionAssert.AreEqual(new[] { 30, 27, 24, 21 }, gaps);
         }
 
         [Test]
@@ -408,7 +408,7 @@ namespace Unity.Hare.Tests.Core
         public void EveryGunsIntervalComesFromTheTable()
         {
             var table = new WeaponTable();
-            Assert.AreEqual(30f, table.GunIntervalSteps(GunType.Vulcan));
+            Assert.AreEqual(9f, table.GunIntervalSteps(GunType.Vulcan));
             Assert.AreEqual(120f, table.GunIntervalSteps(GunType.Shotgun));
             Assert.AreEqual(8f, table.GunIntervalSteps(GunType.Flamer));
             Assert.AreEqual(30f, table.GunIntervalSteps(GunType.MineLauncher));

@@ -64,9 +64,10 @@ namespace Unity.Hare.Weapons
         /// <summary>
         /// The vulcan's fire_rate ramp: the first shot waits base_rate, every shot after it
         /// <see cref="VulcanSpinUpDecrementSteps"/> less, down to <see cref="VulcanMinRateSteps"/>; releasing the
-        /// trigger drops it back to base_rate.
+        /// trigger drops it back to base_rate. gmlHARE fires at a fixed fire_rate = 9 (the ramp is commented out
+        /// there), so base and minimum are both 9 and the ramp never moves; setting base above min brings it back.
         /// </summary>
-        public int VulcanBaseRateSteps = 30;
+        public int VulcanBaseRateSteps = 9;
         public int VulcanMinRateSteps = 9;
         public int VulcanSpinUpDecrementSteps = 3;
 
