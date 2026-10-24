@@ -4,7 +4,9 @@
     "references": [
         "Unity.Hare.Core",
         "Unity.Hare.Runtime",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.Shared",
+        "Unity.Shared.Core"
     ],
     "includePlatforms": [
         "Editor"

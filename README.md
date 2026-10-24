@@ -34,9 +34,13 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 - death effects with the original sprites and sounds: tiny and grenade explosions, GameMaker's `ef_smokeup` and
   `ef_firework`, gibs and death particles (`Effects/`)
 - the rock field: drift, spin, darkening, healing, breaking, flotsam, replacement (`Rocks/`)
+- player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
+  and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
+  (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`
+  folder (U.HARE-T65)
 
 Still to come, in build order: tuning as data, the Input System
-action asset, Unity.Shared settings, the URP seam, the UI, the art, sound and font pipelines, then the rooms,
+action asset, the URP seam, the UI, the art, sound and font pipelines, then the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
 database (`tickets ticket list --repo Unity.Hare`).
@@ -91,7 +95,7 @@ pause and hotkeys arrive with landing (UH-T53) and the hotkeys ticket (UH-T60).
 Assets/Unity.Hare/
   Core/                Unity.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
   Scripts/             Unity.Hare.Runtime asmdef: the components
-    Player/  Weapons/  Enemies/  Rocks/  Effects/
+    Player/  Weapons/  Enemies/  Rocks/  Effects/  Settings/ (ActiveProfile, HareSettings)
   Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter
   Tests/EditMode/      Unity.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
   Tests/PlayMode/      Unity.Hare.Tests.PlayMode: scripted play (UH-T70)

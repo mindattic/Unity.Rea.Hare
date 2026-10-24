@@ -3,7 +3,9 @@
     "rootNamespace": "Unity.Hare",
     "references": [
         "Unity.Hare.Core",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.Shared",
+        "Unity.Shared.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -126,7 +126,7 @@ Reference architectures: Unity.SpaceGod and Unity.GridGame.
 | Rules live in MonoBehaviours (enemies), engine random | `SetPieceEnemy`, enemy scripts, `UnityEngine.Random` | done: UH-T40 (Core enemy world, seeded random) |
 | Tuning and content hard-coded | `SerializeField` constants and literals throughout | UH-T41 |
 | Input System used as raw polling, no actions asset, no gamepad | `Keyboard.current` / `Mouse.current` in five scripts | UH-T42 |
-| Unity.Shared profiles and settings not adopted | not in `Packages/manifest.json` | UH-T43 |
+| Unity.Shared profiles and settings not adopted | not in `Packages/manifest.json` | done: UH-T43 (`com.mindattic.unity.shared`, `ActiveProfile`, `HareSettings`) |
 | URP present but no pipeline-agnostic seam, no reference resolution handling | `ProjectSetup` generates the 2D renderer only | UH-T44 |
 | No UI stack (UI Toolkit or MindAttic components) | none | UH-T45 |
 | Multiplayer-ready seams and the shared Unity.Multiplayer kit | already ticketed | UH-T35 |
