@@ -109,7 +109,8 @@ generated `Main.unity`, the only art is none, the only audio is six weapon wavs)
 | Credits | `datafiles/credits.txt` | None | UH-T69 |
 | Startup room | `obj_startup` | None | UH-T51 |
 | Room flow and fades | `obj_fade_*`, `next_room` | None | UH-T50 |
-| Sprites, backgrounds, fonts | 214 / 18 / 8 | None | UH-T46, UH-T48 |
+| Sprites, backgrounds | 213 (398 frames) / 18 | All imported, none skipped: `tools/import-gml-art.ps1` + `GmlArtBuilder` into `Assets/Unity.Hare/Art`, mapped by `HareArtManifest` (not yet drawn by the views, which still use `Resources/Hare/Sprites`) | done: U.HARE-T46 |
+| Fonts | 8 | None | UH-T48 |
 | Session state | `globals.gml` | None | UH-T49 |
 | Campaign persistence | (not in the original) | None | UH-T65 (deliberate addition) |
 
@@ -211,7 +212,7 @@ upgrade). Behaviour of the objects the earlier tickets already ported stays as r
 REVERSE_ENGINEERING.md. Behaviour that a later ticket ports is read from the source again by that
 ticket and added to REVERSE_ENGINEERING.md before it is built, as AGENTS.md rule 1 requires.
 
-Not read in full, so the owning ticket must do it first: the sprite and sound frame data (UH-T46,
-UH-T47), `obj_conversation` and the story text (UH-T28), `obj_upgrade_*` costs and effects (UH-T24),
+Not read in full, so the owning ticket must do it first: the sound data (UH-T47; the sprite and
+background data were read in full by U.HARE-T46, see REVERSE_ENGINEERING.md, "Sprites and backgrounds"), `obj_conversation` and the story text (UH-T28), `obj_upgrade_*` costs and effects (UH-T24),
 the weather emitters (UH-T18), and `obj_btn_*` handlers
 (UH-T26, UH-T64).

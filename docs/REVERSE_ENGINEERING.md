@@ -346,6 +346,34 @@ likely the boss itself or a stage hazard).
 behaviour from. Worth mirroring as Unity base `MonoBehaviour`/interfaces per category
 (enemy, projectile, pickup, rock, structure) rather than object-by-object duplication.
 
+## Sprites and backgrounds (U.HARE-T46)
+
+Read in full by `tools/import-gml-art.ps1`; its output, `Assets/Unity.Hare/Art/gml-art.json`, is the per-sprite
+record (origin, bounding box, mask, frames, image_speed and where it came from).
+
+- `HARE.project.gmx` lists **213 sprites** (398 frames) and **18 backgrounds**, in a resource tree of groups
+  (`game/enemy`, `game/gui/weapons`, `map`, `title`, `weather`, ...). Every listed resource has its `.gmx` and every
+  frame image exists at the sprite's declared size, so nothing is skipped. (The earlier count of 214 sprites was
+  the `sprites/` folder including `images/`.)
+- **Sprite fields used**: `xorig`/`yorigin` (origin, px from the top left), `width`/`height`, `colkind`
+  (collision mask: 0 precise = 22 sprites, 1 rectangle = 159, 2 ellipse = 32, no diamonds), `sepmasks`,
+  `bboxmode` (0 automatic, 1 full image, 2 manual) with `bbox_left/right/top/bottom` (inclusive pixels, already
+  resolved for automatic mode), `HTile`/`VTile` (never set on a sprite), `frames/frame`. `coltolerance` is 0
+  everywhere; `TextureGroups` and `For3D` mean nothing outside GameMaker.
+- **Backgrounds**: none is a tileset; all 18 repeat both ways (`HTile`/`VTile` = -1). Most are 1920x1080; the
+  scrolling skies are taller (`bg_uphigh` 1920x1440, `bg_moonview`/`bg_worldcurve` 1920x1280, `bg_atmosphere`
+  1920x1275, `bg_metal`/`bg_stormclouds`/`bg_tropicalocean` 1920x1200); `bg_black` is 32x32.
+- **image_speed** is not in the sprite file: it is a per-instance variable, so it is read from the objects. 17
+  objects set it as a plain number in Create: `obj_alert` 0.2, `obj_bullet` 0.1, `obj_butterfly` 0.1,
+  `obj_enemy_mine`/`obj_mine` 0.07, `obj_flame` 0.3, `obj_grenade_explosion` 0.2, `obj_muzzleflash` 0.3,
+  `obj_oval_explosion` 0.3, `obj_player` 0.2 (its sprite is set in code, `asset_*`, so it maps to no sprite),
+  `obj_rocket` 0.5, `obj_rocket_explosion` 0.5, `obj_shieldwall` 0.3, `obj_textdone` 0.1, `obj_tinyexplosion` 0.2,
+  `obj_trilobyte` 0.1, `obj_white_dot` 0.1. Any other sprite animates at GameMaker's default 1 frame per step.
+- **Room speed** decides how fast those frames go: `room_gamescreen`, `room_shaft`, `room_sidescroll` and
+  `room_boss1` run at 120 steps a second, `startup`, `room_intro`, `room_title`, `room_map`, `room_story` and
+  `room_upgrade` at 60. So `spr_alertmarker` and `spr_dropdot` (map) and `spr_textdone` (story) animate at 60 x
+  their image_speed; everything else at 120.
+
 ## Rebuild backlog
 
 The full implementation plan is tracked as epics/stories/tickets in the MindAttic ticket

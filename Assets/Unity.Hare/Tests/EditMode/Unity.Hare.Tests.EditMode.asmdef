@@ -4,6 +4,7 @@
     "references": [
         "Unity.Hare.Core",
         "Unity.Hare.Runtime",
+        "Unity.Hare.Editor",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
         "Unity.Shared",
