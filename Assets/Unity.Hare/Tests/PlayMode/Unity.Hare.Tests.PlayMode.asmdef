@@ -5,6 +5,7 @@
         "Unity.Hare.Core",
         "Unity.Hare.Runtime",
         "Unity.InputSystem",
+        "Unity.Shared.Core",
         "UnityEngine.TestRunner"
     ],
     "includePlatforms": [],

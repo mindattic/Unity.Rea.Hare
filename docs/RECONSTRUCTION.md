@@ -64,7 +64,7 @@ rebuilds them by mistake):
 
 State of the rebuild on main against every part of the original. "Built" means present as game
 components with EditMode tests; nothing yet runs in a room, with art or sound (the only scene is the
-generated `Main.unity`, the only art is none, the only audio is six weapon wavs).
+generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T47, but mostly not yet played).
 
 | Area | Original | Rebuild on main | Ticket |
 |---|---|---|---|
@@ -105,8 +105,9 @@ generated `Main.unity`, the only art is none, the only audio is six weapon wavs)
 | Flashbomb | `obj_flashbomb`, `obj_rabbit_schematic` | None | UH-T67 |
 | Boss: Scrap Mental | `obj_scrapmental`, `obj_shrapnel_*` | None | UH-T68 (supersedes UH-T32) |
 | Music and jukebox | `obj_jukebox`, `play_random_music` | None | UH-T29 |
-| Sound effects | 69 `sfx_*` | Six wavs | UH-T47 (import), UH-T30 (wiring) |
-| Credits | `datafiles/credits.txt` | None | UH-T69 |
+| Sound effects | 69 `sfx_*` | All imported, none skipped: `tools/import-gml-audio.ps1` + `GmlAudioBuilder` into `Assets/Unity.Hare/Audio` (PCM, decompressed on load, as GameMaker played them), named by `HareAudioManifest`, played by `HareAudio` through the mixer's Sfx group; only the death, grenade, vulcan and reload sounds are wired to their events yet | import done: U.HARE-T47; wiring UH-T30 |
+| Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); nothing plays the music yet (UH-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47 |
+| Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); no screen yet | data: U.HARE-T47; screen UH-T69 |
 | Startup room | `obj_startup` | None | UH-T51 |
 | Room flow and fades | `obj_fade_*`, `next_room` | None | UH-T50 |
 | Sprites, backgrounds | 213 (398 frames) / 18 | All imported, none skipped: `tools/import-gml-art.ps1` + `GmlArtBuilder` into `Assets/Unity.Hare/Art`, mapped by `HareArtManifest` (not yet drawn by the views, which still use `Resources/Hare/Sprites`) | done: U.HARE-T46 |
@@ -212,7 +213,8 @@ upgrade). Behaviour of the objects the earlier tickets already ported stays as r
 REVERSE_ENGINEERING.md. Behaviour that a later ticket ports is read from the source again by that
 ticket and added to REVERSE_ENGINEERING.md before it is built, as AGENTS.md rule 1 requires.
 
-Not read in full, so the owning ticket must do it first: the sound data (UH-T47; the sprite and
-background data were read in full by U.HARE-T46, see REVERSE_ENGINEERING.md, "Sprites and backgrounds"), `obj_conversation` and the story text (UH-T28), `obj_upgrade_*` costs and effects (UH-T24),
+Not read in full, so the owning ticket must do it first: `obj_conversation` and the story text (UH-T28), `obj_upgrade_*` costs and effects (UH-T24),
 the weather emitters (UH-T18), and `obj_btn_*` handlers
-(UH-T26, UH-T64).
+(UH-T26, UH-T64). The sprite and background data were read in full by U.HARE-T46 and the sound data
+and `credits.txt` by U.HARE-T47 (REVERSE_ENGINEERING.md, "Sprites and backgrounds" and "Sounds and the credits data
+file").

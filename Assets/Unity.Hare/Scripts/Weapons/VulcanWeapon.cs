@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Audio;
 using Unity.Hare.Content;
 using Unity.Hare.Player;
 
@@ -85,13 +86,13 @@ namespace Unity.Hare.Weapons
             ammo = PlayerAmmo.Of(gameObject);
             if (loopSource == null)
             {
-                loopSource = gameObject.AddComponent<AudioSource>();
+                loopSource = HareAudio.Route(gameObject.AddComponent<AudioSource>());
                 loopSource.playOnAwake = false;
                 loopSource.loop = true;
             }
             if (oneShotSource == null)
             {
-                oneShotSource = gameObject.AddComponent<AudioSource>();
+                oneShotSource = HareAudio.Route(gameObject.AddComponent<AudioSource>());
                 oneShotSource.playOnAwake = false;
             }
             Send(new InstallGun(Id, Key, GunType.Vulcan, WeaponSlot.Primary)); // re-installing resets the gun
@@ -202,12 +203,10 @@ namespace Unity.Hare.Weapons
         /// <summary>Fills the sound slots with the ported sfx when the component is added in the Editor.</summary>
         void Reset()
         {
-            const string folder = "Assets/Unity.Hare/Audio/Weapons/";
-            AudioClip Load(string name) => UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(folder + name + ".wav");
-            spinUpClip = Load("sfx_vulcan_spinup");
-            loopClip = Load("sfx_vulcan_loop");
-            spinDownClip = Load("sfx_vulcan_spindown");
-            emptyClipClip = Load("sfx_empty_clip");
+            spinUpClip = HareAudio.Clip("sfx_vulcan_spinup");
+            loopClip = HareAudio.Clip("sfx_vulcan_loop");
+            spinDownClip = HareAudio.Clip("sfx_vulcan_spindown");
+            emptyClipClip = HareAudio.Clip("sfx_empty_clip");
         }
 #endif
     }

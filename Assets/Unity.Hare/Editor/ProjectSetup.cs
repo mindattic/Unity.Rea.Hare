@@ -2,6 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Unity.Hare.Audio;
 using Unity.Hare.EditorTools.Rendering;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
@@ -134,15 +135,13 @@ namespace Unity.Hare.EditorTools
             return ship;
         }
 
-        const string WeaponSounds = "Assets/Unity.Hare/Audio/Weapons/";
-
         static void Wire(Object component, params (string field, string clip)[] sounds)
         {
             var so = new SerializedObject(component);
             foreach (var (field, clip) in sounds)
             {
                 var property = so.FindProperty(field);
-                var asset = AssetDatabase.LoadAssetAtPath<AudioClip>(WeaponSounds + clip + ".wav");
+                var asset = HareAudio.Clip(clip);
                 if (property == null || asset == null)
                 {
                     Debug.LogWarning("[Unity.Hare] Could not wire " + clip + " into " + component.GetType().Name + "." + field);

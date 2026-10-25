@@ -374,6 +374,32 @@ record (origin, bounding box, mask, frames, image_speed and where it came from).
   `room_upgrade` at 60. So `spr_alertmarker` and `spr_dropdot` (map) and `spr_textdone` (story) animate at 60 x
   their image_speed; everything else at 120.
 
+## Sounds and the credits data file (U.HARE-T47)
+
+Read in full by `tools/import-gml-audio.ps1`; its output, `Assets/Unity.Hare/Audio/gml-audio.json`, is the per-sound
+record (every sound.gmx field, the source file's real format, channels, rate and length, and the clip it becomes).
+
+- `HARE.project.gmx` lists **75 sounds**: 69 `sfx_*` and 6 `music_*`, in a resource tree of groups: `music` (the six
+  tracks), `player` (`sfx_hurt1`-`sfx_hurt8`), `vulcan` (`sfx_vulcan_spinup`, `sfx_vulcan_loop`,
+  `sfx_vulcan_spindown`) and 58 at the top. Every listed sound has its `.sound.gmx` and its file under
+  `sound/audio`. The folder also holds `AlbumArtSmall.jpg` and `Folder.jpg`, which no sound uses (left out).
+- **sound.gmx fields**: every `sfx_*` is `kind` 0 (normal sound), `compressed` 0, `streamed` 0; every `music_*` is
+  `kind` 3 (multimedia player), `compressed` 1, `streamed` 1, from an MP3. All 75 have `volume` 1, `pan` 0,
+  `effects` 0, `preload` -1 (checked), `uncompressOnLoad` 0, export `sampleRate` 44100, `bitRate` 192 and
+  `bitDepth` 16. The target `type` is 1 (stereo) except `sfx_hurt8` and `sfx_vulcan_spindown`, 0 (mono).
+- **The source WAVs vary** where GameMaker's export did not: 44 are mono 44.1 kHz 16-bit, 13 stereo 44.1 kHz,
+  4 stereo 48 kHz, 3 mono 22.05 kHz 8-bit, 2 mono 96 kHz 24-bit, 2 mono 11.025 kHz (8- and 16-bit). GameMaker
+  resampled all of them to its 44.1 kHz export rate; the import does the same. The longest sfx are
+  `sfx_vortex_suck` (5.0 s), `sfx_loop_laser` (3.6 s), `sfx_vulcan_loop` (2.4 s), `sfx_boost` (2.2 s).
+- **`sfx_whoosh.wav` is not a WAV**: it starts with an ID3 tag and its first frame is MPEG-1 Layer III at
+  320 kbps, 44.1 kHz. No object, script or room plays `sfx_whoosh`. It is imported as `sfx_whoosh.mp3` (BIBLE D9).
+- **Volume**: `globals.gml` sets `master_volume = 1`; `obj_game`'s Keyboard events for numpad minus (109) and plus
+  (107) move it 0.01 a step, clamped to 0-1, and call `sound_global_volume(master_volume)`. It is never saved.
+  Music is chosen by `play_random_music` into `current_track` (U.HARE-T29).
+- **`datafiles/credits.txt`** (the project's only data file, `exportAction` 2): two lines, "Jim Rogers - Mingun
+  sound effect" and `http://soundbible.com/1920-Minigun.html`, the source of the vulcan's minigun sound. It is
+  mirrored byte for byte to `Assets/Unity.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69).
+
 ## Rebuild backlog
 
 The full implementation plan is tracked as epics/stories/tickets in the MindAttic ticket

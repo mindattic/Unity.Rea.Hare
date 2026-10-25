@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Audio;
 using Unity.Hare.Content;
 using Unity.Hare.Player;
 
@@ -90,7 +91,7 @@ namespace Unity.Hare.Weapons
             {
                 if (audioSource == null)
                 {
-                    audioSource = gameObject.AddComponent<AudioSource>();
+                    audioSource = HareAudio.Route(gameObject.AddComponent<AudioSource>());
                     audioSource.playOnAwake = false;
                 }
                 // GML: audio_stop_sound(sfx_reload_half) before sfx_reload_full; neither restarts while playing.
@@ -109,9 +110,8 @@ namespace Unity.Hare.Weapons
         /// <summary>Fills the reload sounds with the ported sfx when the component is added in the Editor.</summary>
         void Reset()
         {
-            const string folder = "Assets/Unity.Hare/Audio/Weapons/";
-            reloadHalfClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(folder + "sfx_reload_half.wav");
-            reloadFullClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(folder + "sfx_reload_full.wav");
+            reloadHalfClip = HareAudio.Clip("sfx_reload_half");
+            reloadFullClip = HareAudio.Clip("sfx_reload_full");
         }
 #endif
     }

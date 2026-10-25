@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Hare.Audio;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Effects
@@ -7,20 +8,17 @@ namespace Unity.Hare.Effects
     /// <summary>
     /// Loads the original's art and sound from Resources/Hare, in code, so no object needs a
     /// reference wired in the Inspector. Sprites are gmlHARE's frames (Resources/Hare/Sprites/
-    /// spr_name_frame, pivot on the GML origin, see the editor's HareArtImporter); sounds are its
-    /// sound/audio/*.wav (Resources/Hare/Audio). A missing asset gives null, so logic still runs
-    /// without art.
+    /// spr_name_frame, pivot on the GML origin, see the editor's HareArtImporter); sounds come from
+    /// <see cref="HareAudio"/> by GML sound name (the imported sound/ resources, U.HARE-T47). A missing
+    /// asset gives null, so logic still runs without art.
     /// </summary>
     public static class HareArt
     {
         public const string SpritesPath = "Hare/Sprites/";
-        public const string AudioPath = "Hare/Audio/";
         public const string ParticlesPath = "Hare/Particles/";
 
         static readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
-        static readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
         static readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-        static AudioSource oneShots;
 
         /// <summary>Frame <paramref name="frame"/> of GML sprite <paramref name="name"/>, or null.</summary>
         public static Sprite Frame(string name, int frame = 0)
@@ -46,15 +44,8 @@ namespace Unity.Hare.Effects
             return texture;
         }
 
-        public static AudioClip Clip(string name)
-        {
-            if (!clips.TryGetValue(name, out var clip))
-            {
-                clip = Resources.Load<AudioClip>(AudioPath + name);
-                clips[name] = clip;
-            }
-            return clip;
-        }
+        /// <summary>The clip for GML sound <paramref name="name"/> (<see cref="HareAudio.Clip"/>), or null.</summary>
+        public static AudioClip Clip(string name) => HareAudio.Clip(name);
 
         /// <summary>
         /// GML draw order: a lower depth draws on top, so the sorting order is -depth
@@ -86,22 +77,8 @@ namespace Unity.Hare.Effects
             return v.x > 0f && v.x < 1f && v.y > 0f && v.y < 1f;
         }
 
-        /// <summary>GML audio_play_sound(name, 1, false): a one-shot, not positional (GML's is not).</summary>
-        public static void Play(string name)
-        {
-            if (!Application.isPlaying) return;
-            var clip = Clip(name);
-            if (clip == null) return;
-            if (oneShots == null)
-            {
-                var go = new GameObject("HareSounds");
-                Object.DontDestroyOnLoad(go);
-                oneShots = go.AddComponent<AudioSource>();
-                oneShots.playOnAwake = false;
-                oneShots.spatialBlend = 0f;
-            }
-            oneShots.PlayOneShot(clip);
-        }
+        /// <summary>GML audio_play_sound(name, 1, false): <see cref="HareAudio.Play"/>.</summary>
+        public static void Play(string name) => HareAudio.Play(name);
 
         /// <summary>GML x/y offset in px (y grows downward) as a Unity world offset.</summary>
         public static Vector2 GmlOffset(float dxPx, float dyPx) => new Vector2(Gml.Px(dxPx), -Gml.Px(dyPx));
