@@ -36,6 +36,20 @@ namespace Unity.Hare.Player
         /// <summary>GML: mouse_angle, degrees (0 = +x, counter-clockwise positive). The shield wall faces this way.</summary>
         public float AimDirection { get; private set; } = 270f;
 
+        /// <summary>
+        /// World units per second the ship moves: <see cref="Speed"/> along <see cref="Direction"/> while flying
+        /// (GML direction/speed, so 0 degrees is +x and counter-clockwise positive), nothing while perched or dead.
+        /// </summary>
+        public Vec2 Velocity
+        {
+            get
+            {
+                if (State != PlayerFlightState.Moving) return Vec2.Zero;
+                double radians = Direction * Math.PI / 180.0;
+                return new Vec2((float)Math.Cos(radians) * Speed, (float)Math.Sin(radians) * Speed);
+            }
+        }
+
         float MinEnergyToStart => tuning.MaxEnergy * tuning.MinEnergyFractionToStart;
 
         /// <summary>obj_player Create / reset_player: back in flight at full energy, no shield.</summary>

@@ -98,19 +98,13 @@ namespace Unity.Hare.Player
 
             UpdateAim();
 
-            // GML key-press events: the boost and brake keys raise the shield instead while Idle.
-            if (player.Boost.WasPressedThisFrame())
-            {
-                if (State == PlayerFlightState.Moving) TryBoost(); else TryShield();
-            }
-            if (player.Brake.WasPressedThisFrame())
-            {
-                if (State == PlayerFlightState.Moving) TryBrake(); else TryShield();
-            }
+            // GML key-press events: the boost and brake keys raise the shield instead while Idle (Core's
+            // PressBoostKey/PressBrakeKey, the same commands an online player's NetEntity sends its server).
+            if (player.Boost.WasPressedThisFrame()) Send(new PressBoostKey(Id));
+            if (player.Brake.WasPressedThisFrame()) Send(new PressBrakeKey(Id));
 
             // GML key-release events (Idle only): drop the shield and let energy refill.
-            bool shieldKeyReleased = player.Boost.WasReleasedThisFrame() || player.Brake.WasReleasedThisFrame();
-            if (shieldKeyReleased && State == PlayerFlightState.Idle) DropShield();
+            if (player.Boost.WasReleasedThisFrame() || player.Brake.WasReleasedThisFrame()) Send(new ReleaseShieldKey(Id));
         }
 
         /// <summary>

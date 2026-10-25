@@ -78,5 +78,6 @@
   },
   "levels": { "Levels": [] },
   "dialogue": { "Lines": [] },
-  "upgrades": { "Upgrades": [] }
+  "upgrades": { "Upgrades": [] },
+  "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 }
 }

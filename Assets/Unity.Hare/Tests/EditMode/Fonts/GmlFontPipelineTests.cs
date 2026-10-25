@@ -76,10 +76,16 @@ namespace Unity.Hare.Tests.EditMode.Fonts
                 Assert.That(l.licence, Does.Contain("Proprietary"), l.family);
                 Assert.That(l.rebuild, Does.StartWith("Not shipped"), l.family);
             }
+            // TextMesh Pro's Essential Resources (imported for the multiplayer kit's front end, U.HARE-T35) carry
+            // LiberationSans under the SIL Open Font License, which may be redistributed; it is not one of the two.
             var typefaces = Directory.GetFiles("Assets", "*.*", SearchOption.AllDirectories)
-                .Where(p => Regex.IsMatch(p, @"\.(ttf|otf|ttc|fon|fnt)$", RegexOptions.IgnoreCase)).ToArray();
+                .Where(p => Regex.IsMatch(p, @"\.(ttf|otf|ttc|fon|fnt)$", RegexOptions.IgnoreCase))
+                .Where(p => !IsTmpOflFont(p)).ToArray();
             Assert.That(typefaces, Is.Empty, "Arial and Berlin Sans FB may not be redistributed; only GameMaker's baked atlases ship");
         }
+
+        static bool IsTmpOflFont(string path) =>
+            path.Replace('\\', '/').StartsWith("Assets/TextMesh Pro/") && File.Exists(Path.ChangeExtension(path, null) + " - OFL.txt");
 
         [Test]
         public void EachAtlasHoldsGameMakersCellsByteForByteWithClearGapsBetweenThem()

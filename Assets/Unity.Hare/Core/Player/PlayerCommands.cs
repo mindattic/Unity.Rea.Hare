@@ -91,6 +91,41 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) => ship.Flight.TryShield();
     }
 
+    /// <summary>
+    /// GML's boost-key press event (W, Space): boosts while flying; while perched (Idle) the same key raises the
+    /// shield instead (player_shield). Accepted when either took effect.
+    /// </summary>
+    public sealed class PressBoostKey : PlayerCommand
+    {
+        public PressBoostKey(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) =>
+            ship.Flight.State == PlayerFlightState.Moving ? ship.Flight.TryBoost() : ship.Flight.TryShield();
+    }
+
+    /// <summary>GML's brake-key press event (S, Shift): brakes while flying, raises the shield while perched.</summary>
+    public sealed class PressBrakeKey : PlayerCommand
+    {
+        public PressBrakeKey(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) =>
+            ship.Flight.State == PlayerFlightState.Moving ? ship.Flight.TryBrake() : ship.Flight.TryShield();
+    }
+
+    /// <summary>
+    /// GML's boost/brake key-release events: while perched (Idle) letting go drops the shield so energy refills; in
+    /// flight the release does nothing (boost and brake run until their energy does).
+    /// </summary>
+    public sealed class ReleaseShieldKey : PlayerCommand
+    {
+        public ReleaseShieldKey(PlayerId id) : base(id) { }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (ship.Flight.State != PlayerFlightState.Idle) return false;
+            ship.Flight.DropShield();
+            return true;
+        }
+    }
+
     /// <summary>The shield key was released.</summary>
     public sealed class DropShield : PlayerCommand
     {

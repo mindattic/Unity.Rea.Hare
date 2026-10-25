@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Unity.Hare/Scenes/Main.unity
     guid: 804a17bbbfd4abc49a63a4a95592a26d
+  - enabled: 1
+    path: Assets/Unity.Hare/Scenes/Online.unity
+    guid: 28fd2d08f3ce17f49acbd8b2631044ab
   m_configObjects: {}

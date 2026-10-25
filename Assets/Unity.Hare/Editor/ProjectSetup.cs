@@ -89,19 +89,31 @@ namespace Unity.Hare.EditorTools
             Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
+            AddArenaCameraAndLight();
+            AddPlayerShip();
+
+            EditorSceneManager.SaveScene(scene, ScenePath);
+            var scenes = new System.Collections.Generic.List<EditorBuildSettingsScene> { new EditorBuildSettingsScene(ScenePath, true) };
+            foreach (var other in EditorBuildSettings.scenes)
+                if (other.path != ScenePath) scenes.Add(other); // the local game stays first; the online scene follows it
+            EditorBuildSettings.scenes = scenes.ToArray();
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Unity.Hare] Scene written to " + ScenePath);
+        }
+
+        /// <summary>
+        /// The arena's 2D camera rig (<see cref="CameraRig"/>, letterboxed to the reference resolution, over
+        /// room_gamescreen's backdrop) and a global 2D light, in the open scene. The main scene and the online scene
+        /// (U.HARE-T35) both start from it.
+        /// </summary>
+        public static void AddArenaCameraAndLight()
+        {
             var cameras = CameraRig.Build(new Vector3(0f, 0f, -10f), 5.4f, Backdrop);
             UrpSeam.AddCameraData(cameras.Bars.gameObject);
             UrpSeam.AddCameraData(cameras.Main.gameObject);
 
             var lightGo = new GameObject("Global Light 2D");
             UrpSeam.AddGlobalLight2D(lightGo, intensity: 1f);
-
-            AddPlayerShip();
-
-            EditorSceneManager.SaveScene(scene, ScenePath);
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
-            AssetDatabase.SaveAssets();
-            Debug.Log("[Unity.Hare] Scene written to " + ScenePath);
         }
 
         /// <summary>

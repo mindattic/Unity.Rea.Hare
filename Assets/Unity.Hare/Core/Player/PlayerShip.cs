@@ -97,6 +97,9 @@ namespace Unity.Hare.Player
 
         public bool Has(PlayerId id) => ships.ContainsKey(id);
 
+        /// <summary>Unseats a player: its ship leaves the world (an online seat released for good).</summary>
+        public bool Remove(PlayerId id) => ships.Remove(id);
+
         public PlayerShip Get(PlayerId id)
         {
             if (!ships.TryGetValue(id, out var ship)) throw new KeyNotFoundException("No player " + id + " is seated.");

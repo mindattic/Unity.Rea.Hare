@@ -1,0 +1,37 @@
+{
+    "name": "Unity.Hare.Tests.Online",
+    "rootNamespace": "Unity.Hare.Tests.Online",
+    "references": [
+        "Unity.Hare.Core",
+        "Unity.Hare.Runtime",
+        "Unity.Hare.Online",
+        "Unity.Multiplayer",
+        "Unity.Multiplayer.Core",
+        "Unity.Multiplayer.Testing",
+        "Unity.Netcode.Runtime",
+        "Unity.Netcode.Runtime.Tests",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS",
+        "MINDATTIC_NGO_TESTABLE",
+        "MINDATTIC_COMPONENTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.mindattic.components.unity",
+            "expression": "1.0.0",
+            "define": "MINDATTIC_COMPONENTS"
+        }
+    ],
+    "noEngineReferences": false
+}

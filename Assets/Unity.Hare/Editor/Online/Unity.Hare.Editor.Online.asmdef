@@ -1,0 +1,33 @@
+{
+    "name": "Unity.Hare.Editor.Online",
+    "rootNamespace": "Unity.Hare.EditorTools.Online",
+    "references": [
+        "Unity.Hare.Core",
+        "Unity.Hare.Runtime",
+        "Unity.Hare.Online",
+        "Unity.Hare.Editor",
+        "Unity.Multiplayer",
+        "Unity.Multiplayer.Core",
+        "Unity.Multiplayer.Editor",
+        "Unity.Netcode.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "MINDATTIC_COMPONENTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.mindattic.components.unity",
+            "expression": "1.0.0",
+            "define": "MINDATTIC_COMPONENTS"
+        }
+    ],
+    "noEngineReferences": false
+}
