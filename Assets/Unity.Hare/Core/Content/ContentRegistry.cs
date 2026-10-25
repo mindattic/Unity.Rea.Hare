@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Hare.Enemies;
 using Unity.Hare.Player;
+using Unity.Hare.Session;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Content
@@ -27,6 +28,7 @@ namespace Unity.Hare.Content
         public LevelCatalog Levels { get; }
         public DialogueCatalog Dialogue { get; }
         public UpgradeCatalog Upgrades { get; }
+        public SessionTuning Session { get; }
 
         ContentRegistry()
         {
@@ -41,6 +43,7 @@ namespace Unity.Hare.Content
             Levels = new LevelCatalog();
             Dialogue = new DialogueCatalog();
             Upgrades = new UpgradeCatalog();
+            Session = new SessionTuning();
         }
 
         /// <summary>
@@ -55,7 +58,7 @@ namespace Unity.Hare.Content
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,
         /// one section per top-level key: weapons, ammo, flight, health, weaponPhysicals, emitters, wormholes,
-        /// enemies, levels, dialogue, upgrades. A section or field the file omits keeps its default. Throws
+        /// enemies, levels, dialogue, upgrades, session. A section or field the file omits keeps its default. Throws
         /// <see cref="ContentValidationException"/>, listing every problem, if the file is malformed or any value
         /// fails validation.
         /// </summary>
@@ -95,13 +98,14 @@ namespace Unity.Hare.Content
                 Bind(sections, "levels", registry.Levels, errors);
                 Bind(sections, "dialogue", registry.Dialogue, errors);
                 Bind(sections, "upgrades", registry.Upgrades, errors);
+                Bind(sections, "session", registry.Session, errors);
 
                 foreach (var key in sections.Keys)
                 {
                     switch (key.ToLowerInvariant())
                     {
                         case "weapons": case "ammo": case "flight": case "health": case "weaponphysicals":
-                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades":
+                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session":
                             break;
                         default:
                             errors.Add($"content.{key}: not a recognised section.");
@@ -121,6 +125,7 @@ namespace Unity.Hare.Content
             registry.Levels.Validate(errors, "levels");
             registry.Dialogue.Validate(errors, "dialogue");
             registry.Upgrades.Validate(errors, "upgrades");
+            registry.Session.Validate(errors, "session");
 
             if (errors.Count > 0) throw new ContentValidationException(errors);
             return registry;
