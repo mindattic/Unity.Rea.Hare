@@ -400,6 +400,35 @@ record (every sound.gmx field, the source file's real format, channels, rate and
   sound effect" and `http://soundbible.com/1920-Minigun.html`, the source of the vulcan's minigun sound. It is
   mirrored byte for byte to `Assets/Unity.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69).
 
+## Fonts (U.HARE-T48)
+
+- `HARE.project.gmx` lists **seven fonts**: `fnt_basic`, `fnt_medium`, `fnt_point`, `fnt_score`, `fnt_small`,
+  `font7`, `font8`. `fonts/` also holds `font4.font.gmx` and its atlas, which the project does not list, so
+  GameMaker never built it into the game.
+- **font.gmx**: `name` (the typeface), `size` (points), `bold`, `italic`, `charset` 1, `aa` 3 (anti-aliased), one
+  range `32,127`, then the bake: a `glyphs` table (per character its cell `x`, `y`, `w`, `h` in the atlas, `shift`
+  the pen advance, `offset` the left bearing), an empty `kerningPairs`, and the atlas `image` (`<name>.png`, white
+  glyphs with coverage in alpha, cells packed edge to edge). Every cell's top is the top of the line; only its height
+  varies, longer for descenders.
+- **Two typefaces**: `fnt_medium` Berlin Sans FB 16, `fnt_point` Berlin Sans FB 12, `fnt_score` Berlin Sans FB 36,
+  `fnt_small` Berlin Sans FB 11; `fnt_basic`, `font4`, `font7`, `font8` Arial 12, the last three byte-identical bakes
+  of `fnt_basic` (same atlas bytes, same glyph table). No font is bold or italic.
+- **Who draws with what** (`draw_set_font`, comments excluded): `fnt_point` 40 objects (the HUD's objective, clock,
+  coins and speed unit, `obj_energybar`, every menu and map/level button, `obj_YesNo`/`obj_yesno_dialog` messages,
+  `obj_level_results` rows, `obj_levelstart`, `obj_scenario_details`, `obj_startup`, `obj_tip`, `obj_label`,
+  `obj_typewriter`, `obj_float_text`, `obj_conversation`'s speaker name, the upgrade buttons); `fnt_score` 14 (the
+  score in `obj_game`, lives in `obj_healthbar`, the speed in `obj_speedometer`, the title buttons
+  `obj_btn_campaign`/`_quickstart`/`_quit`/`_yes`/`_no`, the dialog and results headings, `obj_levelstart`,
+  `obj_upgrade`, `obj_conversation`'s speech); `fnt_medium` only `obj_typewriter_story`; `fnt_small` only
+  `obj_weapon_gui` (the ammo counters). Nothing draws with `fnt_basic`, `font4`, `font7` or `font8`; text drawn
+  before any `draw_set_font` gets GameMaker's own default, Arial 12, which `fnt_basic` bakes.
+- **Layout**: `draw_text` puts each cell's top on the y it is given and steps the pen by `shift`, drawing the cell
+  `offset` right of it; `string_width` is the sum of the `shift`s; a new line is `string_height("M")` lower, the
+  height of the `M` cell. Nearly every call goes through `draw_text_outline` (U.HARE-T45).
+- **Licences**: Arial is Monotype's (shipped with Windows), Berlin Sans FB The Font Bureau's (shipped with Microsoft
+  Office); both are proprietary and may not be redistributed as font files. The original only ever shipped the baked
+  atlases above, and that is all the rebuild imports (BIBLE §6).
+
 ## Rebuild backlog
 
 The full implementation plan is tracked as epics/stories/tickets in the MindAttic ticket

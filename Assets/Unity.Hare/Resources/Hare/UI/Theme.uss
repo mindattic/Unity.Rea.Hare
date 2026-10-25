@@ -1,8 +1,10 @@
 /* Unity.Hare — UI foundation theme (U.HARE-T45). Every screen (HUD, menus, results, upgrade, story) is built in
    code with Scripts/UI/HareUi.cs against these classes; nothing is wired up by hand in the Editor. Colours and
-   sizes here are a placeholder pass (dark cockpit navy, cyan accent) until the original's art (U.HARE-T46) and
-   fonts (U.HARE-T48) land — HareFonts.Apply() layers the real faces on top of the font-size/weight this file sets,
-   it never fights them.
+   sizes here are a placeholder pass (dark cockpit navy, cyan accent) until the screens built on the original's art
+   (U.HARE-T46) restyle them. Text is the original's (U.HARE-T48): every face is a bitmap FontAsset baked from
+   GameMaker's own glyph atlas (Resources/Hare/Fonts), drawn 1:1 at a font-size equal to its font.gmx size and never
+   faux-bolded, and the named text styles at the end of this file (HareTextStyles) map each kind of text to the face
+   the original drew it with.
 
    An ".outline-text" box (HareUi.OutlineText) is a stack of plain Labels at pixel offsets, not one element, so a
    rule meant for its text (size, weight, alignment) targets the box itself and relies on USS inheritance to reach
@@ -15,8 +17,10 @@
 .center { align-items: center; justify-content: center; }
 .hidden { display: none; }
 
+/* fnt_point, the face the original draws most of its text with, is every screen's default. */
 .hare-root {
-    font-size: 28px;
+    -unity-font-definition: resource("Hare/Fonts/fnt_point");
+    font-size: 12px;
     color: rgb(235, 240, 255);
     -unity-font-style: normal;
 }
@@ -30,7 +34,6 @@
 
 /* ── Outline text (draw_text_outline family) ────────────────────────────────────────────────────────────── */
 .outline-text {
-    font-size: 28px;
     -unity-text-align: upper-left;
 }
 
@@ -43,9 +46,10 @@
     padding: 24px 28px;
 }
 
+/* A window or dialog heading: fnt_score, as obj_yesno_dialog and obj_level_results draw theirs. */
 .hare-window-title {
-    font-size: 40px;
-    -unity-font-style: bold;
+    -unity-font-definition: resource("Hare/Fonts/fnt_score");
+    font-size: 36px;
     margin-bottom: 14px;
 }
 
@@ -61,7 +65,8 @@
 }
 
 .hare-dialog-message {
-    font-size: 30px;
+    -unity-font-definition: resource("Hare/Fonts/fnt_point");
+    font-size: 12px;
     margin: 6px 0 20px 0;
 }
 
@@ -86,9 +91,10 @@
 .hare-btn:active { background-color: rgb(10, 18, 34); }
 .hare-btn--small { min-height: 56px; min-width: 140px; padding: 0 18px; }
 
+/* A button's caption: fnt_score, as the title buttons (obj_btn_campaign, _quickstart, _quit, _yes, _no) draw theirs. */
 .hare-btn-label {
-    font-size: 30px;
-    -unity-font-style: bold;
+    -unity-font-definition: resource("Hare/Fonts/fnt_score");
+    font-size: 36px;
     -unity-text-align: middle-center;
 }
 
@@ -114,3 +120,19 @@
 .hare-bar-fill--low {
     background-color: rgb(255, 0, 0);
 }
+
+/* ── Named text styles (HareTextStyles, U.HARE-T48) ──────────────────────────────────────────────────────────
+   Each kind of text in the face the original's draw_set_font picks for it (docs/REVERSE_ENGINEERING.md, Fonts),
+   at the face's font.gmx size, which draws its baked atlas 1:1. Kept last so a style wins over a widget class's own
+   face on the same element. */
+.text-hud-score         { -unity-font-definition: resource("Hare/Fonts/fnt_score");  font-size: 36px; }
+.text-hud               { -unity-font-definition: resource("Hare/Fonts/fnt_point");  font-size: 12px; }
+.text-hud-ammo          { -unity-font-definition: resource("Hare/Fonts/fnt_small");  font-size: 11px; }
+.text-menu-title        { -unity-font-definition: resource("Hare/Fonts/fnt_score");  font-size: 36px; }
+.text-menu              { -unity-font-definition: resource("Hare/Fonts/fnt_point");  font-size: 12px; }
+.text-typewriter        { -unity-font-definition: resource("Hare/Fonts/fnt_point");  font-size: 12px; }
+.text-story             { -unity-font-definition: resource("Hare/Fonts/fnt_medium"); font-size: 16px; }
+.text-conversation      { -unity-font-definition: resource("Hare/Fonts/fnt_score");  font-size: 36px; }
+.text-conversation-name { -unity-font-definition: resource("Hare/Fonts/fnt_point");  font-size: 12px; }
+.text-float             { -unity-font-definition: resource("Hare/Fonts/fnt_point");  font-size: 12px; }
+.text-default           { -unity-font-definition: resource("Hare/Fonts/fnt_basic");  font-size: 12px; }

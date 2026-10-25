@@ -6,14 +6,15 @@ using UnityEngine.UIElements;
 namespace Unity.Hare.UI
 {
     /// <summary>
-    /// The shared home for the original's eight <c>draw_set_font</c> faces (<c>fnt_basic</c>, <c>fnt_medium</c>,
-    /// <c>fnt_point</c>, <c>fnt_score</c>, <c>fnt_small</c>, <c>font4</c>, <c>font7</c>, <c>font8</c>): one named
-    /// slot per face, each lazily built into a runtime SDF <see cref="FontAsset"/> (the Unity.GridGame
-    /// <c>Fonts.cs</c> pattern) from <c>Resources/Hare/Fonts/&lt;name&gt;</c> the first time it's asked for.
+    /// The original's eight <c>draw_set_font</c> faces (<c>fnt_basic</c>, <c>fnt_medium</c>, <c>fnt_point</c>,
+    /// <c>fnt_score</c>, <c>fnt_small</c>, <c>font4</c>, <c>font7</c>, <c>font8</c>), one named slot per face, each a
+    /// static bitmap <see cref="FontAsset"/> at <c>Resources/Hare/Fonts/&lt;name&gt;</c> built by the font pipeline
+    /// (U.HARE-T48: tools/import-gml-fonts.ps1, then the editor's GmlFontBuilder) from GameMaker's own baked glyph atlas
+    /// and glyph table, so text draws with exactly the glyphs the original drew. Screens normally reach a face through
+    /// a named text style (<see cref="HareTextStyles"/>, Theme.uss) rather than by face name.
     ///
-    /// U.HARE-T48 drops the licensed TTFs under those exact resource names; until then every slot is empty and
-    /// <see cref="Apply"/> is a no-op, so screens built against this seam today render in the panel's default font
-    /// and pick up the real face the moment T48 lands, with no code change on their side.
+    /// A face draws its atlas 1:1 at a font size equal to its font.gmx size (<see cref="NativeSize"/>), which
+    /// <see cref="Apply"/> sets along with the face.
     /// </summary>
     public static class HareFonts
     {
@@ -26,37 +27,45 @@ namespace Unity.Hare.UI
         public const string Font7 = "font7";
         public const string Font8 = "font8";
 
-        /// <summary>Every face name this seam knows about, in the order <c>docs/BIBLE.md</c> §6 lists them.</summary>
+        /// <summary>Every face name this seam knows about, in the order <c>docs/BIBLE.md</c> lists them.</summary>
         public static readonly string[] All = { Basic, Medium, Point, Score, Small, Font4, Font7, Font8 };
 
-        const string ResourceFolder = "Hare/Fonts/";
+        /// <summary>Resources folder (with trailing slash) holding one FontAsset per face, named for it.</summary>
+        public const string ResourceFolder = "Hare/Fonts/";
 
-        // null is a valid cached value (a face with no TTF imported yet) so a missing face isn't re-resolved
-        // from Resources.Load on every call; ClearCache() below lets a test or an importer reset it.
+        // null is a valid cached value (an unknown face name) so a miss isn't re-resolved from Resources.Load on
+        // every call; ClearCache() below lets a test or the font builder reset it.
         static readonly Dictionary<string, FontAsset> cache = new Dictionary<string, FontAsset>();
 
-        /// <summary>The runtime SDF font asset for a named face, or null when its TTF (U.HARE-T48) isn't imported yet.</summary>
+        /// <summary>The bitmap font asset for a named face, or null for a name that is not one of the faces.</summary>
         public static FontAsset Get(string name)
         {
             if (string.IsNullOrEmpty(name)) return null;
-            if (cache.TryGetValue(name, out var cached)) return cached;
-
-            var font = Resources.Load<Font>(ResourceFolder + name);
-            var asset = font != null ? FontAsset.CreateFontAsset(font) : null;
+            if (cache.TryGetValue(name, out var cached) && cached != null) return cached;
+            var asset = Resources.Load<FontAsset>(ResourceFolder + name);
             cache[name] = asset;
             return asset;
         }
 
-        /// <summary>Applies a named face to <paramref name="element"/>; leaves the panel's own default font alone
-        /// when the face isn't imported yet so nothing breaks before U.HARE-T48.</summary>
+        /// <summary>The font size, in panel pixels, at which a face draws its baked atlas 1:1 (its font.gmx size);
+        /// 0 for an unknown face.</summary>
+        public static float NativeSize(string name)
+        {
+            var asset = Get(name);
+            return asset != null ? asset.faceInfo.pointSize : 0f;
+        }
+
+        /// <summary>Applies a named face to <paramref name="element"/> at its <see cref="NativeSize"/>; leaves the
+        /// element's font alone for an unknown face name.</summary>
         public static void Apply(VisualElement element, string name)
         {
             var asset = Get(name);
-            if (asset != null) element.style.unityFontDefinition = FontDefinition.FromSDFFont(asset);
+            if (asset == null) return;
+            element.style.unityFontDefinition = FontDefinition.FromSDFFont(asset);
+            element.style.fontSize = asset.faceInfo.pointSize;
         }
 
-        /// <summary>Drops every cached font asset so a newly imported TTF (or a test's fake Resources folder) is
-        /// picked up on the next <see cref="Get"/>.</summary>
+        /// <summary>Drops every cached font asset so a rebuilt one is picked up on the next <see cref="Get"/>.</summary>
         public static void ClearCache() => cache.Clear();
     }
 }

@@ -111,7 +111,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Startup room | `obj_startup` | None | UH-T51 |
 | Room flow and fades | `obj_fade_*`, `next_room` | None | UH-T50 |
 | Sprites, backgrounds | 213 (398 frames) / 18 | All imported, none skipped: `tools/import-gml-art.ps1` + `GmlArtBuilder` into `Assets/Unity.Hare/Art`, mapped by `HareArtManifest` (not yet drawn by the views, which still use `Resources/Hare/Sprites`) | done: U.HARE-T46 |
-| Fonts | 8 | None | UH-T48 |
+| Fonts | 8 | All imported, none skipped: `tools/import-gml-fonts.ps1` + `GmlFontBuilder` into one static bitmap FontAsset per font under `Resources/Hare/Fonts`, built from GameMaker's own baked glyph atlases (Arial and Berlin Sans FB are proprietary; no typeface file ships), and named text styles (`HareTextStyles`, `Theme.uss`) for the HUD, menus, dialogs, typewriters and conversations | done: U.HARE-T48 |
 | Session state | `globals.gml` | None | UH-T49 |
 | Campaign persistence | (not in the original) | None | UH-T65 (deliberate addition) |
 
