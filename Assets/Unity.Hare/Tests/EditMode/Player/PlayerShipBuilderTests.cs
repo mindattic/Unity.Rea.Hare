@@ -106,13 +106,13 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void TheMainSceneCarriesTheArmedShip()
+        public void RoomGamescreenCarriesTheArmedShip()
         {
-            var scene = EditorSceneManager.OpenScene("Assets/Unity.Hare/Scenes/Main.unity", OpenSceneMode.Additive);
+            var scene = EditorSceneManager.OpenScene("Assets/Unity.Hare/Scenes/Rooms/room_gamescreen.unity", OpenSceneMode.Additive);
             try
             {
                 var ships = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<PlayerShipController>(true)).ToList();
-                Assert.AreEqual(1, ships.Count, "one player ship in the main scene");
+                Assert.AreEqual(1, ships.Count, "one player ship in room_gamescreen");
                 AssertCarriesEveryWeapon(ships[0].gameObject);
                 var vulcan = ships[0].GetComponent<VulcanWeapon>();
                 var so = new UnityEditor.SerializedObject(vulcan);

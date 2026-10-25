@@ -83,8 +83,11 @@ In the Editor, open the project and use the **Unity.Hare** menu:
 - **Set Up URP 2D** writes the 2D renderer and pipeline assets under `Assets/Unity.Hare/Settings/`.
 - **Set Up Project Settings** sets the Input System as the active input handler, the 1920x1080 reference
   resolution, and the `Backdrop`/`Default`/`Overlay` sorting layers.
-- **Rebuild Main Scene** regenerates `Assets/Unity.Hare/Scenes/Main.unity` (the 2D camera rig, the global
-  light and the player ship) and the build settings from code.
+- **Rebuild Main Scene (Bootstrap)** regenerates `Assets/Unity.Hare/Scenes/Main.unity`, the bootstrap: only the
+  room flow's director, which sends the game to the first room. **Rebuild Room Scenes** regenerates every room's
+  scene under `Assets/Unity.Hare/Scenes/Rooms/` (named after the GML rooms: `startup`, `room_title`, ...,
+  `room_gamescreen` with the player ship) and the bootstrap, and the build settings (bootstrap first, then the
+  rooms). Press Play on `Main.unity` to run the room flow, or on a room scene to start in that room.
 - **Rebuild Online Scene** regenerates `Assets/Unity.Hare/Scenes/Online.unity`: the online game on the shared
   Unity.Multiplayer kit (U.HARE-T35). Open it and press Play: the kit's menu offers **Host**, **Join by IP**,
   **Join by code** and **Play solo** (the local game). For a second player, host in the Editor and join `127.0.0.1`

@@ -527,6 +527,15 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fullscreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f0c2a71-3e8d-4b6a-9d14-7c2e8b1f4a60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -643,7 +652,7 @@ namespace Unity.Hare.Input
                 {
                     ""name"": """",
                     ""id"": ""8ee63fbf-1d2e-4db1-99c5-327ebb56d9c5"",
-                    ""path"": ""<Keyboard>/f1"",
+                    ""path"": ""<Keyboard>/f12"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -659,6 +668,17 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b7e9c40-6a1d-4f83-8e25-d0c4a9b3f716"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Fullscreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -717,6 +737,7 @@ namespace Unity.Hare.Input
             m_Meta_Map = m_Meta.FindAction("Map", throwIfNotFound: true);
             m_Meta_Debug = m_Meta.FindAction("Debug", throwIfNotFound: true);
             m_Meta_Menu = m_Meta.FindAction("Menu", throwIfNotFound: true);
+            m_Meta_Fullscreen = m_Meta.FindAction("Fullscreen", throwIfNotFound: true);
         }
 
         ~@HareControls()
@@ -991,6 +1012,7 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Meta_Map;
         private readonly InputAction m_Meta_Debug;
         private readonly InputAction m_Meta_Menu;
+        private readonly InputAction m_Meta_Fullscreen;
         /// <summary>
         /// Provides access to input actions defined in input action map "Meta".
         /// </summary>
@@ -1038,6 +1060,10 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Meta/Menu".
             /// </summary>
             public InputAction @Menu => m_Wrapper.m_Meta_Menu;
+            /// <summary>
+            /// Provides access to the underlying input action "Meta/Fullscreen".
+            /// </summary>
+            public InputAction @Fullscreen => m_Wrapper.m_Meta_Fullscreen;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1091,6 +1117,9 @@ namespace Unity.Hare.Input
                 @Menu.started += instance.OnMenu;
                 @Menu.performed += instance.OnMenu;
                 @Menu.canceled += instance.OnMenu;
+                @Fullscreen.started += instance.OnFullscreen;
+                @Fullscreen.performed += instance.OnFullscreen;
+                @Fullscreen.canceled += instance.OnFullscreen;
             }
 
             /// <summary>
@@ -1129,6 +1158,9 @@ namespace Unity.Hare.Input
                 @Menu.started -= instance.OnMenu;
                 @Menu.performed -= instance.OnMenu;
                 @Menu.canceled -= instance.OnMenu;
+                @Fullscreen.started -= instance.OnFullscreen;
+                @Fullscreen.performed -= instance.OnFullscreen;
+                @Fullscreen.canceled -= instance.OnFullscreen;
             }
 
             /// <summary>
@@ -1329,6 +1361,13 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMenu(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Fullscreen" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnFullscreen(InputAction.CallbackContext context);
         }
     }
 }

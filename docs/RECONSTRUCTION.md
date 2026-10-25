@@ -109,7 +109,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); nothing plays the music yet (UH-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47 |
 | Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); no screen yet | data: U.HARE-T47; screen UH-T69 |
 | Startup room | `obj_startup` | None | UH-T51 |
-| Room flow and fades | `obj_fade_*`, `next_room` | None | UH-T50 |
+| Room flow and fades | `obj_fade_*`, `next_room` | Core's `Flow/RoomFlow` and `RoomFade` (room_goto, next_room, the fades, Esc to the title, F1 fullscreen, the rooms as data in `rooms`), played by `RoomFlowDirector` from the `Main.unity` bootstrap; one generated scene per room | done: U.HARE-T50 |
 | Sprites, backgrounds | 213 (398 frames) / 18 | All imported, none skipped: `tools/import-gml-art.ps1` + `GmlArtBuilder` into `Assets/Unity.Hare/Art`, mapped by `HareArtManifest` (not yet drawn by the views, which still use `Resources/Hare/Sprites`) | done: U.HARE-T46 |
 | Fonts | 8 | All imported, none skipped: `tools/import-gml-fonts.ps1` + `GmlFontBuilder` into one static bitmap FontAsset per font under `Resources/Hare/Fonts`, built from GameMaker's own baked glyph atlases (Arial and Berlin Sans FB are proprietary; no typeface file ships), and named text styles (`HareTextStyles`, `Theme.uss`) for the HUD, menus, dialogs, typewriters and conversations | done: U.HARE-T48 |
 | Session state | `globals.gml` | Core's `Session/GameSession`: LIVES, COINS, SKILLPOINTS, KILLS, score and goal, difficulty, use_metric, master_volume, gamemode, objective (points, time limit, defeat, survive) with its target, time elapsed and limit, scenario and level, level_complete, paused and the game_restart reset, changed by `SessionCommand`s raising `SessionEvent`s, starting values in the content registry's `session` section; not yet held by a scene authority or read by a HUD (UH-T50, UH-T54, U.HARE-T22) | Core done: U.HARE-T49 |
@@ -134,7 +134,7 @@ Reference architectures: Unity.SpaceGod and Unity.GridGame.
 | Multiplayer-ready seams and the shared Unity.Multiplayer kit | not in `Packages/manifest.json` | done: U.HARE-T35 (`com.mindattic.unity.multiplayer` and `com.mindattic.components.unity`; `Online.unity` beside `Main.unity` with the kit's NetBootstrap and drop-in front end; `HareNetPlayer`, a NetEntity carrying its seat, sending input as `[ToServer]` calls; `HareAuthority` holding Core's `SharedWorld` on the server; `NetSessionTest`/`NetBotTest` PlayMode tests; flight only so far) |
 | Tests are EditMode only; no PlayMode, no scripted play with screenshots | no PlayMode asmdef | UH-T70 |
 | No release polish (name, icon, build settings) | not started | UH-T71 |
-| Scenes composed in code | `ProjectSetup` generates the one scene; the flow scenes are not generated yet | UH-T50 |
+| Scenes composed in code | `ProjectSetup` generates one scene per room and the bootstrap | done: U.HARE-T50 |
 
 Already meeting the standard: Unity 6 (6000.4.3f1), URP 17.4 with a generated 2D renderer behind a
 pipeline-agnostic seam, a 2D camera rig letterboxed to the original's 1920x1080 reference resolution, the Input

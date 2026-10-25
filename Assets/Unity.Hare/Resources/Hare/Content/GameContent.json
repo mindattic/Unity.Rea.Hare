@@ -79,5 +79,23 @@
   "levels": { "Levels": [] },
   "dialogue": { "Lines": [] },
   "upgrades": { "Upgrades": [] },
-  "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 }
+  "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 },
+  "rooms": {
+    "Rooms": [
+      { "Room": "Startup", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "None", "EscapeToTitle": false, "FullscreenKey": false },
+      { "Room": "Title", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "NextRoom", "EscapeToTitle": false, "FullscreenKey": true },
+      { "Room": "Intro", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "None", "EscapeToTitle": true, "FullscreenKey": false },
+      { "Room": "GameScreen", "Width": 3840, "Height": 2160, "StepsPerSecond": 120, "Fade": "NextLevel", "EscapeToTitle": true, "FullscreenKey": true },
+      { "Room": "SideScroll", "Width": 12000, "Height": 1080, "StepsPerSecond": 120, "Fade": "NextLevel", "EscapeToTitle": true, "FullscreenKey": true },
+      { "Room": "Shaft", "Width": 1920, "Height": 12000, "StepsPerSecond": 120, "Fade": "NextLevel", "EscapeToTitle": true, "FullscreenKey": true },
+      { "Room": "Map", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "NextRoom", "EscapeToTitle": true, "FullscreenKey": false },
+      { "Room": "Story", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "NextRoom", "EscapeToTitle": true, "FullscreenKey": false },
+      { "Room": "Upgrade", "Width": 1920, "Height": 1080, "StepsPerSecond": 60, "Fade": "NextRoom", "EscapeToTitle": false, "FullscreenKey": false }
+    ],
+    "FadeSpeed": 0.03,
+    "FirstRoom": "Startup",
+    "EscapeRoom": "Title",
+    "StartingNextRoom": "GameScreen",
+    "MaxStepsPerFrame": 4
+  }
 }

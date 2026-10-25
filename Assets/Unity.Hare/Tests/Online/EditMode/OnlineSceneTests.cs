@@ -54,7 +54,11 @@ namespace Unity.Hare.Tests.Online.EditMode
             Scene main = EditorSceneManager.OpenScene(ProjectSetup.ScenePath, OpenSceneMode.Single);
             var roots = main.GetRootGameObjects();
             Assert.That(roots.All(r => r.GetComponentInChildren<NetworkManager>(true) == null), "the local game has no NetworkManager");
-            Assert.That(roots.Any(r => r.GetComponentInChildren<PlayerShipController>(true) != null), "the local game still has its ship");
+            Assert.That(roots.Any(r => r.GetComponentInChildren<Unity.Hare.Flow.RoomFlowDirector>(true) != null),
+                "the local game's bootstrap starts the room flow (U.HARE-T50)");
+            Scene arena = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(Unity.Hare.Flow.RoomId.GameScreen), OpenSceneMode.Single);
+            Assert.That(arena.GetRootGameObjects().Any(r => r.GetComponentInChildren<PlayerShipController>(true) != null), "the local game still has its ship");
+            Assert.That(arena.GetRootGameObjects().All(r => r.GetComponentInChildren<NetworkManager>(true) == null), "the local arena has no NetworkManager");
             Assert.That(HareOnlineGame.SoloScene, Is.EqualTo(System.IO.Path.GetFileNameWithoutExtension(ProjectSetup.ScenePath)),
                 "Play solo opens the local game's scene");
         }
