@@ -325,6 +325,115 @@ namespace Unity.Hare.Tests.Core
             Assert.IsFalse(open.OutOfPlay(-400f, -400f));
         }
 
+        // ---- obj_surface_reflection (U.HARE-T58) ----
+
+        [Test]
+        public void OnlyTheSideScrollHasAWaterLine_250PxAboveItsBottom()
+        {
+            var side = Arena(5, RoomId.SideScroll);
+            Assert.IsTrue(side.Reflection.Active);
+            Assert.AreEqual(830f, side.Reflection.SurfaceY, "surface_y = room_height - range");
+            Assert.AreEqual((0.3f, 1f, 0.5f), (side.Reflection.Alpha, side.Reflection.XScale, side.Reflection.YScale));
+            Assert.AreEqual(2, side.Reflection.Definition.Depth);
+
+            foreach (var (level, room) in new[] { (1, RoomId.GameScreen), (4, RoomId.Shaft) })
+            {
+                var arena = Arena(level, room);
+                Assert.IsFalse(arena.Reflection.Active, room.ToString());
+                Assert.IsFalse(arena.Execute(new StepReflection(P1, 500f, 2000f, 0f, 300f)).Accepted, room + " has no obj_surface_reflection");
+            }
+        }
+
+        [Test]
+        public void TheReflection_IsAsFarBelowTheWaterAsTheShipIsAboveIt_AtTheShipsAngle()
+        {
+            var side = Arena(5, RoomId.SideScroll);
+            var result = side.Execute(new StepReflection(P1, 4000f, 630f, 45f, 45f));
+            Assert.IsTrue(result.Accepted);
+            Assert.AreEqual(4000f, side.Reflection.X, "drawn at player.x");
+            Assert.AreEqual(1030f, side.Reflection.Y, "830 + (830 - 630)");
+            Assert.AreEqual(45f, side.Reflection.Angle, "angle = player.image_angle");
+            Assert.IsEmpty(result.Events.ToList(), "high above the water nothing splashes or skims");
+
+            side.Execute(new StepReflection(P1, 4000f, -200f, 90f, 90f));
+            Assert.AreEqual(1860f, side.Reflection.Y, "above the room the reflection runs below it");
+        }
+
+        [Test]
+        public void BelowTheWaterLine_TheShipIsPutBackOnIt_SkimmingLevel()
+        {
+            var side = Arena(5, RoomId.SideScroll);
+            foreach (var (direction, expected) in new[] { (300f, 0f), (271f, 0f), (270f, 180f), (200f, 180f), (90f, 180f), (-30f, 0f), (630f, 180f) })
+            {
+                var skim = side.Execute(new StepReflection(P1, 100f, 850f, direction, direction)).Events.OfType<ShipSkimmedSurface>().Single();
+                Assert.AreEqual(830f, skim.Y, "player.y = surface_y");
+                Assert.AreEqual(100f, skim.X);
+                Assert.AreEqual(expected, skim.Direction, $"direction {direction}: > 270 skims right (0), else left (180)");
+                Assert.AreEqual(830f, side.Reflection.Y, "a ship under the water is reflected on the water line");
+            }
+            Assert.IsEmpty(side.Execute(new StepReflection(P1, 100f, 830f, 0f, 0f)).Events.OfType<ShipSkimmedSurface>().ToList(), "on the line is not below it");
+        }
+
+        [Test]
+        public void EveryFifthStep_AShipNearTheWaterSplashesIt_32PxAhead()
+        {
+            var side = Arena(5, RoomId.SideScroll);
+            var splashes = new List<(int Step, SurfaceSplashed Splash)>();
+            for (int step = 1; step <= 15; step++)
+                foreach (var e in side.Execute(new StepReflection(P1, 1000f, 800f, 180f, 180f)).Events.OfType<SurfaceSplashed>())
+                    splashes.Add((step, e));
+            CollectionAssert.AreEqual(new[] { 5, 10, 15 }, splashes.Select(s => s.Step).ToList(), "alarm[0] = rate (5), set again each time it rings");
+            var splash = splashes[0].Splash;
+            Assert.AreEqual(1000f - 32f, splash.X, 1e-3f, "player.x + lengthdir_x(32, image_angle)");
+            Assert.AreEqual(830f, splash.Y, "on surface_y");
+            Assert.AreEqual(2, splash.Size, "ef_firework size 2");
+            Assert.AreEqual("#9ACEEB", splash.Color, "c_cornflowerblue");
+
+            var high = Arena(5, RoomId.SideScroll);
+            for (int step = 1; step <= 10; step++)
+                Assert.IsEmpty(high.Execute(new StepReflection(P1, 1000f, 798f, 0f, 0f)).Events.OfType<SurfaceSplashed>().ToList(), "798 is not below 830 - 32");
+        }
+
+        [Test]
+        public void TheReflectionDoesNothingBeforeCreate()
+        {
+            var content = ContentRegistry.Default;
+            var arena = new ArenaWorld(content.Arena, content.Rooms.Get(RoomId.SideScroll), content.Arena.SettingFor(5), new ScriptedRandom());
+            Assert.IsFalse(arena.Execute(new StepReflection(P1, 0f, 900f, 0f, 0f)).Accepted);
+            Assert.IsFalse(arena.Reflection.Placed);
+        }
+
+        [Test]
+        public void SkimSurface_TurnsTheShipsHeadingAndFacingTogether()
+        {
+            var rig = new PlayerRig();
+            Assert.IsTrue(rig.Do(new SkimSurface(rig.Id, 180f)).Accepted);
+            Assert.AreEqual(180f, rig.Flight.Direction);
+            Assert.AreEqual(180f, rig.Flight.Facing, "player.image_angle = player.direction");
+            Assert.AreEqual(PlayerFlightState.Moving, rig.Flight.State, "it flies on");
+        }
+
+        // ---- obj_moon_surface (U.HARE-T58) ----
+
+        [Test]
+        public void TheMoonSurface_StaysPutUntilTurnedOn_ThenRises40PxAStepIntoTheRoom()
+        {
+            var moon = new MoonSurface(ContentRegistry.Default.Arena.MoonSurface, 1200f);
+            Assert.IsFalse(moon.On, "Create: phase = \"off\"");
+            Assert.IsFalse(moon.Step(1080));
+            Assert.AreEqual(1200f, moon.Y);
+
+            moon.TurnOn();
+            var arrivals = new List<int>();
+            for (int step = 1; step <= 6; step++)
+                if (moon.Step(1080)) arrivals.Add(step);
+            // 1200 -> 1160 -> 1120 -> 1080; then y > room_height fails and it stops.
+            Assert.AreEqual(1080f, moon.Y);
+            CollectionAssert.AreEqual(new[] { 4 }, arrivals, "the first step it is not below the room it stops and clears the drop emitters, once");
+            Assert.IsFalse(moon.On, "phase = \"off\"");
+            Assert.AreEqual(0f, moon.VSpeed);
+        }
+
         // ---- obj_player's Draw ----
 
         [Test]
@@ -417,7 +526,15 @@ namespace Unity.Hare.Tests.Core
                 foreach (var (x, y) in new[] { (a.View, b.View), (a.Minimap, b.Minimap) })
                     Assert.AreEqual((x.Width, x.Height, x.PortX, x.PortY, x.PortWidth, x.PortHeight, x.HBorder, x.VBorder, x.HSpeed, x.VSpeed),
                         (y.Width, y.Height, y.PortX, y.PortY, y.PortWidth, y.PortHeight, y.HBorder, y.VBorder, y.HSpeed, y.VSpeed), a.Room.ToString());
+                Assert.AreEqual(
+                    (a.Reflection.Enabled, a.Reflection.Range, a.Reflection.Alpha, a.Reflection.XScale, a.Reflection.YScale, a.Reflection.SplashRateSteps,
+                        a.Reflection.SplashBand, a.Reflection.SplashLead, a.Reflection.SplashSize, a.Reflection.SplashColor, a.Reflection.Depth),
+                    (b.Reflection.Enabled, b.Reflection.Range, b.Reflection.Alpha, b.Reflection.XScale, b.Reflection.YScale, b.Reflection.SplashRateSteps,
+                        b.Reflection.SplashBand, b.Reflection.SplashLead, b.Reflection.SplashSize, b.Reflection.SplashColor, b.Reflection.Depth),
+                    a.Room + "'s obj_surface_reflection");
             }
+            Assert.AreEqual((defaults.MoonSurface.Sprite, defaults.MoonSurface.Depth, defaults.MoonSurface.RiseSpeed),
+                (fromFile.MoonSurface.Sprite, fromFile.MoonSurface.Depth, fromFile.MoonSurface.RiseSpeed));
             var all = defaults.Levels.Concat(new[] { defaults.DefaultLevel, defaults.GeneratorLevel }).ToList();
             var loaded = fromFile.Levels.Concat(new[] { fromFile.DefaultLevel, fromFile.GeneratorLevel }).ToList();
             CollectionAssert.AreEqual(

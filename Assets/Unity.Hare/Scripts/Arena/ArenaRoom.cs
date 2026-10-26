@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using Unity.Hare.Art;
 using Unity.Hare.Audio;
 using Unity.Hare.Content;
+using Unity.Hare.Effects;
 using Unity.Hare.Enemies;
 using Unity.Hare.Flow;
 using Unity.Hare.Input;
@@ -83,6 +84,9 @@ namespace Unity.Hare.Arena
 
         /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
         public StructureField Structures { get; private set; }
+
+        /// <summary>The room's obj_surface_reflection as drawn (U.HARE-T58); null in a room without one.</summary>
+        public SurfaceReflectionView ReflectionView { get; private set; }
 
         /// <summary>The level's weather (U.HARE-T18): the room's obj_cloud_emitter and whatever else the level names.</summary>
         public WeatherView Weather { get; private set; }
@@ -241,6 +245,8 @@ namespace Unity.Hare.Arena
             State = new ArenaWorld(content.Arena, roomDefinition, setting, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
             SpawnPoint.position = ToWorld(State.SpawnX, State.SpawnY);
             BuildLayers();
+            if (State.Reflection.Active && ReflectionView == null)
+                ReflectionView = SurfaceReflectionView.Create(transform, State.Reflection.Definition.Depth); // the room's obj_surface_reflection
             var room = RoomRect();
 
             // Clear Objects: with(par_rock) ... with(par_pickup) (U.HARE-T23, U.HARE-T56), with(obj_levelstart).
@@ -479,6 +485,12 @@ namespace Unity.Hare.Arena
                 var at = PlayerRoomPosition();
                 Play(State.Execute(new CheckPlayerBounds(Seat, at.x, at.y)));
             }
+            if (Player != null && State.Reflection.Active)
+            {
+                // obj_surface_reflection's Alarm 0 and Step (U.HARE-T58): the splash, the reflection, the water's floor.
+                var at = PlayerRoomPosition();
+                Play(State.Execute(new StepReflection(Seat, at.x, at.y, Player.Facing, Player.Direction)));
+            }
             if (Player != null)
             {
                 var at = PlayerRoomPosition();
@@ -525,6 +537,14 @@ namespace Unity.Hare.Arena
                     case PlayerOutOfBounds _:
                         var health = Player != null ? Player.GetComponent<PlayerHealth>() : null;
                         if (health != null) health.LoseLifeOutOfBounds();
+                        break;
+                    case ShipSkimmedSurface skimmed:
+                        MovePlayer(ToWorld(skimmed.X, skimmed.Y)); // player.y = surface_y
+                        if (Player != null) Player.SkimSurface(skimmed.Direction);
+                        break;
+                    case SurfaceSplashed splash:
+                        ColorUtility.TryParseHtmlString(splash.Color, out var color);
+                        GmlEffects.CreateBelow(GmlEffectKind.Firework, ToWorld(splash.X, splash.Y), splash.Size, color);
                         break;
                 }
                 EventPlayed?.Invoke(e);
@@ -612,6 +632,7 @@ namespace Unity.Hare.Arena
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;
             PlaceLayers();
+            if (ReflectionView != null) ReflectionView.Draw(State.Reflection, Player, ToWorld(State.Reflection.X, State.Reflection.Y));
         }
 
         void PlaceCamera(Camera camera, ArenaView view)

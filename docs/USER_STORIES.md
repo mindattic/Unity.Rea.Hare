@@ -125,7 +125,7 @@ _Nothing recorded yet._
 - **U.HARE-US-Q2 ⬜** As a player, I lose a life when I die or leave the arena, drop back in from the top of the screen, and the game restarts when my lives run out, like the original
 - **U.HARE-US-Q3 ⬜** As a player, my rabbit looks and animates like the original: idle, crouch, leap and hurt poses, the weapon held at my aim, smoke and spark trails, and the flashing when invulnerable
 - **U.HARE-US-Q4 ⬜** As a player, I find structures with their covers on the rocks of a level (and can land on them), as set by each level's structure range
-- **U.HARE-US-Q5 ⬜** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage
+- **U.HARE-US-Q5 ✅** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage (U.HARE-T58: Core `ArenaWorldTests` reflection and moon tests, EditMode `MoonSurfaceViewTests`, PlayMode `StageModePlayTests.TheSideScrollsWater_ReflectsTheShip_SplashesUnderIt_AndIsAFloor`)
 
 
 ## Epic R — Companion, Special Abilities & Boss

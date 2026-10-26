@@ -136,8 +136,12 @@ namespace Unity.Hare.Arena
             layers = new ArenaLayer[Definition.Backgrounds.Length];
             for (int i = 0; i < layers.Length; i++) layers[i] = new ArenaLayer(i);
             views = new[] { new ArenaView(Definition.View), new ArenaView(Definition.Minimap) };
+            Reflection = new SurfaceReflection(Definition.Reflection, Room.Height);
             SetUp();
         }
+
+        /// <summary>The room's obj_surface_reflection (U.HARE-T58); <see cref="SurfaceReflection.Active"/> is false in a room without one.</summary>
+        public SurfaceReflection Reflection { get; }
 
         public ArenaTuning Tuning { get; }
         public RoomDefinition Room { get; }
@@ -309,6 +313,26 @@ namespace Unity.Hare.Arena
             }
 
             return moved || left;
+        }
+
+        /// <summary>
+        /// obj_surface_reflection's step for a ship at (<paramref name="x"/>, <paramref name="y"/>) turned to
+        /// <paramref name="imageAngle"/> and heading <paramref name="direction"/>, in GameMaker's order: Alarm 0 (every
+        /// rate steps, a <see cref="SurfaceSplashed"/> while the ship is within the splash band), then the Step (the
+        /// reflection follows, and a ship below the water line is put back on it skimming level,
+        /// <see cref="ShipSkimmedSurface"/>). Refused before Create and in a room without a reflection.
+        /// </summary>
+        internal bool StepReflection(float x, float y, float imageAngle, float direction)
+        {
+            if (!Created || !Reflection.Active) return false;
+            var def = Reflection.Definition;
+            if (Reflection.TickSplashAlarm() && Reflection.Splashes(y))
+                Emit(new SurfaceSplashed { X = Reflection.SplashX(x, imageAngle), Y = Reflection.SurfaceY, Size = def.SplashSize, Color = def.SplashColor });
+
+            Reflection.Follow(x, y, imageAngle);
+            if (y > Reflection.SurfaceY)
+                Emit(new ShipSkimmedSurface { X = x, Y = Reflection.SurfaceY, Direction = SurfaceReflection.SkimDirection(direction) });
+            return true;
         }
 
         void Wrap(float x, float y, bool horizontal) =>

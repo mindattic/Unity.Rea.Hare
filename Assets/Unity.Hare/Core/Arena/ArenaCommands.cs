@@ -62,6 +62,26 @@ namespace Unity.Hare.Arena
         internal override bool Apply(ArenaWorld arena) => arena.Follow(x, y);
     }
 
+    /// <summary>
+    /// obj_surface_reflection's Alarm 0 and Step for the seat's ship at (x, y), room pixels, turned to imageAngle and
+    /// heading direction (degrees): a splash on the water line (<see cref="SurfaceSplashed"/>) and the water's floor
+    /// (<see cref="ShipSkimmedSurface"/>). Refused before Create and in a room with no reflection.
+    /// </summary>
+    public sealed class StepReflection : ArenaCommand
+    {
+        readonly float x, y, imageAngle, direction;
+
+        public StepReflection(PlayerId id, float x, float y, float imageAngle, float direction) : base(id)
+        {
+            this.x = x;
+            this.y = y;
+            this.imageAngle = imageAngle;
+            this.direction = direction;
+        }
+
+        internal override bool Apply(ArenaWorld arena) => arena.StepReflection(x, y, imageAngle, direction);
+    }
+
     /// <summary>obj_game's M key: show_map flips and view 1 with it (<see cref="MinimapToggled"/>).</summary>
     public sealed class ToggleMinimap : ArenaCommand
     {

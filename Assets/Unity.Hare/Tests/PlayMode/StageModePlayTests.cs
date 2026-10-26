@@ -135,6 +135,7 @@ namespace Unity.Hare.Tests.PlayMode
             var arena = Arena();
             Assert.That((arena.State.Width, arena.State.Height), Is.EqualTo((1920, 12000)));
             Assert.That(UnityEngine.Object.FindObjectsByType<PlayerShipController>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
+            Assert.That(arena.ReflectionView, Is.Null, "only room_sidescroll has an obj_surface_reflection");
             yield return Quiet(arena);
             var health = arena.Player.GetComponent<PlayerHealth>();
             int lives = health.Lives;
@@ -152,6 +153,47 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(scatters, Is.EqualTo(0), "level_04: randomize_on_loop is false");
             Assert.That(health.Lives, Is.EqualTo(lives));
             yield return WaitFor(() => arena.State.View.Y == 12000f - 1080f, "view 0 following to the shaft's bottom");
+        }
+
+        [UnityTest]
+        public IEnumerator TheSideScrollsWater_ReflectsTheShip_SplashesUnderIt_AndIsAFloor()
+        {
+            // U.HARE-T58: obj_surface_reflection, 250 px above room_sidescroll's bottom.
+            yield return Enter(RoomId.SideScroll);
+            var arena = Arena();
+            yield return Quiet(arena);
+            Assert.That(arena.ReflectionView, Is.Not.Null, "room_sidescroll places an obj_surface_reflection");
+            int skims = 0, splashes = 0;
+            ShipSkimmedSurface skim = null;
+            arena.EventPlayed += e =>
+            {
+                if (e is ShipSkimmedSurface s) { skims++; skim = s; }
+                if (e is SurfaceSplashed) splashes++;
+            };
+
+            // Perched high above the water, the reflection hangs as far below the line as the ship is above it.
+            arena.Player.Land();
+            Put(arena, 3000f, 630f);
+            yield return WaitFor(() => Mathf.Approximately(arena.State.Reflection.Y, 1030f), "the reflection following the ship");
+            yield return null;
+            var drawn = arena.ReflectionView.Sprite;
+            Assert.That(drawn.enabled, Is.True);
+            Assert.That(drawn.sprite, Is.SameAs(arena.Player.GetComponent<PlayerLook>().Body.sprite), "player.sprite_index, frame 0");
+            Assert.That(drawn.color.a, Is.EqualTo(0.3f).Within(1e-4f), "alpha = 0.3");
+            Assert.That((Vector2)drawn.transform.localScale, Is.EqualTo(new Vector2(1f, 0.5f)), "xscale 1, yscale 0.5");
+            Vector2 expected = arena.ToWorld(3000f, 1030f);
+            Assert.That(Vector2.Distance(drawn.transform.position, expected), Is.LessThan(0.01f));
+            Assert.That(drawn.transform.eulerAngles.z, Is.EqualTo(arena.Player.Facing).Within(0.01f), "angle = player.image_angle");
+            Assert.That(skims, Is.EqualTo(0));
+
+            // Below the line, the ship is put back on it, skimming level, and the water splashes every 5 steps.
+            Put(arena, 3000f, 900f);
+            yield return WaitFor(() => skims > 0, "the water line's floor");
+            Assert.That(skim.Y, Is.EqualTo(830f), "player.y = surface_y");
+            Assert.That(skim.Direction == 0f || skim.Direction == 180f, Is.True, "direction > 270 ? 0 : 180");
+            Assert.That(arena.Player.Facing, Is.EqualTo(skim.Direction).Within(0.01f), "image_angle = direction");
+            Assert.That(arena.PlayerRoomPosition().y, Is.LessThanOrEqualTo(830.5f), "the ship is never left under the water");
+            yield return WaitFor(() => splashes > 0, "Alarm 0's ef_firework on the water line");
         }
 
         static Bullet StillBullet(ArenaRoom arena, float x, float y)

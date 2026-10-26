@@ -1,8 +1,8 @@
 namespace Unity.Hare.Rendering
 {
     /// <summary>
-    /// The project's sorting layers (U.HARE-T44), back to front: <see cref="Backdrop"/> (space, moon surface and
-    /// other props behind play, UH-T58) draws first, <see cref="Default"/> (every object the original's
+    /// The project's sorting layers (U.HARE-T44), back to front: <see cref="Backdrop"/> (the rooms' background
+    /// slots) draws first, <see cref="Default"/> (every object the original's
     /// per-depth draw order already covers, see <c>HareArt.SortingOrderForDepth</c>) next, then
     /// <see cref="Overlay"/> (the screen-wide fade and flash layer, <see cref="ScreenOverlayLayer"/>) on top of
     /// everything regardless of any object's own sorting order. The layers themselves are written into

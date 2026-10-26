@@ -374,6 +374,17 @@ namespace Unity.Hare.Player
             sink.Emit(new ShipHalted());
         }
 
+        /// <summary>
+        /// obj_surface_reflection's Step, the water line as a floor (U.HARE-T58): <c>player.direction = (0 or 180);
+        /// player.image_angle = player.direction</c>. Nothing else about the ship changes (its speed, spin and state are
+        /// left as they were, as the original leaves them).
+        /// </summary>
+        public void SkimSurface(float direction)
+        {
+            Direction = direction;
+            Facing = direction;
+        }
+
         /// <summary>GML: reset_player's flight half. Energy is left alone and refills on its own.</summary>
         public void Respawn(float direction)
         {

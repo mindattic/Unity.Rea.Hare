@@ -85,6 +85,55 @@ namespace Unity.Hare.Arena
         }
     }
 
+    /// <summary>
+    /// obj_surface_reflection as data (U.HARE-T58): the water line room_sidescroll places over bg_tropicalocean. Its Create
+    /// sets <c>range = 250; surface_y = room_height - range; alpha = 0.3; xscale = 1; yscale = 0.5; rate = 5</c>; its
+    /// Alarm 0 (every <c>rate</c> steps) puts an <c>ef_firework</c> of size 2 in c_cornflowerblue on the water line
+    /// <c>Len = 32</c> px along the ship's heading while the ship is within 32 px above it; its Draw is
+    /// <c>draw_sprite_ext(player.sprite_index, 0, player.x, y, xscale, yscale, angle, c_white, alpha)</c> at depth 2.
+    /// A room without one has <see cref="Enabled"/> false.
+    /// </summary>
+    [Serializable]
+    public class SurfaceReflectionDefinition
+    {
+        /// <summary>Whether the room places an obj_surface_reflection.</summary>
+        public bool Enabled;
+        /// <summary>GML range: the water line is this far above the room's bottom.</summary>
+        public int Range = 250;
+        /// <summary>GML alpha, the reflection's draw alpha.</summary>
+        public float Alpha = 0.3f;
+        /// <summary>GML xscale and yscale, the reflection's draw scale.</summary>
+        public float XScale = 1f;
+        public float YScale = 0.5f;
+        /// <summary>GML rate: Alarm 0's period, steps.</summary>
+        public int SplashRateSteps = 5;
+        /// <summary>Alarm 0's <c>player.y &gt; surface_y - 32</c>: how far above the water line the ship splashes it.</summary>
+        public int SplashBand = 32;
+        /// <summary>Alarm 0's <c>Len = 32</c>: the splash is this far along the ship's heading.</summary>
+        public int SplashLead = 32;
+        /// <summary>Alarm 0's effect_create_below(ef_firework, ..., 2, ...) size.</summary>
+        public int SplashSize = 2;
+        /// <summary>c_cornflowerblue, globals.gml's make_color_rgb(154, 206, 235).</summary>
+        public string SplashColor = "#9ACEEB";
+        /// <summary>obj_surface_reflection's depth 2: behind depth 0 and 1, over the backgrounds.</summary>
+        public int Depth = 2;
+
+        public SurfaceReflectionDefinition() { }
+
+        public SurfaceReflectionDefinition(bool enabled) => Enabled = enabled;
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidationHelpers.NonNegative(errors, path + ".Range", Range);
+            if (Alpha < 0f || Alpha > 1f) errors.Add($"{path}.Alpha: must be between 0 and 1 (was {Alpha}).");
+            ValidationHelpers.Positive(errors, path + ".SplashRateSteps", SplashRateSteps);
+            ValidationHelpers.NonNegative(errors, path + ".SplashBand", SplashBand);
+            ValidationHelpers.NonNegative(errors, path + ".SplashLead", SplashLead);
+            if (SplashSize < 0 || SplashSize > 2) errors.Add($"{path}.SplashSize: an effect size is 0, 1 or 2 (was {SplashSize}).");
+            if (!global::Unity.Hare.Rooms.StartupTuning.IsHexColor(SplashColor)) errors.Add($"{path}.SplashColor: must be #RRGGBB (was {SplashColor ?? "null"}).");
+        }
+    }
+
     /// <summary>A play room (room_gamescreen, room_sidescroll, room_shaft) as its .room.gmx defines it: background slots 0 and 1, view 0 and the minimap, view 1.</summary>
     [Serializable]
     public class ArenaRoomDefinition
@@ -95,6 +144,8 @@ namespace Unity.Hare.Arena
         public ArenaViewDefinition View = new ArenaViewDefinition();
         /// <summary>View 1, the minimap: a 3000x2000 look at the room drawn in a 300x200 port, shown while show_map is set.</summary>
         public ArenaViewDefinition Minimap = new ArenaViewDefinition();
+        /// <summary>The room's obj_surface_reflection (room_sidescroll only; U.HARE-T58).</summary>
+        public SurfaceReflectionDefinition Reflection = new SurfaceReflectionDefinition();
 
         public ArenaRoomDefinition() { }
 
@@ -117,6 +168,8 @@ namespace Unity.Hare.Arena
             else View.Validate(errors, path + ".View");
             if (Minimap == null) errors.Add(path + ".Minimap: must not be null.");
             else Minimap.Validate(errors, path + ".Minimap");
+            if (Reflection == null) errors.Add(path + ".Reflection: must not be null.");
+            else Reflection.Validate(errors, path + ".Reflection");
         }
     }
 
@@ -315,11 +368,13 @@ namespace Unity.Hare.Arena
                 new[] { new ArenaBackground("bg_nightsky", true, false, false, true), new ArenaBackground("", true, false, false, true) },
                 new ArenaViewDefinition(1920, 1080, 0, 0, 1920, 1080, 1920, 1080, 40, 40),
                 new ArenaViewDefinition(3000, 2000, 1600, 800, 300, 200, 1920, 1080, -1, -1)),
-            // room_sidescroll.room.gmx: bg_tropicalocean tiled across; both views follow with no speed limit, view 1 at (1300, 860).
+            // room_sidescroll.room.gmx: bg_tropicalocean tiled across; both views follow with no speed limit, view 1 at (1300, 860);
+            // its obj_surface_reflection puts the water line 250 px above the bottom (U.HARE-T58).
             new ArenaRoomDefinition(RoomId.SideScroll,
                 new[] { new ArenaBackground("bg_tropicalocean", true, true, false, false), new ArenaBackground("", true, false, false, false) },
                 new ArenaViewDefinition(1920, 1080, 0, 0, 1920, 1080, 1920, 1080, -1, -1),
-                new ArenaViewDefinition(3000, 2000, 1300, 860, 300, 200, 1920, 1080, -1, -1)),
+                new ArenaViewDefinition(3000, 2000, 1300, 860, 300, 200, 1920, 1080, -1, -1))
+            { Reflection = new SurfaceReflectionDefinition(true) },
             // room_shaft.room.gmx: bg_stormclouds tiled both ways.
             new ArenaRoomDefinition(RoomId.Shaft,
                 new[] { new ArenaBackground("bg_stormclouds", true, true, true, false), new ArenaBackground("", true, false, false, false) },
@@ -341,6 +396,9 @@ namespace Unity.Hare.Arena
         public int LevelStartOutline = 2;
         /// <summary>obj_game's Step: audio_play_sound(sfx_beep, 1, 0) for each of a time limit's last seconds (U.HARE-T57).</summary>
         public string TimeLimitBeepSound = "sfx_beep";
+
+        /// <summary>obj_moon_surface's numbers (U.HARE-T58; nothing in the original creates one).</summary>
+        public MoonSurfaceDefinition MoonSurface = new MoonSurfaceDefinition();
 
         /// <summary>globals.gml: stationary_percent = 50, what it is until a level script sets it.</summary>
         public int StartingStationaryPercent = 50;
@@ -562,6 +620,8 @@ namespace Unity.Hare.Arena
             if (GeneratorLevel == null) errors.Add(path + ".GeneratorLevel: must not be null.");
             else GeneratorLevel.Validate(errors, path + ".GeneratorLevel");
 
+            if (MoonSurface == null) errors.Add(path + ".MoonSurface: must not be null.");
+            else MoonSurface.Validate(errors, path + ".MoonSurface");
             if (StartingStationaryPercent < 0 || StartingStationaryPercent > 100)
                 errors.Add($"{path}.StartingStationaryPercent: must be 0-100 (was {StartingStationaryPercent}).");
             ValidateParts(errors, path + ".SettingParts", SettingParts, (p, e, at) => p.Validate(e, at));

@@ -69,6 +69,17 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) { ship.Flight.SetAimDirection(degrees); return true; }
     }
 
+    /// <summary>
+    /// obj_surface_reflection's floor (U.HARE-T58): the ship reached room_sidescroll's water line and skims along it,
+    /// direction and image_angle set to <c>direction</c> (0 or 180).
+    /// </summary>
+    public sealed class SkimSurface : PlayerCommand
+    {
+        readonly float direction;
+        public SkimSurface(PlayerId id, float direction) : base(id) => this.direction = direction;
+        internal override bool Apply(PlayerShip ship) { ship.Flight.SkimSurface(direction); return true; }
+    }
+
     /// <summary>GML player_boost.</summary>
     public sealed class Boost : PlayerCommand
     {

@@ -268,6 +268,19 @@ namespace Unity.Hare.Player
             else Send(new Fling(Id));
         }
 
+        /// <summary>
+        /// obj_surface_reflection's water line (U.HARE-T58): direction and image_angle set to <paramref name="direction"/>
+        /// (0 or 180); the ship turns and, in flight, flies on along it at once.
+        /// </summary>
+        public void SkimSurface(float direction)
+        {
+            Send(new SkimSurface(Id, direction));
+            var flight = Core.Flight;
+            transform.rotation = Quaternion.Euler(0f, 0f, flight.Facing);
+            if (body != null && flight.State == PlayerFlightState.Moving)
+                body.linearVelocity = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad)) * flight.Speed;
+        }
+
         /// <summary>GML: fling_player (the ship's rock broke or left the room, or obj_rocket hit it there).</summary>
         public bool Fling() => Send(new Fling(Id)).Accepted;
 
