@@ -381,8 +381,29 @@ namespace Unity.Hare.Tests.Core
             var all = defaults.Levels.Concat(new[] { defaults.DefaultLevel, defaults.GeneratorLevel }).ToList();
             var loaded = fromFile.Levels.Concat(new[] { fromFile.DefaultLevel, fromFile.GeneratorLevel }).ToList();
             CollectionAssert.AreEqual(
-                all.Select(l => (l.Level, l.Script, l.Name, l.Room, l.Background, l.Overlay, l.HSpeed, l.VSpeed, l.Tiled, l.LoopHorizontal, l.LoopVertical, l.RandomizeOnLoop)).ToList(),
-                loaded.Select(l => (l.Level, l.Script, l.Name, l.Room, l.Background, l.Overlay, l.HSpeed, l.VSpeed, l.Tiled, l.LoopHorizontal, l.LoopVertical, l.RandomizeOnLoop)).ToList());
+                all.Select(l => (l.Level, l.Script, l.Name, l.Room, l.Background, l.Overlay, l.HSpeed, l.VSpeed, l.Tiled, l.LoopHorizontal, l.LoopVertical, l.RandomizeOnLoop, l.StructureMin, l.StructureMax)).ToList(),
+                loaded.Select(l => (l.Level, l.Script, l.Name, l.Room, l.Background, l.Overlay, l.HSpeed, l.VSpeed, l.Tiled, l.LoopHorizontal, l.LoopVertical, l.RandomizeOnLoop, l.StructureMin, l.StructureMax)).ToList());
+        }
+
+        [Test]
+        public void EachLevelPlacesTheOriginalsStructures()
+        {
+            // U.HARE-T56: the level scripts' structure_min / structure_max (setup_level resets both to 0 first).
+            var tuning = ContentRegistry.Default.Arena;
+            var expected = new Dictionary<int, (int Min, int Max)> { [2] = (1, 3), [4] = (1, 3), [7] = (2, 4) };
+            for (int level = 1; level <= 10; level++)
+            {
+                var setting = tuning.SettingFor(level);
+                var range = expected.TryGetValue(level, out var r) ? r : (0, 0);
+                Assert.AreEqual(range, (setting.StructureMin, setting.StructureMax), setting.Script);
+            }
+            Assert.AreEqual((0, 0), (tuning.DefaultLevel.StructureMin, tuning.DefaultLevel.StructureMax), "level_default");
+            Assert.AreEqual((0, 0), (tuning.GeneratorLevel.StructureMin, tuning.GeneratorLevel.StructureMax), "level_enemygenerator");
+
+            var e = Assert.Throws<ContentValidationException>(() => ContentRegistry.FromJson(
+                "{ \"arena\": { \"Levels\": [ { \"Level\": 1, \"Script\": \"a\", \"StructureMin\": 3, \"StructureMax\": 1 }, { \"Level\": 2, \"Script\": \"b\", \"StructureMin\": -1, \"StructureMax\": 0 } ] } }"));
+            StringAssert.Contains("arena.Levels[0].StructureMax", e.Message);
+            StringAssert.Contains("arena.Levels[1].StructureMin", e.Message);
         }
 
         [Test]

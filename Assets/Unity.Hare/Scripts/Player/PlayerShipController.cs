@@ -237,6 +237,10 @@ namespace Unity.Hare.Player
             // par_rock's landing kicks up dirt (ef_firework, spawn_chips) 32 px along the image_angle it flew in at, from
             // where it touched, before normal_detect turns it and the move-out loop lifts it (U.HARE-T23).
             if (surface.Kind == SurfaceKind.Rock) Pickups.PickupDirector.KickUpDirt(contact, arrivalFacing);
+            // par_structure's landing kicks up only the grey ef_firework, 32 px along image_angle, and no chips (U.HARE-T56).
+            else Effects.GmlEffects.CreateAbove(Effects.GmlEffectKind.Firework,
+                Enemies.CoreConvert.ToVector2(Pickups.PickupDirector.Field.FeetOf(Enemies.CoreConvert.ToVec2(contact), arrivalFacing)),
+                0, Pickups.PickupDirector.Gray);
 
             Perch = surface;
             Place(at);

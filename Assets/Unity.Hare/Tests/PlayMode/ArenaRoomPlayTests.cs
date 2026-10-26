@@ -12,6 +12,7 @@ using Unity.Hare.Arena;
 using Unity.Hare.Flow;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
+using Unity.Hare.Structures;
 
 namespace Unity.Hare.Tests.PlayMode
 {
@@ -238,6 +239,46 @@ namespace Unity.Hare.Tests.PlayMode
             int scroll = arena.State.Layers[0].X;
             yield return new WaitForSecondsRealtime(0.2f);
             Assert.That(arena.State.Layers[0].X, Is.LessThan(scroll), "level_04: background_hspeed = -1");
+        }
+
+        [UnityTest]
+        public IEnumerator TheShaftPlacesItsStructuresAndTheShipLandsOnOne()
+        {
+            // U.HARE-T56: level_04's structure_min 1 / structure_max 3, each under its cover, none over the spawn point;
+            // setup_level again clears them before placing the next; a ship flown onto one perches there.
+            yield return Enter(RoomId.Shaft);
+            var arena = Arena();
+            Structure first = null;
+            for (int tries = 0; tries < 20 && first == null; tries++)
+            {
+                var placed = arena.Structures.Structures;
+                Assert.That(placed.Count, Is.InRange(0, 3), "irandom_range(1, 3), less any move_rocks cleared");
+                foreach (var s in placed)
+                {
+                    Assert.That(s.Cover, Is.Not.Null);
+                    Assert.That((Vector2)s.Cover.transform.position, Is.EqualTo(s.Position));
+                    var at = arena.ToRoom(s.Position);
+                    Assert.That(at.y < 800f && Mathf.Abs(at.x - arena.State.Width / 2f) <= 400f, Is.False, "move_rocks cleared the spawn point");
+                }
+                // One far enough down that the ship can be put above it without the shaft's vertical wrap.
+                first = placed.FirstOrDefault(s => arena.ToRoom(s.Position).y >= 400f);
+                if (first != null) break;
+                arena.Begin(4);
+            }
+            Assert.That(first, Is.Not.Null, "level_04 places a structure below y 400 in 20 setups");
+            Assert.That(UnityEngine.Object.FindObjectsByType<StructureCover>(FindObjectsSortMode.None).Length, Is.EqualTo(arena.Structures.Structures.Count));
+
+            var ship = arena.Player;
+            var above = arena.ToRoom(first.Position) - new Vector2(0f, 260f);
+            ship.ResetState(); // flying straight down, as reset_player sends it
+            Put(arena, above.x, above.y);
+            yield return WaitFor(() => ship.State == PlayerFlightState.Idle, "the ship perching on the structure");
+            Assert.That(ship.Perch, Is.SameAs(first), "current_structure");
+
+            var cover = first.Cover;
+            arena.Begin(4);
+            yield return null;
+            Assert.That(first == null && cover == null, Is.True, "setup_level: with(par_structure) and with(par_structure_cover) instance_destroy()");
         }
 
         [UnityTest]

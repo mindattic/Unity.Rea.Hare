@@ -12,6 +12,7 @@ using Unity.Hare.Player;
 using Unity.Hare.Rendering;
 using Unity.Hare.Rocks;
 using Unity.Hare.Session;
+using Unity.Hare.Structures;
 using Unity.Hare.UI;
 
 namespace Unity.Hare.Arena
@@ -66,6 +67,9 @@ namespace Unity.Hare.Arena
 
         /// <summary>The 1920x1080 GUI layer (obj_game's and the HUD objects' Draw GUI events draw here).</summary>
         public VisualElement Hud { get; private set; }
+
+        /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
+        public StructureField Structures { get; private set; }
 
         /// <summary>The ship the room follows (GML: player).</summary>
         public PlayerShipController Player { get; private set; }
@@ -123,6 +127,8 @@ namespace Unity.Hare.Arena
         /// Sets the room up for <paramref name="level"/> (the level script's setting half: its backgrounds, their speeds and
         /// its loops; setup_level's background_x/y = 0): the setting that level plays in this room, or the first level that
         /// plays here when it plays elsewhere. The level setup (U.HARE-T57) calls this as current_level changes.
+        /// setup_level's "Clear Objects" (<see cref="LevelReset"/>) runs first, then its structure pass places the level's
+        /// irandom_range(structure_min, structure_max) structures and clears the spawn point of them (U.HARE-T56).
         /// </summary>
         public void Begin(int level)
         {
@@ -136,7 +142,14 @@ namespace Unity.Hare.Arena
             }
             SpawnPoint.position = ToWorld(State.SpawnX, State.SpawnY);
             BuildLayers();
-            Pickups.PickupDirector.ClearPickups(); // setup_level: with(par_pickup) instance_destroy() (U.HARE-T23)
+            LevelReset.ClearObjects(); // setup_level's Clear Objects, with(par_pickup) among them (U.HARE-T23, U.HARE-T56)
+            if (Structures == null)
+            {
+                Structures = StructureField.CreateField();
+                Structures.transform.SetParent(transform, false);
+            }
+            Structures.SetRoom(new Rect(GameClock.Px(-State.Width / 2f), GameClock.Px(-State.Height / 2f), GameClock.Px(State.Width), GameClock.Px(State.Height)));
+            Structures.Setup(setting.StructureMin, setting.StructureMax);
             if (created) Play(State.Execute(new CreateArena(Seat)));
         }
 
@@ -257,17 +270,20 @@ namespace Unity.Hare.Arena
             if (body != null) body.position = world;
         }
 
-        /// <summary>random_positions: every rock, then every structure (none yet, U.HARE-T56), then every enemy.</summary>
+        /// <summary>random_positions: every rock, then every structure (its cover with it, U.HARE-T56), then every enemy.</summary>
         void RandomPositions()
         {
             var rocks = new List<Rock>();
             foreach (var rock in FindObjectsByType<Rock>(FindObjectsSortMode.InstanceID))
                 if (rock != null && !rock.IsGone) rocks.Add(rock);
+            var structures = new List<Structure>();
+            foreach (var structure in FindObjectsByType<Structure>(FindObjectsSortMode.InstanceID))
+                if (structure != null && !structure.IsGone) structures.Add(structure);
             var enemies = new List<int>();
             foreach (var body in EnemyDirector.World.Enemies)
                 if (body != null && !body.IsDead) enemies.Add(body.Id);
 
-            var result = State.Execute(new ScatterObjects(Seat, rocks.Count + enemies.Count));
+            var result = State.Execute(new ScatterObjects(Seat, rocks.Count + structures.Count + enemies.Count));
             foreach (var e in result.Events)
             {
                 if (e is PositionsScattered scattered)
@@ -282,7 +298,8 @@ namespace Unity.Hare.Arena
                             var body = rocks[i].GetComponent<Rigidbody2D>();
                             if (body != null) body.position = world;
                         }
-                        else EnemyDirector.Execute(new PlaceBody(enemies[i - rocks.Count], world.ToVec2()));
+                        else if (i < rocks.Count + structures.Count) structures[i - rocks.Count].MoveTo(world);
+                        else EnemyDirector.Execute(new PlaceBody(enemies[i - rocks.Count - structures.Count], world.ToVec2()));
                     }
                 }
                 EventPlayed?.Invoke(e);

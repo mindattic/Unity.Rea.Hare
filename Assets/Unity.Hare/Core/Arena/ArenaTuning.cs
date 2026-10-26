@@ -149,11 +149,19 @@ namespace Unity.Hare.Arena
         public bool LoopVertical;
         /// <summary>GML: randomize_on_loop: a wrap runs random_positions.</summary>
         public bool RandomizeOnLoop;
+        /// <summary>
+        /// GML: structure_min / structure_max (the script's "Surfaces" block, U.HARE-T56): setup_level places
+        /// irandom_range(structure_min, structure_max) par_structure, each with its par_structure_cover. 1-3 in level_02 and
+        /// level_04 (the shaft), 2-4 in level_07, none anywhere else.
+        /// </summary>
+        public int StructureMin;
+        public int StructureMax;
 
         public LevelSetting() { }
 
         public LevelSetting(int level, string script, string name, RoomId room, string background, string overlay = "",
-            int hspeed = 0, int vspeed = 0, bool tiled = false, bool loopHorizontal = false, bool loopVertical = false, bool randomizeOnLoop = false)
+            int hspeed = 0, int vspeed = 0, bool tiled = false, bool loopHorizontal = false, bool loopVertical = false, bool randomizeOnLoop = false,
+            int structureMin = 0, int structureMax = 0)
         {
             Level = level;
             Script = script;
@@ -167,11 +175,15 @@ namespace Unity.Hare.Arena
             LoopHorizontal = loopHorizontal;
             LoopVertical = loopVertical;
             RandomizeOnLoop = randomizeOnLoop;
+            StructureMin = structureMin;
+            StructureMax = structureMax;
         }
 
         internal void Validate(List<string> errors, string path)
         {
             ValidationHelpers.NonNegative(errors, path + ".Level", Level);
+            ValidationHelpers.NonNegative(errors, path + ".StructureMin", StructureMin);
+            if (StructureMax < StructureMin) errors.Add($"{path}.StructureMax: must be at least StructureMin ({StructureMin}) (was {StructureMax}).");
             ValidationHelpers.Required(errors, path + ".Script", Script);
             if (!Enum.IsDefined(typeof(RoomId), Room)) errors.Add($"{path}.Room: not a room (was {(int)Room}).");
         }
@@ -244,12 +256,13 @@ namespace Unity.Hare.Arena
         public LevelSetting[] Levels =
         {
             new LevelSetting(1, "level_01", "Hydras & Saws", RoomId.GameScreen, "bg_worldcurve"),
-            new LevelSetting(2, "level_02", "Meatballs & Phalanx", RoomId.GameScreen, "bg_moonview"),
+            new LevelSetting(2, "level_02", "Meatballs & Phalanx", RoomId.GameScreen, "bg_moonview", structureMin: 1, structureMax: 3),
             new LevelSetting(3, "level_03", "Sky Worms & Daggers", RoomId.GameScreen, "bg_uphigh"),
-            new LevelSetting(4, "level_04", "Storm Shaft", RoomId.Shaft, "bg_stormclouds", hspeed: -1, loopHorizontal: true, loopVertical: true),
+            new LevelSetting(4, "level_04", "Storm Shaft", RoomId.Shaft, "bg_stormclouds", hspeed: -1, loopHorizontal: true, loopVertical: true,
+                structureMin: 1, structureMax: 3),
             new LevelSetting(5, "level_05", "Tangerine Islands", RoomId.SideScroll, "bg_tropicalocean", loopHorizontal: true, randomizeOnLoop: true),
             new LevelSetting(6, "level_06", "Wraiths", RoomId.GameScreen, "bg_nightsky", tiled: true),
-            new LevelSetting(7, "level_07", "Trilobytes", RoomId.GameScreen, "bg_worldcurve"),
+            new LevelSetting(7, "level_07", "Trilobytes", RoomId.GameScreen, "bg_worldcurve", structureMin: 2, structureMax: 4),
             new LevelSetting(8, "level_08", "Scrap Mental", RoomId.GameScreen, "bg_worldcurve"),
             new LevelSetting(9, "level_09", "Time Out", RoomId.GameScreen, "bg_atmosphere"),
             new LevelSetting(10, "level_10", "Upper Eschelon", RoomId.GameScreen, "bg_atmosphere"),

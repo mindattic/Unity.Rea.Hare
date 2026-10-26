@@ -92,6 +92,26 @@ namespace Unity.Hare.Enemies
         }
 
         /// <summary>
+        /// setup_level's <c>with(par_enemy)</c> and <c>with(par_enemy_emitter) instance_destroy()</c> (U.HARE-T56): every
+        /// enemy, part, insect, vortex, emitter and enemy mine leaves, views and all, with no death, score or drop. The ships
+        /// it tracks stay tracked; the next enemies are dealt from a fresh world on the next seed.
+        /// </summary>
+        public static void ClearAll()
+        {
+            foreach (var view in new List<Object>(views.Values))
+            {
+                var go = view is Component c && c != null ? c.gameObject : view as GameObject;
+                if (go == null) continue;
+                if (Application.isPlaying) Object.Destroy(go); else Object.DestroyImmediate(go);
+            }
+            views.Clear();
+            if (world == null) return;
+            world = new EnemyWorld(new SeededRandom(unchecked(seed + ++clears)));
+        }
+
+        static int clears;
+
+        /// <summary>
         /// Each play session deals its own enemies unless a seed was pinned before it started (then it repeats,
         /// once): <see cref="Reset"/> below always clears the pin, so the session after this one rolls fresh again
         /// unless something pins a seed for it too.
