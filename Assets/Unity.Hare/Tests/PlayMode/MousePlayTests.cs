@@ -51,14 +51,7 @@ namespace Unity.Hare.Tests.PlayMode
             SystemCursor.Restore();
             SystemCursor.GetVisible = getVisible;
             SystemCursor.SetVisible = setVisible;
-            var empty = SceneManager.GetSceneByName("MousePlayTests.Empty");
-            if (!empty.IsValid()) empty = SceneManager.CreateScene("MousePlayTests.Empty");
-            SceneManager.SetActiveScene(empty);
-            for (int i = SceneManager.sceneCount - 1; i >= 0; i--)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                if (scene != empty) yield return SceneManager.UnloadSceneAsync(scene);
-            }
+            yield return PlayModeRooms.TearDown();
         }
 
         static IEnumerator WaitFor(Func<bool> condition, string what, float seconds = 5f)
