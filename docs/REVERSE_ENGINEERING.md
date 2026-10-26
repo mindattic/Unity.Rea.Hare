@@ -390,8 +390,8 @@ Read in full for U.HARE-T28 (the rules in BIBLE V41):
   (`current_conversation`); obj_destination sets `mode = "slidein"` on reaching a new mission and obj_map's A and D set
   `"slideout"`.
 - `obj_textdone` (spr_textdone 11x13, 4 frames, depth -1001): Create `image_xscale = image_yscale = 8; x =
-  view_wview - 90; y = view_hview - 90; image_speed = 0.1`, Draw GUI `draw_self()`. No object or script creates it, so
-  the rebuild does not draw it either.
+  view_wview - 90; y = view_hview - 90; image_speed = 0.1`, Draw GUI `draw_self()`. No object or script creates it; the rebuild
+  completes the intended feature and shows it once a typed line is finished (U.HARE-T87, BIBLE V41).
 - `obj_typewriter` (depth -20): Create `type_speed = 2`; Alarm 0 `if(output != text) { position += 1; output =
   string_copy(text,0,position); } if(fadeout) { alpha -= 0.01; if(alpha <= 0) instance_destroy(); } alarm[0] =
   type_speed`; Draw GUI fnt_point, outline 1. Only commented-out code makes one (obj_intro at 20, room_height - 450;

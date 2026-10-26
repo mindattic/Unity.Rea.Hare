@@ -52,6 +52,9 @@ namespace Unity.Hare.Story
         /// <summary>obj_typewriter_story's text as drawn.</summary>
         public VisualElement TypewriterText { get; private set; }
 
+        /// <summary>obj_textdone, in the corner once the introduction is typed out.</summary>
+        public TextDoneView TextDone { get; private set; }
+
         /// <summary>Every event the screen raised, after it was played.</summary>
         public event Action<StoryEvent> EventPlayed;
 
@@ -157,6 +160,7 @@ namespace Unity.Hare.Story
                 drawn = text;
                 HareUi.SetOutlineText(TypewriterText, text);
             }
+            TextDone?.Present();
         }
 
         /// <summary>The room pixel the sky's tile starts on (tests).</summary>
@@ -210,6 +214,10 @@ namespace Unity.Hare.Story
             TypewriterText.style.left = t.X;
             TypewriterText.style.top = t.Y;
             TypewriterText.style.unityTextAlign = TextAnchor.UpperLeft;
+
+            // obj_textdone (depth -1001): the corner marker a finished introduction blinks.
+            TextDone = new TextDoneView(State.TextDone, room.Width, room.Height);
+            Stage.Add(TextDone);
         }
 
         /// <summary>The room's object, as ProjectSetup puts it in the story scene.</summary>

@@ -556,6 +556,10 @@
       },
       "MapScript": "conversation.map"
     },
+    "TextDone": {
+      "Sprite": "spr_textdone", "Frames": 4, "Width": 11, "Height": 13, "Scale": 8,
+      "MarginRight": 90, "MarginBottom": 90, "ImageSpeed": 0.1, "Depth": -1001
+    },
     "PlainTypewriter": {
       "Object": "obj_typewriter", "X": 20, "Y": 630, "TypeSpeedSteps": 2, "PauseDelaySteps": 0, "Pauses": false,
       "Sound": "", "SilentChars": "", "Outline": 1, "FadeStep": 0.01

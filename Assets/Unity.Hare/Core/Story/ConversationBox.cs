@@ -85,18 +85,20 @@ namespace Unity.Hare.Story
     /// the text. A key press (vk_anykey) or the global left press, once the line is out and it is idle, run next_line
     /// (<see cref="NextLine"/>). GameMaker runs an instance's alarms before its Step, and so does <see cref="Step"/>.
     ///
-    /// obj_textdone (spr_textdone at 8x, bottom right) is never created in the original: next_line only destroys it.
-    /// The rebuild matches that and draws no marker (BIBLE V41).
+    /// obj_textdone (spr_textdone at 8x, bottom right of the view) is the marker <see cref="TextDone"/> shows while the
+    /// finished line waits for a key; next_line destroys it (U.HARE-T87, BIBLE V41: the original never creates it, an
+    /// intended feature completed).
     /// </summary>
     public sealed class ConversationBox
     {
         bool firstPass = true;
 
-        public ConversationBox(ConversationDefinition definition, string speaker, string text, int viewWidth, int viewHeight)
+        public ConversationBox(ConversationDefinition definition, string speaker, string text, int viewWidth, int viewHeight, TextDoneDefinition textDone = null)
         {
             Definition = definition ?? throw new ArgumentNullException(nameof(definition));
             Speaker = speaker ?? "";
             Typewriter = new Typewriter(definition.Typewriter, text ?? "");
+            TextDone = new TextDoneMarker(textDone ?? new TextDoneDefinition());
             ViewWidth = viewWidth;
             ViewHeight = viewHeight;
             StartY = viewHeight;
@@ -111,6 +113,9 @@ namespace Unity.Hare.Story
 
         /// <summary>The line's typing (GML: text, output, position, print_complete, alarm[0]).</summary>
         public Typewriter Typewriter { get; }
+
+        /// <summary>obj_textdone, shown while the line is typed out and the box idles.</summary>
+        public TextDoneMarker TextDone { get; }
 
         public int ViewWidth { get; }
         public int ViewHeight { get; }
@@ -194,6 +199,7 @@ namespace Unity.Hare.Story
                     break;
             }
 
+            TextDone.Step(PrintComplete && Mode == ConversationMode.Idle);
             return (IReadOnlyList<string>)sounds ?? Array.Empty<string>();
         }
 
@@ -208,6 +214,7 @@ namespace Unity.Hare.Story
             if (!PrintComplete || Mode != ConversationMode.Idle) return Array.Empty<string>();
             Mode = ConversationMode.SlideOut;
             firstPass = true;
+            TextDone.Destroy();
             var d = Definition;
             return new[] { d.SlideSound, Speaker == d.BarkSpeaker ? d.BarkSound : d.SlideSound };
         }

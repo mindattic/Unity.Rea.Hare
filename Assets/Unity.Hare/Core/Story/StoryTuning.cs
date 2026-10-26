@@ -53,8 +53,10 @@ namespace Unity.Hare.Story
         public string Background = "bg_nightsky";
         /// <summary>obj_story's key press and obj_scroll_world's end: <c>next_room = room_map</c> through obj_fade_story.</summary>
         public RoomId ExitRoom = RoomId.Map;
-        /// <summary>obj_conversation and obj_textdone.</summary>
+        /// <summary>obj_conversation.</summary>
         public ConversationDefinition Conversation = new ConversationDefinition();
+        /// <summary>obj_textdone, the blinking marker a finished line shows in the story's and the comm box's corner.</summary>
+        public TextDoneDefinition TextDone = new TextDoneDefinition();
         /// <summary>obj_typewriter, which only commented-out code (obj_intro, obj_drop_intro) makes.</summary>
         public TypewriterDefinition PlainTypewriter = TypewriterDefinition.Plain();
         /// <summary>load_scenario's switch: scenario 1 plays level_01..05, 2, 3 and 4 play level_06..10.</summary>
@@ -98,6 +100,8 @@ namespace Unity.Hare.Story
             if (!Enum.IsDefined(typeof(RoomId), ExitRoom)) errors.Add($"{path}.ExitRoom: not a room (was {(int)ExitRoom}).");
             if (Conversation == null) errors.Add(path + ".Conversation: must not be null.");
             else Conversation.Validate(errors, path + ".Conversation");
+            if (TextDone == null) errors.Add(path + ".TextDone: must not be null.");
+            else TextDone.Validate(errors, path + ".TextDone");
             if (PlainTypewriter == null) errors.Add(path + ".PlainTypewriter: must not be null.");
             else PlainTypewriter.Validate(errors, path + ".PlainTypewriter");
             if (Scenarios == null) errors.Add(path + ".Scenarios: must not be null.");

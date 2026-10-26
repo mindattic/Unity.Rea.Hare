@@ -151,7 +151,7 @@ namespace Unity.Hare.Tests.PlayMode
             story.enabled = false; // the room's own any-key would fade to room_map; this test is about the box alone
             var content = GameContent.Current;
             string script = content.Story.Conversation.MapScript;
-            var box = new ConversationBox(content.Story.Conversation, content.Dialogue.Speaker(script), content.Dialogue.Script(script), 1920, 1080);
+            var box = new ConversationBox(content.Story.Conversation, content.Dialogue.Speaker(script), content.Dialogue.Script(script), 1920, 1080, content.Story.TextDone);
             var view = ConversationView.Show(story.Stage, box, 60);
             var sounds = new List<string>();
             view.SoundPlayed += sounds.Add;
@@ -166,6 +166,8 @@ namespace Unity.Hare.Tests.PlayMode
             yield return WaitFor(() => box.PrintComplete, "Admiral Zee's line", 8f);
             Assert.That(Drawn(view.TextElement), Is.EqualTo("We need your help, Hutch!\nThe planet is in peril!\nAlien invaders have broken through the blockade!"));
             Assert.That(sounds, Does.Contain("sfx_type"));
+            yield return null;
+            Assert.That(view.TextDone.style.display.value, Is.EqualTo(DisplayStyle.Flex), "obj_textdone marks the finished line (U.HARE-T87)");
 
             if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null)
                 yield return TitleRoomPlayTests.Render(story, 1920, 1080, "conversation.png", (world, ui) =>
@@ -179,6 +181,7 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(sounds.GetRange(0, 2), Is.EqualTo(new[] { "sfx_flick", "sfx_woof" }), "next_line");
             yield return WaitFor(() => box.Mode == ConversationMode.Off, "the slide out");
             Assert.That(box.Y, Is.EqualTo(1080d));
+            Assert.That(view.TextDone.style.display.value, Is.EqualTo(DisplayStyle.None), "next_line destroyed obj_textdone");
             Assert.That(Drawn(view.TextElement), Is.EqualTo(""), "the text reset");
         }
     }

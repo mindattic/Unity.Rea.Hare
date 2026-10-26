@@ -199,7 +199,7 @@ namespace Unity.Hare.Tests.Core
         static ConversationBox Conversation(string speaker = "Admiral Zee", string text = null)
         {
             var c = Content;
-            return new ConversationBox(c.Story.Conversation, speaker, text ?? c.Dialogue.Script("conversation.map"), 1920, 1080);
+            return new ConversationBox(c.Story.Conversation, speaker, text ?? c.Dialogue.Script("conversation.map"), 1920, 1080, c.Story.TextDone);
         }
 
         static List<string> Steps(ConversationBox box, int steps)
@@ -270,6 +270,37 @@ namespace Unity.Hare.Tests.Core
             box.SlideIn();
             while (!box.PrintComplete) box.Step();
             CollectionAssert.AreEqual(new[] { "sfx_flick", "sfx_flick" }, box.NextLine());
+        }
+
+        [Test]
+        public void TheTextDoneMarkerBlinksInTheCornerOnceTheLineIsOutUntilNextLine()
+        {
+            var box = Conversation();
+            Assert.IsFalse(box.TextDone.Visible);
+            box.SlideIn();
+            while (!box.PrintComplete) { Assert.IsFalse(box.TextDone.Visible, "not while typing"); box.Step(); }
+            Assert.IsTrue(box.TextDone.Visible, "print_complete and idle makes obj_textdone");
+            Assert.AreEqual((1830d, 990d), (box.TextDone.X(1920), box.TextDone.Y(1080)), "view_wview - 90, view_hview - 90");
+            Assert.AreEqual(0, box.TextDone.Frame);
+            Steps(box, 11);
+            Assert.AreEqual(1, box.TextDone.Frame, "image_speed = 0.1: a frame every ten steps");
+            Steps(box, 30);
+            Assert.AreEqual(0, box.TextDone.Frame, "four frames, then round again");
+            box.NextLine();
+            Assert.IsFalse(box.TextDone.Visible, "next_line: with(obj_textdone) instance_destroy()");
+            Steps(box, 5);
+            Assert.IsFalse(box.TextDone.Visible);
+        }
+
+        [Test]
+        public void TheStoryShowsTheTextDoneMarkerOnceTheIntroductionIsTyped()
+        {
+            var c = Content;
+            var screen = new StoryScreen(c.Story, "ab", 1920, 1080);
+            screen.Execute(new CreateStory(P1));
+            for (int i = 0; i < 6; i++) screen.Execute(new StepStory(P1));
+            Assert.IsTrue(screen.Typewriter.PrintComplete);
+            Assert.IsTrue(screen.TextDone.Visible);
         }
 
         [Test]

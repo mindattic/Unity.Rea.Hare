@@ -32,6 +32,7 @@ namespace Unity.Hare.Story
             RoomWidth = roomWidth;
             RoomHeight = roomHeight;
             Typewriter = new Typewriter(tuning.Typewriter, text ?? "");
+            TextDone = new TextDoneMarker(tuning.TextDone ?? new TextDoneDefinition());
         }
 
         public StoryTuning Tuning { get; }
@@ -40,6 +41,9 @@ namespace Unity.Hare.Story
 
         /// <summary>obj_typewriter_story.</summary>
         public Typewriter Typewriter { get; }
+
+        /// <summary>obj_textdone, shown once the introduction is typed out (U.HARE-T87).</summary>
+        public TextDoneMarker TextDone { get; }
 
         /// <summary>obj_scroll_world's x, y (spr_earthball's origin) and image_angle.</summary>
         public double EarthX { get; private set; }
@@ -116,6 +120,7 @@ namespace Unity.Hare.Story
             var typed = Typewriter.Step();
             if (typed.Sound != null) Emit(new StoryTypeSounded { Sound = typed.Sound });
 
+            TextDone.Step(Typewriter.PrintComplete);
             EarthAngle = NormalizeAngle(EarthAngle - Tuning.AutoSpeed);
             return true;
         }

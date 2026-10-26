@@ -28,6 +28,7 @@ namespace Unity.Hare.Story
         readonly float stepsPerSecond;
         readonly VisualElement text;
         readonly VisualElement speaker;
+        readonly TextDoneView textDone;
         InputAction anyKey, leftPress;
         double pending;
         string drawn;
@@ -66,6 +67,10 @@ namespace Unity.Hare.Story
             text.style.top = (float)(box.TextY - box.Y);
             text.style.unityTextAlign = TextAnchor.UpperLeft;
 
+            // obj_textdone (depth -1001, above the box): the view's corner, so placed against the box's moving top.
+            textDone = new TextDoneView(box.TextDone, box.ViewWidth, box.ViewHeight);
+            Add(textDone);
+
             RegisterCallback<AttachToPanelEvent>(_ => EnableKeys());
             RegisterCallback<DetachFromPanelEvent>(_ => DisableKeys());
             Present();
@@ -80,6 +85,9 @@ namespace Unity.Hare.Story
 
         /// <summary>The speaker's name as drawn.</summary>
         public VisualElement SpeakerElement => speaker;
+
+        /// <summary>obj_textdone as drawn.</summary>
+        public TextDoneView TextDone => textDone;
 
         /// <summary>Every sound the box played, in order, for whoever watches.</summary>
         public event Action<string> SoundPlayed;
@@ -130,6 +138,7 @@ namespace Unity.Hare.Story
         void Present()
         {
             style.top = (float)box.Y;
+            textDone.Present(box.Y);
             style.display = box.Mode == ConversationMode.Off && box.Y >= box.StartY ? DisplayStyle.None : DisplayStyle.Flex;
             string now = box.Typewriter.DrawText;
             if (now != drawn)
