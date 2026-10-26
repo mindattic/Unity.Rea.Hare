@@ -10,6 +10,7 @@ using Unity.Hare.Flow;
 using Unity.Hare.Input;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
+using Unity.Hare.Rooms;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Tests.EditMode
@@ -72,6 +73,24 @@ namespace Unity.Hare.Tests.EditMode
                 }
                 else Assert.That(ships, Is.Empty, room + ": no ship outside the play rooms");
             }
+        }
+
+        [Test]
+        public void TheStartupSceneHoldsObjStartup_AndNoOtherRoomDoes()
+        {
+            foreach (var room in RoomList.All)
+            {
+                var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
+                var startups = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<StartupRoom>(true)).ToList();
+                if (room == RoomId.Startup)
+                {
+                    Assert.That(startups.Count, Is.EqualTo(1), "startup.room.gmx places one obj_startup");
+                    Assert.That(startups[0].name, Is.EqualTo(StartupRoom.ObjectName));
+                    Assert.That(startups[0].transform.childCount, Is.EqualTo(0), "it builds its backgrounds and note itself, at runtime");
+                }
+                else Assert.That(startups, Is.Empty, room + ": obj_startup is startup's alone");
+            }
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Startup), Is.EqualTo(typeof(StartupRoom)));
         }
     }
 

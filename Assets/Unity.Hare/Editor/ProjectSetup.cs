@@ -8,6 +8,7 @@ using Unity.Hare.EditorTools.Rendering;
 using Unity.Hare.Flow;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
+using Unity.Hare.Rooms;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.EditorTools
@@ -44,13 +45,26 @@ namespace Unity.Hare.EditorTools
         /// <summary>The rooms obj_player is placed in, whose controller is obj_game.</summary>
         public static bool IsPlayRoom(RoomId room) => room == RoomId.GameScreen || room == RoomId.SideScroll || room == RoomId.Shaft;
 
-        /// <summary>Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing.</summary>
+        /// <summary>
+        /// The object that runs <paramref name="room"/>, as its own ticket builds it (obj_startup in startup,
+        /// U.HARE-T51); null for a room whose controller is not built yet.
+        /// </summary>
+        public static System.Type RoomControllerType(RoomId room) => room == RoomId.Startup ? typeof(StartupRoom) : null;
+
+        /// <summary>
+        /// Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing (a room
+        /// scene also when it lacks the controller its room now has, so a ticket that builds one gets its scene rewritten).
+        /// </summary>
         public static void SetUpAll()
         {
             SetUpRendering();
             SetUpProjectSettings();
             foreach (var room in RoomList.All)
-                if (!File.Exists(RoomScenePath(room))) RebuildRoomScene(room);
+            {
+                var controller = RoomControllerType(room);
+                if (!File.Exists(RoomScenePath(room)) || (controller != null && !SceneHasScript(RoomScenePath(room), controller)))
+                    RebuildRoomScene(room);
+            }
             if (!IsBootstrap(ScenePath)) RebuildMainScene();
             EnsureBuildSettings();
             AssetDatabase.SaveAssets();
@@ -124,7 +138,8 @@ namespace Unity.Hare.EditorTools
         /// <summary>
         /// One room's scene: the 2D camera rig (letterboxed to the reference resolution, carrying the screen overlay
         /// the room's obj_fade_* draws on) and a global 2D light; the play rooms also get room_gamescreen's night-sky
-        /// backdrop and obj_player. What else each room holds (its controller, menus, emitters) is its own ticket's.
+        /// backdrop and obj_player, and startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and
+        /// note itself). What else each room holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
         {
@@ -134,6 +149,7 @@ namespace Unity.Hare.EditorTools
             bool play = IsPlayRoom(room);
             AddCameraAndLight(play ? Backdrop : Color.black);
             if (play) AddPlayerShip();
+            if (room == RoomId.Startup) StartupRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);
         }
@@ -157,10 +173,13 @@ namespace Unity.Hare.EditorTools
         }
 
         /// <summary>Whether the scene at <paramref name="path"/> exists and is the bootstrap (it holds the room flow's director).</summary>
-        static bool IsBootstrap(string path)
+        static bool IsBootstrap(string path) => SceneHasScript(path, typeof(RoomFlowDirector));
+
+        /// <summary>Whether the scene at <paramref name="path"/> exists and holds a <paramref name="type"/> component.</summary>
+        static bool SceneHasScript(string path, System.Type type)
         {
             if (!File.Exists(path)) return false;
-            var script = MonoScriptFor(typeof(RoomFlowDirector));
+            var script = MonoScriptFor(type);
             if (script == null) return false;
             string guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(script));
             return File.ReadAllText(path).Contains("guid: " + guid);

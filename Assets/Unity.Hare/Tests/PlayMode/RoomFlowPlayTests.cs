@@ -74,15 +74,14 @@ namespace Unity.Hare.Tests.PlayMode
             director.GetFullscreen = () => fullscreen;
             director.SetFullscreen = value => fullscreen = value;
 
-            // startup: no F1 or Esc event.
+            // startup: no F1 or Esc event of its own; F1 is just one of obj_startup's any keys (U.HARE-T51), which go to
+            // the title without the title's F1 answering the same press.
             yield return Tap(keyboard.f1Key);
-            yield return Tap(keyboard.escapeKey);
             Assert.That(fullscreen, Is.False);
-            Assert.That(director.Flow.Current, Is.EqualTo(RoomId.Startup));
 
             // room_title comes up from black (obj_fade_title) and fades out to clear.
-            director.Execute(new GoToRoom(RoomFlowDirector.Seat, RoomId.Title));
             yield return WaitFor(() => SceneManager.GetActiveScene().name == "room_title", "room_title to load");
+            Assert.That(director.Flow.Current, Is.EqualTo(RoomId.Title));
             yield return null;
             Assert.That(Overlay().Color.a, Is.GreaterThan(0.8f), "the new room starts black");
             float started = Time.realtimeSinceStartup;

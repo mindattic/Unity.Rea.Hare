@@ -35,6 +35,7 @@ namespace Unity.Hare.Flow
         string pendingScene;
         double stepAccumulator;
         bool warnedLevelAdvance;
+        int roomChangedFrame = -1;
 
         /// <summary>The director the game is running under; null outside the local game.</summary>
         public static RoomFlowDirector Active { get; private set; }
@@ -47,6 +48,12 @@ namespace Unity.Hare.Flow
 
         /// <summary>Every event the flow raises, after the director has played it.</summary>
         public event Action<FlowEvent> EventPlayed;
+
+        /// <summary>
+        /// One step of the current room at its room_speed, after the flow's own (the obj_fade_* Step): a room's own
+        /// objects (obj_startup, U.HARE-T51) step their Core state on this clock, so a room runs one clock.
+        /// </summary>
+        public event Action<RoomId> RoomStepped;
 
         /// <summary>
         /// obj_fade_game reached black: <c>current_level += 1; setup_level();</c>. The level setup (U.HARE-T57)
@@ -108,8 +115,14 @@ namespace Unity.Hare.Flow
         {
             if (!InRoom || Flow.Current == null) return;
 
-            if (controls.Meta.Menu.WasPressedThisFrame()) Execute(new PressEscape(LocalSeat));
-            if (controls.Meta.Fullscreen.WasPressedThisFrame()) Execute(new PressFullscreen(LocalSeat));
+            // A key press belongs to the room it was pressed in: when a room's own object already left on it this
+            // frame (obj_startup's any key, F1 among them), the next room does not answer it too, as room_goto only
+            // takes effect once GameMaker's step is over.
+            if (Time.frameCount != roomChangedFrame)
+            {
+                if (controls.Meta.Menu.WasPressedThisFrame()) Execute(new PressEscape(LocalSeat));
+                if (controls.Meta.Fullscreen.WasPressedThisFrame()) Execute(new PressFullscreen(LocalSeat));
+            }
             StepFor(Time.unscaledDeltaTime);
         }
 
@@ -128,7 +141,10 @@ namespace Unity.Hare.Flow
 
             var room = Flow.Current;
             for (int i = 0; i < steps && Flow.Current == room; i++)
+            {
                 Execute(new StepRoom(LocalSeat));
+                if (Flow.Current == room) RoomStepped?.Invoke(room.Value);
+            }
         }
 
         void LateUpdate()
@@ -143,6 +159,7 @@ namespace Unity.Hare.Flow
             {
                 case RoomChanged changed:
                     stepAccumulator = 0d;
+                    roomChangedFrame = Time.frameCount;
                     pendingScene = RoomList.GmlName(changed.To);
                     InRoom = true;
                     LoadRoomScene(pendingScene);

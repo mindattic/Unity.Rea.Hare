@@ -97,5 +97,25 @@
     "EscapeRoom": "Title",
     "StartingNextRoom": "GameScreen",
     "MaxStepsPerFrame": 4
+  },
+  "startup": {
+    "Backgrounds": [
+      { "Name": "bg_circuitboard3", "HSpeed": 1, "VSpeed": -1, "Drifts": true },
+      { "Name": "bg_circuitboard2", "HSpeed": 1, "VSpeed": 1, "Drifts": true },
+      { "Name": "bg_circuitboard", "HSpeed": -2, "VSpeed": 1, "Drifts": true },
+      { "Name": "bg_semiopaque80", "HSpeed": 0, "VSpeed": 0, "Drifts": false },
+      { "Name": "bg_rabbit_schematic_transparent", "HSpeed": 0, "VSpeed": 0, "Drifts": false }
+    ],
+    "ShiftMinSeconds": 1,
+    "ShiftMaxSeconds": 12,
+    "DriftSpeedMin": -2,
+    "DriftSpeedMax": 2,
+    "Note": "Note: If application is running slowly and you have a wireless Xbox 360 controller plugged in, try turning the controller on.\nThis is a known issue with the development software.",
+    "NoteBottomMargin": 60,
+    "NoteOutline": 2,
+    "NoteColor": "#FF0000",
+    "NoteOutlineColor": "#000000",
+    "FullscreenOnEntry": true,
+    "ContinueRoom": "Title"
   }
 }
