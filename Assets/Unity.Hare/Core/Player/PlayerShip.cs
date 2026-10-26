@@ -35,6 +35,9 @@ namespace Unity.Hare.Player
 
         internal EventSink Sink { get; }
 
+        /// <summary>The GML sprite the ship draws now (sprite_index): its pose, hurt or not (<see cref="ShipPose"/>).</summary>
+        public string Pose => ShipPose.SpriteFor(Flight.State, Flight.IsCrouching, Flight.IsShielding, Health.IsHurting);
+
         /// <summary>
         /// GML set_ammo_cost as player_leap, fling_player and the landing collisions call it: reads the ship's
         /// equipped weapons (ground_weapon, ground_weapon_secondary, air_weapon, air_weapon_secondary) and applies

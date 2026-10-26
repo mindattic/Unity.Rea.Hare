@@ -157,6 +157,19 @@ namespace Unity.Hare.Session
             return false;
         }
 
+        /// <summary>
+        /// A ship spending a life through its <see cref="SessionLives"/>: player_hurt's death, or the out-of-bounds rule
+        /// once it has checked there is one to spend. <c>LIVES -= 1</c>, never below 0 (docs/BIBLE.md D14); the ship
+        /// decides reset_player or game_restart itself. False when there was none to take.
+        /// </summary>
+        internal bool SpendLife()
+        {
+            if (Lives <= 0) return false;
+            Lives--;
+            Emit(new LifeLost { Lives = Lives });
+            return true;
+        }
+
         /// <summary>obj_coin's collision with the player.</summary>
         internal void CollectCoin(int value)
         {

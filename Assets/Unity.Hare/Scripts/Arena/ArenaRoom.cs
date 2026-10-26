@@ -11,6 +11,7 @@ using Unity.Hare.Input;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
 using Unity.Hare.Rocks;
+using Unity.Hare.Session;
 using Unity.Hare.UI;
 
 namespace Unity.Hare.Arena
@@ -25,8 +26,9 @@ namespace Unity.Hare.Arena
     /// Every room step (the room flow's clock, <see cref="RoomFlowDirector.RoomStepped"/> at room_speed 120; its own when
     /// the room runs without the flow) it sends the arena, in GameMaker's order, obj_player's boundary check, the views'
     /// follow and the backgrounds' scroll, and plays what comes back: a wrap moves the ship (and, with randomize_on_loop,
-    /// random_positions scatters the rocks and enemies), the buffer zone costs a life through the ship's own
-    /// <see cref="PlayerHealth.LoseLifeOutOfBounds"/> (reset_player flies it back in from <see cref="SpawnPoint"/>). The M
+    /// random_positions scatters the rocks and enemies), the buffer zone costs a life through the ship's
+    /// <see cref="PlayerHealth.LoseLifeOutOfBounds"/>, from the session's LIVES under the room flow (reset_player flies it
+    /// back in from <see cref="SpawnPoint"/>; with none left the flow runs game_restart). The M
     /// key (HareControls' Meta/Map) toggles the minimap. Each frame the room camera is put on view 0, the minimap camera on
     /// view 1, and the layers where the arena has scrolled them. It decides no rule itself.
     /// </summary>
@@ -45,6 +47,7 @@ namespace Unity.Hare.Arena
         double stepAccumulator;
         RoomDefinition roomDefinition;
         ContentRegistry content;
+        PlayerHealth health;
 
         /// <summary>The room's rules and state.</summary>
         public ArenaWorld State { get; private set; }
@@ -106,6 +109,7 @@ namespace Unity.Hare.Arena
         void OnDestroy()
         {
             if (director != null) director.RoomStepped -= OnRoomStepped;
+            DetachHealth();
             if (controls != null)
             {
                 controls.Meta.Map.Disable();
@@ -135,15 +139,44 @@ namespace Unity.Hare.Arena
             if (created) Play(State.Execute(new CreateArena(Seat)));
         }
 
-        /// <summary>Follows <paramref name="ship"/> from now on and has reset_player fly it in from <see cref="SpawnPoint"/>.</summary>
+        /// <summary>
+        /// Follows <paramref name="ship"/> from now on and plays its death and respawn (U.HARE-T54): reset_player flies it
+        /// in from <see cref="SpawnPoint"/>; under the room flow its LIVES are the session's (<see cref="SessionLives"/>,
+        /// so a death and a flight out of the arena spend the same LIVES) and game over is the flow's game_restart; a hit
+        /// puts obj_losthealth on the HUD where the lost pip was.
+        /// </summary>
         public void AttachPlayer(PlayerShipController ship)
         {
+            DetachHealth();
             Player = ship;
             if (ship == null) return;
             ship.InViewCheck = InView; // par_rock's landing needs in_view(other.x, other.y) (U.HARE-T53)
-            var health = ship.GetComponent<PlayerHealth>();
-            if (health != null) health.RespawnPoint = SpawnPoint;
+            health = ship.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.RespawnPoint = SpawnPoint;
+                health.Damaged += OnPlayerDamaged;
+                var flow = director != null ? director : RoomFlowDirector.Active;
+                if (flow != null)
+                {
+                    health.UseLives(new SessionLives(() => flow.Session, Seat, flow.PlaySession));
+                    health.GameRestart = flow.RestartGame;
+                }
+            }
             if (Arrows == null) Arrows = PlayerArrows.Create(this);
+        }
+
+        void DetachHealth()
+        {
+            if (health == null) return;
+            health.Damaged -= OnPlayerDamaged;
+            health = null;
+        }
+
+        /// <summary>player_hurt's obj_losthealth at <c>column2 + HP * width</c> on the GUI layer.</summary>
+        void OnPlayerDamaged(int healthLeft)
+        {
+            if (Hud != null) LostHealthView.Show(Hud, new LostHealthPip(healthLeft, content.Arena.HudHeight, content.Health));
         }
 
         void Update()

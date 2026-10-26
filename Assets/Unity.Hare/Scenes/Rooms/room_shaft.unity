@@ -439,7 +439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Player.PlayerHealth
   respawnPoint: {fileID: 0}
-  flashCycleSeconds: 0.025
   reloadSceneOnGameOver: 1
 --- !u!114 &241948975
 MonoBehaviour:

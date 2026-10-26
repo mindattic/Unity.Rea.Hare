@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Unity.Hare.Content;
 using Unity.Hare.Input;
 using Unity.Hare.Rendering;
+using Unity.Hare.Session;
 
 namespace Unity.Hare.Flow
 {
@@ -43,6 +44,18 @@ namespace Unity.Hare.Flow
         /// <summary>The flow this director plays.</summary>
         public RoomFlow Flow { get; private set; }
 
+        /// <summary>
+        /// globals.gml's state for this game (LIVES, COINS, the score...): the one session the local game's authority
+        /// holds, kept across room loads with the flow. <see cref="RestartGame"/> replaces it (game_restart).
+        /// </summary>
+        public GameSession Session { get; private set; }
+
+        /// <summary>Every event the session raises through <see cref="ExecuteSession"/> or <see cref="PlaySession"/>.</summary>
+        public event Action<SessionEvent> SessionEventPlayed;
+
+        /// <summary>game_restart ran: a new <see cref="Session"/> and the game back at the table's first room.</summary>
+        public event Action GameRestarted;
+
         /// <summary>False while a scene that is not a room (the online scene) is loaded.</summary>
         public bool InRoom { get; private set; }
 
@@ -78,6 +91,7 @@ namespace Unity.Hare.Flow
             Active = this;
             DontDestroyOnLoad(gameObject);
             Flow = new RoomFlow(GameContent.Current);
+            Session = new GameSession(GameContent.Current);
             controls = new HareControls();
             controls.Meta.Menu.Enable();
             controls.Meta.Fullscreen.Enable();
@@ -106,6 +120,33 @@ namespace Unity.Hare.Flow
             var result = Flow.Execute(command);
             foreach (var e in result.Events) Play(e);
             return result;
+        }
+
+        /// <summary>Runs <paramref name="command"/> on the session and plays every event it raised.</summary>
+        public SessionResult ExecuteSession(SessionCommand command)
+        {
+            var result = Session.Execute(command);
+            PlaySession(result);
+            return result;
+        }
+
+        /// <summary>Plays what a session command run elsewhere (a ship spending a life) raised.</summary>
+        public void PlaySession(SessionResult result)
+        {
+            if (result.Events == null) return;
+            foreach (var e in result.Events) SessionEventPlayed?.Invoke(e);
+        }
+
+        /// <summary>
+        /// GML game_restart: the game starts over as if just launched. globals.gml runs again (a new
+        /// <see cref="GameSession"/>, every global back at its start) and the game goes to the table's first room.
+        /// </summary>
+        public void RestartGame()
+        {
+            Session = new GameSession(GameContent.Current);
+            SessionEventPlayed?.Invoke(new SessionReset());
+            GameRestarted?.Invoke();
+            Execute(new GoToRoom(LocalSeat, Flow.Table.FirstRoom));
         }
 
         /// <summary>A command for the local seat: <c>Execute(new FadeToRoom(Seat, ...))</c>.</summary>

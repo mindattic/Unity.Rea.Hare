@@ -88,10 +88,39 @@ namespace Unity.Hare.Player
 
         /// <summary>reset_player flies the ship back in heading down, give or take the jitter.</summary>
         public float RespawnDirection = 270f;
-        public float RespawnDirectionJitter = 30f;
+        /// <summary>reset_player: <c>direction = 270 + irandom_range(-30, 30)</c>, a whole number of degrees.</summary>
+        public int RespawnDirectionJitter = 30;
+
+        /// <summary>A hit's <c>alarm[alarm_flashing] = 1</c>: the first colour change comes a step after the hit.</summary>
+        public float FlashFirstSteps = 1f;
+        /// <summary>Alarm 5 re-arms itself every 3 steps.</summary>
+        public float FlashSteps = 3f;
+
+        /// <summary>player_hurt picks its sound with irandom_range(1, 8): sfx_hurt1..sfx_hurt8.</summary>
+        public int HurtSounds = 8;
+
+        /// <summary>obj_healthbar's column2: the first health pip's left edge on the 1920x1080 GUI layer.</summary>
+        public int LostHealthColumnX = 140;
+        /// <summary>spr_health_pip's width and height: the pips' spacing, and how far above the 36 px margin they sit.</summary>
+        public int LostHealthPipWidth = 44;
+        public int LostHealthPipHeight = 64;
+        /// <summary>obj_healthbar draws the pips at <c>view_hview - height - 36</c>.</summary>
+        public int LostHealthBottomMargin = 36;
+        /// <summary>obj_losthealth's Step: <c>y -= 1; image_alpha -= 0.01</c> (unless paused), gone at alpha 0.</summary>
+        public float LostHealthRisePerStep = 1f;
+        public float LostHealthFadePerStep = 0.01f;
 
         internal void Validate(List<string> errors, string path)
         {
+            ValidationHelpers.Positive(errors, path + ".FlashFirstSteps", FlashFirstSteps);
+            ValidationHelpers.Positive(errors, path + ".FlashSteps", FlashSteps);
+            ValidationHelpers.Positive(errors, path + ".HurtSounds", HurtSounds);
+            ValidationHelpers.NonNegative(errors, path + ".LostHealthColumnX", LostHealthColumnX);
+            ValidationHelpers.Positive(errors, path + ".LostHealthPipWidth", LostHealthPipWidth);
+            ValidationHelpers.Positive(errors, path + ".LostHealthPipHeight", LostHealthPipHeight);
+            ValidationHelpers.NonNegative(errors, path + ".LostHealthBottomMargin", LostHealthBottomMargin);
+            ValidationHelpers.NonNegative(errors, path + ".LostHealthRisePerStep", LostHealthRisePerStep);
+            ValidationHelpers.Positive(errors, path + ".LostHealthFadePerStep", LostHealthFadePerStep);
             ValidationHelpers.Positive(errors, path + ".MaxHealth", MaxHealth);
             ValidationHelpers.NonNegative(errors, path + ".StartingLives", StartingLives);
             ValidationHelpers.Positive(errors, path + ".InvulnerableSteps", InvulnerableSteps);

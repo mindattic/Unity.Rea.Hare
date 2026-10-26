@@ -256,6 +256,17 @@ namespace Unity.Hare.Player
     }
 
     /// <summary>
+    /// Counts the ship's LIVES with <c>ledger</c> (the session's, so a death and the out-of-bounds rule spend the same
+    /// global LIVES the HUD and game_restart read); null goes back to the ship's own count.
+    /// </summary>
+    public sealed class UseLives : PlayerCommand
+    {
+        readonly ILivesLedger ledger;
+        public UseLives(PlayerId id, ILivesLedger ledger) : base(id) => this.ledger = ledger;
+        internal override bool Apply(PlayerShip ship) { ship.Health.UseLives(ledger); return true; }
+    }
+
+    /// <summary>
     /// obj_player's Step past a non-looping edge's buffer zone (the arena's <c>PlayerOutOfBounds</c>): a life goes and
     /// reset_player runs, or the game restarts with none left.
     /// </summary>

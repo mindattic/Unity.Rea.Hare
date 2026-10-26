@@ -43,10 +43,13 @@ namespace Unity.Hare.Player
     /// <summary>The shield wall came down (key release, leap, death, reset or energy at zero).</summary>
     public sealed class ShieldDropped : PlayerEvent { }
 
-    /// <summary>A hit that left the ship alive; <see cref="Health"/> is the HP remaining.</summary>
-    public sealed class PlayerDamaged : PlayerEvent { public int Health; }
+    /// <summary>
+    /// A hit that left the ship alive; <see cref="Health"/> is the HP remaining. player_hurt plays sfx_hurt<see cref="HurtSound"/>
+    /// (1..8) and puts an obj_losthealth where the lost pip was.
+    /// </summary>
+    public sealed class PlayerDamaged : PlayerEvent { public int Health; public int HurtSound = 1; }
 
-    /// <summary>HP reached 0; <see cref="Lives"/> is the lives remaining.</summary>
+    /// <summary>HP reached 0 and LIVES went down by one; <see cref="Lives"/> is the lives remaining.</summary>
     public sealed class PlayerDied : PlayerEvent { public int Lives; }
 
     /// <summary>The ship flew out of the arena past its buffer zone and lost a life; <see cref="Lives"/> is the lives remaining.</summary>

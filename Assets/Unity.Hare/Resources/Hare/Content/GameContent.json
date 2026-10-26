@@ -45,7 +45,16 @@
     "HurtPoseSteps": 60,
     "DeathWaitSteps": 320,
     "RespawnDirection": 270,
-    "RespawnDirectionJitter": 30
+    "RespawnDirectionJitter": 30,
+    "FlashFirstSteps": 1,
+    "FlashSteps": 3,
+    "HurtSounds": 8,
+    "LostHealthColumnX": 140,
+    "LostHealthPipWidth": 44,
+    "LostHealthPipHeight": 64,
+    "LostHealthBottomMargin": 36,
+    "LostHealthRisePerStep": 1,
+    "LostHealthFadePerStep": 0.01
   },
   "weaponPhysicals": {
     "PerchedMuzzle": { "GunOffsetPx": -13, "MuzzleDistancePx": 34 },

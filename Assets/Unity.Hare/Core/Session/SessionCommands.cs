@@ -166,6 +166,16 @@ namespace Unity.Hare.Session
         internal override bool Apply(GameSession session) => session.LoseLife();
     }
 
+    /// <summary>
+    /// A ship's death (or flight out of the arena) spent a life: <c>LIVES -= 1</c> (<see cref="LifeLost"/>), never below
+    /// 0. Unlike <see cref="LoseLife"/> it never restarts the game: the ship's death wait does that. Refused at 0.
+    /// </summary>
+    public sealed class SpendLife : SessionCommand
+    {
+        public SpendLife(PlayerId id) : base(id) { }
+        internal override bool Apply(GameSession session) => session.SpendLife();
+    }
+
     /// <summary>obj_coin touched the ship: COINS += value, and the hundredth coin is an extra life.</summary>
     public sealed class CollectCoin : SessionCommand
     {
