@@ -19,6 +19,7 @@ namespace Unity.Hare.Audio
         static float masterVolume = 1f;
         static AudioSource sfxOneShots;
         static AudioSource musicOneShots;
+        static readonly System.Collections.Generic.Dictionary<string, AudioSource> restartable = new System.Collections.Generic.Dictionary<string, AudioSource>();
 
         /// <summary>The project's audio manifest, or null if the audio has not been imported.</summary>
         public static HareAudioManifest Manifest => HareAudioManifest.Load();
@@ -135,6 +136,30 @@ namespace Unity.Hare.Audio
             if (sound == null || sound.clip == null) return;
             var source = OneShots(sound.channel);
             source.PlayOneShot(sound.clip, sound.volume);
+        }
+
+        /// <summary>
+        /// GML <c>audio_stop_sound(name); audio_play_sound(name, priority, false)</c>: the sound starts over, cutting off
+        /// the instance still playing (the typewriters' sfx_type and sfx_type2, U.HARE-T28). Play mode only.
+        /// </summary>
+        public static void Restart(string name)
+        {
+            if (!Application.isPlaying || string.IsNullOrEmpty(name)) return;
+            var sound = Manifest?.Find(name);
+            if (sound == null || sound.clip == null) return;
+            if (!restartable.TryGetValue(name, out var source) || source == null)
+            {
+                var host = HareAudioHost.Ensure();
+                source = host.gameObject.AddComponent<AudioSource>();
+                source.playOnAwake = false;
+                source.spatialBlend = 0f;
+                Route(source, sound.channel);
+                restartable[name] = source;
+            }
+            source.Stop();
+            source.clip = sound.clip;
+            source.volume = sound.volume;
+            source.Play();
         }
 
         static AudioSource OneShots(SoundChannel channel)

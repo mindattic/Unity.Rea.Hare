@@ -363,6 +363,42 @@ transitions), `obj_logo`, `obj_mouse`.
 `room_intro`, `room_story`, `obj_conversation`, `obj_story`, `obj_typewriter`/
 `obj_typewriter_story`, `obj_textdone`, `obj_scenario_details`, driven by `load_scenario`.
 
+Read in full for U.HARE-T28 (the rules in BIBLE V41):
+
+- `room_story` (1920x1080, 60 steps, view 0 1920x1080; background 0 `bg_nightsky` tiled, not moving): instances
+  `obj_scroll_world`, `obj_story`, `obj_fade_story`, in that order.
+- `obj_story` (spr_room_loop): Create sets the view port to the window and makes `obj_typewriter_story` at 30,60 with
+  26 `typewriter.text += ...` lines (the `dialogue` section's `story.01`..`story.26`). Esc `room_goto(room_title)`; any
+  key `if (!keyboard_check(vk_escape)) { next_room = room_map; obj_fade_story.mode = "fadein";
+  obj_fade_story.firstPass = true; gamemode = gm_campaign; current_scenario = -1; current_level = 1; }` (a first press
+  that would finish the typing instead is commented out).
+- `obj_typewriter_story` (depth -20): Create `type_speed = 1; pause_delay = room_speed; alpha = 1; position = 0;
+  output = ""; print_complete = false; text = ""; alarm[0] = type_speed`. Alarm 0 `if(!print_complete) { position += 1;
+  next_char = string_char_at(text,position); output = string_copy(text,0,position); raw_output = output;
+  output = string_replace_all(output,"^", ""); if next_char is not one of " #^.,": audio_stop_sound(sfx_type2),
+  audio_play_sound(sfx_type2,1,0); alarm[0] = pause_delay after a ^, else type_speed; if(raw_output == text)
+  print_complete = true; }`. Draw GUI fnt_medium, `draw_text_outline_alpha(x, y, 1, output, alpha)`.
+- `obj_scroll_world` (spr_earthball 1066x1062, origin 533,531): Create `x = room_width/2; y = room_height +
+  sprite_get_height(spr_earthball); scroll_delay = 3; alarm[0] = scroll_delay; auto_speed = 0.01; finished = false`.
+  Alarm 0 `if(y > room_height) { y -= 1; background_y[0] -= 1; } else if(!finished) { finished = true; y =
+  room_height; (obj_story's key press) }`, always `alarm[0] = scroll_delay`. Step `image_angle =
+  normalize_angle(image_angle - auto_speed)`.
+- `obj_conversation` (spr_conversation_box 1920x256, depth -1000): Create, Step, Alarm 0, key press, global left
+  pressed and Draw GUI as BIBLE V41 has them; its `conversation[0]` and `current_line` are never read. `next_line`
+  (script): `mode = "slideout"; firstPass = true; with(obj_textdone) instance_destroy(); audio_play_sound(sfx_flick)`,
+  then sfx_woof if `frame_name == "Admiral Zee"`, else sfx_flick. Made only by obj_map's Create
+  (`current_conversation`); obj_destination sets `mode = "slidein"` on reaching a new mission and obj_map's A and D set
+  `"slideout"`.
+- `obj_textdone` (spr_textdone 11x13, 4 frames, depth -1001): Create `image_xscale = image_yscale = 8; x =
+  view_wview - 90; y = view_hview - 90; image_speed = 0.1`, Draw GUI `draw_self()`. No object or script creates it, so
+  the rebuild does not draw it either.
+- `obj_typewriter` (depth -20): Create `type_speed = 2`; Alarm 0 `if(output != text) { position += 1; output =
+  string_copy(text,0,position); } if(fadeout) { alpha -= 0.01; if(alpha <= 0) instance_destroy(); } alarm[0] =
+  type_speed`; Draw GUI fnt_point, outline 1. Only commented-out code makes one (obj_intro at 20, room_height - 450;
+  obj_drop_intro would fade it).
+- `load_scenario`: `switch(current_scenario)` 1 runs `level_01`..`level_05` for `current_level` 1..5; 2, 3 and 4 run
+  `level_06`..`level_10`; `default` runs `level_default`. Called by setup_level in `gm_campaign`.
+
 ## Audio
 
 `play_random_music`, `obj_jukebox` for music track rotation. HARE.gmx ships 152 sound assets

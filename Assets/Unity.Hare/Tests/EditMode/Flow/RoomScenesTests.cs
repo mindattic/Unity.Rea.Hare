@@ -131,6 +131,24 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
+        public void TheStorySceneHoldsObjStory_AndNoOtherRoomDoes()
+        {
+            foreach (var room in RoomList.All)
+            {
+                var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
+                var stories = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Hare.Story.StoryRoom>(true)).ToList();
+                if (room == RoomId.Story)
+                {
+                    Assert.That(stories.Count, Is.EqualTo(1), "room_story.room.gmx places one obj_story");
+                    Assert.That(stories[0].name, Is.EqualTo(Unity.Hare.Story.StoryRoom.ObjectName));
+                    Assert.That(stories[0].transform.childCount, Is.EqualTo(0), "it builds its sky, earth and typewriter itself, at runtime");
+                }
+                else Assert.That(stories, Is.Empty, room + ": obj_story is room_story's alone");
+            }
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Story), Is.EqualTo(typeof(Unity.Hare.Story.StoryRoom)));
+        }
+
+        [Test]
         public void EachPlayRoomHoldsObjGamesArena_AndNoOtherRoomDoes()
         {
             foreach (var room in RoomList.All)

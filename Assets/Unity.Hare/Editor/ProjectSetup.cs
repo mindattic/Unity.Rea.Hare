@@ -10,6 +10,7 @@ using Unity.Hare.Flow;
 using Unity.Hare.Player;
 using Unity.Hare.Rendering;
 using Unity.Hare.Rooms;
+using Unity.Hare.Story;
 using Unity.Hare.Weapons;
 
 namespace Unity.Hare.EditorTools
@@ -53,7 +54,7 @@ namespace Unity.Hare.EditorTools
         /// </summary>
         public static System.Type RoomControllerType(RoomId room) =>
             room == RoomId.Startup ? typeof(StartupRoom) : room == RoomId.Title ? typeof(TitleRoom) : room == RoomId.Intro ? typeof(IntroRoom)
-            : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
+            : room == RoomId.Story ? typeof(StoryRoom) : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
         /// Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing (a room
@@ -147,7 +148,8 @@ namespace Unity.Hare.EditorTools
         /// startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and note itself), room_title
         /// its obj_title (<see cref="TitleRoom"/>, which builds its backgrounds, falling rabbit, stand, logo, menu, dialog and
         /// pointer itself) and room_intro its obj_intro (<see cref="IntroRoom"/>, which builds its backgrounds, falling rabbit
-        /// and tip itself). What else each room
+        /// and tip itself) and room_story its obj_story (<see cref="StoryRoom"/>, which builds its sky, earth and typewriter
+        /// itself). What else each room
         /// holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
@@ -162,6 +164,7 @@ namespace Unity.Hare.EditorTools
             if (room == RoomId.Startup) StartupRoom.Create();
             if (room == RoomId.Title) TitleRoom.Create();
             if (room == RoomId.Intro) IntroRoom.Create();
+            if (room == RoomId.Story) StoryRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);
         }

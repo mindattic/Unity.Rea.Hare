@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Hare.Flow;
 using Unity.Hare.Session;
 
@@ -17,6 +18,25 @@ namespace Unity.Hare.Arena
         {
             if (arena == null) throw new ArgumentNullException(nameof(arena));
             return mode == GameMode.Generator ? arena.GeneratorLevel : arena.SettingFor(level);
+        }
+
+        /// <summary>
+        /// load_scenario (U.HARE-T28): the level setting <paramref name="scenario"/>'s <paramref name="level"/> runs
+        /// (<see cref="Story.StoryTuning.LoadScenario"/>: scenario 1 level_01..05, 2 to 4 level_06..10, any other
+        /// level_default), or null when the scenario lists no script for that level (no level script runs). setup_level
+        /// does not call it yet: running the campaign through it is U.HARE-T64's.
+        /// </summary>
+        public static LevelSetting LoadScenario(ArenaTuning arena, Story.StoryTuning story, int scenario, int level)
+        {
+            if (arena == null) throw new ArgumentNullException(nameof(arena));
+            if (story == null) throw new ArgumentNullException(nameof(story));
+            string script = story.LoadScenario(scenario, level);
+            if (script == null) return null;
+            if (arena.Levels != null)
+                foreach (var setting in arena.Levels)
+                    if (setting != null && setting.Script == script) return setting;
+            if (arena.DefaultLevel != null && arena.DefaultLevel.Script == script) return arena.DefaultLevel;
+            throw new KeyNotFoundException($"load_scenario names {script}, which the arena section has no level for.");
         }
 
         /// <summary>

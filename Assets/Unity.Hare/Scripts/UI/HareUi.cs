@@ -60,6 +60,16 @@ namespace Unity.Hare.UI
             BuildOutlineText(text, outlineSize, textColor, outlineColor, alpha, classes, parent);
 
         /// <summary>
+        /// Changes the text an <see cref="OutlineText"/> stack draws (every outline layer and the text layer), as a
+        /// typewriter's next <c>draw_text_outline(x, y, size, output)</c> would, without rebuilding the stack.
+        /// </summary>
+        public static void SetOutlineText(VisualElement outlineText, string text)
+        {
+            if (outlineText == null) return;
+            outlineText.Query<Label>().ForEach(l => l.text = text ?? "");
+        }
+
+        /// <summary>
         /// Reproduces the GML algorithm exactly rather than approximating it with a drop shadow: every one of the
         /// four scripts draws the string at every integer offset in the full <c>(2*size+1)^2</c> square around the
         /// origin in the outline colour (<c>for(i=x-size;i&lt;=x+size;i+=1) for(n=y-size;n&lt;=y+size;n+=1) draw_text(i,n,text)</c>),

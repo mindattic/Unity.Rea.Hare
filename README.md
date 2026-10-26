@@ -53,6 +53,11 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   up on the moon, its eye following the mouse, and the logo and menu fade in. room_intro (which nothing in the
   original goes to) drops the rabbit with the controls tip, A and D steer it and any other key sends it into a quick
   game (Core's `Rooms/DropScene`, `IntroScreen`; `Rooms/DropSceneView`, `IntroRoom`)
+- the story and cutscenes (U.HARE-T28): room_story types the introduction a character at a time with its typing
+  sound and a pause at each beat, over the earth rising and turning against the night sky; any key but Esc, or the
+  earth reaching the bottom, starts the campaign and fades to the map, and Esc goes to the title. obj_conversation's
+  comm box (Admiral Zee's portrait, his typed line, sfx_flick and sfx_woof as a key sends it away) is ready for the
+  map, and load_scenario's scenario-to-level table is in data (Core's `Story/`; `Story/StoryRoom`, `ConversationView`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

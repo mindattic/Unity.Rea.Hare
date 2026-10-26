@@ -184,6 +184,20 @@ namespace Unity.Hare.Tests.Core
             for (int i = 0; i < defaults.Arena.Levels.Length; i++)
                 CollectionAssert.AreEqual(defaults.Arena.Levels[i].Weather, fromFile.Arena.Levels[i].Weather);
 
+            Assert.AreEqual(defaults.Dialogue.Lines.Length, fromFile.Dialogue.Lines.Length);
+            for (int i = 0; i < defaults.Dialogue.Lines.Length; i++)
+                Assert.AreEqual((defaults.Dialogue.Lines[i].Id, defaults.Dialogue.Lines[i].Speaker, defaults.Dialogue.Lines[i].Text),
+                    (fromFile.Dialogue.Lines[i].Id, fromFile.Dialogue.Lines[i].Speaker, fromFile.Dialogue.Lines[i].Text));
+            Assert.AreEqual(defaults.Story.Typewriter.SilentChars, fromFile.Story.Typewriter.SilentChars);
+            Assert.AreEqual(defaults.Story.Typewriter.PauseDelaySteps, fromFile.Story.Typewriter.PauseDelaySteps);
+            Assert.AreEqual(defaults.Story.Conversation.Typewriter.Sound, fromFile.Story.Conversation.Typewriter.Sound);
+            Assert.AreEqual(defaults.Story.Conversation.SlideOutMin, fromFile.Story.Conversation.SlideOutMin);
+            Assert.AreEqual(defaults.Story.ScrollDelaySteps, fromFile.Story.ScrollDelaySteps);
+            Assert.AreEqual(defaults.Story.AutoSpeed, fromFile.Story.AutoSpeed);
+            Assert.AreEqual(defaults.Story.PlainTypewriter.Pauses, fromFile.Story.PlainTypewriter.Pauses);
+            for (int i = 0; i < defaults.Story.Scenarios.Length; i++)
+                CollectionAssert.AreEqual(defaults.Story.Scenarios[i].Levels, fromFile.Story.Scenarios[i].Levels);
+
             foreach (EnemyKind kind in System.Enum.GetValues(typeof(EnemyKind)))
             {
                 var expected = defaults.Enemies.Get(kind);

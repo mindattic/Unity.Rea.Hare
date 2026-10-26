@@ -90,7 +90,39 @@
     "Trilobyte": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 26, "BBoxHalfHeightPx": 24.5, "BBoxOffsetXPx": -3.5, "BBoxOffsetYPx": 1, "PushesAway": true, "DifficultyPoints": 2, "EmitterScale": 0.25, "WormholeScale": 0.25 }
   },
   "levels": { "Levels": [] },
-  "dialogue": { "Lines": [] },
+  "dialogue": {
+    "Lines": [
+      {"Id": "story.01", "Speaker": "", "Text": "^^"},
+      {"Id": "story.02", "Speaker": "", "Text": "Introduction##^"},
+      {"Id": "story.03", "Speaker": "", "Text": "          It was the dawn of what many believed would be a golden age.#^"},
+      {"Id": "story.04", "Speaker": "", "Text": "          At long last the world had acheived lasting peace.#^^"},
+      {"Id": "story.05", "Speaker": "", "Text": "          Then an unimaginable threat emerged.##^^"},
+      {"Id": "story.06", "Speaker": "", "Text": "          As mankind had been squabbling amongst itself,#"},
+      {"Id": "story.07", "Speaker": "", "Text": "          A vast interstellar empire had been spreading it's influence across the the depths of space for ten millenia.#^^^"},
+      {"Id": "story.08", "Speaker": "", "Text": "          Bent on total conquest, ^"},
+      {"Id": "story.09", "Speaker": "", "Text": "built on the broken backs of slaves ^"},
+      {"Id": "story.10", "Speaker": "", "Text": "and maintained by mercilessness.##^^"},
+      {"Id": "story.11", "Speaker": "", "Text": "Homeworld Orbital Patrol##^"},
+      {"Id": "story.12", "Speaker": "", "Text": "          H.O.P was rapidly established to combat this otherworldy threat.#^"},
+      {"Id": "story.13", "Speaker": "", "Text": "          Composed of a miraculous amalgamation of the world's greatest military and scientific resources;#"},
+      {"Id": "story.14", "Speaker": "", "Text": "          They were our only hope.##^"},
+      {"Id": "story.15", "Speaker": "", "Text": "High Altitude Reconnaissance & Engagement##^"},
+      {"Id": "story.16", "Speaker": "", "Text": "          The H.A.R.E Project was conceived as a first line of defense against the alien invaders;#"},
+      {"Id": "story.17", "Speaker": "", "Text": "          A vangaurd against aspiring conquerors from beyond the stars.##^^"},
+      {"Id": "story.18", "Speaker": "", "Text": "          By intercepting the extraterrestial menace before they can establish a foothold,#"},
+      {"Id": "story.19", "Speaker": "", "Text": "          our chances of repelling the cosmic threat can be marginally improved.##^^"},
+      {"Id": "story.20", "Speaker": "", "Text": "Your Mission##^"},
+      {"Id": "story.21", "Speaker": "", "Text": "          Assume control of an experimental H.A.R.E. Unit.#^"},
+      {"Id": "story.22", "Speaker": "", "Text": "          Patrol the exosphere for intrusions.#^"},
+      {"Id": "story.23", "Speaker": "", "Text": "          Exterminate all intruders with extreme prejudice.#"},
+      {"Id": "story.24", "Speaker": "", "Text": "#^^^"},
+      {"Id": "story.25", "Speaker": "", "Text": "Good luck ^"},
+      {"Id": "story.26", "Speaker": "", "Text": "...you'll need it!"},
+      {"Id": "conversation.map.01", "Speaker": "Admiral Zee", "Text": "We need your help, Hutch!#^"},
+      {"Id": "conversation.map.02", "Speaker": "Admiral Zee", "Text": "The planet is in peril!#^"},
+      {"Id": "conversation.map.03", "Speaker": "Admiral Zee", "Text": "Alien invaders have broken through the blockade!"}
+    ]
+  },
   "upgrades": { "Upgrades": [] },
   "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 },
   "rooms": {
@@ -503,5 +535,37 @@
     "SteerStep": 1,
     "ExitLevel": 1,
     "ExitRoom": "GameScreen"
+  },
+  "story": {
+    "Script": "story",
+    "Typewriter": {
+      "Object": "obj_typewriter_story", "X": 30, "Y": 60, "TypeSpeedSteps": 1, "PauseDelaySteps": 60, "Pauses": true,
+      "Sound": "sfx_type2", "SilentChars": " #^.,", "Outline": 1, "FadeStep": 0.01
+    },
+    "EarthSprite": "spr_earthball", "EarthHeight": 1062, "ScrollDelaySteps": 3, "ScrollStep": 1, "AutoSpeed": 0.01,
+    "Background": "bg_nightsky",
+    "ExitRoom": "Map",
+    "Conversation": {
+      "BoxSprite": "spr_conversation_box", "Width": 1920, "Height": 256,
+      "FrameBackSprite": "spr_comm_frame_back", "PortraitSprite": "spr_portrait_general_zee", "FrameSprite": "spr_comm_frame",
+      "FrameWidth": 195, "FrameHeight": 195, "FrameMarginLeft": 30, "FrameMarginTop": 30, "NameOutline": 2,
+      "SlideInMin": 1, "SlideOutMin": 4, "SlideFactor": 0.1, "SlideSound": "sfx_flick", "BarkSpeaker": "Admiral Zee", "BarkSound": "sfx_woof",
+      "Typewriter": {
+        "Object": "obj_conversation", "X": 260, "Y": 24, "TypeSpeedSteps": 2, "PauseDelaySteps": 60, "Pauses": true,
+        "Sound": "sfx_type", "SilentChars": " #^", "Outline": 2, "FadeStep": 0.01
+      },
+      "MapScript": "conversation.map"
+    },
+    "PlainTypewriter": {
+      "Object": "obj_typewriter", "X": 20, "Y": 630, "TypeSpeedSteps": 2, "PauseDelaySteps": 0, "Pauses": false,
+      "Sound": "", "SilentChars": "", "Outline": 1, "FadeStep": 0.01
+    },
+    "Scenarios": [
+      { "Scenario": 1, "Levels": ["level_01", "level_02", "level_03", "level_04", "level_05"] },
+      { "Scenario": 2, "Levels": ["level_06", "level_07", "level_08", "level_09", "level_10"] },
+      { "Scenario": 3, "Levels": ["level_06", "level_07", "level_08", "level_09", "level_10"] },
+      { "Scenario": 4, "Levels": ["level_06", "level_07", "level_08", "level_09", "level_10"] }
+    ],
+    "DefaultScenarioLevel": "level_default"
   }
 }
