@@ -629,6 +629,42 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Units"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3c6e2d1-7b49-4f05-8e1a-2d9c4b6f8a13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""VolumeUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4d7f3e2-8c5a-4016-9f2b-3e0d5c7a9b24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""VolumeDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5e8a4f3-9d6b-4127-a03c-4f1e6d8b0c35"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AddScore"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6f9b5a4-0e7c-4238-b14d-5a2f7e9c1d46"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -774,6 +810,50 @@ namespace Unity.Hare.Input
                     ""action"": ""Fullscreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7a0c6b5-1f8d-4349-825e-6b3a8f0d2e57"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Units"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8b1d7c6-2a9e-445a-936f-7c4b9a1e3f68"",
+                    ""path"": ""<Keyboard>/numpadPlus"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""VolumeUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09c2e8d7-3b0f-456b-a47a-8d5c0b2f4a79"",
+                    ""path"": ""<Keyboard>/numpadMinus"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""VolumeDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ad3f9e8-4c1a-467c-b58b-9e6d1c3a5b8a"",
+                    ""path"": ""<Keyboard>/f11"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""AddScore"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -834,6 +914,10 @@ namespace Unity.Hare.Input
             m_Meta_Debug = m_Meta.FindAction("Debug", throwIfNotFound: true);
             m_Meta_Menu = m_Meta.FindAction("Menu", throwIfNotFound: true);
             m_Meta_Fullscreen = m_Meta.FindAction("Fullscreen", throwIfNotFound: true);
+            m_Meta_Units = m_Meta.FindAction("Units", throwIfNotFound: true);
+            m_Meta_VolumeUp = m_Meta.FindAction("VolumeUp", throwIfNotFound: true);
+            m_Meta_VolumeDown = m_Meta.FindAction("VolumeDown", throwIfNotFound: true);
+            m_Meta_AddScore = m_Meta.FindAction("AddScore", throwIfNotFound: true);
         }
 
         ~@HareControls()
@@ -1142,6 +1226,10 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Meta_Debug;
         private readonly InputAction m_Meta_Menu;
         private readonly InputAction m_Meta_Fullscreen;
+        private readonly InputAction m_Meta_Units;
+        private readonly InputAction m_Meta_VolumeUp;
+        private readonly InputAction m_Meta_VolumeDown;
+        private readonly InputAction m_Meta_AddScore;
         /// <summary>
         /// Provides access to input actions defined in input action map "Meta".
         /// </summary>
@@ -1193,6 +1281,22 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Meta/Fullscreen".
             /// </summary>
             public InputAction @Fullscreen => m_Wrapper.m_Meta_Fullscreen;
+            /// <summary>
+            /// Provides access to the underlying input action "Meta/Units".
+            /// </summary>
+            public InputAction @Units => m_Wrapper.m_Meta_Units;
+            /// <summary>
+            /// Provides access to the underlying input action "Meta/VolumeUp".
+            /// </summary>
+            public InputAction @VolumeUp => m_Wrapper.m_Meta_VolumeUp;
+            /// <summary>
+            /// Provides access to the underlying input action "Meta/VolumeDown".
+            /// </summary>
+            public InputAction @VolumeDown => m_Wrapper.m_Meta_VolumeDown;
+            /// <summary>
+            /// Provides access to the underlying input action "Meta/AddScore".
+            /// </summary>
+            public InputAction @AddScore => m_Wrapper.m_Meta_AddScore;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1249,6 +1353,18 @@ namespace Unity.Hare.Input
                 @Fullscreen.started += instance.OnFullscreen;
                 @Fullscreen.performed += instance.OnFullscreen;
                 @Fullscreen.canceled += instance.OnFullscreen;
+                @Units.started += instance.OnUnits;
+                @Units.performed += instance.OnUnits;
+                @Units.canceled += instance.OnUnits;
+                @VolumeUp.started += instance.OnVolumeUp;
+                @VolumeUp.performed += instance.OnVolumeUp;
+                @VolumeUp.canceled += instance.OnVolumeUp;
+                @VolumeDown.started += instance.OnVolumeDown;
+                @VolumeDown.performed += instance.OnVolumeDown;
+                @VolumeDown.canceled += instance.OnVolumeDown;
+                @AddScore.started += instance.OnAddScore;
+                @AddScore.performed += instance.OnAddScore;
+                @AddScore.canceled += instance.OnAddScore;
             }
 
             /// <summary>
@@ -1290,6 +1406,18 @@ namespace Unity.Hare.Input
                 @Fullscreen.started -= instance.OnFullscreen;
                 @Fullscreen.performed -= instance.OnFullscreen;
                 @Fullscreen.canceled -= instance.OnFullscreen;
+                @Units.started -= instance.OnUnits;
+                @Units.performed -= instance.OnUnits;
+                @Units.canceled -= instance.OnUnits;
+                @VolumeUp.started -= instance.OnVolumeUp;
+                @VolumeUp.performed -= instance.OnVolumeUp;
+                @VolumeUp.canceled -= instance.OnVolumeUp;
+                @VolumeDown.started -= instance.OnVolumeDown;
+                @VolumeDown.performed -= instance.OnVolumeDown;
+                @VolumeDown.canceled -= instance.OnVolumeDown;
+                @AddScore.started -= instance.OnAddScore;
+                @AddScore.performed -= instance.OnAddScore;
+                @AddScore.canceled -= instance.OnAddScore;
             }
 
             /// <summary>
@@ -1518,6 +1646,34 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnFullscreen(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Units" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnUnits(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "VolumeUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnVolumeUp(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "VolumeDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnVolumeDown(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "AddScore" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnAddScore(InputAction.CallbackContext context);
         }
     }
 }

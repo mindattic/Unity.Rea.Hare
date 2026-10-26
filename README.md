@@ -189,11 +189,22 @@ polling the five views used before):
 | E | next air weapon (rocket, mine) | next air weapon (rocket, mine) |
 
 The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). `HareControls` also carries a `Meta` action
-map (Leap, Shield, Flashbomb, Helper, Pause, Restart, Map, Debug, Menu) with keyboard and, where it
-makes sense, gamepad bindings already defined as data. Map (M, as obj_game's key) toggles the arena's
-minimap (U.HARE-T52); the rest land with
-landing (U.HARE-T53), the hotkeys ticket (U.HARE-T60), flashbombs (U.HARE-T67), the HUD/debug
-overlay (U.HARE-T59) and the map/menu rooms (U.HARE-T19/U.HARE-T26).
+map with keyboard and, where it makes sense, gamepad bindings defined as data. obj_game's keys are all
+there (U.HARE-T60, docs/BIBLE.md V37):
+
+| Key | In a play room |
+|---|---|
+| P | pause / resume (not once the level is complete) |
+| R | reset the ship and set the level up again |
+| M | show / hide the minimap |
+| U | speedometer in mph / kph (saved) |
+| Keypad + / - (held) | master volume up / down in 0.01 steps (saved on release) |
+| F1 | fullscreen (any room that answers it) |
+| F11 | +100 score (debug) |
+| F12 | debug overlay |
+| Esc | back to the title |
+
+Leap, Shield, Flashbomb and Helper land with flashbombs (U.HARE-T67) and the helper.
 
 ## Project layout
 
@@ -201,7 +212,7 @@ overlay (U.HARE-T59) and the map/menu rooms (U.HARE-T19/U.HARE-T26).
 Assets/Unity.Hare/
   Core/                Unity.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
   Scripts/             Unity.Hare.Runtime asmdef: the components
-    Player/  Weapons/  Enemies/  Rocks/  Effects/  Settings/ (ActiveProfile, HareSettings)
+    Player/  Weapons/  Enemies/  Rocks/  Effects/  Settings/ (ActiveProfile, HareSettings, SessionSettings)
     Art/               HareArtManifest: every GML sprite and background name to its imported assets
     Audio/             HareAudioManifest (every GML sound name to its clip and mixer channel), HareAudio (play by name, mixer volumes)
     Rendering/         sorting layers, the 2D camera rig and letterbox, the fade/flash overlay layer (no render pipeline reference)
