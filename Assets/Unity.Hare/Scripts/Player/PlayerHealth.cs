@@ -11,11 +11,11 @@ namespace Unity.Hare.Player
     /// Alarms 1/4/5/6/7). The rules live in Core's <see cref="ShipHealth"/> (numbers in <see cref="HealthTuning"/>,
     /// converted from steps at room_gamescreen's 120 steps/sec); this component forwards hits and time as commands and
     /// plays what comes back (U.HARE-T54): a hit plays sfx_hurt1..8 and raises <see cref="Damaged"/> (the arena puts
-    /// obj_losthealth on its HUD); a death scatters spawn_death_particles (with sfx_death) where the ship was and hides
-    /// it for the 320-step wait; reset_player puts it at <see cref="RespawnPoint"/> (the arena's room_width / 2, just
-    /// above the room) heading the way the rules chose, and plays sfx_flyover; game over runs <see cref="GameRestart"/>
-    /// (the room flow's game_restart), or reloads the scene with no flow. The ship's colour follows Alarm 5's cycle while
-    /// invulnerable. LIVES is the session's once the room calls <see cref="UseLives"/>. The original only counted a hit
+    /// obj_losthealth on its HUD); a death scatters spawn_death_particles (with sfx_death) where the ship was (the ship
+    /// is not drawn for the 320-step wait); reset_player puts it at <see cref="RespawnPoint"/> (the arena's room_width / 2,
+    /// just above the room) heading the way the rules chose, and plays sfx_flyover; game over runs <see cref="GameRestart"/>
+    /// (the room flow's game_restart), or reloads the scene with no flow. <see cref="PlayerLook"/> draws the ship in
+    /// Alarm 5's colour (<see cref="Tint"/>, <see cref="ColorOf"/>) and hides it while dead (U.HARE-T55). LIVES is the session's once the room calls <see cref="UseLives"/>. The original only counted a hit
     /// while the source was on screen (in_view); damage sources that need that check apply it before calling
     /// <see cref="TryTakeHit"/>.
     /// </summary>
@@ -39,7 +39,6 @@ namespace Unity.Hare.Player
         [Header("Game over (GML: game_restart)")]
         [SerializeField] bool reloadSceneOnGameOver = true;
 
-        SpriteRenderer[] renderers = Array.Empty<SpriteRenderer>();
         Vector2 spawnPosition;
 
         public int MaxHealth => Core.Health.MaxHealth;
@@ -90,10 +89,8 @@ namespace Unity.Hare.Player
         /// </summary>
         public void ResetState()
         {
-            renderers = GetComponentsInChildren<SpriteRenderer>(true);
             spawnPosition = transform.position;
             Send(new ResetHealth(Id, Tuning));
-            ApplyVisuals();
         }
 
         /// <summary>Counts LIVES with <paramref name="ledger"/> (the session's); null goes back to the ship's own.</summary>
@@ -124,7 +121,6 @@ namespace Unity.Hare.Player
         {
             if (IsGameOver) return;
             Send(new TickHealth(Id, deltaTime));
-            ApplyVisuals();
         }
 
         protected override void OnPlayerEvent(PlayerEvent e)
@@ -138,7 +134,6 @@ namespace Unity.Hare.Player
                 case PlayerDied died:
                     // player_hurt: spawn_death_particles(player.x, player.y) (it plays sfx_death).
                     if (Application.isPlaying) DeathParticle.SpawnDeathParticles(transform.position);
-                    ApplyVisuals();
                     Died?.Invoke(died.Lives);
                     break;
                 case PlayerRespawned _:
@@ -148,7 +143,6 @@ namespace Unity.Hare.Player
                     var body = GetComponent<Rigidbody2D>();
                     if (body != null) body.position = position;
                     HareArt.Play(RespawnSound);
-                    ApplyVisuals();
                     Respawned?.Invoke();
                     break;
                 case GameEnded _:
@@ -157,18 +151,6 @@ namespace Unity.Hare.Player
                     if (GameRestart != null) GameRestart();
                     else if (reloadSceneOnGameOver) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                     break;
-            }
-        }
-
-        /// <summary>The Draw event skips the ship while dead, and draws it in Alarm 5's colour.</summary>
-        void ApplyVisuals()
-        {
-            Color color = Tint;
-            foreach (var r in renderers)
-            {
-                if (r == null) continue;
-                r.enabled = !IsDead;
-                r.color = color;
             }
         }
 

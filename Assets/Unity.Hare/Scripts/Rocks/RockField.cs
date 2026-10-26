@@ -34,8 +34,11 @@ namespace Unity.Hare.Rocks
         public const int DefaultRockMin = 15;
         public const int DefaultRockMax = 30;
         public const int DefaultStationaryPercent = 50;
-        /// <summary>globals player_size = sprite_get_width(spr_rabbit_idle).</summary>
-        public const float PlayerSizePx = 96f;
+        /// <summary>
+        /// globals player_size = sprite_get_width(spr_rabbit_idle): the arena's one PlayerSize number (96 px), which the
+        /// art pipeline's tests hold to the imported sprite's width.
+        /// </summary>
+        public static float PlayerSizePx => Content.GameContent.Current.Arena.PlayerSize;
         /// <summary>move_rocks: y &lt; 800 and a_near_b(x, room_width / 2, 400).</summary>
         public const float SpawnClearDepthPx = 800f;
         public const float SpawnClearHalfWidthPx = 400f;

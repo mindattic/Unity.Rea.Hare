@@ -57,7 +57,7 @@ namespace Unity.Hare.Arena
         {
             var tuning = arena.State.Tuning;
             var manifest = HareArtManifest.Load();
-            directionArrow = MakeSprite("spr_direction_arrow", manifest != null ? manifest.Frame(tuning.DirectionArrowSprite) : null, tuning.ArrowAlpha, -1);
+            directionArrow = MakeSprite("spr_direction_arrow", manifest != null ? manifest.Frame(tuning.DirectionArrowSprite) : null, tuning.ArrowAlpha, -2); // under the gun (-1) and the ship (0, PlayerLook), as Draw draws it first
             offscreenArrow = MakeSprite("spr_big_arrow", manifest != null ? manifest.Frame(tuning.OffscreenArrowSprite) : null, tuning.ArrowAlpha, 1);
             lineRoot = new GameObject("leap line").transform;
             lineRoot.SetParent(transform, false);

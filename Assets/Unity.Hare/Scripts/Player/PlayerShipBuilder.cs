@@ -42,6 +42,8 @@ namespace Unity.Hare.Player
             resets.Add(health.ResetState);
             var ammo = go.AddComponent<PlayerAmmo>();
             resets.Add(ammo.ResetState);
+            var look = go.AddComponent<PlayerLook>();
+            resets.Add(look.ResetState);
 
             foreach (var mount in loadout.Guns) resets.Add(Mount(go, mount));
 

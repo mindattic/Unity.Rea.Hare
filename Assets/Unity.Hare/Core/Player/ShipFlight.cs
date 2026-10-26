@@ -140,7 +140,18 @@ namespace Unity.Hare.Player
         public void SetAimDirection(float degrees) => AimDirection = Maths.Repeat(degrees, 360f);
 
         /// <summary>-1 (clockwise, D) .. +1 (counterclockwise, A), matching GML's direction sign.</summary>
-        public void SetTurnInput(float value) => turnInput = Maths.Clamp(value, -1f, 1f);
+        public void SetTurnInput(float value)
+        {
+            turnInput = Maths.Clamp(value, -1f, 1f);
+            if (turnInput == 0f) IsTurning = false; // the A/D key-release events: turning = false
+        }
+
+        /// <summary>
+        /// GML turning: set by rotate_clockwise/rotate_counterclockwise the first step a turn key turns the flying ship,
+        /// cleared when the key comes up or the ship dies (player_hurt). It is not cleared by landing, so the spark trail
+        /// (<see cref="ShipLook"/>) keeps sparking on a perch while the key stays down, as in the original.
+        /// </summary>
+        public bool IsTurning { get; private set; }
 
         /// <summary>GML: player_boost. Instant speed jump, held while energy lasts.</summary>
         public bool TryBoost()
@@ -356,6 +367,7 @@ namespace Unity.Hare.Player
             DropShield();
             Speed = 0f;
             turnInput = 0f;
+            IsTurning = false; // player_hurt: turning = false
             IsCrouching = false;
             CurrentRock = null; // the dead ship no longer rides it; reset_player clears it in the original
             sink.Emit(new ShipHalted());
@@ -390,6 +402,7 @@ namespace Unity.Hare.Player
 
             float turnSpeed = IsBraking ? tuning.BrakeTurnSpeedDegreesPerSecond : tuning.TurnSpeedDegreesPerSecond;
             float turned = turnInput * turnSpeed * dt;
+            if (turnInput != 0f) IsTurning = true;
             Direction += turned;
             Facing += turned; // rotate_clockwise / rotate_counterclockwise turn image_angle with direction
 

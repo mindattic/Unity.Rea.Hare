@@ -37,6 +37,7 @@ namespace Unity.Hare.Content
         public RoomTable Rooms { get; }
         public StartupTuning Startup { get; }
         public ArenaTuning Arena { get; }
+        public LookTuning Look { get; }
 
         ContentRegistry()
         {
@@ -56,6 +57,7 @@ namespace Unity.Hare.Content
             Rooms = new RoomTable();
             Startup = new StartupTuning();
             Arena = new ArenaTuning();
+            Look = new LookTuning();
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace Unity.Hare.Content
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,
         /// one section per top-level key: weapons, ammo, flight, health, weaponPhysicals, emitters, wormholes,
-        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena. A section or field the file omits keeps its default. Throws
+        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look. A section or field the file omits keeps its default. Throws
         /// <see cref="ContentValidationException"/>, listing every problem, if the file is malformed or any value
         /// fails validation.
         /// </summary>
@@ -115,13 +117,14 @@ namespace Unity.Hare.Content
                 Bind(sections, "rooms", registry.Rooms, errors);
                 Bind(sections, "startup", registry.Startup, errors);
                 Bind(sections, "arena", registry.Arena, errors);
+                Bind(sections, "look", registry.Look, errors);
 
                 foreach (var key in sections.Keys)
                 {
                     switch (key.ToLowerInvariant())
                     {
                         case "weapons": case "ammo": case "flight": case "health": case "weaponphysicals":
-                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena":
+                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look":
                             break;
                         default:
                             errors.Add($"content.{key}: not a recognised section.");
@@ -146,6 +149,7 @@ namespace Unity.Hare.Content
             registry.Rooms.Validate(errors, "rooms");
             registry.Startup.Validate(errors, "startup");
             registry.Arena.Validate(errors, "arena");
+            registry.Look.Validate(errors, "look");
 
             if (errors.Count > 0) throw new ContentValidationException(errors);
             return registry;

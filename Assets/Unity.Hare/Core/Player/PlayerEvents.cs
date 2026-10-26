@@ -99,10 +99,14 @@ namespace Unity.Hare.Player
         public PlayerId Id { get; }
         public List<PlayerEvent> Events { get; } = new List<PlayerEvent>();
 
+        /// <summary>Every event as it is emitted, for the ship's own parts that follow others' (<see cref="ShipLook"/>).</summary>
+        public event System.Action<PlayerEvent> Emitted;
+
         public void Emit(PlayerEvent e)
         {
             e.Id = Id;
             Events.Add(e);
+            Emitted?.Invoke(e);
         }
     }
 }

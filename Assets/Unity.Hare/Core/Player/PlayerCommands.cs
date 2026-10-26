@@ -24,7 +24,12 @@ namespace Unity.Hare.Player
     {
         readonly FlightTuning tuning;
         public ResetFlight(PlayerId id, FlightTuning tuning = null) : base(id) => this.tuning = tuning;
-        internal override bool Apply(PlayerShip ship) { ship.Flight.Reset(tuning ?? ship.Flight.Tuning); return true; }
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Flight.Reset(tuning ?? ship.Flight.Tuning);
+            ship.Look.Reset(ship.Look.Tuning); // Create's vulcan in hand; reset_player arms the smoke and spark trails
+            return true;
+        }
     }
 
     /// <summary>A/D: -1 clockwise .. +1 counterclockwise.</summary>
@@ -237,12 +242,21 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) { ship.Flight.Die(); return true; }
     }
 
-    /// <summary>One physics step of the ship (energy, turning, speed changes).</summary>
+    /// <summary>
+    /// One physics step of the ship (energy, turning, speed changes), then its look's alarms (the smoke and spark trails
+    /// and the justspawned jet, <see cref="ShipLook"/>).
+    /// </summary>
     public sealed class StepFlight : PlayerCommand
     {
         readonly float dt;
         public StepFlight(PlayerId id, float dt) : base(id) => this.dt = dt;
-        internal override bool Apply(PlayerShip ship) { ship.Flight.Step(dt); return true; }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Flight.Step(dt);
+            ship.Look.Step(dt);
+            return true;
+        }
     }
 
     // ---- Health and lives ----

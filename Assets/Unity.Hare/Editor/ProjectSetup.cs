@@ -64,7 +64,8 @@ namespace Unity.Hare.EditorTools
             foreach (var room in RoomList.All)
             {
                 var controller = RoomControllerType(room);
-                if (!File.Exists(RoomScenePath(room)) || (controller != null && !SceneHasScript(RoomScenePath(room), controller)))
+                if (!File.Exists(RoomScenePath(room)) || (controller != null && !SceneHasScript(RoomScenePath(room), controller))
+                    || (IsPlayRoom(room) && !SceneHasScript(RoomScenePath(room), typeof(PlayerLook)))) // U.HARE-T55's ship look
                     RebuildRoomScene(room);
             }
             if (!IsBootstrap(ScenePath)) RebuildMainScene();

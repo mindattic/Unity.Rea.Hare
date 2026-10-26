@@ -22,6 +22,7 @@ namespace Unity.Hare.Player
             Guns = new GunRack(Sink, Flight, Ammo, Table);
             Ground = new GroundLoadout(Sink, Guns);
             Air = new AirLoadout(Sink, Flight, Ammo, Table);
+            Look = new ShipLook(Sink, Flight, Health, random);
         }
 
         public PlayerId Id { get; }
@@ -32,6 +33,9 @@ namespace Unity.Hare.Player
         public GunRack Guns { get; }
         public GroundLoadout Ground { get; }
         public AirLoadout Air { get; }
+
+        /// <summary>What obj_player draws (held weapon, scale) and the trails it leaves (<see cref="ShipLook"/>).</summary>
+        public ShipLook Look { get; }
 
         internal EventSink Sink { get; }
 

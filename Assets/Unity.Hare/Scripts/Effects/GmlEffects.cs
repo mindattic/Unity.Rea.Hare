@@ -11,14 +11,19 @@ namespace Unity.Hare.Effects
     {
         /// <summary>ef_firework: a burst of flares falling under gravity.</summary>
         Firework = 3,
+        /// <summary>ef_smoke: puffs of smoke that stay where they are, shrinking and fading.</summary>
+        Smoke = 4,
         /// <summary>ef_smokeup: puffs of smoke rising and shrinking.</summary>
-        SmokeUp = 5
+        SmokeUp = 5,
+        /// <summary>ef_spark: one spark at a random angle, shrinking away.</summary>
+        Spark = 7
     }
 
     /// <summary>GameMaker's built-in particle shapes (pt_shape_*), by their GML index.</summary>
     public enum GmlParticleShape
     {
         Flare = 8,
+        Spark = 9,
         Explosion = 10
     }
 
@@ -34,10 +39,12 @@ namespace Unity.Hare.Effects
         public readonly float AlphaStart, AlphaEnd;
         public readonly float LifeMin, LifeMax;
         public readonly float GravityPerStep, GravityDirection;
+        /// <summary>ParticleType_Orientation(min, max): each particle is drawn turned a random angle in [min, max].</summary>
+        public readonly float OrientationMin, OrientationMax;
 
         public GmlParticleType(GmlParticleShape shape, float sizeMin, float sizeMax, float sizeIncr, float speedMin, float speedMax,
             float direction, float directionRange, float alphaStart, float alphaEnd, float lifeMin, float lifeMax,
-            float gravity, float gravityDirection)
+            float gravity, float gravityDirection, float orientationMin = 0f, float orientationMax = 0f)
         {
             Shape = shape;
             SizeMin = sizeMin; SizeMax = sizeMax; SizeIncrPerStep = sizeIncr;
@@ -46,6 +53,7 @@ namespace Unity.Hare.Effects
             AlphaStart = alphaStart; AlphaEnd = alphaEnd;
             LifeMin = lifeMin; LifeMax = lifeMax;
             GravityPerStep = gravity; GravityDirection = gravityDirection;
+            OrientationMin = orientationMin; OrientationMax = orientationMax;
         }
     }
 
@@ -124,14 +132,29 @@ namespace Unity.Hare.Effects
                         0f, 360f, 1f, 0.4f, Life(lifeMin), Life(lifeMax), gravity * f, 270f), count, 0f);
             }
 
+            if (kind == GmlEffectKind.Spark)
+            {
+                // Eff_Effect07: one pt_shape_spark, Size(s, s, -incr f), Orientation(0, 360), Life(life / f); alpha stays 1.
+                if (size == 0) return Spark(0.4f, 0.02f, 20f);
+                if (size == 2) return Spark(1.2f, 0.04f, 30f);
+                return Spark(0.75f, 0.03f, 25f);
+
+                GmlEffectRecipe Spark(float s, float shrink, float life) =>
+                    new GmlEffectRecipe(new GmlParticleType(GmlParticleShape.Spark, s, s, -shrink * f, 0f, 0f,
+                        0f, 0f, 1f, 1f, Life(life), Life(life), 0f, 0f, 0f, 360f), 1, 0f);
+            }
+
+            // ef_smoke (Eff_Effect04) is ef_smokeup without the rise: its type never sets a speed, so the puffs stay put.
+            float rise = kind == GmlEffectKind.Smoke ? 0f : 1f;
+
             // ef_smokeup: Size(min, max, -0.01 f), Alpha2(0.4, 0), Direction(90, 90); i = 0..n, so n + 1 puffs.
             if (size == 0) return SmokeUp(0.2f, 0.4f, 3.0f, 4.0f, 25f, 6, 5f);
             if (size == 2) return SmokeUp(0.4f, 1.0f, 6.0f, 7.0f, 50f, 16, 30f);
             return SmokeUp(0.4f, 0.7f, 5.0f, 6.0f, 30f, 11, 15f);
 
             GmlEffectRecipe SmokeUp(float sizeMin, float sizeMax, float speedMin, float speedMax, float life, int count, float spread) =>
-                new GmlEffectRecipe(new GmlParticleType(GmlParticleShape.Explosion, sizeMin, sizeMax, -0.01f * f, speedMin * f, speedMax * f,
-                    90f, 0f, 0.4f, 0f, Life(life), Life(life), 0f, 0f), count, spread);
+                new GmlEffectRecipe(new GmlParticleType(GmlParticleShape.Explosion, sizeMin, sizeMax, -0.01f * f, speedMin * f * rise, speedMax * f * rise,
+                    90f * rise, 0f, 0.4f, 0f, Life(life), Life(life), 0f, 0f), count, spread);
         }
     }
 
@@ -157,6 +180,8 @@ namespace Unity.Hare.Effects
             public float Alpha;
             public float Age;
             public float Life;
+            /// <summary>The angle it is drawn at, degrees (ParticleType_Orientation).</summary>
+            public float Angle;
         }
 
         readonly List<Particle> particles = new List<Particle>();
@@ -198,7 +223,8 @@ namespace Unity.Hare.Effects
                     Size = Random.Range(t.SizeMin, t.SizeMax),
                     Alpha = t.AlphaStart,
                     Age = 0f,
-                    Life = Random.Range(t.LifeMin, t.LifeMax)
+                    Life = Random.Range(t.LifeMin, t.LifeMax),
+                    Angle = t.OrientationMax > t.OrientationMin ? Random.Range(t.OrientationMin, t.OrientationMax) : t.OrientationMin
                 });
             }
             if (Application.isPlaying) SetUpRenderer();
@@ -232,9 +258,20 @@ namespace Unity.Hare.Effects
             return false;
         }
 
+        /// <summary>The Resources/Hare/Particles texture of GameMaker particle shape <paramref name="shape"/>.</summary>
+        public static string ShapeTextureName(GmlParticleShape shape)
+        {
+            switch (shape)
+            {
+                case GmlParticleShape.Flare: return "pt_shape_flare";
+                case GmlParticleShape.Spark: return "pt_shape_spark";
+                default: return "pt_shape_explosion";
+            }
+        }
+
         void SetUpRenderer()
         {
-            var texture = HareArt.ParticleShape(Recipe.Type.Shape == GmlParticleShape.Flare ? "pt_shape_flare" : "pt_shape_explosion");
+            var texture = HareArt.ParticleShape(ShapeTextureName(Recipe.Type.Shape));
             if (texture == null) return;
             var shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default");
             if (shader == null) shader = Shader.Find("Sprites/Default");
@@ -275,6 +312,7 @@ namespace Unity.Hare.Effects
                 drawn[i].startColor = tint;
                 drawn[i].startLifetime = drawn[i].remainingLifetime = 1000f;
                 drawn[i].velocity = Vector3.zero;
+                drawn[i].rotation = -p.Angle; // GML angles turn counter-clockwise; a particle's rotation turns clockwise
             }
             system.SetParticles(drawn, n);
         }

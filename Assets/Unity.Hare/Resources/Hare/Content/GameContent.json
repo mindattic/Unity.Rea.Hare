@@ -189,5 +189,12 @@
     ],
     "DefaultLevel": { "Level": 0, "Script": "level_default", "Name": "Default Level", "Room": "GameScreen", "Background": "bg_orange", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
     "GeneratorLevel": { "Level": 0, "Script": "level_enemygenerator", "Name": "Enemy Generator", "Room": "GameScreen", "Background": "bg_nightsky", "Overlay": "bg_gradient3", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false }
+  },
+  "look": {
+    "SmokeDelaySteps": 40,
+    "SparkDelaySteps": 8,
+    "SparkJitterPx": 4,
+    "JetOffsetPx": 36,
+    "Scale": 1
   }
 }
