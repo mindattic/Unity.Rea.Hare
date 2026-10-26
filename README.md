@@ -132,7 +132,33 @@ powershell -File tools/unity.ps1 -Graphics -Log playmode -Extra "-runTests -test
 
 # only the online tests (a real host or dedicated server and real clients on a free loopback port)
 powershell -File tools/unity.ps1 -Log online-tests -Extra "-runTests -testPlatform PlayMode -assemblyNames Unity.Hare.Tests.Online -testResults TestResults-Online.xml"
+
+# a bare dev build (no icon/product-settings polish -- U.HARE-T71) to Build/Hare/Hare.exe
+powershell -File tools/deploy.ps1
+
+# builds (if Build/Hare/Hare.exe is missing or -Build is given) and launches it, muted by default
+powershell -File tools/play.ps1
 ```
+
+### Muted launches
+
+`tools/play.ps1` launches muted: it sets `MINDATTIC_CLI_MUTED=1` and passes `-muted`, so a CLI or agent
+starting the game never blasts audio. Pass `-Sound` to launch with audio. Either switch works on its own when
+you start `Build/Hare/Hare.exe` (or the editor) yourself:
+
+```
+$env:MINDATTIC_CLI_MUTED = '1'; .\Build\Hare\Hare.exe
+.\Build\Hare\Hare.exe -muted
+```
+
+The mute is the shared `com.mindattic.unity.shared` session mute: read before the first scene loads, it makes
+every profile's `CommonSettings` report music and SFX muted at volume 0 for that run only. `HareAudio.ApplyProfile`
+(already wired in by U.HARE-T47 to read the profile's music/SFX volume and mutes onto `HareMixer.mixer`) reads
+those settings the same way whether the mute came from the CLI or from the profile's own saved mute, so no
+extra glue is needed to reach the mixer -- Master, Music and Sfx are all silenced, and every `AudioSource` the
+game makes routes through one of those groups (`HareAudio.Route`). The player's saved `settings.json` is never
+written, so the next normal launch has sound. The `-batchmode` runs in `tools/unity.ps1` play nothing audible
+and don't need it.
 
 ## Controls
 
@@ -181,7 +207,7 @@ Assets/Unity.Hare/
     gml-fonts.json     every GML font, its font.gmx fields and glyph table, who draws with it, the typeface licences
     Atlases/           GameMaker's baked glyph atlases (GmlFontBuilder's source)
   Online/              Unity.Hare.Online asmdef (U.HARE-T35, on Unity.Multiplayer): HareNetPlayer (the NetEntity player), HareAuthority (the server's one world), HareOnlineGame (the front end's items), HareBot
-  Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter; Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
+  Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter, HareBuild (the dev build tools/deploy.ps1 runs); Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
     Rendering/         Unity.Hare.Editor.Rendering asmdef: UrpSeam, SortingLayerSetup (the only code that references UnityEngine.Rendering.Universal)
     Online/            Unity.Hare.Editor.Online asmdef: OnlineSceneBuilder (Online.unity, the player prefab, the prefab list, mp-host.json)
   Tests/EditMode/      Unity.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
@@ -199,6 +225,8 @@ tools/
   import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Hare/Audio
   import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Hare/Fonts
   gml-json.ps1         the stable JSON writer the import scripts share
+  deploy.ps1           a bare dev build (HareBuild.BuildWindows) to Build/Hare/Hare.exe (U.HARE-T80; release polish is U.HARE-T71)
+  play.ps1             builds if needed, then launches Build/Hare/Hare.exe muted by default (-Sound to opt in; U.HARE-T80)
 docs/
   BIBLE.md             design rules, architecture, data, fixed defects and deviations
   RECONSTRUCTION.md    the original's inventory, parity matrix, standards audit, build order

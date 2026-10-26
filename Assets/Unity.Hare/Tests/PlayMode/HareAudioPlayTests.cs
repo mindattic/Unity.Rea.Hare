@@ -80,5 +80,41 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(source.spatialBlend, Is.EqualTo(0f), "GameMaker's audio_play_sound is not positional");
             HareAudio.Play("sfx_no_such_sound"); // silent, not an error
         }
+
+        /// <summary>
+        /// U.HARE-T80: the CLI mute (-muted / MINDATTIC_CLI_MUTED=1) reaches Hare through Unity.Shared's
+        /// Profiles.SessionMuted, which CommonSettings reads on every call -- no code here has to know about it
+        /// specifically; the same ApplyVolumes path a profile's own mute takes also silences the mixer for a
+        /// muted session, and the profile's stored values are never touched.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator TheCliSessionMuteSilencesTheMixerWithoutTouchingTheProfile()
+        {
+            yield return null;
+
+            var common = ActiveProfile.Current.Settings.Common;
+            common.MusicVolume = 0.5f;
+            common.SfxVolume = 0.25f;
+            common.MuteMusic = false;
+            common.MuteSfx = false;
+
+            Profiles.SessionMuted = true;
+            try
+            {
+                Assert.IsTrue(HareAudio.ApplyProfile());
+                Assert.That(Level(HareAudioManifest.MusicVolumeParameter), Is.EqualTo(MixerLevels.SilentDecibels).Within(1e-3f));
+                Assert.That(Level(HareAudioManifest.SfxVolumeParameter), Is.EqualTo(MixerLevels.SilentDecibels).Within(1e-3f));
+            }
+            finally
+            {
+                Profiles.SessionMuted = false;
+            }
+
+            Assert.IsTrue(HareAudio.ApplyProfile());
+            Assert.That(Level(HareAudioManifest.MusicVolumeParameter), Is.EqualTo(MixerLevels.ToDecibels(0.5f)).Within(1e-3f),
+                "the session mute never changed the profile's stored volume");
+            Assert.That(Level(HareAudioManifest.SfxVolumeParameter), Is.EqualTo(MixerLevels.ToDecibels(0.25f)).Within(1e-3f),
+                "the session mute never changed the profile's stored volume");
+        }
     }
 }
