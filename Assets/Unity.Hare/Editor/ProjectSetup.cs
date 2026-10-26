@@ -48,10 +48,11 @@ namespace Unity.Hare.EditorTools
 
         /// <summary>
         /// The object that runs <paramref name="room"/>, as its own ticket builds it (obj_startup in startup,
-        /// U.HARE-T51; obj_game's arena in the play rooms, U.HARE-T52); null for a room whose controller is not built yet.
+        /// U.HARE-T51; obj_title in room_title, U.HARE-T26; obj_game's arena in the play rooms, U.HARE-T52); null for a room
+        /// whose controller is not built yet.
         /// </summary>
         public static System.Type RoomControllerType(RoomId room) =>
-            room == RoomId.Startup ? typeof(StartupRoom) : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
+            room == RoomId.Startup ? typeof(StartupRoom) : room == RoomId.Title ? typeof(TitleRoom) : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
         /// Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing (a room
@@ -142,8 +143,9 @@ namespace Unity.Hare.EditorTools
         /// One room's scene: the 2D camera rig (letterboxed to the reference resolution, carrying the screen overlay
         /// the room's obj_fade_* draws on) and a global 2D light; the play rooms also get room_gamescreen's night-sky
         /// backdrop, obj_player and obj_game's arena (<see cref="ArenaRoom"/>, which builds its backgrounds, minimap and HUD itself),
-        /// and startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and
-        /// note itself). What else each room holds (its controller, menus, emitters) is its own ticket's.
+        /// startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and note itself) and room_title
+        /// its obj_title (<see cref="TitleRoom"/>, which builds its menu, dialog and pointer itself). What else each room
+        /// holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
         {
@@ -155,6 +157,7 @@ namespace Unity.Hare.EditorTools
             if (play) AddPlayerShip();
             if (play) ArenaRoom.Create();
             if (room == RoomId.Startup) StartupRoom.Create();
+            if (room == RoomId.Title) TitleRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);
         }

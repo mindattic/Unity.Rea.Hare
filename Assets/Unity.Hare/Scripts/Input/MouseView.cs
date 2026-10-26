@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,20 +51,33 @@ namespace Unity.Hare.Input
         /// <summary>The sprite drawing it.</summary>
         public SpriteRenderer Renderer => spriteRenderer;
 
-        /// <summary>Whether it is drawn this frame (visible, and a mouse to sit on).</summary>
-        public bool Drawn => spriteRenderer != null && spriteRenderer.enabled;
+        /// <summary>Whether it is drawn this frame (visible, and a mouse to sit on), by its sprite or by <see cref="DrawOnUi"/>.</summary>
+        public bool Drawn { get; private set; }
+
+        /// <summary>The room pixel its sprite's origin is drawn at this frame.</summary>
+        public Vector2 RoomPoint { get; private set; }
+
+        /// <summary>
+        /// A room whose objects are drawn on a UI Toolkit panel (the title, U.HARE-T26) draws obj_mouse there too, over
+        /// that panel as depth -5000 is over every object: when set, the sprite renderer stays off and this is called
+        /// every frame after the step, with <see cref="Drawn"/>, <see cref="RoomPoint"/> and <see cref="Renderer"/>'s
+        /// sprite set. It is drawn once, there (BIBLE V38).
+        /// </summary>
+        public Action<MouseView> DrawOnUi;
 
         /// <summary>
         /// The obj_mouse <paramref name="room"/>'s controller creates, made in <paramref name="scene"/> so it goes with it;
-        /// null when the room has none.
+        /// null when the room has none. With <paramref name="parent"/> (a room controller making its own, as obj_title's
+        /// Create does) it is made under that object, so it is in the controller's scene even while that scene is loading.
         /// </summary>
-        public static MouseView Create(RoomId room, Scene scene)
+        public static MouseView Create(RoomId room, Scene scene, Transform parent = null)
         {
             var content = GameContent.Current;
             var state = GameMouse.ForRoom(content.Mouse, room);
             if (state == null) return null;
             var go = new GameObject(ObjectName);
-            if (scene.IsValid() && scene.isLoaded && go.scene != scene) SceneManager.MoveGameObjectToScene(go, scene);
+            if (parent != null) go.transform.SetParent(parent, false);
+            else if (scene.IsValid() && scene.isLoaded && go.scene != scene) SceneManager.MoveGameObjectToScene(go, scene);
             var view = go.AddComponent<MouseView>();
             view.Init(state, room, content.Rooms.Get(room));
             return view;
@@ -105,6 +119,8 @@ namespace Unity.Hare.Input
             if (world == null)
             {
                 spriteRenderer.enabled = false;
+                Drawn = false;
+                DrawOnUi?.Invoke(this);
                 return;
             }
 
@@ -120,8 +136,11 @@ namespace Unity.Hare.Input
             if (State.OnGui) { x += view.x; y += view.y; } // its Draw GUI's spot on screen, back in the room
             var at = ToWorld(x, y);
             transform.position = new Vector3(at.x, at.y, 0f);
+            RoomPoint = new Vector2(x, y);
             spriteRenderer.sprite = SpriteFor(State.Sprite);
-            spriteRenderer.enabled = State.Visible && spriteRenderer.sprite != null;
+            Drawn = State.Visible && spriteRenderer.sprite != null;
+            spriteRenderer.enabled = Drawn && DrawOnUi == null;
+            DrawOnUi?.Invoke(this);
         }
 
         /// <summary>HareControls' Player/Aim (the mouse's screen position) as a world point, for a room with no ship.</summary>
