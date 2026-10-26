@@ -376,5 +376,28 @@
     "FogAlpha": 0.3,
     "FogSpeedMin": 1,
     "FogSpeedMax": 2
+  },
+  "popups": {
+    "FloatText": {
+      "StartAlpha": 1, "Color": "#FFFFFF", "OutlineColor": "#000000", "Flash": true, "FadeSpeed": 0.008, "FloatSpeed": 1,
+      "FlashColors": ["#FFFFFF", "#FFFFFF", "#FF0000", "#FFFF00", "#0000FF"], "FlashCycleTop": 4, "DrawOffsetY": -10, "Outline": 1,
+      "ScoreFlash": true, "ScoreFadeSpeed": 0.01, "ScoreFloatSpeed": 1
+    },
+    "Tip": {
+      "Sprite": "spr_tip_box", "Width": 548, "Height": 250, "Alpha": 0.7, "BottomMargin": 30, "RightMargin": 30, "Margin": 20,
+      "SlideInMin": 1, "SlideOutMin": 2, "SlideFactor": 0.1, "Sound": "sfx_flick", "Outline": 1,
+      "MapText": "Mission Command#          Press [A] or [D] to cycle through available missions.#          Press [Any Key] to launch selected mission.#",
+      "IntroText": "Controls#          Mouse 1 - Fire Primary\\Secondary Weapon#          CTRL - Primary\\Secondary Toggle#          Mouse 2 - Leap (on surface) \\ Brake (in flight)#          W, S - Shield yourself (on surface)#          A, D - Change trajectory (in flight)#          SPACE, W - Boost (in flight)#          SHIFT, S - Brake (in flight)#          Q - Cycle Primary\\Secondary Ground Weapon#          E - Cycle Primary\\Secondary Air Weapon#"
+    },
+    "Alert": {
+      "Sprite": "spr_alertmarker", "Frames": 6, "Depth": -10, "ImageSpeed": 0.2, "Length": 550, "PingRateSteps": 30, "PingSize": 0,
+      "PingColor": "#FF0000",
+      "Missions": [
+        { "Degree": 16, "ScenarioId": 1 },
+        { "Degree": 150, "ScenarioId": 2 },
+        { "Degree": 270, "ScenarioId": 3 },
+        { "Degree": 310, "ScenarioId": 4 }
+      ]
+    }
   }
 }

@@ -5,6 +5,7 @@ using Unity.Hare.Enemies;
 using Unity.Hare.Flow;
 using Unity.Hare.Online;
 using Unity.Hare.Pickups;
+using Unity.Hare.Popups;
 using Unity.Hare.Player;
 using Unity.Hare.Rooms;
 using Unity.Hare.Session;
@@ -42,6 +43,8 @@ namespace Unity.Hare.Content
         public LookTuning Look { get; }
         public PickupTuning Pickups { get; }
         public WeatherTuning Weather { get; }
+        /// <summary>obj_float_text, obj_tip and obj_alert (U.HARE-T27).</summary>
+        public PopupTuning Popups { get; }
 
         ContentRegistry()
         {
@@ -64,6 +67,7 @@ namespace Unity.Hare.Content
             Look = new LookTuning();
             Pickups = new PickupTuning();
             Weather = new WeatherTuning();
+            Popups = new PopupTuning();
         }
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace Unity.Hare.Content
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,
         /// one section per top-level key: weapons, ammo, flight, health, weaponPhysicals, emitters, wormholes,
-        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather. A section or field the file omits keeps its default. Throws
+        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather, popups. A section or field the file omits keeps its default. Throws
         /// <see cref="ContentValidationException"/>, listing every problem, if the file is malformed or any value
         /// fails validation.
         /// </summary>
@@ -126,13 +130,14 @@ namespace Unity.Hare.Content
                 Bind(sections, "look", registry.Look, errors);
                 Bind(sections, "pickups", registry.Pickups, errors);
                 Bind(sections, "weather", registry.Weather, errors);
+                Bind(sections, "popups", registry.Popups, errors);
 
                 foreach (var key in sections.Keys)
                 {
                     switch (key.ToLowerInvariant())
                     {
                         case "weapons": case "ammo": case "flight": case "health": case "weaponphysicals":
-                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather":
+                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather": case "popups":
                             break;
                         default:
                             errors.Add($"content.{key}: not a recognised section.");
@@ -160,6 +165,7 @@ namespace Unity.Hare.Content
             registry.Look.Validate(errors, "look");
             registry.Pickups.Validate(errors, "pickups");
             registry.Weather.Validate(errors, "weather");
+            registry.Popups.Validate(errors, "popups");
 
             if (errors.Count > 0) throw new ContentValidationException(errors);
             return registry;
