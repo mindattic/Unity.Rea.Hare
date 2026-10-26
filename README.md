@@ -44,6 +44,10 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 - scoring and the popups (U.HARE-T27): every scoring kill and rock break floats its points up from where it died
   (obj_float_text) and adds them to the score; obj_tip's sliding tip box and obj_alert's pinging mission marker are
   ready for the map and intro rooms (Core's `Popups/`, `Popups/FloatTextView`, `TipView`, `AlertMarkerView`)
+- the title menu (U.HARE-T26): a key or click on room_title brings in obj_logo's buttons (Campaign, the eight
+  quick-start levels, Enemy Generator, Empty Level, Quit Game), each turning cornflower blue with its message under
+  the mouse; Campaign fades to the story, a level or difficulty to the arena in that game mode, and Quit asks
+  "Are you sure?" (Yes or Enter quits the player, No or Esc closes it) (Core's `Rooms/TitleScreen`, `Rooms/TitleRoom`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`
