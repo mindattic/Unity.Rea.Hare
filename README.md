@@ -48,6 +48,11 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   quick-start levels, Enemy Generator, Empty Level, Quit Game), each turning cornflower blue with its message under
   the mouse; Campaign fades to the story, a level or difficulty to the arena in that game mode, and Quit asks
   "Are you sure?" (Yes or Enter quits the player, No or Esc closes it) (Core's `Rooms/TitleScreen`, `Rooms/TitleRoom`)
+- the title and intro presentation (U.HARE-T62): the rabbit falls head first through rushing clouds over the
+  scrolling night sky, trailing smoke, hangs, and drops out of the room; a key, a click or its fall brings the rabbit
+  up on the moon, its eye following the mouse, and the logo and menu fade in. room_intro (which nothing in the
+  original goes to) drops the rabbit with the controls tip, A and D steer it and any other key sends it into a quick
+  game (Core's `Rooms/DropScene`, `IntroScreen`; `Rooms/DropSceneView`, `IntroRoom`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

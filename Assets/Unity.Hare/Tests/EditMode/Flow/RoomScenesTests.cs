@@ -113,6 +113,24 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
+        public void TheIntroSceneHoldsObjIntro_AndNoOtherRoomDoes()
+        {
+            foreach (var room in RoomList.All)
+            {
+                var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
+                var intros = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<IntroRoom>(true)).ToList();
+                if (room == RoomId.Intro)
+                {
+                    Assert.That(intros.Count, Is.EqualTo(1), "room_intro.room.gmx places one obj_intro");
+                    Assert.That(intros[0].name, Is.EqualTo(IntroRoom.ObjectName));
+                    Assert.That(intros[0].transform.childCount, Is.EqualTo(0), "it builds its backgrounds, falling rabbit and tip itself, at runtime");
+                }
+                else Assert.That(intros, Is.Empty, room + ": obj_intro is room_intro's alone");
+            }
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Intro), Is.EqualTo(typeof(IntroRoom)));
+        }
+
+        [Test]
         public void EachPlayRoomHoldsObjGamesArena_AndNoOtherRoomDoes()
         {
             foreach (var room in RoomList.All)

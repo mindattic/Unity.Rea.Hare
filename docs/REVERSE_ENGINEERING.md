@@ -322,6 +322,42 @@ HUD: `obj_healthbar`, `obj_energybar`, `obj_weapon_gui`, `obj_speedometer`, `obj
 `obj_float_text`/`obj_losthealth`, `obj_tip`, `obj_alert`, `obj_fade_*` (per-room fade
 transitions), `obj_logo`, `obj_mouse`.
 
+### Title and intro presentation (read for U.HARE-T62)
+
+- `room_title` / `room_intro` (1920x1080, 60 steps, view 0 = the room): backgrounds `bg_nightsky` (slot 0, tiled,
+  `vspeed -5`) and `bg_gradient3` (slot 1, tiled, still). Title instances in order: `obj_drop_emitter` (-928,128),
+  `obj_drop_title` (960,-608, scale 0.5), `obj_stand_title` (928,2592, scale 0.5), `obj_title`. Intro: `obj_drop_intro`
+  (960,-608, scale 0.5), `obj_drop_emitter`, `obj_intro`. Nothing in the project goes to `room_intro`.
+- `obj_drop_emitter` (depth 0): Create `rate = 20; alarm[0] = 1`; Alarm 0 `repeat(irandom_range(4,8))
+  instance_create(0,0,obj_drop_cloud)`, `alarm[0] = rate`.
+- `obj_drop_cloud` (spr_cloud1, depth 0): Create `x = irandom_range(-sprite_width/2, room_width - sprite_width/2)`,
+  `vspeed = -irandom_range(60,80)`, `image_alpha = 0.1 * irandom_range(1,3)`, `y = room_height + sprite_height *
+  irandom_range(1,2)`, then `sprite_index` = spr_cloud1..4 by `irandom_range(1,4)`; Step `if(y < -sprite_height)
+  instance_destroy()`.
+- `obj_drop_title` (spr_drop 462x1154, origin 231,0): Create `vspeed = 10; startX = x; phase = "start"; smoke_delay = 20;
+  alarm[0] = smoke_delay`; Alarm 0 `effect_create_below(ef_smokeup, x, y+40, 2, c_black)` and re-arm; Alarm 1
+  `phase = "exit"`; Step `x = startX + irandom_range(-3,3)`, `effect_create_below(ef_smokeup, x, y+40, 2, c_orange)`,
+  "start": `if(y > room_height/4) { vspeed = 0; phase = "hang"; alarm[1] = 200; }`, "exit": `vspeed = 10`, and past
+  `room_height` `instance_destroy(); obj_stand_title.phase = "on"; with(obj_drop_emitter) instance_destroy();
+  audio_play_sound(sfx_land,1,0)`.
+- `obj_drop_intro`: the same without Alarm 1; on stopping it makes `obj_tip` with the controls list (`indent()` lines);
+  keyboard D `if(startX < room_width - 300) startX += 1`, A `if(startX > 300) startX -= 1`; key press (any) `if
+  (!keyboard_check(ord("A")) && !keyboard_check(ord("D"))) { if(phase == "hang") phase = "exit"; }`; past
+  `room_height` in "exit": `gamemode = gm_quickstart; current_scenario = -1; current_level = 1;
+  room_goto(room_gamescreen)`.
+- `obj_stand_title` (spr_stand 493x1154, origin 246,1154): Create `phase = "off"`; Step while "on": `if(y >
+  room_height - 30) vspeed = -40; else { vspeed = 0; instance_create(0,0,obj_logo); phase = "off"; }`; Draw
+  `draw_sprite(spr_moon_surface,0,0,y+250)`, `draw_sprite_ext(spr_eyeback,0,x-6,y-368,0.5,0.5,0,c_white,1)`,
+  `draw_sprite_ext(spr_pupil,0,x-12+(mouse_x/120),y-370+(mouse_y/60),0.5,0.5,0,c_white,1)`, `draw_self()`.
+- `obj_logo` (spr_logo 551x510, origin 275,255): Create `x = view_xview[0] + width/2 + 200; y = view_yview[0] +
+  height/2 + 200; image_alpha = 0; obj_mouse.visible = true; background_vspeed[0] = 0;` and the buttons; Step
+  `image_alpha += 0.02` to 1; Draw `draw_self()`.
+- `obj_title`: key press (any) `if(!keyboard_check(vk_f1))` and global left button `if(!keyboard_check(vk_f1) &&
+  !keyboard_check(vk_escape))`: `with(obj_drop_title) instance_destroy(); with(obj_drop_emitter) instance_destroy();
+  obj_stand_title.phase = "on";` (every press, and every step the button is held: BIBLE D23).
+- `obj_intro` (spr_room_loop): Create sets the view port to the window; its typewriter text is commented out; Esc
+  `room_goto(room_title)`.
+
 ## Story / dialogue
 
 `room_intro`, `room_story`, `obj_conversation`, `obj_story`, `obj_typewriter`/

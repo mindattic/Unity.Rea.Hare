@@ -16,8 +16,8 @@ namespace Unity.Hare.Rooms
     /// nothing; its room (<see cref="TitleRoom"/>, <see cref="IntroRoom"/>) steps it.
     ///
     /// The instances are all at depth 0, where GameMaker leaves their order to the runner; they are drawn here with the
-    /// newer under the older (the clouds under the rabbit), which is how the runner orders same-depth instances it adds
-    /// to its draw list, and keeps the rabbit, the one thing the eye follows, in front (BIBLE V40).
+    /// clouds under the rabbit, the logo and the stand, which keeps the rabbit, the one thing the eye follows, in front
+    /// (BIBLE V40).
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class DropSceneView : MonoBehaviour

@@ -11,6 +11,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
+using Unity.Hare.Effects;
 using Unity.Hare.Flow;
 using Unity.Hare.Input;
 using Unity.Hare.Rendering;
@@ -116,7 +117,7 @@ namespace Unity.Hare.Tests.PlayMode
             yield return WaitFor(() => RoomFlowDirector.Active.Flow.Fade.Mode == FadeMode.Off, "obj_fade_title's fade-out");
             yield return Tap(keyboard.spaceKey);
             var title = Title();
-            yield return WaitFor(() => title.State.MenuShown, "a key to bring in the menu (scene " + SceneManager.GetActiveScene().name
+            yield return WaitFor(() => title.State.MenuShown, "a key and the rabbit's rise to bring in the menu (scene " + SceneManager.GetActiveScene().name
                 + ", " + UnityEngine.Object.FindObjectsByType<TitleRoom>(FindObjectsSortMode.None).Length + " obj_title)");
         }
 
@@ -141,10 +142,20 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(title.State.MenuShown, Is.False, "obj_title's key press skips F1");
 
             yield return Tap(keyboard.aKey);
-            Assert.That(title.State.MenuShown, Is.True);
+            Assert.That(title.State.Stand.On, Is.True, "obj_stand_title.phase = \"on\"");
+            Assert.That(title.State.Scene.Drop, Is.Null, "with(obj_drop_title) instance_destroy()");
+            Assert.That(title.SceneView.Drop.enabled, Is.False);
+            Assert.That(title.State.MenuShown, Is.False, "the menu waits for the rabbit to rise");
+            Assert.That(title.Logo.enabled, Is.False, "no obj_logo yet");
+            yield return null;
+            Assert.That(title.Pointer.Drawn, Is.False, "the pointer stays hidden until obj_logo");
+            yield return WaitFor(() => title.State.MenuShown, "obj_stand_title's 40-step rise to obj_logo");
+            Assert.That(title.State.Stand.Y, Is.EqualTo(1032d));
             Assert.That(title.State.Menu.Count, Is.EqualTo(12));
             Assert.That(title.MenuLayer.childCount, Is.EqualTo(12 * 2), "a caption and a hover message each");
             yield return null;
+            Assert.That(title.Logo.enabled, Is.True, "obj_logo");
+            Assert.That(title.Logo.sprite.name, Does.StartWith("spr_logo"));
             Assert.That(title.Pointer.Drawn, Is.True, "obj_logo: obj_mouse.visible = true");
             Assert.That(title.Pointer.Renderer.enabled, Is.False, "drawn once, on the panel, not also as a world sprite");
             Assert.That(title.PointerElement.resolvedStyle.display, Is.EqualTo(DisplayStyle.Flex));
@@ -273,16 +284,115 @@ namespace Unity.Hare.Tests.PlayMode
             var title = Title();
             yield return new WaitForSecondsRealtime(1.2f); // the captions at full alpha
             yield return MoveTo(title, Button(title, "obj_btn_level05").X, Button(title, "obj_btn_level05").Y);
-            yield return Render(title, W, H, "title.png", ui => Assert.That(Count(ui, W, H, 1300, 1580, 140, 820, White), Is.GreaterThan(500), "the captions down x 1440"));
+            yield return Render(title, W, H, "title.png", (world, ui) =>
+            {
+                Assert.That(Count(ui, W, H, 1300, 1580, 140, 820, White), Is.GreaterThan(500), "the captions down x 1440");
+                Assert.That(Count(world, W, H, 820, 1040, 470, 1030, White), Is.GreaterThan(20000), "obj_stand_title risen: spr_stand at 928, its feet at 1032");
+                Assert.That(Count(world, W, H, 210, 740, 210, 700, White), Is.GreaterThan(10000), "obj_logo at 475,455");
+                Assert.That(Count(world, W, H, 0, 1920, 900, 1080, p => p.r + p.g + p.b > 150), Is.GreaterThan(50000), "the moon's surface under it");
+            });
             Assert.That(Button(title, "obj_btn_level05").Hovered, Is.True, "the mouse stayed on Level 05 while it was drawn");
             yield return ClickAt(title, Button(title, "obj_btn_quit"));
             yield return MoveTo(title, title.State.Dialog.Yes.X, title.State.Dialog.Yes.Y);
-            yield return Render(title, W, H, "title-quit.png", ui => Assert.That(Count(ui, W, H, 686, 1234, 415, 665, p => p.a > 100), Is.GreaterThan(20000), "spr_tip_box at 0.7"));
+            yield return Render(title, W, H, "title-quit.png", (world, ui) => Assert.That(Count(ui, W, H, 686, 1234, 415, 665, p => p.a > 100), Is.GreaterThan(20000), "spr_tip_box at 0.7"));
+        }
+
+        [UnityTest]
+        public IEnumerator TheRabbitFallsThroughTheCloudsOverTheNightSkyAndHangs()
+        {
+            yield return EnterTitle();
+            var title = Title();
+            var view = title.SceneView;
+            Assert.That(view.Layers.Select(l => l.sprite != null ? l.sprite.texture.name : "").ToArray(), Is.EqualTo(new[] { "bg_nightsky", "bg_gradient3" }),
+                "background 0 bg_nightsky, background 1 bg_gradient3 over it");
+            Assert.That(view.Layers.All(l => l.sortingLayerName == HareSortingLayers.Backdrop), "under every instance");
+            Assert.That(view.Drop.sprite.name, Does.StartWith("spr_drop"));
+            Assert.That(view.Drop.transform.localScale.x, Is.EqualTo(0.5f), "the room's half scale");
+            Assert.That(title.Stand.transform.localScale.x, Is.EqualTo(0.5f));
+
+            var smoke = new List<GmlEffectBurst>();
+            Action<GmlEffectBurst> made = smoke.Add;
+            GmlEffects.Created += made;
+            try
+            {
+                yield return WaitFor(() => title.State.Scene.Clouds.Count > 0, "obj_drop_emitter's first clouds");
+                yield return null;
+                Assert.That(view.Clouds.Count(c => c.enabled), Is.EqualTo(title.State.Scene.Clouds.Count), "a renderer per cloud");
+                var cloud = view.Clouds.First(c => c.enabled);
+                Assert.That(cloud.sprite.name, Does.StartWith("spr_cloud"));
+                Assert.That(cloud.color.a, Is.InRange(0.09f, 0.31f), "image_alpha = 0.1 * irandom_range(1, 3)");
+
+                yield return WaitFor(() => title.State.Scene.Drop.Phase == DropPhase.Hang, "the drop to stop a quarter of the way down", 6f);
+                Assert.That(smoke.Count, Is.GreaterThan(60), "ef_smokeup every step");
+                Assert.That(smoke.All(s => s.Kind == GmlEffectKind.SmokeUp && !s.Above && s.Size == 2));
+                Assert.That(smoke.Any(s => s.Color == Color.black), "Alarm 0's black puff");
+                Assert.That(smoke.Count(s => s.Color != Color.black), Is.GreaterThan(smoke.Count(s => s.Color == Color.black)), "the orange trail");
+            }
+            finally { GmlEffects.Created -= made; }
+
+            var drop = title.State.Scene.Drop;
+            Assert.That(drop.Y, Is.EqualTo(272d));
+            yield return null;
+            var at = title.ToRoom(view.Drop.transform.position);
+            Assert.That(at.y, Is.EqualTo(272f).Within(0.5f), "spr_drop's origin, its top middle, at y");
+            Assert.That(at.x, Is.EqualTo(960f).Within(3.5f), "shaking about 960");
+            Assert.That(title.State.Scene.Backgrounds[0].Y, Is.LessThan(-400), "bg_nightsky scrolls up 5 px a step");
+            Assert.That(view.TileStart(0).y, Is.EqualTo(StartupLayer.Wrap(title.State.Scene.Backgrounds[0].Y, 1080) - 1080));
+            Assert.That(title.State.MenuShown, Is.False);
+
+            yield return WaitFor(() => RoomFlowDirector.Active.Flow.Fade.Mode == FadeMode.Off, "obj_fade_title's fade-out");
+            if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null)
+                yield return Render(title, 1920, 1080, "title-drop.png", (world, ui) =>
+                    Assert.That(Count(world, 1920, 1080, 860, 1060, 290, 840, White), Is.GreaterThan(15000), "the rabbit hanging at 960,272, half size"));
+        }
+
+        [UnityTest]
+        public IEnumerator LeftAloneTheRabbitFallsOutWithSfxLandAndRisesToTheMenu()
+        {
+            yield return EnterTitle();
+            var title = Title();
+            var played = new List<TitleEvent>();
+            title.EventPlayed += played.Add;
+            yield return WaitFor(() => title.State.Scene.Drop == null, "Alarm 1 and the fall out of the room", 10f);
+            Assert.That(played.OfType<TitleSoundRequested>().Select(s => s.Sound), Does.Contain("sfx_land"));
+            Assert.That(title.State.Stand.On, Is.True);
+            Assert.That(title.State.Scene.EmitterAlive, Is.False);
+            yield return WaitFor(() => title.State.MenuShown, "the rise to obj_logo", 3f);
+            Assert.That(played.OfType<MenuShown>().Count(), Is.EqualTo(1));
+            yield return null;
+            Assert.That(title.Logo.enabled, Is.True);
+            Assert.That(title.Pointer.Drawn, Is.True, "obj_logo shows the pointer");
+            int y = title.State.Scene.Backgrounds[0].Y;
+            yield return new WaitForSecondsRealtime(0.2f);
+            Assert.That(title.State.Scene.Backgrounds[0].Y, Is.EqualTo(y), "obj_logo: background_vspeed[0] = 0");
+        }
+
+        [UnityTest]
+        public IEnumerator ThePupilFollowsTheMouse()
+        {
+            yield return TitleWithMenu();
+            var title = Title();
+            yield return MoveTo(title, 0, 0);
+            var left = title.ToRoom(title.Pupil.transform.position);
+            Assert.That(left.x, Is.EqualTo(916f).Within(0.5f), "x - 12 + mouse_x/120");
+            Assert.That(left.y, Is.EqualTo(662f).Within(0.5f), "y - 370 + mouse_y/60");
+            yield return MoveTo(title, 1800, 900);
+            var right = title.ToRoom(title.Pupil.transform.position);
+            Assert.That(right.x, Is.EqualTo(916f + 15f).Within(0.5f));
+            Assert.That(right.y, Is.EqualTo(662f + 15f).Within(0.5f));
+            var eye = title.ToRoom(title.Eye.transform.position);
+            Assert.That(eye.x, Is.EqualTo(922f).Within(0.5f), "spr_eyeback at x-6, y-368");
+            Assert.That(eye.y, Is.EqualTo(664f).Within(0.5f));
+            var moon = title.ToRoom(title.Moon.transform.position);
+            Assert.That(moon.x, Is.EqualTo(0f).Within(0.5f), "spr_moon_surface at 0, y+250");
+            Assert.That(moon.y, Is.EqualTo(1282f).Within(0.5f));
+            Assert.That(title.Pupil.sortingOrder, Is.GreaterThan(title.Eye.sortingOrder));
+            Assert.That(title.Stand.sortingOrder, Is.GreaterThan(title.Pupil.sortingOrder), "draw_self() after the eye");
         }
 
         static bool White(Color32 p) => p.a > 200 && p.r > 200 && p.g > 200 && p.b > 200;
 
-        static int Count(Color32[] pixels, int w, int h, int left, int right, int top, int bottom, Func<Color32, bool> match)
+        internal static int Count(Color32[] pixels, int w, int h, int left, int right, int top, int bottom, Func<Color32, bool> match)
         {
             int count = 0;
             for (int y = top; y < bottom; y++)
@@ -291,8 +401,8 @@ namespace Unity.Hare.Tests.PlayMode
             return count;
         }
 
-        /// <summary>Draws the room camera and the title's panel at 1920x1080, saves the composite and checks the panel.</summary>
-        IEnumerator Render(TitleRoom title, int w, int h, string file, Action<Color32[]> check)
+        /// <summary>Draws the room camera and the room's panel at 1920x1080, saves the composite and checks the world and the panel.</summary>
+        internal static IEnumerator Render(Component title, int w, int h, string file, Action<Color32[], Color32[]> check)
         {
             // The room camera, drawn at once so no frame runs with it pointed at the texture (the mouse reads through it).
             var camera = Camera.main;
@@ -341,7 +451,7 @@ namespace Unity.Hare.Tests.PlayMode
             UnityEngine.Object.Destroy(texture);
             world.Release();
             ui.Release();
-            check(panel);
+            check(backdrop, panel);
         }
 
         static Color32[] Read(RenderTexture rt, int width, int height)
