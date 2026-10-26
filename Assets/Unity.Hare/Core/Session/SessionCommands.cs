@@ -156,6 +156,22 @@ namespace Unity.Hare.Session
         internal override bool Apply(GameSession session) { session.SetPaused(paused); return true; }
     }
 
+    /// <summary>
+    /// obj_game's P key press (U.HARE-T60): <c>if(!level_complete) paused = !paused</c>. Refused once the level is
+    /// complete, so the results screen's pause (set_level_complete) holds until its Enter.
+    /// </summary>
+    public sealed class TogglePause : SessionCommand
+    {
+        public TogglePause(PlayerId id) : base(id) { }
+
+        internal override bool Apply(GameSession session)
+        {
+            if (session.IsLevelComplete) return false;
+            session.SetPaused(!session.IsPaused);
+            return true;
+        }
+    }
+
     // ---- Score, lives and the counters ----
 
     /// <summary><c>current_score += points</c> (an enemy, a rock, the boss, a shrapnel piece).</summary>
@@ -245,6 +261,14 @@ namespace Unity.Hare.Session
     {
         public ToggleUnits(PlayerId id) : base(id) { }
         internal override bool Apply(GameSession session) { session.SetUseMetric(!session.UseMetric); return true; }
+    }
+
+    /// <summary>Sets use_metric directly (the profile's saved units, put on a new session).</summary>
+    public sealed class SetUnits : SessionCommand
+    {
+        readonly bool useMetric;
+        public SetUnits(PlayerId id, bool useMetric) : base(id) => this.useMetric = useMetric;
+        internal override bool Apply(GameSession session) { session.SetUseMetric(useMetric); return true; }
     }
 
     /// <summary>obj_game's F12 key press: <c>debug = !debug</c> (U.HARE-T59).</summary>

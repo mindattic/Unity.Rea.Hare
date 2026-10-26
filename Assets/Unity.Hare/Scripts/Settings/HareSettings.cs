@@ -6,8 +6,8 @@ namespace Unity.Hare
     /// <summary>
     /// Hare's own block of settings.json: Unity.Shared's free-form <c>Profile.Settings.Game</c>, typed for this
     /// game. The original kept these as the globals <c>difficulty</c> and <c>use_metric</c>; its <c>master_volume</c>
-    /// is superseded by Unity.Shared's shared <see cref="CommonSettings"/> (<c>MusicVolume</c>/<c>SfxVolume</c>/
-    /// <c>MuteMusic</c>/<c>MuteSfx</c>), kept the same way across every MindAttic game instead of Hare's own.
+    /// sits beside Unity.Shared's shared <see cref="CommonSettings"/> (<c>MusicVolume</c>/<c>SfxVolume</c>/
+    /// <c>MuteMusic</c>/<c>MuteSfx</c>), kept the same way across every MindAttic game, as a game-wide level over both (<see cref="MasterVolume"/>).
     /// Each property reads straight from, and writes straight into, the underlying <see cref="Data"/> object, so
     /// fields a later version doesn't know about survive a load and save. Change a value, then call
     /// <see cref="Profile.SaveSettings"/> to write it.
@@ -21,6 +21,7 @@ namespace Unity.Hare
             public const string Difficulty = "difficulty";
             public const string UseMetric = "useMetric";
             public const string Fullscreen = "fullscreen";
+            public const string MasterVolume = "masterVolume";
 #pragma warning restore CS1591
         }
 
@@ -39,6 +40,9 @@ namespace Unity.Hare
 
         /// <summary>Whether the game runs fullscreen before the player changes it.</summary>
         public const bool DefaultFullscreen = true;
+
+        /// <summary>The master volume before the player changes it: globals.gml's <c>master_volume = 1</c>.</summary>
+        public const float DefaultMasterVolume = 1f;
 
         /// <summary>A settings block over <paramref name="data"/> (normally <c>Profile.Settings.Game</c>).</summary>
         public HareSettings(JsonObject data) => Data = data;
@@ -68,13 +72,28 @@ namespace Unity.Hare
             set => Data.Set(Keys.Fullscreen, value);
         }
 
+        /// <summary>
+        /// The original's <c>master_volume</c> (0-1, clamped on read and write), which obj_game's numpad +/- move
+        /// (U.HARE-T60). The original kept it for the run only; here it is the player's and is saved (docs/BIBLE.md).
+        /// This is the stored value: Unity.Shared's session mute (<c>Profiles.SessionMuted</c>) never changes it,
+        /// <see cref="Audio.HareAudio"/> silences the mixer instead.
+        /// </summary>
+        public float MasterVolume
+        {
+            get => Clamp01(Data.GetFloat(Keys.MasterVolume, DefaultMasterVolume));
+            set => Data.Set(Keys.MasterVolume, Clamp01(value));
+        }
+
         /// <summary>Writes every field this block owns that is missing, with its default.</summary>
         public void FillDefaults()
         {
             if (!(Data[Keys.Difficulty] is JsonNumber)) Difficulty = DefaultDifficulty;
             if (!(Data[Keys.UseMetric] is bool)) UseMetric = DefaultUseMetric;
             if (!(Data[Keys.Fullscreen] is bool)) Fullscreen = DefaultFullscreen;
+            if (!(Data[Keys.MasterVolume] is JsonNumber)) MasterVolume = DefaultMasterVolume;
         }
+
+        static float Clamp01(float value) => float.IsNaN(value) ? 0f : value < 0f ? 0f : value > 1f ? 1f : value;
 
         static int Clamp(int value) => value < MinDifficulty ? MinDifficulty : value > MaxDifficulty ? MaxDifficulty : value;
     }

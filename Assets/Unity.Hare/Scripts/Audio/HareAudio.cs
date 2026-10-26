@@ -7,8 +7,11 @@ namespace Unity.Hare.Audio
     /// <summary>
     /// The game's sound, by GML sound name, through the AudioMixer the audio pipeline builds (U.HARE-T47):
     /// Master, with Music and Sfx under it. The mixer's exposed volumes follow the player's profile (Unity.Shared's
-    /// <see cref="CommonSettings"/> music and sfx volume and mutes) and the session's <see cref="MasterVolume"/>, the
-    /// original's <c>master_volume</c> global (1 at start, never saved; obj_game's numpad keys move it, U.HARE-T60).
+    /// <see cref="CommonSettings"/> music and sfx volume and mutes) and <see cref="MasterVolume"/>, the original's
+    /// <c>master_volume</c> global, which obj_game's numpad keys move (U.HARE-T60) and which is kept in the profile's
+    /// Hare block (<see cref="HareSettings.MasterVolume"/>, loaded at boot, written by <see cref="SaveMasterVolume"/>).
+    /// While Unity.Shared's session mute (<see cref="Profiles.SessionMuted"/>, the CLI's -muted) is on, every level on
+    /// the mixer is silent, and nothing the mute forces is ever saved.
     /// Every AudioSource the game makes routes through <see cref="Route"/> so all three volumes reach it.
     /// </summary>
     public static class HareAudio
@@ -43,7 +46,7 @@ namespace Unity.Hare.Audio
             set
             {
                 masterVolume = float.IsNaN(value) ? 0f : Mathf.Clamp01(value);
-                SetLevel(HareAudioManifest.MasterVolumeParameter, MixerLevels.ToDecibels(masterVolume));
+                SetLevel(HareAudioManifest.MasterVolumeParameter, MasterDecibels);
             }
         }
 
@@ -54,7 +57,7 @@ namespace Unity.Hare.Audio
         /// </summary>
         public static bool ApplyVolumes(CommonSettings common)
         {
-            bool ok = SetLevel(HareAudioManifest.MasterVolumeParameter, MixerLevels.ToDecibels(masterVolume));
+            bool ok = SetLevel(HareAudioManifest.MasterVolumeParameter, MasterDecibels);
             ok &= SetLevel(HareAudioManifest.MusicVolumeParameter, MixerLevels.ToDecibels(common.MusicVolume, common.MuteMusic));
             ok &= SetLevel(HareAudioManifest.SfxVolumeParameter, MixerLevels.ToDecibels(common.SfxVolume, common.MuteSfx));
             return ok;
@@ -74,6 +77,45 @@ namespace Unity.Hare.Audio
                 return false;
             }
             return ApplyVolumes(common);
+        }
+
+        /// <summary>The master group's level: <see cref="MasterVolume"/>, or silence while the session is muted.</summary>
+        static float MasterDecibels => MixerLevels.ToDecibels(masterVolume, Profiles.SessionMuted);
+
+        /// <summary>The master volume the current profile saved (<see cref="HareSettings.DefaultMasterVolume"/> without one).</summary>
+        public static float SavedMasterVolume()
+        {
+            try
+            {
+                return ActiveProfile.Hare.MasterVolume;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning("[Unity.Hare] No profile master volume, using " + HareSettings.DefaultMasterVolume + ": " + e.Message);
+                return HareSettings.DefaultMasterVolume;
+            }
+        }
+
+        /// <summary>
+        /// Writes <see cref="MasterVolume"/> into the current profile's Hare block and saves settings.json (U.HARE-T60).
+        /// Only the player's stored values are written: the session mute changes none of them (Unity.Shared's
+        /// <see cref="CommonSettings"/> reports the mute without storing it, and the master volume is kept here as set).
+        /// False if there is no profile to save to.
+        /// </summary>
+        public static bool SaveMasterVolume()
+        {
+            try
+            {
+                var profile = ActiveProfile.Current;
+                new HareSettings(profile.Settings.Game).MasterVolume = masterVolume;
+                profile.SaveSettings();
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning("[Unity.Hare] The master volume was not saved: " + e.Message);
+                return false;
+            }
         }
 
         static bool SetLevel(string parameter, float decibels)
@@ -113,7 +155,7 @@ namespace Unity.Hare.Audio
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Boot()
         {
-            masterVolume = 1f; // globals.gml: master_volume = 1
+            masterVolume = SavedMasterVolume(); // globals.gml: master_volume = 1, here the player's saved level (U.HARE-T60)
             HareAudioHost.Ensure();
         }
     }

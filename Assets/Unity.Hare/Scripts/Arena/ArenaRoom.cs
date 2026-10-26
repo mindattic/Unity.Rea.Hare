@@ -164,7 +164,12 @@ namespace Unity.Hare.Arena
             {
                 var flow = Flow;
                 if (flow != null) return flow.Session;
-                return ownSession ?? (ownSession = new GameSession(content));
+                if (ownSession == null)
+                {
+                    ownSession = new GameSession(content);
+                    SessionSettings.Seed(ownSession, Seat);
+                }
+                return ownSession;
             }
         }
 
@@ -226,10 +231,10 @@ namespace Unity.Hare.Arena
             SpawnPoint = new GameObject("spawnpoint").transform;
             SpawnPoint.SetParent(transform, false);
 
-            // GML: obj_game's key-press event for M (77).
+            // obj_game's own keys (U.HARE-T60), all HareControls' Meta actions: the key presses M (77), F12 (123), P (80),
+            // R (82), U (85) and F11 (122), and the held keypad + (107) and - (109). Esc and F1 belong to the room flow.
             controls = new HareControls();
-            controls.Meta.Map.Enable();
-            controls.Meta.Debug.Enable(); // and for F12 (123)
+            foreach (var action in GameKeys) action.Enable();
 
             // GML: obj_level_results' key-press event for vk_enter (13), which the numpad's Enter sends too.
             enterKey = new InputAction("Enter", InputActionType.Button);
@@ -277,10 +282,10 @@ namespace Unity.Hare.Arena
                 enterKey = null;
             }
             DetachHealth();
+            if (volumeUnsaved) SaveVolume();
             if (controls != null)
             {
-                controls.Meta.Map.Disable();
-                controls.Meta.Debug.Disable();
+                foreach (var action in GameKeys) action.Disable();
                 controls.Dispose();
                 controls = null;
             }
@@ -476,6 +481,10 @@ namespace Unity.Hare.Arena
                 case PausedChanged paused:
                     Gml.Paused = paused.Paused;
                     break;
+                case MasterVolumeChanged volume:
+                    HareAudio.MasterVolume = volume.Volume; // sound_global_volume(master_volume)
+                    volumeUnsaved = true;
+                    break;
                 case SecondElapsed _:
                     Clock.Tick(); // obj_healthbar's alarm: seconds += 1 ... strTime
                     break;
@@ -598,10 +607,67 @@ namespace Unity.Hare.Arena
             if (Hud != null) LostHealthView.Show(Hud, new LostHealthPip(healthLeft, content.Arena.HudHeight, content.Health));
         }
 
+        /// <summary>The Meta actions obj_game answers (Esc's Menu and F1's Fullscreen are the room flow's).</summary>
+        InputAction[] GameKeys => new[]
+        {
+            controls.Meta.Map, controls.Meta.Debug, controls.Meta.Pause, controls.Meta.Restart, controls.Meta.Units,
+            controls.Meta.AddScore, controls.Meta.VolumeUp, controls.Meta.VolumeDown,
+        };
+
+        /// <summary>
+        /// obj_game's key-press events (U.HARE-T60), each through its HareControls Meta action: M <c>show_map =
+        /// !show_map</c>; F12 <c>debug = !debug</c>; P <c>if(!level_complete) paused = !paused</c>; U <c>use_metric =
+        /// !use_metric</c> (saved to the profile); F11 <c>current_score += 100</c> (a debug key: no float text, but the
+        /// points objective counts it); R <c>reset_player(); setup_level()</c>. The keypad's +/- are held keys, stepped
+        /// with the room (<see cref="StepVolume"/>); what they changed is saved once both are let go.
+        /// </summary>
+        void ReadGameKeys()
+        {
+            if (controls == null) return;
+            var meta = controls.Meta;
+            if (meta.Map.WasPressedThisFrame()) Play(State.Execute(new ToggleMinimap(Seat)));
+            if (meta.Debug.WasPressedThisFrame()) RunSession(new ToggleDebug(Seat));
+            if (meta.Pause.WasPressedThisFrame()) RunSession(new TogglePause(Seat));
+            if (meta.Units.WasPressedThisFrame())
+            {
+                RunSession(new ToggleUnits(Seat));
+                SessionSettings.SaveUseMetric(Session.UseMetric);
+            }
+            if (meta.AddScore.WasPressedThisFrame()) RunSession(new AddScore(Seat, content.Session.DebugScorePoints));
+            if (meta.Restart.WasPressedThisFrame()) RestartLevel();
+            if (volumeUnsaved && !meta.VolumeUp.IsPressed() && !meta.VolumeDown.IsPressed()) SaveVolume();
+        }
+
+        /// <summary>
+        /// obj_game's keyboard events for the keypad's + (107) and - (109), run every step either is held:
+        /// <c>master_volume</c> up or down a step within 0..1, then <c>sound_global_volume(master_volume)</c>
+        /// (<see cref="HareAudio.MasterVolume"/>, played from the session's <see cref="MasterVolumeChanged"/>).
+        /// </summary>
+        void StepVolume()
+        {
+            if (controls == null) return;
+            if (controls.Meta.VolumeUp.IsPressed()) RunSession(new StepMasterVolume(Seat, +1));
+            if (controls.Meta.VolumeDown.IsPressed()) RunSession(new StepMasterVolume(Seat, -1));
+        }
+
+        bool volumeUnsaved;
+
+        void SaveVolume()
+        {
+            volumeUnsaved = false;
+            HareAudio.SaveMasterVolume();
+        }
+
+        /// <summary>obj_game's R key press: <c>reset_player(); setup_level();</c>, the level this room is playing, again.</summary>
+        public void RestartLevel()
+        {
+            SetUpPlayer();
+            Begin(Session.Level);
+        }
+
         void Update()
         {
-            if (controls != null && controls.Meta.Map.WasPressedThisFrame()) Play(State.Execute(new ToggleMinimap(Seat)));
-            if (controls != null && controls.Meta.Debug.WasPressedThisFrame()) RunSession(new ToggleDebug(Seat)); // F12: debug = !debug
+            ReadGameKeys();
             CountFrame();
             if (Results != null && enterKey != null && enterKey.WasPressedThisFrame()) ContinueFromResults();
 
@@ -667,6 +733,7 @@ namespace Unity.Hare.Arena
                 var at = PlayerRoomPosition();
                 Play(State.Execute(new FollowPlayer(Seat, at.x, at.y)));
             }
+            StepVolume(); // obj_game's held keypad +/- (U.HARE-T60)
             Play(State.Execute(new StepArena(Seat)));
             if (Weather != null) Weather.Step();
             FloatTexts?.Step(); // every obj_float_text's Step (U.HARE-T27)

@@ -168,6 +168,39 @@ namespace Unity.Hare.Tests.EditMode
             Press(keyboard.eKey);
             Assert.IsTrue(controls.Player.NextAirWeapon.WasPressedThisFrame());
         }
+
+        /// <summary>U.HARE-T60: obj_game's keys are Meta actions (P, R, M, U, F11, F12, Esc, F1 and the keypad's +/-).</summary>
+        [Test]
+        public void ObjGamesKeysAreMetaActions()
+        {
+            controls.Meta.Enable();
+            try
+            {
+                void Check(UnityEngine.InputSystem.Controls.KeyControl key, InputAction action)
+                {
+                    Press(key);
+                    Assert.IsTrue(action.WasPressedThisFrame(), key.name + " -> " + action.name);
+                    Assert.IsTrue(action.IsPressed(), key.name + " held -> " + action.name);
+                    Release(key);
+                }
+                Check(keyboard.pKey, controls.Meta.Pause);
+                Check(keyboard.rKey, controls.Meta.Restart);
+                Check(keyboard.mKey, controls.Meta.Map);
+                Check(keyboard.uKey, controls.Meta.Units);
+                Check(keyboard.f11Key, controls.Meta.AddScore);
+                Check(keyboard.f12Key, controls.Meta.Debug);
+                Check(keyboard.escapeKey, controls.Meta.Menu);
+                Check(keyboard.f1Key, controls.Meta.Fullscreen);
+                Check(keyboard.numpadPlusKey, controls.Meta.VolumeUp);
+                Check(keyboard.numpadMinusKey, controls.Meta.VolumeDown);
+                Press(keyboard.minusKey);
+                Assert.IsFalse(controls.Meta.VolumeDown.IsPressed(), "only the keypad's minus (vk_subtract)");
+            }
+            finally
+            {
+                controls.Meta.Disable();
+            }
+        }
     }
 
     /// <summary>U.HARE-T42: PlayerShipController's lazily-created HareControls must tear down safely outside Play

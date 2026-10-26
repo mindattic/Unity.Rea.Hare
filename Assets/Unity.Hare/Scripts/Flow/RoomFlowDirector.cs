@@ -91,7 +91,7 @@ namespace Unity.Hare.Flow
             Active = this;
             DontDestroyOnLoad(gameObject);
             Flow = new RoomFlow(GameContent.Current);
-            Session = new GameSession(GameContent.Current);
+            Session = NewSession();
             controls = new HareControls();
             controls.Meta.Menu.Enable();
             controls.Meta.Fullscreen.Enable();
@@ -143,10 +143,18 @@ namespace Unity.Hare.Flow
         /// </summary>
         public void RestartGame()
         {
-            Session = new GameSession(GameContent.Current);
+            Session = NewSession();
             SessionEventPlayed?.Invoke(new SessionReset());
             GameRestarted?.Invoke();
             Execute(new GoToRoom(LocalSeat, Flow.Table.FirstRoom));
+        }
+
+        /// <summary>globals.gml's new session, with the player's saved master volume and units on it (U.HARE-T60).</summary>
+        static GameSession NewSession()
+        {
+            var session = new GameSession(GameContent.Current);
+            SessionSettings.Seed(session, LocalSeat);
+            return session;
         }
 
         /// <summary>A command for the local seat: <c>Execute(new FadeToRoom(Seat, ...))</c>.</summary>

@@ -84,10 +84,14 @@ namespace Unity.Hare.Weapons
 
         void FixedUpdate() => Tick(Time.fixedDeltaTime);
 
-        /// <summary>One GML step (alarms first, then Step), scaled to <paramref name="dt"/> seconds.</summary>
+        /// <summary>
+        /// One GML step (alarms first, then Step), scaled to <paramref name="dt"/> seconds. While <see cref="Gml.Paused"/>
+        /// the mine holds still and its clock stops (obj_mine's Step and both alarms are inside <c>if(!paused)</c>), so it
+        /// arms and its fuse runs out once play resumes rather than never (docs/BIBLE.md D22).
+        /// </summary>
         public void Tick(float dt)
         {
-            if (gone) return;
+            if (gone || Gml.Paused) return;
             float steps = dt * Gml.StepsPerSecond;
             AgeSteps += steps;
 

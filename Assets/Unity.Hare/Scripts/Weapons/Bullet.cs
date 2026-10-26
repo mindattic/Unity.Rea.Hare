@@ -80,12 +80,20 @@ namespace Unity.Hare.Weapons
         void FixedUpdate() => Step(Time.fixedDeltaTime);
 
         /// <summary>
-        /// One physics step; public so EditMode tests can drive it. In a play room the room's rule decides (obj_bullet's
+        /// One physics step; public so EditMode tests can drive it. While <see cref="Gml.Paused"/> the bullet holds
+        /// still and does not age (obj_bullet's Step); after, it flies on at its speed. In a play room the room's rule decides (obj_bullet's
         /// Step: gone once more than buffer_zone outside room_width x room_height, U.HARE-T21); with no room running,
         /// <see cref="Lifetime"/> stands in for it.
         /// </summary>
         public void Step(float dt)
         {
+            // obj_bullet's Step: if(!paused) { speed = Speed; ... age += 1; } else speed = 0 (U.HARE-T60).
+            if (Gml.Paused)
+            {
+                if (body != null) body.linearVelocity = Vector2.zero;
+                return;
+            }
+            if (body != null) body.linearVelocity = Gml.Dir(Direction) * Speed;
             Age += dt;
             var outOfPlay = Unity.Hare.Arena.ArenaRoom.OutOfPlay(transform.position);
             if (outOfPlay.HasValue ? outOfPlay.Value : Age >= Lifetime) Despawn();

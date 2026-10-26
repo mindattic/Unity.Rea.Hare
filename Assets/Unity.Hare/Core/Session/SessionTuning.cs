@@ -115,6 +115,8 @@ namespace Unity.Hare.Session
         public int CoinsPerExtraLife = 100;
         /// <summary>obj_game's numpad minus and plus move master_volume by 0.01.</summary>
         public float MasterVolumeStep = 0.01f;
+        /// <summary>obj_game's F11 key press (a debug key, U.HARE-T60): current_score += 100.</summary>
+        public int DebugScorePoints = 100;
         /// <summary>obj_game's Step beeps once a second while 10 or fewer seconds of a time limit are left.</summary>
         public int TimeLimitWarningSeconds = 10;
         /// <summary>obj_healthbar's one_second = room_speed: time_elapsed_seconds counts once per this many steps.</summary>
@@ -137,6 +139,7 @@ namespace Unity.Hare.Session
             if (StartingTrackName == null) errors.Add(path + ".StartingTrackName: must not be null.");
             ValidationHelpers.Positive(errors, path + ".CoinsPerExtraLife", CoinsPerExtraLife);
             ValidationHelpers.Positive(errors, path + ".MasterVolumeStep", MasterVolumeStep);
+            ValidationHelpers.NonNegative(errors, path + ".DebugScorePoints", DebugScorePoints);
             ValidationHelpers.NonNegative(errors, path + ".TimeLimitWarningSeconds", TimeLimitWarningSeconds);
             ValidationHelpers.Positive(errors, path + ".SecondSteps", SecondSteps);
         }

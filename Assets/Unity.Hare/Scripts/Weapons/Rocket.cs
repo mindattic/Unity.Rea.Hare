@@ -72,10 +72,14 @@ namespace Unity.Hare.Weapons
 
         void FixedUpdate() => Tick(Time.fixedDeltaTime);
 
-        /// <summary>One GML Step (plus its alarms), scaled to <paramref name="dt"/> seconds.</summary>
+        /// <summary>
+        /// One GML Step (plus its alarms), scaled to <paramref name="dt"/> seconds. While <see cref="Gml.Paused"/> the
+        /// rocket holds still, neither ageing, homing nor speeding up (obj_rocket's Step and alarms are all inside
+        /// <c>if(!paused)</c>); its ignition waits for play to resume rather than being lost (docs/BIBLE.md D22).
+        /// </summary>
         public void Tick(float dt)
         {
-            if (exploded) return;
+            if (exploded || Gml.Paused) return;
             float steps = dt * Gml.StepsPerSecond;
             Age += dt;
 

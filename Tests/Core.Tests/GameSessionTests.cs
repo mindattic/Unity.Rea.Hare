@@ -362,6 +362,28 @@ namespace Unity.Hare.Tests.Core
             Assert.IsTrue(session.UseMetric);
             Do(new ToggleUnits(P1));
             Assert.IsFalse(session.UseMetric);
+            Assert.IsTrue(Do(new SetUnits(P1, true)).Find<UnitsChanged>().UseMetric, "the profile's saved units");
+            Assert.IsNull(Do(new SetUnits(P1, true)).Find<UnitsChanged>(), "already metric");
+        }
+
+        [Test]
+        public void PTogglesPaused_ButNotOnceTheLevelIsComplete()
+        {
+            // U.HARE-T60, obj_game's P key press: if(!level_complete) paused = !paused.
+            var pause = Do(new TogglePause(P1));
+            Assert.IsTrue(pause.Accepted);
+            Assert.IsTrue(pause.Find<PausedChanged>().Paused);
+            Assert.IsTrue(session.IsPaused);
+            Assert.IsFalse(Do(new TogglePause(P1)).Find<PausedChanged>().Paused);
+            Assert.IsFalse(session.IsPaused);
+
+            // set_level_complete pauses for the results screen; P cannot lift it (only the results' Enter does).
+            Do(new CompleteLevel(P1));
+            Assert.IsTrue(session.IsPaused);
+            var refused = Do(new TogglePause(P1));
+            Assert.IsFalse(refused.Accepted);
+            Assert.IsNull(refused.Find<PausedChanged>());
+            Assert.IsTrue(session.IsPaused);
         }
 
         [Test]
