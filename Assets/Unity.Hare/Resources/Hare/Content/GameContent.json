@@ -399,5 +399,18 @@
         { "Degree": 310, "ScenarioId": 4 }
       ]
     }
+  },
+  "mouse": {
+    "Sprite": "spr_reticle_blue", "Depth": -5000,
+    "CanLeapSprite": "spr_reticle_blue", "CannotLeapSprite": "spr_reticle_red", "FlyingSprite": "spr_reticle_green",
+    "ShowSystemCursor": false,
+    "Rooms": [
+      { "Room": "Title", "Sprite": "spr_pointer", "Visible": false, "FollowsShip": false },
+      { "Room": "GameScreen", "Sprite": "spr_reticle_blue", "Visible": true, "FollowsShip": true },
+      { "Room": "SideScroll", "Sprite": "spr_reticle_blue", "Visible": true, "FollowsShip": true },
+      { "Room": "Shaft", "Sprite": "spr_reticle_blue", "Visible": true, "FollowsShip": true },
+      { "Room": "Map", "Sprite": "spr_pointer", "Visible": true, "FollowsShip": false },
+      { "Room": "Upgrade", "Sprite": "spr_pointer", "Visible": true, "FollowsShip": false }
+    ]
   }
 }

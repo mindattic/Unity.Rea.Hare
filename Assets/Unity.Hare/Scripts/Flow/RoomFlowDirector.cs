@@ -106,7 +106,11 @@ namespace Unity.Hare.Flow
         void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            if (Active == this) Active = null;
+            if (Active == this)
+            {
+                Active = null;
+                SystemCursor.Restore(); // the game's rooms are gone: the system cursor comes back as it was
+            }
             if (controls != null)
             {
                 controls.Disable();
@@ -235,14 +239,31 @@ namespace Unity.Hare.Flow
         {
             if (!RoomList.TryParse(scene.name, out var room))
             {
-                if (mode == LoadSceneMode.Single) InRoom = false; // the online scene, or another non-room scene
+                if (mode == LoadSceneMode.Single)
+                {
+                    InRoom = false; // the online scene, or another non-room scene
+                    SystemCursor.Restore();
+                }
                 return;
             }
 
             InRoom = true;
             if (pendingScene == scene.name) pendingScene = null;
             else Execute(new EnterRoom(LocalSeat, room)); // room_restart, or a room opened outside the flow
+            SetUpRoomScene(scene, room);
+        }
+
+        /// <summary>
+        /// What every room scene gets as it comes up: the camera's screen overlay the fade draws on, HARE.gmx's
+        /// option_showcursor (the system cursor hidden), and the obj_mouse its controller creates (U.HARE-T61): the title's,
+        /// map's and upgrade room's spr_pointer and the play rooms' reticle. obj_title, obj_map and obj_upgrade are not built
+        /// yet (U.HARE-T26, U.HARE-T19, U.HARE-T24), so their obj_mouse is made here, as their Create events make it.
+        /// </summary>
+        void SetUpRoomScene(Scene scene, RoomId room)
+        {
             overlay = FindOverlay(scene);
+            SystemCursor.ApplyForRoom(GameContent.Current.Mouse.ShowSystemCursor);
+            if (MouseView.Active == null || MouseView.Active.gameObject.scene != scene) MouseView.Create(room, scene);
         }
 
         /// <summary>The room camera's screen overlay, which the fade draws on.</summary>
@@ -271,7 +292,7 @@ namespace Unity.Hare.Flow
             director.enterFirstRoom = false;
             director.InRoom = true;
             director.Execute(new EnterRoom(LocalSeat, room));
-            director.overlay = FindOverlay(scene);
+            director.SetUpRoomScene(scene, room);
         }
 
         /// <summary>Builds the bootstrap's director (ProjectSetup composes Main.unity from this).</summary>
