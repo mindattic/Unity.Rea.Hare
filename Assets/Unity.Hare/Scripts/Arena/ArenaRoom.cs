@@ -105,6 +105,15 @@ namespace Unity.Hare.Arena
         /// <summary>The 1920x1080 GUI layer (obj_game's and the HUD objects' Draw GUI events draw here).</summary>
         public VisualElement Hud { get; private set; }
 
+        /// <summary>
+        /// obj_game's four HUD objects (U.HARE-T25): obj_healthbar, obj_weapon_gui, obj_energybar and obj_speedometer,
+        /// stepped every room step and drawn by <see cref="HudView"/> every frame.
+        /// </summary>
+        public GameHud GameHud { get; private set; }
+
+        /// <summary>The gameplay HUD as drawn on <see cref="Hud"/>.</summary>
+        public GameHudView HudView { get; private set; }
+
         /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
         public StructureField Structures { get; private set; }
 
@@ -604,6 +613,7 @@ namespace Unity.Hare.Arena
             }
             Play(State.Execute(new StepArena(Seat)));
             if (Weather != null) Weather.Step();
+            GameHud?.Step(ReadHud()); // obj_speedometer's Step, obj_energybar's End Step (U.HARE-T25)
 
             // obj_game's objective check against level_08's target, then obj_healthbar's one-second alarm and the rest of
             // obj_game's check (U.HARE-T57).
@@ -748,6 +758,7 @@ namespace Unity.Hare.Arena
             if (State == null) return;
             BannerView?.Refresh();
             ResultsView?.Refresh();
+            if (HudView != null && GameHud != null) HudView.Refresh(GameHud.Draw(ReadHud()));
             PlaceCamera(ViewCamera, State.View);
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;
@@ -819,6 +830,50 @@ namespace Unity.Hare.Arena
             Hud.style.width = content.Arena.HudWidth;
             Hud.style.height = content.Arena.HudHeight;
             stage.Add(Hud);
+
+            // obj_game's Create: healthbar, weapon_gui, energybar, speedometer (U.HARE-T25).
+            GameHud = new GameHud(content.Arena.Hud, content.Health, content.Arena.HudWidth, content.Arena.HudHeight);
+            HudView = GameHudView.Show(Hud, GameHud);
+        }
+
+        /// <summary>
+        /// What the HUD objects read: the ship (player.state, speed, HP, MAXHP, its ammo pools and weapons, obj_energybar's
+        /// value), LIVES, COINS, obj_healthbar's strTime, use_metric, paused and keyboard_check(vk_control).
+        /// </summary>
+        public HudReading ReadHud()
+        {
+            var session = Session;
+            var reading = new HudReading
+            {
+                Clock = Clock.Text,
+                Coins = session.Coins,
+                Lives = session.Lives,
+                UseMetric = session.UseMetric,
+                Paused = Gml.Paused,
+                MaxEnergy = content.Flight.MaxEnergy,
+            };
+            if (Player == null) return reading;
+            var ship = PlayerSeat.Of(Player.gameObject).Ship;
+            reading.HasPlayer = true;
+            reading.State = ship.Flight.State;
+            reading.Speed = ship.Flight.Speed;
+            reading.Energy = ship.Flight.Energy;
+            reading.MaxEnergy = ship.Flight.Tuning.MaxEnergy;
+            reading.Health = ship.Health.Health;
+            reading.MaxHealth = ship.Health.MaxHealth;
+            reading.Lives = ship.Health.Lives;
+            reading.ControlHeld = Player.Controls.Player.Alternate.IsPressed();
+            reading.GroundWeapon = ship.Ground.Current;
+            reading.AirWeapon = ship.Air.Current;
+            reading.GroundPrimaryAmmo = ship.Ammo.Current(AmmoPool.GroundPrimary);
+            reading.GroundPrimaryMax = ship.Ammo.Max(AmmoPool.GroundPrimary);
+            reading.GroundSecondaryAmmo = ship.Ammo.Current(AmmoPool.GroundSecondary);
+            reading.GroundSecondaryMax = ship.Ammo.Max(AmmoPool.GroundSecondary);
+            reading.AirPrimaryAmmo = ship.Ammo.Current(AmmoPool.AirPrimary);
+            reading.AirPrimaryMax = ship.Ammo.Max(AmmoPool.AirPrimary);
+            reading.AirSecondaryAmmo = ship.Ammo.Current(AmmoPool.AirSecondary);
+            reading.AirSecondaryMax = ship.Ammo.Max(AmmoPool.AirSecondary);
+            return reading;
         }
 
         /// <summary>

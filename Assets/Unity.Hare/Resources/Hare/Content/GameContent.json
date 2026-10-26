@@ -190,6 +190,23 @@
       "KillsLabel": "Enemies Killed", "Prompt": "Press [ENTER] to continue", "ContinueSound": "sfx_boost",
       "ContinueRingSize": 1, "ContinueRingColor": "#FFFFFF"
     },
+    "Hud": {
+      "Column0": 0, "Column1": 64, "ExtraLivesSprite": "spr_extralives", "ExtraLivesHeight": 102, "LivesOffsetY": 108,
+      "LivesPrefix": "x ", "ClockOffsetY": 50, "CoinsOffsetX": 22, "CoinsOffsetY": 27, "CoinSprite": "spr_coin_small",
+      "CoinIconOffsetY": 23, "PipSprite": "spr_health_pip", "PipBackSprite": "spr_health_pip_back",
+      "PipEmptySprite": "spr_health_pip_empty", "PipBackAlpha": 0.95, "Outline": 1,
+      "EnergyX": 145, "EnergyBottomMargin": 3, "EnergyWidth": 254, "EnergyHeight": 30,
+      "EnergyBackSprite": "spr_energybar_back", "EnergyFillSprite": "spr_energybar_fill", "EnergyCoverSprite": "spr_energybar_cover",
+      "EnergyBackAlpha": 0.95, "EnergyTextOffsetY": 4, "EnergyTextSuffix": "%", "EnergyStartColor": "#008000",
+      "EnergyLowFraction": 0.33, "EnergyMidFraction": 0.66, "EnergyLowColor": "#FF0000", "EnergyMidColor": "#FFFF00",
+      "EnergyHighColor": "#A89D04",
+      "WeaponBuffer": 20, "WeaponIconWidth": 52, "WeaponIconHeight": 57, "WeaponSelectSprite": "spr_weapon_select",
+      "GroundIcons": ["spr_icon_vulcan", "spr_icon_laser", "spr_icon_railgun", "spr_icon_shotgun", "spr_icon_flamer"],
+      "AirIcons": ["spr_icon_rocket", "spr_icon_mine"], "GroundSecondaryIcon": "spr_icon_shotgun",
+      "AirSecondaryIcon": "spr_icon_mine", "AmmoSeparator": " / ",
+      "SpeedCoefficient": 33.79, "MetricDivisor": 0.62137, "SpeedDecay": 0.95, "SpeedFloor": 1, "SpeedOffsetY": 60,
+      "SpeedUnitOffsetY": 25, "ImperialUnit": " mph", "MetricUnit": " kph"
+    },
     "MoonSurface": { "Sprite": "spr_moon_surface", "Depth": 1, "RiseSpeed": 40 },
     "StartingStationaryPercent": 50,
     "Levels": [
