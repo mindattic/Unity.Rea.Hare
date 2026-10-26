@@ -28,14 +28,7 @@ namespace Unity.Hare.Tests.PlayMode
         public IEnumerator LeaveNoRoomBehind()
         {
             Gml.Paused = false;
-            if (RoomFlowDirector.Active != null) UnityEngine.Object.Destroy(RoomFlowDirector.Active.gameObject);
-            var empty = SceneManager.CreateScene("LevelResultsPlayTests.Empty");
-            SceneManager.SetActiveScene(empty);
-            for (int i = SceneManager.sceneCount - 1; i >= 0; i--)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                if (scene != empty) yield return SceneManager.UnloadSceneAsync(scene);
-            }
+            yield return PlayModeRooms.TearDown();
         }
 
         static IEnumerator WaitFor(Func<bool> condition, string what, float seconds = 10f)

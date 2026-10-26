@@ -39,16 +39,7 @@ namespace Unity.Hare.Tests.PlayMode
         public IEnumerator LeaveNoRoomBehind()
         {
             Gml.Paused = false;
-            if (RoomFlowDirector.Active != null) UnityEngine.Object.Destroy(RoomFlowDirector.Active.gameObject);
-            var empty = SceneManager.GetSceneByName("PopupPlayTests.Empty");
-            if (!empty.IsValid()) empty = SceneManager.CreateScene("PopupPlayTests.Empty");
-            SceneManager.SetActiveScene(empty);
-            for (int i = SceneManager.sceneCount - 1; i >= 0; i--)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                // The test runner's own InitTestScene stays (unloading it never completes); a room test has replaced it already.
-                if (scene != empty && !scene.name.StartsWith("InitTestScene")) yield return SceneManager.UnloadSceneAsync(scene);
-            }
+            yield return PlayModeRooms.TearDown();
         }
 
         static IEnumerator WaitFor(Func<bool> condition, string what, float seconds = 5f)
