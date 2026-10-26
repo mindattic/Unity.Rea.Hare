@@ -14,9 +14,15 @@ using Unity.Hare.UI;
 namespace Unity.Hare.Rooms
 {
     /// <summary>
-    /// obj_title and the menu, played (U.HARE-T26): the title room's view of Core's <see cref="TitleScreen"/>. ProjectSetup
-    /// puts one in the title scene; it makes the room's obj_mouse (spr_pointer, hidden) as obj_title's Create does, and
-    /// builds everything it draws in code on a 1920x1080 UI panel, in GameMaker's draw order:
+    /// obj_title and the menu, played (U.HARE-T26, U.HARE-T62): the title room's view of Core's <see cref="TitleScreen"/>.
+    /// ProjectSetup puts one in the title scene; it makes the room's obj_mouse (spr_pointer, hidden until obj_logo) as
+    /// obj_title's Create does, and builds everything it draws in code. In the world, under the fade:
+    /// <list type="bullet">
+    /// <item>the backgrounds, the clouds and the falling rabbit with its smoke (<see cref="DropSceneView"/>);</item>
+    /// <item>obj_stand_title's Draw: spr_moon_surface, spr_eyeback, spr_pupil following the mouse, then spr_stand;</item>
+    /// <item>obj_logo (spr_logo at its image_alpha).</item>
+    /// </list>
+    /// On a 1920x1080 UI panel over them, in GameMaker's draw order:
     /// <list type="bullet">
     /// <item>the menu's captions (each obj_btn_*'s Draw: <c>draw_text_outline_color_alpha</c> at <c>obj_logo.image_alpha</c>,
     /// centred on x, white or c_cornflowerblue) and the hovered button's message at <c>room_height - 30</c>; these are
@@ -51,6 +57,9 @@ namespace Unity.Hare.Rooms
         Color normalColor, hoverColor;
         VisualElement menuLayer, guiLayer, dialogView, pointer;
         HareArtManifest manifest;
+        DropSceneView sceneView;
+        SpriteRenderer moon, eye, pupil, stand, logo;
+        Vector2 lastMouse;
 
         sealed class ButtonView
         {
@@ -81,6 +90,18 @@ namespace Unity.Hare.Rooms
         /// <summary>obj_mouse as drawn on the panel.</summary>
         public VisualElement PointerElement => pointer;
 
+        /// <summary>The backgrounds, clouds and falling rabbit as drawn.</summary>
+        public DropSceneView SceneView => sceneView;
+
+        /// <summary>obj_stand_title's sprites as drawn: spr_stand, spr_moon_surface, spr_eyeback and spr_pupil.</summary>
+        public SpriteRenderer Stand => stand;
+        public SpriteRenderer Moon => moon;
+        public SpriteRenderer Eye => eye;
+        public SpriteRenderer Pupil => pupil;
+
+        /// <summary>obj_logo as drawn (off until the menu is shown).</summary>
+        public SpriteRenderer Logo => logo;
+
         /// <summary>Every event the screen raised, after it was played.</summary>
         public event Action<TitleEvent> EventPlayed;
 
@@ -88,10 +109,11 @@ namespace Unity.Hare.Rooms
         {
             var content = GameContent.Current;
             room = content.Rooms.Get(RoomId.Title);
-            State = new TitleScreen(content.Title, room.Width, room.Height);
+            State = new TitleScreen(content.Title, room.Width, room.Height, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
             manifest = HareArtManifest.Load();
             normalColor = ParseColor(content.Title.Color, Color.white);
             hoverColor = ParseColor(content.Title.HoverColor, new Color(100f / 255f, 149f / 255f, 237f / 255f));
+            BuildWorld();
             BuildPanel();
 
             // obj_title's Create: mouse = instance_create(0,0,obj_mouse); mouse.sprite_index = spr_pointer; mouse.visible = false;
@@ -170,13 +192,14 @@ namespace Unity.Hare.Rooms
             // The buttons' mouse enter, leave and left pressed events.
             if (TryReadMouse(out var mouse))
             {
+                lastMouse = mouse;
                 Play(State.Execute(new PointTitle(seat, mouse.x, mouse.y)));
                 if (leftButton.WasPressedThisFrame()) Play(State.Execute(new PressTitle(seat, mouse.x, mouse.y, FadeIdle)));
             }
 
             // obj_title: the key press for any key (if !keyboard_check(vk_f1)) and the global left button
-            // (if !keyboard_check(vk_f1) && !keyboard_check(vk_escape)) bring in the menu.
-            if (!State.MenuShown && !f1Key.IsPressed()
+            // (if !keyboard_check(vk_f1) && !keyboard_check(vk_escape)) turn obj_stand_title on.
+            if (!State.MenuShown && !State.Stand.On && !f1Key.IsPressed()
                 && (anyKey.WasPressedThisFrame() || (leftButton.IsPressed() && !escapeKey.IsPressed())))
                 Play(State.Execute(new CallTitleMenu(seat)));
         }
@@ -212,6 +235,9 @@ namespace Unity.Hare.Rooms
                 {
                     case TitleSoundRequested sound:
                         HareAudio.Play(sound.Sound);
+                        break;
+                    case TitleSmokePuffed smoke:
+                        sceneView.Smoke(smoke.X, smoke.Y, smoke.Size, smoke.Color);
                         break;
                     case MenuShown _:
                         BuildMenu();
@@ -268,6 +294,44 @@ namespace Unity.Hare.Rooms
         }
 
         // ---- Drawing ----
+
+        /// <summary>
+        /// The room's world: the drop scene (backgrounds, clouds, the rabbit), obj_stand_title's four sprites in its Draw's
+        /// order (moon, eye, pupil, then itself at the room's half scale) and obj_logo, hidden until it exists.
+        /// </summary>
+        void BuildWorld()
+        {
+            sceneView = DropSceneView.Create(transform, State.Scene);
+            var s = State.Tuning.Stand;
+            moon = sceneView.MakeSprite("spr_moon_surface", s.MoonSprite, DropSceneView.MoonOrder);
+            eye = sceneView.MakeSprite("spr_eyeback", s.EyeSprite, DropSceneView.EyeOrder, (float)s.EyeScale);
+            pupil = sceneView.MakeSprite("spr_pupil", s.PupilSprite, DropSceneView.PupilOrder, (float)s.EyeScale);
+            stand = sceneView.MakeSprite("obj_stand_title", s.Sprite, DropSceneView.StandOrder, (float)s.Scale);
+            logo = sceneView.MakeSprite("obj_logo", State.Tuning.Logo.Sprite, DropSceneView.LogoOrder);
+            logo.enabled = false;
+            DrawStand();
+        }
+
+        /// <summary>
+        /// obj_stand_title's Draw (<c>draw_sprite(spr_moon_surface,0,0,y+250)</c>, spr_eyeback at <c>(x-6, y-368)</c>,
+        /// spr_pupil at <c>(x-12+mouse_x/120, y-370+mouse_y/60)</c>, <c>draw_self()</c>) and obj_logo's <c>draw_self()</c>
+        /// at its image_alpha. mouse_x and mouse_y are the room's mouse whether or not obj_mouse is visible.
+        /// </summary>
+        void DrawStand()
+        {
+            var st = State.Stand;
+            sceneView.Place(moon, st.MoonX, st.MoonY);
+            sceneView.Place(eye, st.EyeX, st.EyeY);
+            st.PupilAt(lastMouse.x, lastMouse.y, out double px, out double py);
+            sceneView.Place(pupil, px, py);
+            sceneView.Place(stand, st.X, st.Y);
+            logo.enabled = State.MenuShown && logo.sprite != null;
+            if (State.MenuShown)
+            {
+                sceneView.Place(logo, State.LogoX, State.LogoY);
+                logo.color = new Color(1f, 1f, 1f, (float)Math.Max(0d, Math.Min(1d, State.MenuAlpha)));
+            }
+        }
 
         void BuildPanel()
         {
@@ -397,6 +461,7 @@ namespace Unity.Hare.Rooms
         /// </summary>
         void LateUpdate()
         {
+            DrawStand();
             float fade = director != null && director.InRoom ? director.Flow.FadeOpacity : 0f;
             float menuAlpha = (float)Math.Max(0d, Math.Min(1d, State.MenuAlpha));
             foreach (var pair in views)
