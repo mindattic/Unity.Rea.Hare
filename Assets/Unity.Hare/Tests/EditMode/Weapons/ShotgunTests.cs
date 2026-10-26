@@ -28,6 +28,9 @@ namespace Unity.Hare.Tests.EditMode
                 Object.DestroyImmediate(p.gameObject);
             foreach (var c in Object.FindObjectsByType<Collider2D>(FindObjectsSortMode.None))
                 Object.DestroyImmediate(c.gameObject);
+            foreach (var s in Object.FindObjectsByType<Pickups.ScrapView>(FindObjectsSortMode.None))
+                Object.DestroyImmediate(s.gameObject);
+            Pickups.PickupDirector.Reset();
         }
     }
 

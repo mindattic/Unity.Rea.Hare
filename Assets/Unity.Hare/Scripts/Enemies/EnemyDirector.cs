@@ -282,7 +282,12 @@ namespace Unity.Hare.Enemies
                     break;
             }
             SinkOf(e.SourceId)?.OnEnemyEvent(e);
-            if (e is EnemyKilled) views.Remove(e.SourceId);
+            if (e is EnemyKilled killed)
+            {
+                views.Remove(e.SourceId);
+                // The kill branch's random_pickup(x, y) (U.HARE-T23).
+                if (killed.Kill.DropsPickup) Pickups.PickupDirector.DropRandom(killed.Kill.Position.ToVector2());
+            }
         }
     }
 

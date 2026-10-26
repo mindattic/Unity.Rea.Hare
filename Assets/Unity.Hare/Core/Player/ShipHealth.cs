@@ -106,6 +106,19 @@ namespace Unity.Hare.Player
             return true;
         }
 
+        /// <summary>
+        /// obj_carrot's collision with obj_player: <c>if (player.HP &lt; player.MAXHP) { player.HP += 1; }</c>, by
+        /// <paramref name="amount"/>, never past MAXHP. False when it was already full. Like the original it does not ask
+        /// whether the ship is dead: a carrot caught during the death wait only raises the HP reset_player refills anyway.
+        /// </summary>
+        public bool Heal(int amount)
+        {
+            if (amount <= 0 || Health >= tuning.MaxHealth) return false;
+            Health = Math.Min(tuning.MaxHealth, Health + amount);
+            sink.Emit(new PlayerHealed { Health = Health });
+            return true;
+        }
+
         /// <summary>The landing collisions' <c>justspawned = false</c>: a ship that perches is no longer spawn-protected.</summary>
         public void EndSpawnProtection() => spawnProtectionTimer = 0f;
 

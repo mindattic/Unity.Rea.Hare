@@ -9,6 +9,8 @@ namespace Unity.Hare.Effects
     /// <summary>The GameMaker built-in effects the game uses (GML ef_* constants).</summary>
     public enum GmlEffectKind
     {
+        /// <summary>ef_ring: one ring growing from nothing as it fades.</summary>
+        Ring = 1,
         /// <summary>ef_firework: a burst of flares falling under gravity.</summary>
         Firework = 3,
         /// <summary>ef_smoke: puffs of smoke that stay where they are, shrinking and fading.</summary>
@@ -24,6 +26,7 @@ namespace Unity.Hare.Effects
     /// <summary>GameMaker's built-in particle shapes (pt_shape_*), by their GML index.</summary>
     public enum GmlParticleShape
     {
+        Ring = 6,
         Flare = 8,
         Spark = 9,
         Explosion = 10
@@ -122,6 +125,18 @@ namespace Unity.Hare.Effects
         public static GmlEffectRecipe Recipe(GmlEffectKind kind, int size)
         {
             const float f = SpeedFactor;
+            if (kind == GmlEffectKind.Ring)
+            {
+                // Eff_Effect01: one pt_shape_ring, Alpha2(1, 0), Size(0, 0, incr f, 0), Life(Round(min / f), Round(max / f)).
+                if (size == 0) return Ring(0.15f, 10f, 12f);
+                if (size == 2) return Ring(0.4f, 18f, 20f);
+                return Ring(0.25f, 13f, 15f);
+
+                GmlEffectRecipe Ring(float grow, float lifeMin, float lifeMax) =>
+                    new GmlEffectRecipe(new GmlParticleType(GmlParticleShape.Ring, 0f, 0f, grow * f, 0f, 0f,
+                        0f, 0f, 1f, 0f, Life(lifeMin), Life(lifeMax), 0f, 0f), 1, 0f);
+            }
+
             if (kind == GmlEffectKind.Firework)
             {
                 // ParticleType_Size(0.1, 0.2), Direction(0, 360), Alpha2(1, 0.4), Gravity(g, 270).
@@ -269,6 +284,7 @@ namespace Unity.Hare.Effects
             {
                 case GmlParticleShape.Flare: return "pt_shape_flare";
                 case GmlParticleShape.Spark: return "pt_shape_spark";
+                case GmlParticleShape.Ring: return "pt_shape_ring";
                 default: return "pt_shape_explosion";
             }
         }

@@ -165,8 +165,15 @@ namespace Unity.Hare.Weapons
             if (bulletSprite != null) go.AddComponent<SpriteRenderer>().sprite = bulletSprite;
             var bullet = go.AddComponent<Bullet>();
             bullet.Init(gameObject, aim, stats.BulletSpeed, Core.Table.BulletDamage(GunType.Vulcan), stats.BulletLifetime, stats.BulletRadius);
+
+            // GML: cartridge = instance_create(player.gunX, player.gunY, obj_cartridge) (U.HARE-T23).
+            Pickups.PickupDirector.EjectCasing(Pickups.ScrapKind.Cartridge, GunPoint(transform));
             return bullet;
         }
+
+        /// <summary>GML gunX/gunY: <c>x + lengthdir_x(-13, image_angle)</c>, likewise y.</summary>
+        public static Vector2 GunPoint(Transform ship) =>
+            (Vector2)ship.position + Gml.Dir(ship.eulerAngles.z) * Gml.Px(GameContent.Current.WeaponPhysicals.PerchedMuzzle.GunOffsetPx);
 
         void Play(VulcanSound sound)
         {

@@ -61,6 +61,8 @@ namespace Unity.Hare.Weapons
 
             // GML: obj_muzzleflash at X, Y turned to pellet.direction (the last pellet's), then effect_create_below(ef_smoke, X, Y, 1, c_black).
             MuzzleFlash.Spawn(origin, direction);
+            // GML: shell = instance_create(player.gunX, player.gunY, obj_cartridge); shell.sprite_index = spr_ammo_shell (U.HARE-T23).
+            Pickups.PickupDirector.EjectCasing(Pickups.ScrapKind.Shell, VulcanWeapon.GunPoint(transform));
             GmlEffects.CreateBelow(GmlEffectKind.Smoke, origin, 1, Color.black);
         }
     }

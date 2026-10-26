@@ -184,6 +184,7 @@ namespace Unity.Hare.Player
             if (!CanLeap(aimDirection)) return false;
 
             DropShield(); // GML player_leap: shielding = false; with(obj_shieldwall) instance_destroy()
+            float perchedFacing = Facing;
             Direction = aimDirection;
             Facing = aimDirection;
             Speed = TakeOffSpeed;
@@ -193,7 +194,7 @@ namespace Unity.Hare.Player
             State = PlayerFlightState.Moving;
             CurrentRock = null;
             CurrentStructure = null;
-            sink.Emit(new ShipLeapt());
+            sink.Emit(new ShipLeapt { PerchedFacing = perchedFacing });
             return true;
         }
 

@@ -25,7 +25,14 @@ namespace Unity.Hare.Player
     }
 
     /// <summary>The ship left a perch (GML player_leap).</summary>
-    public sealed class ShipLeapt : PlayerEvent { }
+    public sealed class ShipLeapt : PlayerEvent
+    {
+        /// <summary>
+        /// The image_angle it had on its perch: player_leap kicks up dirt (ef_firework, spawn_chips) at its feet,
+        /// 32 px along this, before it turns to the aim.
+        /// </summary>
+        public float PerchedFacing;
+    }
 
     /// <summary>fling_player threw the ship off its perch, heading <see cref="Direction"/> at <see cref="Speed"/>, spinning.</summary>
     public sealed class ShipFlung : PlayerEvent
@@ -48,6 +55,9 @@ namespace Unity.Hare.Player
     /// (1..8) and puts an obj_losthealth where the lost pip was.
     /// </summary>
     public sealed class PlayerDamaged : PlayerEvent { public int Health; public int HurtSound = 1; }
+
+    /// <summary>A carrot gave back HP; <see cref="Health"/> is the HP now.</summary>
+    public sealed class PlayerHealed : PlayerEvent { public int Health; }
 
     /// <summary>HP reached 0 and LIVES went down by one; <see cref="Lives"/> is the lives remaining.</summary>
     public sealed class PlayerDied : PlayerEvent { public int Lives; }

@@ -31,7 +31,10 @@ namespace Unity.Hare.Tests.EditMode
             DestroyAll<GmlEffectBurst>();
             DestroyAll<DeathParticle>();
             DestroyAll<PlayerShipController>();
+            DestroyAll<Pickups.PickupView>();
+            DestroyAll<Pickups.ScrapView>();
             EnemyDirector.Reset();
+            Pickups.PickupDirector.Reset();
         }
 
         public static PlayerShipController Ship(Vector2 position)

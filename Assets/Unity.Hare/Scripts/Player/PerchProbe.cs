@@ -47,6 +47,20 @@ namespace Unity.Hare.Player
         }
 
         /// <summary>
+        /// Every collider the ship's mask overlaps at <paramref name="position"/> turned to <paramref name="facing"/>:
+        /// spr_rabbit_idle's rectangle while <paramref name="perched"/>, spr_rabbit_leap's ellipse otherwise (the
+        /// collision events with anything, e.g. the pickups').
+        /// </summary>
+        public static Collider2D[] ShipMaskHits(Vector2 position, float facing, bool perched)
+        {
+            Physics2D.SyncTransforms();
+            return perched
+                ? Physics2D.OverlapBoxAll(MaskCentre(position, PerchMaskOffsetPx, facing), Px(PerchMaskSizePx), facing)
+                : Physics2D.OverlapCapsuleAll(MaskCentre(position, FlightMaskOffsetPx, facing), Px(FlightMaskSizePx),
+                    CapsuleDirection2D.Horizontal, facing);
+        }
+
+        /// <summary>
         /// normal_detect(x, y, par_rock or par_structure, normal_radius, normal_resolution): every surface of
         /// <paramref name="kind"/> counts as solid. -1 when none is within the radius or every point is solid.
         /// </summary>

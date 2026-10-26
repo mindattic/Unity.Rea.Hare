@@ -1,5 +1,6 @@
-pt_shape_flare.png (IDR_GIF10.png) and pt_shape_explosion.png (IDR_GIF12.png) are GameMaker's built-in
-particle shapes pt_shape_flare and pt_shape_explosion, taken unchanged from YoYo Games' GameMaker-HTML5
+pt_shape_ring.png (IDR_GIF8.png), pt_shape_flare.png (IDR_GIF10.png), pt_shape_spark.png (IDR_GIF11.png) and
+pt_shape_explosion.png (IDR_GIF12.png) are GameMaker's built-in particle shapes pt_shape_ring, pt_shape_flare,
+pt_shape_spark and pt_shape_explosion, taken unchanged from YoYo Games' GameMaker-HTML5
 runner (https://github.com/YoYoGames/GameMaker-HTML5, scripts/particles), which carries this licence:
 
 Copyright 2021-2022, YoYo Games Ltd.

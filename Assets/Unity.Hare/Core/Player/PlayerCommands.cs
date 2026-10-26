@@ -322,6 +322,14 @@ namespace Unity.Hare.Player
         }
     }
 
+    /// <summary>obj_carrot's collision: <c>HP += amount</c> while below MAXHP. Refused when the ship is already full.</summary>
+    public sealed class RestoreHealth : PlayerCommand
+    {
+        readonly int amount;
+        public RestoreHealth(PlayerId id, int amount = 1) : base(id) => this.amount = amount;
+        internal override bool Apply(PlayerShip ship) => ship.Health.Heal(amount);
+    }
+
     /// <summary>Advances the health alarms (invulnerability, spawn protection, hurt pose, death wait).</summary>
     public sealed class TickHealth : PlayerCommand
     {

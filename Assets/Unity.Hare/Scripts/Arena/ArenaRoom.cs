@@ -136,6 +136,7 @@ namespace Unity.Hare.Arena
             }
             SpawnPoint.position = ToWorld(State.SpawnX, State.SpawnY);
             BuildLayers();
+            Pickups.PickupDirector.ClearPickups(); // setup_level: with(par_pickup) instance_destroy() (U.HARE-T23)
             if (created) Play(State.Execute(new CreateArena(Seat)));
         }
 

@@ -225,12 +225,18 @@ namespace Unity.Hare.Player
             if (surface.Kind == SurfaceKind.Structure && flight.CurrentStructure == surface.SurfaceId) return false;
 
             Vector2 at = transform.position;
+            Vector2 contact = at;
+            float arrivalFacing = flight.Facing;
             float normal = PerchProbe.DetectNormal(at, surface.Kind);
             at = PerchProbe.MoveOut(at, normal, surface.Mask);
             Vector2 toCentre = surface.Position - at;
             var landing = new LandingSurface(surface.Kind, surface.SurfaceId, normal,
                 Mathf.Atan2(toCentre.y, toCentre.x) * Mathf.Rad2Deg, toCentre.magnitude, surface.SpeedPxPerStep, surface.SpinPerStep);
             if (!Send(new LandOn(Id, landing)).Accepted) return false;
+
+            // par_rock's landing kicks up dirt (ef_firework, spawn_chips) 32 px along the image_angle it flew in at, from
+            // where it touched, before normal_detect turns it and the move-out loop lifts it (U.HARE-T23).
+            if (surface.Kind == SurfaceKind.Rock) Pickups.PickupDirector.KickUpDirt(contact, arrivalFacing);
 
             Perch = surface;
             Place(at);
@@ -335,7 +341,9 @@ namespace Unity.Hare.Player
                     if (landed.Surface == null) Perch = null;
                     Landed?.Invoke();
                     break;
-                case ShipLeapt _:
+                case ShipLeapt leapt:
+                    // player_leap kicks up dirt at its feet on the perch before it turns to the aim (U.HARE-T23).
+                    Pickups.PickupDirector.KickUpDirt(transform.position, leapt.PerchedFacing);
                     Perch = null;
                     transform.rotation = Quaternion.Euler(0f, 0f, Facing);
                     Leapt?.Invoke();
