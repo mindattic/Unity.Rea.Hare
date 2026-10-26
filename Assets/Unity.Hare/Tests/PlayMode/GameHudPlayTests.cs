@@ -198,7 +198,10 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(Drawn(1776, 1003, 1900, 1060), Is.GreaterThan(1000), "the weapon icons");
             Assert.That(Drawn(1500, 990, 1720, 1035), Is.GreaterThan(200), "obj_game's score, right-aligned at view_wview - 200");
             Assert.That(Drawn(1300, 1045, 1720, 1065), Is.GreaterThan(200), "obj_game's strObjective under it");
-            Assert.That(Drawn(1723, 990, 1770, 1065), Is.EqualTo(0), "both end at view_wview - 200 (the outline reaches a pixel past it)");
+            // The perched primary's ammo readout is right-aligned at 1828 on the bottom row and reaches 6 px past x 1770 while the
+            // count is still above the lowered max ("150 / 120", faithful to HARE.gmx, BIBLE V34) and less once it regens to "120 / 120",
+            // which is why a wider box failed only some runs. Stop the box short of the widest real readout (9 glyphs, left edge ~1764).
+            Assert.That(Drawn(1723, 990, 1750, 1065), Is.EqualTo(0), "both end at view_wview - 200 (the outline reaches a pixel past it); the box stops short of the ammo readout's left edge");
             Assert.That(Drawn(600, 0, 1300, 900), Is.EqualTo(0), "nothing over the middle of the play field");
             Assert.That(Drawn(0, 0, 500, 320), Is.EqualTo(0), "no debug overlay until F12");
         }
