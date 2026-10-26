@@ -39,7 +39,9 @@ namespace Unity.Hare.Tests.PlayMode
         public IEnumerator LeaveNoRoomBehind()
         {
             if (RoomFlowDirector.Active != null) UnityEngine.Object.Destroy(RoomFlowDirector.Active.gameObject);
-            var empty = SceneManager.CreateScene("StartupRoomPlayTests.Empty");
+            // A skipped test never loaded a room over the last teardown's empty scene: reuse it, creating it twice throws.
+            var empty = SceneManager.GetSceneByName("StartupRoomPlayTests.Empty");
+            if (!empty.IsValid()) empty = SceneManager.CreateScene("StartupRoomPlayTests.Empty");
             SceneManager.SetActiveScene(empty);
             for (int i = SceneManager.sceneCount - 1; i >= 0; i--)
             {
