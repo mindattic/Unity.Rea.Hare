@@ -153,7 +153,9 @@ namespace Unity.Hare.Online
                 Turn(turn);
             }
 
-            if (player.Boost.WasPressedThisFrame()) PressBoost();
+            // Space moved from Boost to Leap (U.HARE-T53); the online arena has no rocks to perch on, so its press is
+            // always the in-flight boost here.
+            if (player.Boost.WasPressedThisFrame() || (player.Leap.WasPressedThisFrame() && player.Leap.activeControl?.device is Keyboard)) PressBoost();
             if (player.Brake.WasPressedThisFrame()) PressBrake();
             if (player.Boost.WasReleasedThisFrame() || player.Brake.WasReleasedThisFrame()) ReleaseShield();
 

@@ -35,6 +35,15 @@ namespace Unity.Hare.Player
         /// <summary>jump_arc: how far from the ship's facing a leap may aim.</summary>
         public float JumpArcDegrees = 100f;
 
+        /// <summary>spin = 3: degrees a step (x 120) the ship's facing turns while it flies spinning (Alt, a hit, fling_player).</summary>
+        public float SpinDegreesPerSecond = 360f;
+
+        /// <summary>was_spinning: image_angle += 3 a step (x 120) until it is back on the heading.</summary>
+        public float SpinRecoverDegreesPerSecond = 360f;
+
+        /// <summary>was_spinning's a_near_b(image_angle, direction, 3): this close, the facing snaps onto the heading.</summary>
+        public float SpinSnapDegrees = 3f;
+
         /// <summary>obj_shieldwall's hitbox radius, world units.</summary>
         public float ShieldRadius = 0.75f;
 
@@ -51,6 +60,9 @@ namespace Unity.Hare.Player
             ValidationHelpers.Positive(errors, path + ".EnergyDrainPerSecond", EnergyDrainPerSecond);
             ValidationHelpers.Positive(errors, path + ".EnergyFillPerSecond", EnergyFillPerSecond);
             ValidationHelpers.NonNegative(errors, path + ".JumpArcDegrees", JumpArcDegrees);
+            ValidationHelpers.Positive(errors, path + ".SpinDegreesPerSecond", SpinDegreesPerSecond);
+            ValidationHelpers.Positive(errors, path + ".SpinRecoverDegreesPerSecond", SpinRecoverDegreesPerSecond);
+            ValidationHelpers.NonNegative(errors, path + ".SpinSnapDegrees", SpinSnapDegrees);
             ValidationHelpers.Positive(errors, path + ".ShieldRadius", ShieldRadius);
         }
     }

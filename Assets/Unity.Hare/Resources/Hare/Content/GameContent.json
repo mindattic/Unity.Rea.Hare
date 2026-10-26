@@ -32,6 +32,9 @@
     "EnergyDrainPerSecond": 40,
     "EnergyFillPerSecond": 25,
     "JumpArcDegrees": 100,
+    "SpinDegreesPerSecond": 360,
+    "SpinRecoverDegreesPerSecond": 360,
+    "SpinSnapDegrees": 3,
     "ShieldRadius": 0.75
   },
   "health": {

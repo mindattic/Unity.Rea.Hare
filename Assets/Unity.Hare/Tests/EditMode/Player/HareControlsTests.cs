@@ -85,14 +85,47 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
-        public void WOrSpaceTriggersBoost()
+        public void WTriggersBoost()
         {
             Press(keyboard.wKey);
             Assert.IsTrue(controls.Player.Boost.WasPressedThisFrame());
-            Release(keyboard.wKey);
+        }
 
+        /// <summary>
+        /// U.HARE-T53: Space and the right mouse button are obj_player's leap keys (crouch or boost/brake on the press,
+        /// player_leap on the release), not boost: Space no longer raises the shield while perched.
+        /// </summary>
+        [Test]
+        public void SpaceOrRightMouseIsTheLeapKeyNotBoost()
+        {
             Press(keyboard.spaceKey);
-            Assert.IsTrue(controls.Player.Boost.WasPressedThisFrame());
+            Assert.IsTrue(controls.Player.Leap.WasPressedThisFrame());
+            Assert.IsFalse(controls.Player.Boost.IsPressed(), "Space is not the boost key any more");
+            Release(keyboard.spaceKey);
+            Assert.IsTrue(controls.Player.Leap.WasReleasedThisFrame(), "player_leap runs on the release");
+
+            Press(mouse.rightButton);
+            Assert.IsTrue(controls.Player.Leap.WasPressedThisFrame());
+            Assert.IsInstanceOf<Mouse>(controls.Player.Leap.activeControl.device, "the press can tell the mouse's brake from Space's boost");
+        }
+
+        [Test]
+        public void AltOrMiddleMouseSpins()
+        {
+            Press(keyboard.leftAltKey);
+            Assert.IsTrue(controls.Player.Spin.WasPressedThisFrame());
+            Release(keyboard.leftAltKey);
+            Assert.IsTrue(controls.Player.Spin.WasReleasedThisFrame());
+
+            Press(mouse.middleButton);
+            Assert.IsTrue(controls.Player.Spin.IsPressed());
+        }
+
+        [Test]
+        public void CtrlHoldsAlternate()
+        {
+            Press(keyboard.leftCtrlKey);
+            Assert.IsTrue(controls.Player.Alternate.IsPressed());
         }
 
         [Test]

@@ -140,6 +140,7 @@ namespace Unity.Hare.Arena
         {
             Player = ship;
             if (ship == null) return;
+            ship.InViewCheck = InView; // par_rock's landing needs in_view(other.x, other.y) (U.HARE-T53)
             var health = ship.GetComponent<PlayerHealth>();
             if (health != null) health.RespawnPoint = SpawnPoint;
             if (Arrows == null) Arrows = PlayerArrows.Create(this);
@@ -266,6 +267,15 @@ namespace Unity.Hare.Arena
         /// <summary>The room pixel at world point <paramref name="world"/>.</summary>
         public Vector2 ToRoom(Vector2 world) =>
             new Vector2(world.x * GameClock.PixelsPerUnit + State.Width / 2f, State.Height / 2f - world.y * GameClock.PixelsPerUnit);
+
+        /// <summary>GML in_view(x, y) for world point <paramref name="world"/>: strictly inside view 0.</summary>
+        public bool InView(Vector2 world)
+        {
+            if (State == null) return true;
+            var at = ToRoom(world);
+            var view = State.View;
+            return PerchProbe.InView(at.x, at.y, view.X, view.Y, view.Width, view.Height);
+        }
 
         /// <summary>The ship's position in room pixels.</summary>
         public Vector2 PlayerRoomPosition() => Player != null ? ToRoom(Player.transform.position) : Vector2.zero;

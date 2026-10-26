@@ -62,11 +62,12 @@ namespace Unity.Hare.Rocks
     /// par_rock event, so a rocket that breaks a rock flies on.</item>
     /// </list>
     /// The laser beam is drawn only up to a rock (draw_beam); nothing else (laser and railgun kills,
-    /// flame, rocket explosions, shield wall, enemies) touches one. Landing on rocks is UH-T53, which
-    /// listens to <see cref="Removed"/> for rock_destroyed's fling_player.
+    /// flame, rocket explosions, shield wall, enemies) touches one. The ship lands on and rides a rock
+    /// as an <see cref="IPerchSurface"/> (U.HARE-T53); its <see cref="PlayerShipController"/> listens to
+    /// <see cref="Removed"/> for rock_destroyed's and the room edge's fling_player.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Rock : MonoBehaviour, IProjectileTarget, IRocketTarget, IBeamBlocker
+    public class Rock : MonoBehaviour, IProjectileTarget, IRocketTarget, IBeamBlocker, IPerchSurface
     {
         public const int Depth = 3;
         public const int FullRgb = 255;
@@ -155,6 +156,13 @@ namespace Unity.Hare.Rocks
 
         /// <summary>GML hspeed/vspeed in px/step, Unity axes.</summary>
         public Vector2 VelocityPxPerStep => Gml.Dir(Direction) * SpeedPxPerStep;
+
+        // ---- IPerchSurface: the ship's par_rock collision (U.HARE-T53) ----
+
+        SurfaceKind IPerchSurface.Kind => SurfaceKind.Rock;
+        int IPerchSurface.SurfaceId => GetInstanceID();
+        float IPerchSurface.SpinPerStep => Spin;
+        Collider2D IPerchSurface.Mask => GetComponent<Collider2D>();
 
         /// <summary>
         /// GML instance_create(x, y, par_rock): its Create event, with <paramref name="kind"/> pinning

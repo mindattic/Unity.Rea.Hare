@@ -71,7 +71,7 @@ namespace Unity.Hare.Player
         }
     }
 
-    /// <summary>The ship perched on a rock or structure; runs set_ammo_cost.</summary>
+    /// <summary>The ship perches where it is, with no surface to ride (scripted landings, tests); runs set_ammo_cost.</summary>
     public sealed class Land : PlayerCommand
     {
         public Land(PlayerId id) : base(id) { }
@@ -82,6 +82,102 @@ namespace Unity.Hare.Player
             ship.SetAmmoCostFromLoadout();
             return true;
         }
+    }
+
+    /// <summary>
+    /// GML obj_player's par_rock / par_structure collision: the flying ship perches on <c>surface</c> (state_idle, facing
+    /// its normal, current_rock or current_structure, land_angle, distance_to_center), is no longer spawn-protected
+    /// (justspawned = false) and runs set_ammo_cost.
+    /// </summary>
+    public sealed class LandOn : PlayerCommand
+    {
+        readonly LandingSurface surface;
+        public LandOn(PlayerId id, LandingSurface surface) : base(id) => this.surface = surface;
+
+        public LandingSurface Surface => surface;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (!ship.Flight.LandOn(surface)) return false;
+            ship.Health.EndSpawnProtection();
+            ship.SetAmmoCostFromLoadout();
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// obj_player's Step while it has a current_rock: the rock turned <c>spinPerStep</c> degrees a step for <c>dt</c>
+    /// seconds, and land_angle and image_angle turn with it.
+    /// </summary>
+    public sealed class RideRock : PlayerCommand
+    {
+        readonly float spinPerStep, speedPxPerStep, dt;
+
+        public RideRock(PlayerId id, float spinPerStep, float speedPxPerStep, float dt) : base(id)
+        {
+            this.spinPerStep = spinPerStep;
+            this.speedPxPerStep = speedPxPerStep;
+            this.dt = dt;
+        }
+
+        internal override bool Apply(PlayerShip ship) => ship.Flight.RideRock(spinPerStep, speedPxPerStep, dt);
+    }
+
+    /// <summary>
+    /// GML fling_player then <c>current_rock = noone</c>, as rock_destroyed and par_rock's leaving the room run it for the
+    /// ship's rock: thrown off along its facing, spinning until the end_flash alarm (flash_time); runs set_ammo_cost.
+    /// </summary>
+    public sealed class Fling : PlayerCommand
+    {
+        public Fling(PlayerId id) : base(id) { }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (!ship.Flight.Fling(GameClock.Seconds(ship.Health.Tuning.InvulnerableSteps))) return false;
+            ship.SetAmmoCostFromLoadout();
+            return true;
+        }
+    }
+
+    /// <summary>The ship's rock was cleared away without rock_destroyed (setup_level): current_rock = noone.</summary>
+    public sealed class LetGoOfRock : PlayerCommand
+    {
+        public LetGoOfRock(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.LetGoOfRock();
+    }
+
+    /// <summary>
+    /// GML's Space and right-mouse press events (the keys that leap when they come up): perched, the ship crouches; in
+    /// flight Space boosts and the right button brakes (boosts with Ctrl), as <c>inAir</c> says.
+    /// </summary>
+    public sealed class PressLeapKey : PlayerCommand
+    {
+        readonly AirPress inAir;
+        public PressLeapKey(PlayerId id, AirPress inAir = AirPress.Boost) : base(id) => this.inAir = inAir;
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            switch (ship.Flight.State)
+            {
+                case PlayerFlightState.Idle: return ship.Flight.Crouch();
+                case PlayerFlightState.Moving: return inAir == AirPress.Boost ? ship.Flight.TryBoost() : ship.Flight.TryBrake();
+                default: return false;
+            }
+        }
+    }
+
+    /// <summary>GML Alt / middle mouse press: spin = 3 while flying.</summary>
+    public sealed class PressSpinKey : PlayerCommand
+    {
+        public PressSpinKey(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.StartSpin();
+    }
+
+    /// <summary>GML Alt / middle mouse release: spin = 0 and was_spinning while flying, so the facing winds back.</summary>
+    public sealed class ReleaseSpinKey : PlayerCommand
+    {
+        public ReleaseSpinKey(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Flight.StopSpin();
     }
 
     /// <summary>GML player_shield.</summary>
@@ -111,8 +207,8 @@ namespace Unity.Hare.Player
     }
 
     /// <summary>
-    /// GML's boost/brake key-release events: while perched (Idle) letting go drops the shield so energy refills; in
-    /// flight the release does nothing (boost and brake run until their energy does).
+    /// GML's boost/brake key-release events: while perched (Idle) letting go stands the ship up (crouching = false) and
+    /// drops the shield so energy refills; in flight the release does nothing (boost and brake run until their energy does).
     /// </summary>
     public sealed class ReleaseShieldKey : PlayerCommand
     {
@@ -121,6 +217,7 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship)
         {
             if (ship.Flight.State != PlayerFlightState.Idle) return false;
+            ship.Flight.StandUp();
             ship.Flight.DropShield();
             return true;
         }
@@ -168,12 +265,36 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) => ship.Health.LeaveArena();
     }
 
-    /// <summary>A damage source reached the ship. Accepted when the hit landed.</summary>
+    /// <summary>
+    /// A damage source reached the ship. Accepted when the hit landed. Before player_hurt, the hit collisions arm the
+    /// end_flash alarm and react as <c>reaction</c> says (by default obj_rocket_explosion's none for a source that ignores
+    /// spawn protection, else obj_bullet's and par_enemy's spin): a flying ship spins (spin = 3), and obj_rocket flings a
+    /// ship perched on a rock.
+    /// </summary>
     public sealed class TakeHit : PlayerCommand
     {
         readonly bool ignoresSpawnProtection;
-        public TakeHit(PlayerId id, bool ignoresSpawnProtection = false) : base(id) => this.ignoresSpawnProtection = ignoresSpawnProtection;
-        internal override bool Apply(PlayerShip ship) => ship.Health.TryTakeHit(ignoresSpawnProtection);
+        readonly HitReaction reaction;
+
+        public TakeHit(PlayerId id, bool ignoresSpawnProtection = false, HitReaction? reaction = null) : base(id)
+        {
+            this.ignoresSpawnProtection = ignoresSpawnProtection;
+            this.reaction = reaction ?? (ignoresSpawnProtection ? HitReaction.None : HitReaction.Spin);
+        }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            var flight = ship.Flight;
+            bool flying = flight.State == PlayerFlightState.Moving;
+            bool onRock = flight.State == PlayerFlightState.Idle && flight.CurrentRock.HasValue;
+            if (!ship.Health.TryTakeHit(ignoresSpawnProtection)) return false;
+            if (ship.Health.IsDead) return true; // player_hurt halted the ship; its spin no longer matters
+
+            float endFlash = GameClock.Seconds(ship.Health.Tuning.InvulnerableSteps);
+            flight.TakeHit(flying && reaction != HitReaction.None, endFlash);
+            if (reaction == HitReaction.SpinOrFling && onRock && flight.Fling(endFlash)) ship.SetAmmoCostFromLoadout();
+            return true;
+        }
     }
 
     /// <summary>Advances the health alarms (invulnerability, spawn protection, hurt pose, death wait).</summary>

@@ -13,11 +13,26 @@ namespace Unity.Hare.Player
         public PlayerId Id { get; internal set; }
     }
 
-    /// <summary>The ship perched (GML landing collisions).</summary>
-    public sealed class ShipLanded : PlayerEvent { }
+    /// <summary>
+    /// The ship perched (GML landing collisions): on <see cref="Surface"/> (null for a landing with no surface to ride)
+    /// with id <see cref="SurfaceId"/>, now facing <see cref="Facing"/> degrees (the surface normal).
+    /// </summary>
+    public sealed class ShipLanded : PlayerEvent
+    {
+        public SurfaceKind? Surface;
+        public int SurfaceId;
+        public float Facing;
+    }
 
     /// <summary>The ship left a perch (GML player_leap).</summary>
     public sealed class ShipLeapt : PlayerEvent { }
+
+    /// <summary>fling_player threw the ship off its perch, heading <see cref="Direction"/> at <see cref="Speed"/>, spinning.</summary>
+    public sealed class ShipFlung : PlayerEvent
+    {
+        public float Direction;
+        public float Speed;
+    }
 
     /// <summary>The ship stopped dead (player_hurt's HP-reached-0 branch).</summary>
     public sealed class ShipHalted : PlayerEvent { }

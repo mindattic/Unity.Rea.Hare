@@ -85,7 +85,34 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Leap",
+                    "type": "Button",
+                    "id": "6f0d2b8e-3c41-4a7e-b5d2-1e9a7c4f8b31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Spin",
+                    "type": "Button",
+                    "id": "9a2e4c7d-5b18-4f63-8d0a-2c6e9b1f4a57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Alternate",
+                    "type": "Button",
+                    "id": "c3b7e1a9-0d42-4e8f-a6b5-7f2d9e0c1b84",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -173,7 +200,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Boost",
+                    "action": "Leap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -350,6 +377,72 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "AimStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2d8f6a1c-7e35-4b90-a4c2-5e1b8d3f6a72",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Leap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b4e0c9a-1f63-4d27-b8e5-3a6c2f9d0e15",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Leap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e7a2b5d-9c06-4f18-a3e9-6d1c8b2f5a40",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Spin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5c9e3f7-2b41-4d86-9e0a-7f3b5d1c8e26",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Spin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1f3a7c5-6d29-4b04-8c7e-9a2d4f6b1c33",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Spin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c2a9e4b-3f58-4a61-b0d7-1e5c8a3f9b02",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Alternate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

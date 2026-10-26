@@ -70,7 +70,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 |---|---|---|---|
 | Player flight, boost, brake, leap, shield | `obj_player`, `player_*`, `obj_shieldwall` | Built (`PlayerShipController`, `ShieldWall`) | done: UH-T5, UH-T7 |
 | Player health, hurt, invulnerability | `player_hurt`, healthbar | Built (`PlayerHealth`) but no lives, death wait, respawn or restart | UH-T6 done, rest in UH-T54 |
-| Landing on rocks and structures, perch, crouch, `fling_player`, spin | `obj_player` collisions | `Land()` exists, nothing calls it | UH-T53 |
+| Landing on rocks and structures, perch, crouch, `fling_player`, spin | `obj_player` collisions, `player_leap`, `fling_player`, `normal_detect`, `in_view`, Alt/middle-mouse/Space/right-mouse events, Alarm 1 | Built: Core `ShipFlight.LandOn`/`RideRock`/`Fling`/`Crouch`/`StartSpin`/`StopSpin` (facing = image_angle, current_rock/current_structure, land_angle, distance_to_center, take-off bonus, was_spinning), `PlayerShipController` + `PerchProbe` landing on any `IPerchSurface` (rocks today; structures implement it in UH-T56), rocket hits fling a perched ship, Space/right mouse = `Leap`, Alt/middle mouse = `Spin` | done: U.HARE-T53 |
 | Player visuals: poses, held weapon, trails, flash | `spr_rabbit_*`, `effect_create_*` | None | UH-T55 |
 | Ammo economy | `set_ammo_cost`, regen alarms | Built (`PlayerAmmo`) | done: UH-T12 |
 | Weapons: vulcan, laser, railgun, rocket, shotgun, flamer, mine | `shoot_*`, `fire_*` | Built | done: UH-T8 to UH-T11 |
@@ -78,7 +78,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Set-piece enemies (8) | `obj_hydra` ... `obj_mimic` | Built (`SetPieceEnemy` family) | done: UH-T14 |
 | Emitters, wormholes, `generate_enemy_list` | `par_enemy_emitter`, `obj_wormhole*` | Built (`EnemyEmitter`, `WormholeEmitter`, `EnemyList`) but not driven by a level | done: UH-T15; level hook in UH-T57 |
 | Death effects, gibs, death particles | `spawn_death_particles`, `*_gib`, `obj_tinyexplosion`, `ef_smokeup`/`ef_firework` | Built (`DeathEffects`, `GmlEffects`, `TinyExplosion`, `DeathParticle`) with the original sprites and sounds; `spawn_death_particles` waits on its callers (UH-T54, UH-T68) | done: UH-T16 |
-| Rocks | `par_rock`, `obj_rock1-5`, `create_new_rock`, `move_rocks`, `rock_destroyed`, `obj_flotsum` | Built (`Rock`, `RockField`, `Flotsum`) with the original sprites, breaking with the UH-T16 death effects; `fling_player` waits on landing (UH-T53), the level values on UH-T20/UH-T57 | done: UH-T17 |
+| Rocks | `par_rock`, `obj_rock1-5`, `create_new_rock`, `move_rocks`, `rock_destroyed`, `obj_flotsum` | Built (`Rock`, `RockField`, `Flotsum`) with the original sprites, breaking with the UH-T16 death effects; the ship rides them and is flung when one breaks or leaves the room (U.HARE-T53), the level values on UH-T20/UH-T57 | done: UH-T17 |
 | Structures and covers | `par_structure`, `par_structure_cover` | None | UH-T56 |
 | Weather and ambience | clouds, rain, snow, sand, fog | None | UH-T18 |
 | Backdrop props | `obj_moon_surface`, `obj_surface_reflection`, backgrounds (`obj_flotsum` is built with the rocks) | None | UH-T58 |

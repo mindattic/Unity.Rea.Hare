@@ -8,9 +8,11 @@ namespace Unity.Hare.Player
 {
     /// <summary>
     /// The view on obj_player's flight state machine (gmlHARE, Create/Step/Alarm events). The rules (continuous
-    /// forward flight, boost and brake gated by energy, leap-from-idle within a facing tolerance, the Idle-only
-    /// shield) live in Core's <see cref="ShipFlight"/>; this component turns Input System actions into commands,
-    /// moves the body from the flight state each physics step and draws the shield wall on the events.
+    /// forward flight, boost and brake gated by energy, perching, leap-from-idle within a facing tolerance, fling_player,
+    /// the spin while airborne, the Idle-only shield) live in Core's <see cref="ShipFlight"/>; this component turns Input
+    /// System actions into commands, lands the ship on the rocks and structures its mask touches (U.HARE-T53, the
+    /// physics half in <see cref="PerchProbe"/>), carries it round its rock, moves the body from the flight state each
+    /// physics step and draws the shield wall on the events.
     /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are per-second rates in <see cref="FlightTuning"/>.
     /// Input comes from <see cref="Controls"/> (U.HARE-T42: the generated <see cref="HareControls"/> wrapper over
     /// Assets/Unity.Hare/Scripts/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling
@@ -31,6 +33,7 @@ namespace Unity.Hare.Player
 
         Rigidbody2D body;
         HareControls controls;
+        bool flewLastStep;
 
         /// <summary>
         /// The shared input wrapper for this ship (lazy: components on this GameObject run their Awake in an
@@ -65,11 +68,31 @@ namespace Unity.Hare.Player
         /// <summary>GML: mouse_angle, degrees in GML's math convention. The shield wall faces this way.</summary>
         public float AimDirection => Core.Flight.AimDirection;
 
-        /// <summary>GML: spin, degrees a step the ship turns while it flies spinning (0 unless flung, U.HARE-T53).</summary>
+        /// <summary>GML: spin, degrees a second the ship's facing turns while it flies spinning (Alt, a hit, fling_player).</summary>
         public float Spin => Core.Flight.Spin;
+
+        /// <summary>GML: was_spinning, the facing winding back onto the heading after a spin.</summary>
+        public bool WasSpinning => Core.Flight.WasSpinning;
+
+        /// <summary>GML: image_angle, the way the ship points (the transform's rotation).</summary>
+        public float Facing => Core.Flight.Facing;
+
+        /// <summary>GML: crouching (Space or the right mouse button held while perched).</summary>
+        public bool IsCrouching => Core.Flight.IsCrouching;
 
         /// <summary>GML: can_jump: perched with the aim within jump_arc of the ship's facing.</summary>
         public bool CanLeap => Core.Flight.CanLeap(AimDirection);
+
+        /// <summary>GML current_rock / current_structure: the surface the ship is perched on, or null.</summary>
+        public IPerchSurface Perch { get; private set; }
+
+        /// <summary>
+        /// GML in_view for a world point: whether it is inside the room's view 0. The arena the ship plays in sets it
+        /// (<see cref="Arena.ArenaRoom.AttachPlayer"/>); with none, everything is in view.
+        /// </summary>
+        public Func<Vector2, bool> InViewCheck { get; set; }
+
+        bool InView(Vector2 world) => InViewCheck == null || InViewCheck(world);
 
         /// <summary>
         /// GML: mouse_x/mouse_y, the world point the mouse aims at (where the dotted leap line ends); null while the
@@ -86,6 +109,9 @@ namespace Unity.Hare.Player
         /// <summary>Raised after the ship leaps off a perch (GML player_leap; it calls set_ammo_cost).</summary>
         public event Action Leapt;
 
+        /// <summary>Raised after fling_player throws the ship off its rock.</summary>
+        public event Action Flung;
+
         void Awake() => ResetState();
 
         /// <summary>
@@ -97,7 +123,11 @@ namespace Unity.Hare.Player
             body = GetComponent<Rigidbody2D>();
             body.gravityScale = 0f;
             Send(new ResetFlight(Id, Tuning)); // GML reset_player: drops the shield, back in flight at full energy
-            transform.rotation = Quaternion.Euler(0f, 0f, Direction);
+            Perch = null;
+            flewLastStep = true; // reset_player: it flies in
+            transform.rotation = Quaternion.Euler(0f, 0f, Facing);
+            Rocks.Rock.Removed -= OnRockRemoved;
+            Rocks.Rock.Removed += OnRockRemoved;
         }
 
         void Update()
@@ -117,6 +147,23 @@ namespace Unity.Hare.Player
 
             // GML key-release events (Idle only): drop the shield and let energy refill.
             if (player.Boost.WasReleasedThisFrame() || player.Brake.WasReleasedThisFrame()) Send(new ReleaseShieldKey(Id));
+
+            // GML Space / right mouse: the press crouches while perched (in flight Space boosts, the right button brakes
+            // or, with Ctrl, boosts) and the release is player_leap toward the aim.
+            if (player.Leap.WasPressedThisFrame()) Send(new PressLeapKey(Id, LeapKeyAirPress()));
+            if (player.Leap.WasReleasedThisFrame()) TryLeap(AimDirection);
+
+            // GML Alt / middle mouse: spin while held in flight, wind the facing back on release.
+            if (player.Spin.WasPressedThisFrame()) Send(new PressSpinKey(Id));
+            if (player.Spin.WasReleasedThisFrame()) Send(new ReleaseSpinKey(Id));
+        }
+
+        /// <summary>Space's press boosts in flight; the right mouse button's brakes, or boosts with Ctrl (Alternate) held.</summary>
+        AirPress LeapKeyAirPress()
+        {
+            var player = Controls.Player;
+            bool mouse = player.Leap.activeControl != null && player.Leap.activeControl.device is Mouse;
+            return mouse && !player.Alternate.IsPressed() ? AirPress.Brake : AirPress.Boost;
         }
 
         /// <summary>
@@ -161,8 +208,58 @@ namespace Unity.Hare.Player
         /// <summary>GML: player_leap toward <paramref name="aimDirection"/> degrees (GML's math convention).</summary>
         public bool TryLeap(float aimDirection) => Send(new Leap(Id, aimDirection)).Accepted;
 
-        /// <summary>Perching on a rock/structure (par_rock/par_structure); the Rocks epic (UH-T19/UH-T20) calls this.</summary>
+        /// <summary>Perching where the ship is, with no surface to ride (scripted landings, tests); <see cref="Step"/> lands on rocks itself.</summary>
         public void Land() => Send(new Land(Id));
+
+        /// <summary>
+        /// GML obj_player's par_rock / par_structure collision with <paramref name="surface"/>, which the flying ship's mask
+        /// touches: unless it is a rock out of view, the ship turns to normal_detect's surface normal, is moved out of
+        /// the surface along it, and perches (state_idle, set_ammo_cost) with, on a rock, distance_to_center and land_angle
+        /// from where it ended up. Returns whether it landed.
+        /// </summary>
+        public bool LandOn(IPerchSurface surface)
+        {
+            if (surface == null || surface.IsGone || State != PlayerFlightState.Moving) return false;
+            var flight = Core.Flight;
+            if (surface.Kind == SurfaceKind.Rock && (flight.CurrentRock == surface.SurfaceId || !InView(surface.Position))) return false;
+            if (surface.Kind == SurfaceKind.Structure && flight.CurrentStructure == surface.SurfaceId) return false;
+
+            Vector2 at = transform.position;
+            float normal = PerchProbe.DetectNormal(at, surface.Kind);
+            at = PerchProbe.MoveOut(at, normal, surface.Mask);
+            Vector2 toCentre = surface.Position - at;
+            var landing = new LandingSurface(surface.Kind, surface.SurfaceId, normal,
+                Mathf.Atan2(toCentre.y, toCentre.x) * Mathf.Rad2Deg, toCentre.magnitude, surface.SpeedPxPerStep, surface.SpinPerStep);
+            if (!Send(new LandOn(Id, landing)).Accepted) return false;
+
+            Perch = surface;
+            Place(at);
+            return true;
+        }
+
+        /// <summary>The landing check the ship's Step makes while it flies: the first surface its mask touches that it lands on.</summary>
+        bool TryLandOnTouchingSurface()
+        {
+            foreach (var surface in PerchProbe.Touching(transform.position, Facing))
+                if (LandOn(surface)) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// rock_destroyed and par_rock's leaving the room: <c>if(ID == player.current_rock) { fling_player(); current_rock =
+        /// noone; }</c>. setup_level's clear (and move_rocks) only lets go of it.
+        /// </summary>
+        void OnRockRemoved(Rocks.Rock rock, Rocks.RockGone gone)
+        {
+            if (rock == null || !ReferenceEquals(Perch, rock)) return;
+            if (Core.Flight.CurrentRock != ((IPerchSurface)rock).SurfaceId) { Perch = null; return; }
+            Perch = null;
+            if (gone.Cause == Rocks.RockRemoval.Cleared) Send(new LetGoOfRock(Id));
+            else Send(new Fling(Id));
+        }
+
+        /// <summary>GML: fling_player (the ship's rock broke or left the room, or obj_rocket hit it there).</summary>
+        public bool Fling() => Send(new Fling(Id)).Accepted;
 
         /// <summary>GML: player_shield. Only while perched (Idle) and with at least 33% energy.</summary>
         public bool TryShield() => Send(new RaiseShield(Id)).Accepted;
@@ -178,35 +275,77 @@ namespace Unity.Hare.Player
 
         void FixedUpdate() => Step(Time.fixedDeltaTime);
 
-        /// <summary>One physics step; public so EditMode tests can drive it (FixedUpdate never runs there).</summary>
+        /// <summary>
+        /// One physics step; public so EditMode tests can drive it (FixedUpdate never runs there). In obj_player's Step
+        /// order: a ship on a rock turns and moves with it (land_angle and image_angle += the rock's spin, then x, y = the
+        /// rock's centre minus lengthdir(distance_to_center, land_angle)); then the flight rules step; a flying ship lands
+        /// on the first rock or structure its mask touches, or flies on along its heading, drawn at its facing.
+        /// </summary>
         public void Step(float dt)
         {
+            RideRock(dt);
             Send(new StepFlight(Id, dt));
 
+            // GameMaker moves an instance before its collision events, so a ship that has only just left its perch (a leap
+            // or fling since the last step) takes off before it can land again.
             var flight = Core.Flight;
-            if (flight.State != PlayerFlightState.Moving)
+            if (flight.State == PlayerFlightState.Moving && flewLastStep) TryLandOnTouchingSurface();
+
+            transform.rotation = Quaternion.Euler(0f, 0f, flight.Facing);
+            flewLastStep = flight.State == PlayerFlightState.Moving;
+            if (!flewLastStep)
             {
                 body.linearVelocity = Vector2.zero;
                 return;
             }
 
-            transform.rotation = Quaternion.Euler(0f, 0f, flight.Direction);
             Vector2 heading = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad));
             body.linearVelocity = heading * flight.Speed;
+        }
+
+        void RideRock(float dt)
+        {
+            var flight = Core.Flight;
+            if (Perch == null) return;
+            if ((Perch is UnityEngine.Object o && o == null) || Perch.IsGone || flight.State != PlayerFlightState.Idle)
+            {
+                Perch = null;
+                return;
+            }
+            if (Perch.Kind != SurfaceKind.Rock || flight.CurrentRock != Perch.SurfaceId) return;
+
+            Send(new RideRock(Id, Perch.SpinPerStep, Perch.SpeedPxPerStep, dt));
+            float angle = flight.LandAngle * Mathf.Deg2Rad;
+            Place(Perch.Position - new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * flight.DistanceToCenter);
+        }
+
+        void Place(Vector2 at)
+        {
+            transform.position = new Vector3(at.x, at.y, transform.position.z);
+            if (body != null) body.position = at;
         }
 
         protected override void OnPlayerEvent(PlayerEvent e)
         {
             switch (e)
             {
-                case ShipLanded _:
+                case ShipLanded landed:
                     if (body != null) body.linearVelocity = Vector2.zero;
+                    transform.rotation = Quaternion.Euler(0f, 0f, Facing);
+                    if (landed.Surface == null) Perch = null;
                     Landed?.Invoke();
                     break;
                 case ShipLeapt _:
+                    Perch = null;
+                    transform.rotation = Quaternion.Euler(0f, 0f, Facing);
                     Leapt?.Invoke();
                     break;
+                case ShipFlung _:
+                    Perch = null;
+                    Flung?.Invoke();
+                    break;
                 case ShipHalted _:
+                    Perch = null;
                     if (body != null) body.linearVelocity = Vector2.zero;
                     break;
                 case ShieldRaised raised:
@@ -216,6 +355,7 @@ namespace Unity.Hare.Player
                     RemoveWall();
                     break;
                 case PlayerRespawned respawned:
+                    Perch = null;
                     transform.rotation = Quaternion.Euler(0f, 0f, respawned.Direction);
                     break;
             }
@@ -238,6 +378,7 @@ namespace Unity.Hare.Player
 
         protected override void OnDestroy()
         {
+            Rocks.Rock.Removed -= OnRockRemoved;
             RemoveWall();
             if (controls != null)
             {

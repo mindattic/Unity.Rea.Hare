@@ -80,6 +80,9 @@ namespace Unity.Hare.Player
             return true;
         }
 
+        /// <summary>The landing collisions' <c>justspawned = false</c>: a ship that perches is no longer spawn-protected.</summary>
+        public void EndSpawnProtection() => spawnProtectionTimer = 0f;
+
         /// <summary>Advances the original's alarms by <paramref name="deltaTime"/> seconds.</summary>
         public void Tick(float deltaTime)
         {

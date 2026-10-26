@@ -145,7 +145,7 @@ namespace Unity.Hare.Weapons
             if (health != null)
             {
                 if (Age <= Gml.Steps(SelfHitAgeSteps)) return; // still clearing its own launcher
-                health.TryTakeHit();
+                health.TryTakeHit(reaction: HitReaction.SpinOrFling); // obj_player's obj_rocket event: spin, or fling off a rock
                 Explode();
                 return;
             }

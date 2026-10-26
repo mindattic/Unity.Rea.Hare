@@ -97,9 +97,12 @@ namespace Unity.Hare.Player
         /// GML: the player's hit collisions (obj_bullet, obj_rocket, par_enemy, obj_rocket_explosion) followed by
         /// player_hurt. Returns false when the hit didn't land: dead, still invulnerable from the last hit, or
         /// spawn-protected (unless <paramref name="ignoresSpawnProtection"/>, which only obj_rocket_explosion does
-        /// in the original).
+        /// in the original). <paramref name="reaction"/> is how the hit moves the ship first (U.HARE-T53): by default a
+        /// flying ship spins, except for a source that ignores spawn protection (obj_rocket_explosion); obj_rocket also
+        /// flings a ship perched on a rock.
         /// </summary>
-        public bool TryTakeHit(bool ignoresSpawnProtection = false) => Send(new TakeHit(Id, ignoresSpawnProtection)).Accepted;
+        public bool TryTakeHit(bool ignoresSpawnProtection = false, HitReaction? reaction = null) =>
+            Send(new TakeHit(Id, ignoresSpawnProtection, reaction)).Accepted;
 
         /// <summary>
         /// obj_player's Step past the buffer zone of an edge that does not loop (the arena's

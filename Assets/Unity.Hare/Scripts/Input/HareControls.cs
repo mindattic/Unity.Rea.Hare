@@ -174,6 +174,33 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Leap"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f0d2b8e-3c41-4a7e-b5d2-1e9a7c4f8b31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Spin"",
+                    ""type"": ""Button"",
+                    ""id"": ""9a2e4c7d-5b18-4f63-8d0a-2c6e9b1f4a57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alternate"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3b7e1a9-0d42-4e8f-a6b5-7f2d9e0c1b84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -261,7 +288,7 @@ namespace Unity.Hare.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Boost"",
+                    ""action"": ""Leap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -438,6 +465,72 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""AimStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d8f6a1c-7e35-4b90-a4c2-5e1b8d3f6a72"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Leap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b4e0c9a-1f63-4d27-b8e5-3a6c2f9d0e15"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Leap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e7a2b5d-9c06-4f18-a3e9-6d1c8b2f5a40"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Spin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5c9e3f7-2b41-4d86-9e0a-7f3b5d1c8e26"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Spin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1f3a7c5-6d29-4b04-8c7e-9a2d4f6b1c33"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Spin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c2a9e4b-3f58-4a61-b0d7-1e5c8a3f9b02"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Alternate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -726,6 +819,9 @@ namespace Unity.Hare.Input
             m_Player_NextGroundWeapon = m_Player.FindAction("NextGroundWeapon", throwIfNotFound: true);
             m_Player_NextAirWeapon = m_Player.FindAction("NextAirWeapon", throwIfNotFound: true);
             m_Player_AimStick = m_Player.FindAction("AimStick", throwIfNotFound: true);
+            m_Player_Leap = m_Player.FindAction("Leap", throwIfNotFound: true);
+            m_Player_Spin = m_Player.FindAction("Spin", throwIfNotFound: true);
+            m_Player_Alternate = m_Player.FindAction("Alternate", throwIfNotFound: true);
             // Meta
             m_Meta = asset.FindActionMap("Meta", throwIfNotFound: true);
             m_Meta_Leap = m_Meta.FindAction("Leap", throwIfNotFound: true);
@@ -828,6 +924,9 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Player_NextGroundWeapon;
         private readonly InputAction m_Player_NextAirWeapon;
         private readonly InputAction m_Player_AimStick;
+        private readonly InputAction m_Player_Leap;
+        private readonly InputAction m_Player_Spin;
+        private readonly InputAction m_Player_Alternate;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -875,6 +974,18 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Player/AimStick".
             /// </summary>
             public InputAction @AimStick => m_Wrapper.m_Player_AimStick;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Leap".
+            /// </summary>
+            public InputAction @Leap => m_Wrapper.m_Player_Leap;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Spin".
+            /// </summary>
+            public InputAction @Spin => m_Wrapper.m_Player_Spin;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Alternate".
+            /// </summary>
+            public InputAction @Alternate => m_Wrapper.m_Player_Alternate;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -928,6 +1039,15 @@ namespace Unity.Hare.Input
                 @AimStick.started += instance.OnAimStick;
                 @AimStick.performed += instance.OnAimStick;
                 @AimStick.canceled += instance.OnAimStick;
+                @Leap.started += instance.OnLeap;
+                @Leap.performed += instance.OnLeap;
+                @Leap.canceled += instance.OnLeap;
+                @Spin.started += instance.OnSpin;
+                @Spin.performed += instance.OnSpin;
+                @Spin.canceled += instance.OnSpin;
+                @Alternate.started += instance.OnAlternate;
+                @Alternate.performed += instance.OnAlternate;
+                @Alternate.canceled += instance.OnAlternate;
             }
 
             /// <summary>
@@ -966,6 +1086,15 @@ namespace Unity.Hare.Input
                 @AimStick.started -= instance.OnAimStick;
                 @AimStick.performed -= instance.OnAimStick;
                 @AimStick.canceled -= instance.OnAimStick;
+                @Leap.started -= instance.OnLeap;
+                @Leap.performed -= instance.OnLeap;
+                @Leap.canceled -= instance.OnLeap;
+                @Spin.started -= instance.OnSpin;
+                @Spin.performed -= instance.OnSpin;
+                @Spin.canceled -= instance.OnSpin;
+                @Alternate.started -= instance.OnAlternate;
+                @Alternate.performed -= instance.OnAlternate;
+                @Alternate.canceled -= instance.OnAlternate;
             }
 
             /// <summary>
@@ -1290,6 +1419,27 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAimStick(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Leap" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnLeap(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Spin" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSpin(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Alternate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnAlternate(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Meta" which allows adding and removing callbacks.
