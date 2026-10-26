@@ -157,6 +157,7 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(arena.Player.CanLeap, Is.True);
             Assert.That(view.State.Sprite, Is.EqualTo("spr_reticle_blue"));
             Assert.That(view.Renderer.sprite.name, Does.StartWith("spr_reticle_blue"));
+            view.Draw(); // on this frame's aim point: view 0 may still be easing onto the moved ship
             Assert.That(Vector2.Distance(view.transform.position, arena.Player.AimPoint.Value), Is.LessThan(0.01f));
 
             // Behind the ship: outside jump_arc, red.

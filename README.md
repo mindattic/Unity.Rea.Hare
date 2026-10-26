@@ -188,6 +188,10 @@ polling the five views used before):
 | Q | | next ground primary (vulcan, laser, railgun, shotgun, flamer) |
 | E | next air weapon (rocket, mine) | next air weapon (rocket, mine) |
 
+The system cursor is hidden while the rooms run: the mouse is drawn as obj_mouse, a reticle on the aim point in
+play (green flying, blue when a leap can go that way, red when it cannot) and spr_pointer on the title, map and
+upgrade rooms (U.HARE-T61, docs/BIBLE.md V38).
+
 The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). `HareControls` also carries a `Meta` action
 map with keyboard and, where it makes sense, gamepad bindings defined as data. obj_game's keys are all
 there (U.HARE-T60, docs/BIBLE.md V37):
