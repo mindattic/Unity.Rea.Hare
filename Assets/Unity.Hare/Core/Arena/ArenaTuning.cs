@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Hare.Content;
 using Unity.Hare.Flow;
+using Unity.Hare.Weather;
 
 namespace Unity.Hare.Arena
 {
@@ -156,6 +157,12 @@ namespace Unity.Hare.Arena
         /// </summary>
         public int StructureMin;
         public int StructureMax;
+        /// <summary>
+        /// The weather emitters the level runs, in order (U.HARE-T18). Every play room places obj_cloud_emitter itself, so
+        /// every level has <see cref="WeatherKind.Cloud"/>; obj_game's <c>instance_create(0,0, obj_snow_emitter)</c> and
+        /// <c>obj_fog_emitter</c> are commented out and nothing makes rain or sand, so no shipped level names another kind.
+        /// </summary>
+        public WeatherKind[] Weather = { WeatherKind.Cloud };
 
         public LevelSetting() { }
 
@@ -186,6 +193,13 @@ namespace Unity.Hare.Arena
             if (StructureMax < StructureMin) errors.Add($"{path}.StructureMax: must be at least StructureMin ({StructureMin}) (was {StructureMax}).");
             ValidationHelpers.Required(errors, path + ".Script", Script);
             if (!Enum.IsDefined(typeof(RoomId), Room)) errors.Add($"{path}.Room: not a room (was {(int)Room}).");
+            if (Weather == null) errors.Add(path + ".Weather: must not be null (an empty list for none).");
+            else
+            {
+                var seen = new HashSet<WeatherKind>();
+                foreach (var kind in Weather)
+                    if (!seen.Add(kind)) errors.Add($"{path}.Weather: {kind} is listed more than once.");
+            }
         }
     }
 

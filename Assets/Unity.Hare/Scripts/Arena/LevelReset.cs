@@ -4,6 +4,7 @@ using Unity.Hare.Pickups;
 using Unity.Hare.Rocks;
 using Unity.Hare.Structures;
 using Unity.Hare.Weapons;
+using Unity.Hare.Weather;
 
 namespace Unity.Hare.Arena
 {
@@ -16,6 +17,8 @@ namespace Unity.Hare.Arena
     /// (obj_enemy_mine, par_projectile's enemy child, is an enemy view there), the ship's and enemies' rounds
     /// (<see cref="Bullet"/>), rockets and mines (par_projectile's obj_bullet, obj_rocket, obj_mine), and the pickups.
     /// The ship itself (with(obj_player)) is the death and respawn flow's, which keeps the one ship and resets it.
+    /// The weather goes too (U.HARE-T18; the arena starts the new level's emitters after): in the original the cloud
+    /// emitter is the room's and every level is entered through room_goto, which starts it afresh (BIBLE V26).
     /// </summary>
     public static class LevelReset
     {
@@ -36,6 +39,9 @@ namespace Unity.Hare.Arena
             foreach (var mine in Object.FindObjectsByType<Mine>(FindObjectsSortMode.InstanceID)) Remove(mine);
 
             PickupDirector.ClearPickups();
+
+            foreach (var weather in Object.FindObjectsByType<WeatherView>(FindObjectsSortMode.InstanceID))
+                if (weather != null) weather.Clear();
         }
 
         static void Remove(Component projectile)

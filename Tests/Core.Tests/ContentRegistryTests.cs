@@ -177,6 +177,13 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual(defaults.Emitters.FirstAlarmMaxSteps, fromFile.Emitters.FirstAlarmMaxSteps);
             Assert.AreEqual(defaults.Wormholes.OneTickSteps, fromFile.Wormholes.OneTickSteps);
 
+            Assert.AreEqual(defaults.Weather.CloudRateSteps, fromFile.Weather.CloudRateSteps);
+            Assert.AreEqual(defaults.Weather.SnowZeroFall, fromFile.Weather.SnowZeroFall);
+            Assert.AreEqual(defaults.Weather.FogCount, fromFile.Weather.FogCount);
+            CollectionAssert.AreEqual(defaults.Weather.CloudSprites, fromFile.Weather.CloudSprites);
+            for (int i = 0; i < defaults.Arena.Levels.Length; i++)
+                CollectionAssert.AreEqual(defaults.Arena.Levels[i].Weather, fromFile.Arena.Levels[i].Weather);
+
             foreach (EnemyKind kind in System.Enum.GetValues(typeof(EnemyKind)))
             {
                 var expected = defaults.Enemies.Get(kind);

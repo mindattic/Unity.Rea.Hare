@@ -34,6 +34,8 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 - death effects with the original sprites and sounds: tiny and grenade explosions, GameMaker's `ef_smokeup` and
   `ef_firework`, gibs and death particles (`Effects/`)
 - the rock field: drift, spin, darkening, healing, breaking, flotsam, replacement (`Rocks/`)
+- the weather (U.HARE-T18): the play rooms' drifting clouds, and the rain, snow, sand and fog emitters a level can
+  name in its `Weather` data, ruled by Core's `WeatherField` and drawn by `WeatherView` (`Weather/`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

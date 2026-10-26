@@ -14,6 +14,7 @@ using Unity.Hare.Rocks;
 using Unity.Hare.Session;
 using Unity.Hare.Structures;
 using Unity.Hare.UI;
+using Unity.Hare.Weather;
 
 namespace Unity.Hare.Arena
 {
@@ -70,6 +71,9 @@ namespace Unity.Hare.Arena
 
         /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
         public StructureField Structures { get; private set; }
+
+        /// <summary>The level's weather (U.HARE-T18): the room's obj_cloud_emitter and whatever else the level names.</summary>
+        public WeatherView Weather { get; private set; }
 
         /// <summary>The ship the room follows (GML: player).</summary>
         public PlayerShipController Player { get; private set; }
@@ -150,6 +154,12 @@ namespace Unity.Hare.Arena
             }
             Structures.SetRoom(new Rect(GameClock.Px(-State.Width / 2f), GameClock.Px(-State.Height / 2f), GameClock.Px(State.Width), GameClock.Px(State.Height)));
             Structures.Setup(setting.StructureMin, setting.StructureMax);
+            if (Weather == null)
+            {
+                Weather = WeatherView.Create(State.Width, State.Height, ToWorld, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks) ^ 0x5EA7));
+                Weather.transform.SetParent(transform, false);
+            }
+            Weather.Begin(setting.Weather); // the room's obj_cloud_emitter (and any other emitter the level names), U.HARE-T18
             if (created) Play(State.Execute(new CreateArena(Seat)));
         }
 
@@ -216,7 +226,7 @@ namespace Unity.Hare.Arena
 
         /// <summary>
         /// One room step, in GameMaker's order: obj_player's Step boundary check, the views following it, then the
-        /// backgrounds' scroll.
+        /// backgrounds' scroll; then the weather's step (U.HARE-T18).
         /// </summary>
         public void Step()
         {
@@ -231,6 +241,7 @@ namespace Unity.Hare.Arena
                 Play(State.Execute(new FollowPlayer(Seat, at.x, at.y)));
             }
             Play(State.Execute(new StepArena(Seat)));
+            if (Weather != null) Weather.Step();
         }
 
         bool PlayerIsDead()

@@ -48,7 +48,7 @@ _Nothing recorded yet._
 
 ## Epic F — Rocks, Hazards & Environment
 - **U.HARE-US-F1 ⬜** As a player, I navigate around destructible rocks (rock1-5, create_new_rock, move_rocks, rock_destroyed) that behave like the original's par_rock family
-- **U.HARE-US-F2 ⬜** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
+- **U.HARE-US-F2 ✅** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
 
 
 ## Epic G — Levels, Map & Procedural Generation
