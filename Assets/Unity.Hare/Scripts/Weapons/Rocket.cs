@@ -23,7 +23,10 @@ namespace Unity.Hare.Weapons
         public const float LockOnRangePx = 100f;
         /// <summary>GML: other.age > room_speed before a rocket can hurt the ship.</summary>
         public const float SelfHitAgeSteps = 120f;
-        /// <summary>Stands in for the room-bounds check until levels define room bounds (UH-T21+).</summary>
+        /// <summary>
+        /// Stands in for obj_rocket's room check (past buffer_zone outside the room) only when no play room is running;
+        /// in one, the room's rule decides (U.HARE-T21).
+        /// </summary>
         public const float MaxRangeUnits = 40f;
 
         Rigidbody2D body;
@@ -100,7 +103,9 @@ namespace Unity.Hare.Weapons
             if (Application.isPlaying && body != null) body.MovePosition(next);
             else transform.position = next;
 
-            if ((next - launchPosition).sqrMagnitude > MaxRangeUnits * MaxRangeUnits) Remove();
+            // GML: (x + buffer_zone < 0) || (x - buffer_zone > room_width) || ... instance_destroy().
+            var outOfPlay = Unity.Hare.Arena.ArenaRoom.OutOfPlay(next);
+            if (outOfPlay.HasValue ? outOfPlay.Value : (next - launchPosition).sqrMagnitude > MaxRangeUnits * MaxRangeUnits) Remove();
         }
 
         void Home(float steps)

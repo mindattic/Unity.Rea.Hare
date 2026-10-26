@@ -84,9 +84,10 @@ namespace Unity.Hare.Weapons
         public const float RoomHeightPx = 2160f;
 
         /// <summary>
-        /// room_gamescreen in world units, centred on the origin, for code that needs room_width /
-        /// room_height before levels define their own rooms (UH-T20/UH-T21). GML's y grows downward,
-        /// so GML y = 0 is this rect's yMax.
+        /// room_gamescreen in world units, centred on the origin: the fallback for code that needs
+        /// room_width / room_height when no play room is running (in one, ask the <c>ArenaRoom</c>,
+        /// whose room may be the side-scroll or the shaft). GML's y grows downward, so GML y = 0 is
+        /// this rect's yMax.
         /// </summary>
         public static Rect Room => new Rect(-Px(RoomWidthPx) / 2f, -Px(RoomHeightPx) / 2f, Px(RoomWidthPx), Px(RoomHeightPx));
 

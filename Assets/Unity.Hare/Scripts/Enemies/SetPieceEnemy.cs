@@ -267,7 +267,8 @@ namespace Unity.Hare.Enemies
             var go = new GameObject("EnemyBullet");
             go.transform.position = new Vector3(origin.x, origin.y, 0f);
             var bullet = go.AddComponent<Bullet>();
-            // The room check becomes a lifetime long enough to cross the room plus buffer_zone.
+            // In a play room the bullet goes past that room's buffer_zone (U.HARE-T21); with none running, a lifetime long
+            // enough to cross room_gamescreen plus buffer_zone stands in for it.
             float reachPx = new Vector2(Gml.RoomWidthPx, Gml.RoomHeightPx).magnitude + 2f * BufferZonePx;
             float speed = Mathf.Max(0.01f, Mathf.Abs(speedPxPerStep));
             bullet.Init(owner, direction, Gml.Px(speedPxPerStep) * Gml.StepsPerSecond, 1, Gml.Steps(reachPx / speed), Gml.Px(RadiusPx));

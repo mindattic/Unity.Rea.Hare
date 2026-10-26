@@ -285,6 +285,46 @@ namespace Unity.Hare.Tests.Core
             CollectionAssert.AreEqual(new[] { (0, 12000), (0, 1080), (0, 12000), (0, 1080) }, random.Asked, "irandom_range(0, room_width), irandom_range(0, room_height)");
         }
 
+        // ---- The stage rooms (U.HARE-T21) ----
+
+        [Test]
+        public void TheStageRooms_View0FollowsWithNoSpeedLimit_AndTheMinimapSitsAt1300x860()
+        {
+            foreach (var (level, room, x, y, viewX, viewY) in new[]
+            {
+                (5, RoomId.SideScroll, 9000f, 500f, 9000f - 960f, 0f),
+                (4, RoomId.Shaft, 500f, 9000f, 0f, 9000f - 540f),
+            })
+            {
+                var arena = Arena(level, room);
+                arena.Execute(new FollowPlayer(P1, x, y));
+                Assert.AreEqual(viewX, arena.View.X, $"{room}: hspeed -1, centred in one step");
+                Assert.AreEqual(viewY, arena.View.Y, $"{room}: vspeed -1, kept inside the room");
+                var minimap = arena.Minimap.Definition;
+                Assert.AreEqual((1300, 860, 300, 200), (minimap.PortX, minimap.PortY, minimap.PortWidth, minimap.PortHeight), room.ToString());
+            }
+        }
+
+        [Test]
+        public void AProjectileGoesOnlyPastTheBufferZoneOfItsOwnRoom()
+        {
+            var side = Arena(5, RoomId.SideScroll);
+            Assert.IsFalse(side.OutOfPlay(11000f, 500f), "deep in the 12000 px side-scroll, far past room_gamescreen's width");
+            Assert.IsFalse(side.OutOfPlay(12000f + 400f, 1080f + 400f), "exactly at the buffer zone is still in");
+            Assert.IsTrue(side.OutOfPlay(12000f + 401f, 500f));
+            Assert.IsTrue(side.OutOfPlay(500f, 1080f + 401f), "x - buffer_zone > room_width; y likewise below");
+            Assert.IsTrue(side.OutOfPlay(500f, -401f));
+
+            var shaft = Arena(4, RoomId.Shaft);
+            Assert.IsFalse(shaft.OutOfPlay(1000f, 11000f), "deep in the 12000 px shaft");
+            Assert.IsTrue(shaft.OutOfPlay(-401f, 5000f), "projectiles never wrap, even where the ship does");
+            Assert.IsTrue(shaft.OutOfPlay(1920f + 401f, 5000f));
+
+            var open = Arena(1);
+            Assert.IsTrue(open.OutOfPlay(3840f + 401f, 1000f));
+            Assert.IsFalse(open.OutOfPlay(-400f, -400f));
+        }
+
         // ---- obj_player's Draw ----
 
         [Test]

@@ -335,6 +335,19 @@ namespace Unity.Hare.Arena
         public bool Outside(float x, float y) => x < 0f || x > Width || y < 0f || y > Height;
 
         /// <summary>
+        /// obj_bullet's and obj_rocket's Step (U.HARE-T21): a projectile at (<paramref name="x"/>, <paramref name="y"/>)
+        /// is destroyed once it is more than buffer_zone (400 px) outside this room on any side:
+        /// <c>(x + buffer_zone &lt; 0) || (x - buffer_zone &gt; room_width) || (y + buffer_zone &lt; 0) || (y - buffer_zone &gt; room_height)</c>.
+        /// The rule is the room's, so a shot crosses the whole 12000 px side-scroll or the 12000 px shaft before it goes;
+        /// projectiles never wrap, whatever the level's loop flags.
+        /// </summary>
+        public bool OutOfPlay(float x, float y) => OutOfPlay(x, y, Width, Height, Tuning.BufferZone);
+
+        /// <summary><see cref="OutOfPlay(float, float)"/> for any room size and buffer.</summary>
+        public static bool OutOfPlay(float x, float y, int roomWidth, int roomHeight, int bufferZone) =>
+            x + bufferZone < 0f || x - bufferZone > roomWidth || y + bufferZone < 0f || y - bufferZone > roomHeight;
+
+        /// <summary>
         /// obj_player's Draw, "Draw Offscreen Arrow": where spr_big_arrow goes for a player at (<paramref name="x"/>,
         /// <paramref name="y"/>) â€” <paramref name="inset"/> pixels inside the edge it left by (left, then right, then top,
         /// then bottom), level with it along that edge â€” or false while it is inside the room.

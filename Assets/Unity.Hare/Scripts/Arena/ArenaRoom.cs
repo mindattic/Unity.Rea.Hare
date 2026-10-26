@@ -142,6 +142,33 @@ namespace Unity.Hare.Arena
         /// <summary>The seat local play acts for.</summary>
         static PlayerId Seat => RoomFlowDirector.Seat;
 
+        /// <summary>
+        /// The play room now running (GameMaker has one room at a time), for what asks room_width/room_height and
+        /// buffer_zone from anywhere in it: obj_bullet's and obj_rocket's out-of-play check (U.HARE-T21). Null outside a
+        /// play room.
+        /// </summary>
+        public static ArenaRoom Active { get; private set; }
+
+        /// <summary>
+        /// Whether the world point <paramref name="world"/> is past the active play room's buffer zone
+        /// (<see cref="ArenaWorld.OutOfPlay(float, float)"/>); null when no play room is running, so the caller keeps its
+        /// own stand-in.
+        /// </summary>
+        public static bool? OutOfPlay(Vector2 world)
+        {
+            var arena = Active;
+            if (arena == null || arena.State == null) return null;
+            var at = arena.ToRoom(world);
+            return arena.State.OutOfPlay(at.x, at.y);
+        }
+
+        void OnEnable() => Active = this;
+
+        void OnDisable()
+        {
+            if (Active == this) Active = null;
+        }
+
         void Awake()
         {
             content = GameContent.Current;

@@ -15,8 +15,8 @@ namespace Unity.Hare.Weapons
 
     /// <summary>
     /// Ports obj_bullet (gmlHARE): a straight-line projectile that flies at a constant speed along
-    /// its direction, dies once it is out of play (GML: outside the room plus buffer_zone; here a
-    /// lifetime, until rooms have bounds), is destroyed by whatever it hits, and bounces off a
+    /// its direction, dies once it is out of play (GML: outside the room plus buffer_zone, the
+    /// running play room's; a lifetime only with no room running), is destroyed by whatever it hits, and bounces off a
     /// shield wall along the wall's normal (GML: direction = normal_detect(...)).
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
@@ -79,11 +79,16 @@ namespace Unity.Hare.Weapons
 
         void FixedUpdate() => Step(Time.fixedDeltaTime);
 
-        /// <summary>One physics step; public so EditMode tests can drive it.</summary>
+        /// <summary>
+        /// One physics step; public so EditMode tests can drive it. In a play room the room's rule decides (obj_bullet's
+        /// Step: gone once more than buffer_zone outside room_width x room_height, U.HARE-T21); with no room running,
+        /// <see cref="Lifetime"/> stands in for it.
+        /// </summary>
         public void Step(float dt)
         {
             Age += dt;
-            if (Age >= Lifetime) Despawn();
+            var outOfPlay = Unity.Hare.Arena.ArenaRoom.OutOfPlay(transform.position);
+            if (outOfPlay.HasValue ? outOfPlay.Value : Age >= Lifetime) Despawn();
         }
 
         void OnTriggerEnter2D(Collider2D other) => TryHit(other);

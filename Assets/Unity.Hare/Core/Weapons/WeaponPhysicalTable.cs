@@ -50,7 +50,10 @@ namespace Unity.Hare.Weapons
         /// <summary>GML 12 px of stagger along the aim, in units.</summary>
         public float Grouping = 0.12f;
         public float PelletSpeed = 12f;
-        /// <summary>GML: destroyed leaving the view; rooms have no bounds yet.</summary>
+        /// <summary>
+        /// Used only with no play room running: in one, a pellet (an obj_bullet) goes once past the room's buffer_zone
+        /// (ArenaWorld.OutOfPlay, U.HARE-T21), as the vulcan's bullets do.
+        /// </summary>
         public float PelletLifetime = 2f;
         /// <summary>spr_pellet is 6 px, in units.</summary>
         public float PelletRadius = 0.03f;
