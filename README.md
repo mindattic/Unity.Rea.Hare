@@ -41,6 +41,9 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   the obj_levelstart banner, and the objective (points, time limit with its sfx_beep countdown, defeat, survive) ticked
   on the room clock until set_level_complete pauses play (`Arena/ArenaRoom`, `Arena/LevelStartView`, Core's
   `LevelSetup`, `LevelStartBanner` and `GameSession`)
+- scoring and the popups (U.HARE-T27): every scoring kill and rock break floats its points up from where it died
+  (obj_float_text) and adds them to the score; obj_tip's sliding tip box and obj_alert's pinging mission marker are
+  ready for the map and intro rooms (Core's `Popups/`, `Popups/FloatTextView`, `TipView`, `AlertMarkerView`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

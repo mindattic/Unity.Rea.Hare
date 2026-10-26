@@ -12,6 +12,7 @@ using Unity.Hare.Enemies;
 using Unity.Hare.Flow;
 using Unity.Hare.Input;
 using Unity.Hare.Player;
+using Unity.Hare.Popups;
 using Unity.Hare.Rendering;
 using Unity.Hare.Rocks;
 using Unity.Hare.Session;
@@ -113,6 +114,15 @@ namespace Unity.Hare.Arena
 
         /// <summary>The gameplay HUD as drawn on <see cref="Hud"/>.</summary>
         public GameHudView HudView { get; private set; }
+
+        /// <summary>
+        /// The room's obj_float_text (U.HARE-T27): every score's show_float_text_ext, stepped every room step and drawn by
+        /// <see cref="FloatTextView"/> where view 0 shows them.
+        /// </summary>
+        public FloatTextField FloatTexts { get; private set; }
+
+        /// <summary>The floating texts as drawn on <see cref="Hud"/>, beneath the HUD objects.</summary>
+        public FloatTextView FloatTextView { get; private set; }
 
         /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
         public StructureField Structures { get; private set; }
@@ -227,6 +237,7 @@ namespace Unity.Hare.Arena
             enterKey.AddBinding("<Keyboard>/numpadEnter");
             enterKey.Enable();
             EnemyDirector.Killed += OnEnemyKilled;
+            Rock.Removed += OnRockRemoved;
         }
 
         void Start()
@@ -258,6 +269,7 @@ namespace Unity.Hare.Arena
             }
             if (Generator != null) Generator.LevelCompleted -= OnGeneratorCompleted;
             EnemyDirector.Killed -= OnEnemyKilled;
+            Rock.Removed -= OnRockRemoved;
             if (enterKey != null)
             {
                 enterKey.Disable();
@@ -514,11 +526,36 @@ namespace Unity.Hare.Arena
             return true;
         }
 
-        /// <summary>KILLS += 1 for an enemy the ship's weapons destroyed (docs/BIBLE.md D11).</summary>
+        /// <summary>
+        /// An enemy died: <c>show_float_text_ext(x, y, string(n), true, 0.01, 1); current_score += n</c> when its death
+        /// scores (U.HARE-T27), and KILLS += 1 for an enemy the ship's weapons destroyed (docs/BIBLE.md D11).
+        /// </summary>
         void OnEnemyKilled(EnemyKill kill)
         {
-            if (Active != this || !kill.CountsAsKill) return;
-            RunSession(new RecordKill(Seat));
+            if (Active != this) return;
+            if (kill.AwardsScore && kill.Points > 0) Score(kill.Position.ToVector2(), kill.Points);
+            if (kill.CountsAsKill) RunSession(new RecordKill(Seat));
+        }
+
+        /// <summary>par_rock destroyed by the ship's shot or a rocket: its 10 points and their float text (U.HARE-T27).</summary>
+        void OnRockRemoved(Rock rock, RockGone gone)
+        {
+            if (Active != this || !gone.Destroyed || !gone.AwardsScore || gone.Points <= 0) return;
+            Score(gone.Position, gone.Points);
+        }
+
+        /// <summary>
+        /// The pair every scoring death in the original runs (U.HARE-T27): <c>show_float_text_ext(x, y, string(points),
+        /// true, 0.01, 1)</c> at <paramref name="world"/>, then <c>current_score += points</c> through the session.
+        /// </summary>
+        public void Score(Vector2 world, int points)
+        {
+            if (State != null && FloatTexts != null)
+            {
+                var at = ToRoom(world);
+                FloatTexts.ShowScore(at.x, at.y, points);
+            }
+            RunSession(new AddScore(Seat, points));
         }
 
         /// <summary>
@@ -632,6 +669,7 @@ namespace Unity.Hare.Arena
             }
             Play(State.Execute(new StepArena(Seat)));
             if (Weather != null) Weather.Step();
+            FloatTexts?.Step(); // every obj_float_text's Step (U.HARE-T27)
             GameHud?.Step(ReadHud()); // obj_speedometer's Step, obj_energybar's End Step (U.HARE-T25)
 
             // obj_game's objective check against level_08's target, then obj_healthbar's one-second alarm and the rest of
@@ -778,6 +816,7 @@ namespace Unity.Hare.Arena
             BannerView?.Refresh();
             ResultsView?.Refresh();
             if (HudView != null && GameHud != null) HudView.Refresh(GameHud.Draw(ReadHud()));
+            FloatTextView?.Refresh(State.View.X, State.View.Y);
             PlaceCamera(ViewCamera, State.View);
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;
@@ -853,6 +892,10 @@ namespace Unity.Hare.Arena
             // obj_game's Create: healthbar, weapon_gui, energybar, speedometer (U.HARE-T25).
             GameHud = new GameHud(content.Arena.Hud, content.Health, content.Arena.HudWidth, content.Arena.HudHeight);
             HudView = GameHudView.Show(Hud, GameHud);
+
+            // The room's obj_float_text, drawn where view 0 shows them, under the HUD objects (U.HARE-T27).
+            FloatTexts = new FloatTextField(content.Popups.FloatText);
+            FloatTextView = FloatTextView.Show(Hud, FloatTexts, content.Arena.HudWidth, content.Arena.HudHeight);
         }
 
         /// <summary>
