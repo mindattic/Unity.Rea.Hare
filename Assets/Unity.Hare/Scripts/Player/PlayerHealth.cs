@@ -93,6 +93,13 @@ namespace Unity.Hare.Player
             Send(new ResetHealth(Id, Tuning));
         }
 
+        /// <summary>
+        /// setup_level's ship (U.HARE-T57): the old obj_player gone and a new one flown in by reset_player
+        /// (<see cref="SetUpShip"/>: full ammo, Create's weapons, full HP, justspawned, at <see cref="RespawnPoint"/> with
+        /// sfx_flyover). The session's LIVES are left alone.
+        /// </summary>
+        public void SetUp() => Send(new SetUpShip(Id));
+
         /// <summary>Counts LIVES with <paramref name="ledger"/> (the session's); null goes back to the ship's own.</summary>
         public void UseLives(ILivesLedger ledger) => Send(new UseLives(Id, ledger));
 

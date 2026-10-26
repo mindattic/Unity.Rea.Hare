@@ -51,6 +51,19 @@ namespace Unity.Hare.Weapons
             Refresh();
         }
 
+        /// <summary>
+        /// A new obj_player's Create (setup_level, U.HARE-T57): ground_weapon back to the cycle's first gun (the vulcan),
+        /// equipped as a switch is (the old gun holstered, the new one re-armed, <see cref="GroundWeaponSwitched"/>) when it
+        /// was holding another; then as if no one had chosen.
+        /// </summary>
+        internal void Restart()
+        {
+            if (!IsActive) { Reset(); return; }
+            Refresh();
+            if (weapons.Count > 0 && current != weapons[0]) Equip(weapons[0]);
+            chosen = false;
+        }
+
         /// <summary>True once next_ground_weapon (or an upgrade's equip) picked the weapon rather than Create.</summary>
         bool chosen;
 
@@ -158,6 +171,17 @@ namespace Unity.Hare.Weapons
             cooldown = 0f;
             if (TriggerHeld) ammo.ReleaseTrigger(TriggerHolder);
             TriggerHeld = false;
+        }
+
+        /// <summary>
+        /// A new obj_player's Create (setup_level, U.HARE-T57): air_weapon back to the first unlocked (the rocket), re-armed
+        /// with the trigger up; <see cref="AirWeaponSwitched"/> when it was holding another.
+        /// </summary>
+        internal void Restart()
+        {
+            var before = Current;
+            Reset();
+            if (Current != before) sink.Emit(new AirWeaponSwitched { Weapon = Current });
         }
 
         /// <summary>Adds <paramref name="weapon"/> to the cycle (upgrades/pickups call this).</summary>

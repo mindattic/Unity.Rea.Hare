@@ -218,6 +218,19 @@ namespace Unity.Hare.Player
             sink.Emit(new PlayerRespawned { Direction = direction });
         }
 
+        /// <summary>
+        /// setup_level's ship (U.HARE-T57): <c>with(obj_player) instance_destroy(); player = instance_create(0,0, obj_player);
+        /// reset_player();</c>. A new obj_player is alive and not over whatever the old one was doing (dead, waiting out its
+        /// death, game over), then reset_player flies it in (<see cref="PlayerRespawned"/>). LIVES are not touched: they are
+        /// a global the new instance shares.
+        /// </summary>
+        internal void SetUp()
+        {
+            IsGameOver = false;
+            deathTimer = 0f;
+            Respawn();
+        }
+
         /// <summary>GML: game_restart, reached once the death wait runs out with no lives left.</summary>
         void EndGame()
         {

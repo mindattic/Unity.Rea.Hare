@@ -327,6 +327,21 @@ namespace Unity.Hare.Arena
                 new ArenaViewDefinition(3000, 2000, 1300, 860, 300, 200, 1920, 1080, -1, -1)),
         };
 
+        /// <summary>obj_levelstart's Create: audio_play_sound(sfx_switch, 1, 0) (U.HARE-T57).</summary>
+        public string LevelStartSound = "sfx_switch";
+        /// <summary>obj_levelstart's alarm[0] = 120: the steps before it starts to fade.</summary>
+        public int LevelStartFadeDelaySteps = 120;
+        /// <summary>obj_levelstart's rate = 2: alarm[1], which takes a step off its alpha while it fades, every this many steps.</summary>
+        public int LevelStartFadeRateSteps = 2;
+        /// <summary>obj_levelstart's Alarm 1: alpha -= 0.01.</summary>
+        public float LevelStartFadeStep = 0.01f;
+        /// <summary>obj_levelstart's Draw GUI: draw_text_outline(x, y + 65, 2, strObjective) under level_name.</summary>
+        public int LevelStartObjectiveOffsetY = 65;
+        /// <summary>obj_levelstart's Draw GUI: both lines' draw_text_outline size.</summary>
+        public int LevelStartOutline = 2;
+        /// <summary>obj_game's Step: audio_play_sound(sfx_beep, 1, 0) for each of a time limit's last seconds (U.HARE-T57).</summary>
+        public string TimeLimitBeepSound = "sfx_beep";
+
         /// <summary>globals.gml: stationary_percent = 50, what it is until a level script sets it.</summary>
         public int StartingStationaryPercent = 50;
 
@@ -507,6 +522,12 @@ namespace Unity.Hare.Arena
             if (!global::Unity.Hare.Rooms.StartupTuning.IsHexColor(LeapLineColor)) errors.Add($"{path}.LeapLineColor: must be #RRGGBB (was {LeapLineColor ?? "null"}).");
             ValidationHelpers.Positive(errors, path + ".HudWidth", HudWidth);
             ValidationHelpers.Positive(errors, path + ".HudHeight", HudHeight);
+            ValidationHelpers.Required(errors, path + ".LevelStartSound", LevelStartSound);
+            ValidationHelpers.Positive(errors, path + ".LevelStartFadeDelaySteps", LevelStartFadeDelaySteps);
+            ValidationHelpers.Positive(errors, path + ".LevelStartFadeRateSteps", LevelStartFadeRateSteps);
+            ValidationHelpers.Positive(errors, path + ".LevelStartFadeStep", LevelStartFadeStep);
+            ValidationHelpers.NonNegative(errors, path + ".LevelStartOutline", LevelStartOutline);
+            ValidationHelpers.Required(errors, path + ".TimeLimitBeepSound", TimeLimitBeepSound);
 
             if (Rooms == null) errors.Add(path + ".Rooms: must not be null.");
             else

@@ -175,6 +175,13 @@
         "Minimap": { "Width": 3000, "Height": 2000, "PortX": 1300, "PortY": 860, "PortWidth": 300, "PortHeight": 200, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 }
       }
     ],
+    "LevelStartSound": "sfx_switch",
+    "LevelStartFadeDelaySteps": 120,
+    "LevelStartFadeRateSteps": 2,
+    "LevelStartFadeStep": 0.01,
+    "LevelStartObjectiveOffsetY": 65,
+    "LevelStartOutline": 2,
+    "TimeLimitBeepSound": "sfx_beep",
     "StartingStationaryPercent": 50,
     "Levels": [
       { "Level": 1, "Script": "level_01", "Name": "Hydras & Saws", "Room": "GameScreen", "Background": "bg_worldcurve", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false, "StructureMin": 0, "StructureMax": 0, "Weather": ["Cloud"],

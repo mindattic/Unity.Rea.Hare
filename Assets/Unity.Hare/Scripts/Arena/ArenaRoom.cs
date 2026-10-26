@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Unity.Hare.Art;
+using Unity.Hare.Audio;
 using Unity.Hare.Content;
 using Unity.Hare.Enemies;
 using Unity.Hare.Flow;
@@ -14,6 +15,7 @@ using Unity.Hare.Rocks;
 using Unity.Hare.Session;
 using Unity.Hare.Structures;
 using Unity.Hare.UI;
+using Unity.Hare.Weapons;
 using Unity.Hare.Weather;
 
 namespace Unity.Hare.Arena
@@ -33,6 +35,13 @@ namespace Unity.Hare.Arena
     /// back in from <see cref="SpawnPoint"/>; with none left the flow runs game_restart). The M
     /// key (HareControls' Meta/Map) toggles the minimap. Each frame the room camera is put on view 0, the minimap camera on
     /// view 1, and the layers where the arena has scrolled them. It decides no rule itself.
+    ///
+    /// It is also obj_game's Create and Step around the level (U.HARE-T57): <see cref="Begin"/> is setup_level, run when
+    /// the room comes up and again whenever the room flow's fade asks for the next level
+    /// (<see cref="RoomFlowDirector.LevelAdvance"/>: <c>current_level += 1; setup_level()</c>, or the level script's
+    /// room_goto when the next level plays in another room). Every room step it ticks the session's clock and objective
+    /// (obj_healthbar's second, obj_game's objective check), steps obj_levelstart, and watches level_08's target; it plays
+    /// the session's sfx_beep countdown and keeps the runtime's paused flag on the session's.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class ArenaRoom : MonoBehaviour
@@ -50,6 +59,9 @@ namespace Unity.Hare.Arena
         RoomDefinition roomDefinition;
         ContentRegistry content;
         PlayerHealth health;
+        GameSession ownSession;
+        RoomFlowDirector subscribed;
+        bool warnedTarget;
 
         /// <summary>The room's rules and state.</summary>
         public ArenaWorld State { get; private set; }
@@ -75,6 +87,46 @@ namespace Unity.Hare.Arena
         /// <summary>The level's weather (U.HARE-T18): the room's obj_cloud_emitter and whatever else the level names.</summary>
         public WeatherView Weather { get; private set; }
 
+        /// <summary>The level's par_rock (U.HARE-T57): setup_level's irandom_range(rock_min, rock_max) and move_rocks.</summary>
+        public RockField Rocks { get; private set; }
+
+        /// <summary>obj_levelstart, the level's banner (U.HARE-T57); null once it has faded.</summary>
+        public LevelStartBanner Banner { get; private set; }
+
+        /// <summary>The banner as drawn on the HUD (null once gone).</summary>
+        public LevelStartView BannerView { get; private set; }
+
+        /// <summary>What setup_level's enemy blocks placed: the par_enemy_emitter vortices and the mimics.</summary>
+        public EnemyPlacement Enemies { get; private set; }
+
+        /// <summary>Generator mode's obj_wormhole_emitter (null in the other modes, and once its list is spent).</summary>
+        public WormholeEmitter Generator { get; private set; }
+
+        /// <summary>The o_defeat target the level script spawned (level_08's obj_scrapmental), while it exists.</summary>
+        public GameObject Target { get; private set; }
+
+        /// <summary>Whether the level script's target was spawned (its absence then means it was defeated).</summary>
+        public bool HasTarget { get; private set; }
+
+        /// <summary>
+        /// globals.gml's state this room plays: the room flow's session, or, for a room run without the flow (a test, a
+        /// tool), one of its own.
+        /// </summary>
+        public GameSession Session
+        {
+            get
+            {
+                var flow = Flow;
+                if (flow != null) return flow.Session;
+                return ownSession ?? (ownSession = new GameSession(content));
+            }
+        }
+
+        RoomFlowDirector Flow => director != null ? director : RoomFlowDirector.Active;
+
+        /// <summary>set_level_complete ran (the objective was met, or the wormhole emitter's list ran out); the argument is the level.</summary>
+        public event Action<int> LevelCompleted;
+
         /// <summary>The ship the room follows (GML: player).</summary>
         public PlayerShipController Player { get; private set; }
 
@@ -98,7 +150,8 @@ namespace Unity.Hare.Arena
             ViewCamera = FindRoomCamera();
             BuildMinimap();
             BuildHud();
-            Begin(content.Session.StartingLevel);
+            SpawnPoint = new GameObject("spawnpoint").transform;
+            SpawnPoint.SetParent(transform, false);
 
             // GML: obj_game's key-press event for M (77).
             controls = new HareControls();
@@ -108,8 +161,17 @@ namespace Unity.Hare.Arena
         void Start()
         {
             director = RoomFlowDirector.Active;
-            if (director != null) director.RoomStepped += OnRoomStepped;
+            if (director != null)
+            {
+                director.RoomStepped += OnRoomStepped;
+                director.LevelAdvance += OnLevelAdvance;
+                director.SessionEventPlayed += OnSessionEvent;
+                subscribed = director;
+            }
+            // obj_game's Create: setup_level (the ship it makes is the scene's own, flown in once it is attached).
+            Begin(Session.Level);
             AttachPlayer(FindPlayer());
+            SetUpPlayer();
             Play(State.Execute(new CreateArena(Seat)));
             Present();
         }
@@ -117,6 +179,13 @@ namespace Unity.Hare.Arena
         void OnDestroy()
         {
             if (director != null) director.RoomStepped -= OnRoomStepped;
+            if (subscribed != null)
+            {
+                subscribed.LevelAdvance -= OnLevelAdvance;
+                subscribed.SessionEventPlayed -= OnSessionEvent;
+                subscribed = null;
+            }
+            if (Generator != null) Generator.LevelCompleted -= OnGeneratorCompleted;
             DetachHealth();
             if (controls != null)
             {
@@ -128,32 +197,78 @@ namespace Unity.Hare.Arena
         }
 
         /// <summary>
-        /// Sets the room up for <paramref name="level"/> (the level script's setting half: its backgrounds, their speeds and
-        /// its loops; setup_level's background_x/y = 0): the setting that level plays in this room, or the first level that
-        /// plays here when it plays elsewhere. The level setup (U.HARE-T57) calls this as current_level changes.
-        /// setup_level's "Clear Objects" (<see cref="LevelReset"/>) runs first, then its structure pass places the level's
-        /// irandom_range(structure_min, structure_max) structures and clears the spawn point of them (U.HARE-T56).
+        /// setup_level for <paramref name="level"/> (U.HARE-T57; generator mode runs level_enemygenerator whatever the level),
+        /// in the original's order: the setting's backgrounds, their speeds and loops (U.HARE-T52; a room opened on its own
+        /// plays the first level that plays in it); "Clear Objects" (<see cref="LevelReset"/>, the last level's target and
+        /// obj_levelstart); a new obj_levelstart (sfx_switch); the ship flown in by reset_player; <c>level_complete = false;
+        /// paused = false</c>; the level script's name, objective and stationary_percent (the session's
+        /// <see cref="BeginLevel"/>) and level_08's boss; in generator mode generate_enemy_list(difficulty) and the
+        /// obj_wormhole_emitter; then irandom_range(rock_min, rock_max) rocks, the structures (U.HARE-T56) and the enemy
+        /// blocks' vortices and mimics, each with its move_rocks half. The weather starts after (U.HARE-T18).
         /// </summary>
         public void Begin(int level)
         {
-            var setting = content.Arena.SettingFor(level, Room);
+            var session = Session;
+            var setting = LevelSetup.SettingFor(content.Arena, session.Mode, level, Room);
             bool created = State != null && State.Created;
             State = new ArenaWorld(content.Arena, roomDefinition, setting, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
-            if (SpawnPoint == null)
-            {
-                SpawnPoint = new GameObject("spawnpoint").transform;
-                SpawnPoint.SetParent(transform, false);
-            }
             SpawnPoint.position = ToWorld(State.SpawnX, State.SpawnY);
             BuildLayers();
-            LevelReset.ClearObjects(); // setup_level's Clear Objects, with(par_pickup) among them (U.HARE-T23, U.HARE-T56)
+            var room = RoomRect();
+
+            // Clear Objects: with(par_rock) ... with(par_pickup) (U.HARE-T23, U.HARE-T56), with(obj_levelstart).
+            LevelReset.ClearObjects();
+            ClearTarget();
+            if (Generator != null)
+            {
+                Generator.LevelCompleted -= OnGeneratorCompleted;
+                Generator = null;
+            }
+            BannerView?.RemoveFromHierarchy();
+            BannerView = null;
+
+            // instance_create(0,0, obj_levelstart): its Create plays sfx_switch; it draws the globals the script sets below.
+            Banner = new LevelStartBanner(session.LevelName, session.ObjectiveText, content.Arena);
+            HareAudio.Play(content.Arena.LevelStartSound);
+
+            // player = instance_create(0,0, obj_player); reset_player(); (the scene's ship, once attached)
+            SetUpPlayer();
+
+            // level_complete = false; paused = false; then the level script's Meta Data and Objective blocks.
+            Gml.Paused = false;
+            RunSession(new BeginLevel(Seat, setting.Objective.ToObjective(), setting.Name, setting.StationaryPercent));
+            Gml.Paused = Session.IsPaused;
+            Banner.SetText(Session.LevelName, Session.ObjectiveText);
+            if (Hud != null) BannerView = LevelStartView.Show(Hud, Banner, content.Arena);
+            SpawnTarget(setting.Objective);
+
+            // gm_generator: generate_enemy_list(difficulty); instance_create(obj_wormhole_emitter) (D6's swapped arguments fixed).
+            if (session.Mode == GameMode.Generator && ReferenceEquals(setting, content.Arena.GeneratorLevel))
+            {
+                Generator = WormholeEmitter.Create(session.Difficulty, room, Player);
+                Generator.transform.SetParent(transform, true);
+                Generator.LevelCompleted += OnGeneratorCompleted;
+            }
+
+            // Generate Rocks and Generate Structures, each with its move_rocks half.
+            if (Rocks == null)
+            {
+                Rocks = RockField.CreateField();
+                Rocks.transform.SetParent(transform, false);
+            }
+            Rocks.SetRoom(room);
+            Rocks.Setup(setting.RockMin, setting.RockMax, Session.StationaryPercent);
             if (Structures == null)
             {
                 Structures = StructureField.CreateField();
                 Structures.transform.SetParent(transform, false);
             }
-            Structures.SetRoom(new Rect(GameClock.Px(-State.Width / 2f), GameClock.Px(-State.Height / 2f), GameClock.Px(State.Width), GameClock.Px(State.Height)));
+            Structures.SetRoom(room);
             Structures.Setup(setting.StructureMin, setting.StructureMax);
+
+            // Generate Hydras ... Trilobytes: a par_enemy_emitter per roll (a mimic itself), anywhere in the room.
+            Enemies = setting.ToComposition().Place(room, Player);
+
             if (Weather == null)
             {
                 Weather = WeatherView.Create(State.Width, State.Height, ToWorld, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks) ^ 0x5EA7));
@@ -161,6 +276,107 @@ namespace Unity.Hare.Arena
             }
             Weather.Begin(setting.Weather); // the room's obj_cloud_emitter (and any other emitter the level names), U.HARE-T18
             if (created) Play(State.Execute(new CreateArena(Seat)));
+        }
+
+        /// <summary>The room in world units (the room is centred on the world origin).</summary>
+        public Rect RoomRect() =>
+            new Rect(GameClock.Px(-State.Width / 2f), GameClock.Px(-State.Height / 2f), GameClock.Px(State.Width), GameClock.Px(State.Height));
+
+        /// <summary>setup_level's new obj_player and reset_player, on the ship this room follows (no ship, nothing).</summary>
+        void SetUpPlayer()
+        {
+            if (Player == null) return;
+            var ship = Player.GetComponent<PlayerHealth>();
+            if (ship == null) return;
+            ship.RespawnPoint = SpawnPoint;
+            ship.SetUp();
+        }
+
+        /// <summary>level_08's Spawn Boss block: instance_create(room_width/2, room_height/2, target), and target_id = it.</summary>
+        void SpawnTarget(LevelObjectiveDefinition objective)
+        {
+            HasTarget = false;
+            if (objective == null || objective.Kind != ObjectiveKind.Defeat || string.IsNullOrEmpty(objective.TargetObject)) return;
+            Target = LevelTargets.Spawn(objective.TargetObject, ToWorld(State.Width / 2f, State.Height / 2f));
+            HasTarget = Target != null;
+            if (!HasTarget && !warnedTarget)
+            {
+                warnedTarget = true;
+                Debug.LogWarning("[Unity.Hare] " + objective.TargetObject + " is not ported yet (U.HARE-T68), so this level's o_defeat objective cannot be met.");
+            }
+        }
+
+        /// <summary>The last level's target goes with with(par_enemy) (obj_scrapmental is an enemy).</summary>
+        void ClearTarget()
+        {
+            if (Target != null)
+            {
+                if (Application.isPlaying) Destroy(Target); else DestroyImmediate(Target);
+            }
+            Target = null;
+            HasTarget = false;
+        }
+
+        /// <summary>The room flow's fade reached black: <c>current_level += 1; setup_level();</c>.</summary>
+        void OnLevelAdvance()
+        {
+            RunSession(new AdvanceLevel(Seat, resetScore: false));
+            var session = Session;
+            var elsewhere = LevelSetup.RoomGoto(content.Arena, session.Mode, session.Level, Room);
+            var flow = Flow;
+            if (elsewhere.HasValue && flow != null)
+            {
+                // setup_level got as far as the level script here before its if(room != room_x) room_goto(room_x): the
+                // obj_levelstart and obj_player it made played sfx_switch and sfx_flyover, then the room change took them
+                // away and that room's obj_game runs setup_level again.
+                HareAudio.Play(content.Arena.LevelStartSound);
+                SetUpPlayer();
+                flow.Execute(new GoToRoom(Seat, elsewhere.Value));
+                return;
+            }
+            Begin(session.Level);
+        }
+
+        void OnGeneratorCompleted(WormholeEmitter emitter)
+        {
+            if (emitter == Generator) Generator = null;
+            RunSession(new CompleteLevel(Seat)); // obj_wormhole_emitter: set_level_complete()
+        }
+
+        /// <summary>
+        /// Runs a session command: through the room flow, which plays its events to every listener (this room among them),
+        /// or on the room's own session.
+        /// </summary>
+        SessionResult RunSession(SessionCommand command)
+        {
+            var flow = Flow;
+            if (flow != null)
+            {
+                var played = flow.ExecuteSession(command);
+                if (subscribed != flow)
+                    foreach (var e in played.Events) OnSessionEvent(e);
+                return played;
+            }
+            var result = Session.Execute(command);
+            foreach (var e in result.Events) OnSessionEvent(e);
+            return result;
+        }
+
+        /// <summary>What the session raised that obj_game and set_level_complete play.</summary>
+        void OnSessionEvent(SessionEvent e)
+        {
+            switch (e)
+            {
+                case TimeLimitWarning _:
+                    HareAudio.Play(content.Arena.TimeLimitBeepSound); // obj_game's Step: audio_play_sound(sfx_beep, 1, 0)
+                    break;
+                case PausedChanged paused:
+                    Gml.Paused = paused.Paused;
+                    break;
+                case Unity.Hare.Session.LevelCompleted completed:
+                    LevelCompleted?.Invoke(completed.Level); // obj_level_results is the results screen's (its own ticket)
+                    break;
+            }
         }
 
         /// <summary>
@@ -226,7 +442,8 @@ namespace Unity.Hare.Arena
 
         /// <summary>
         /// One room step, in GameMaker's order: obj_player's Step boundary check, the views following it, then the
-        /// backgrounds' scroll; then the weather's step (U.HARE-T18).
+        /// backgrounds' scroll; then the weather's step (U.HARE-T18); then level_08's target, the session's clock and
+        /// objective, and obj_levelstart's alarms (U.HARE-T57).
         /// </summary>
         public void Step()
         {
@@ -242,6 +459,21 @@ namespace Unity.Hare.Arena
             }
             Play(State.Execute(new StepArena(Seat)));
             if (Weather != null) Weather.Step();
+
+            // obj_game's objective check against level_08's target, then obj_healthbar's one-second alarm and the rest of
+            // obj_game's check (U.HARE-T57).
+            var session = Session;
+            if (session.Objective == ObjectiveKind.Defeat && HasTarget && Target == null && !session.TargetDefeated)
+                RunSession(new DefeatTarget(Seat)); // !instance_exists(target_id)
+            RunSession(new TickSession(Seat, GameClock.Seconds(1)));
+
+            // obj_levelstart's alarms.
+            if (Banner != null && !Banner.Step())
+            {
+                BannerView?.Refresh();
+                BannerView = null;
+                Banner = null;
+            }
         }
 
         bool PlayerIsDead()
@@ -348,6 +580,7 @@ namespace Unity.Hare.Arena
         public void Present()
         {
             if (State == null) return;
+            BannerView?.Refresh();
             PlaceCamera(ViewCamera, State.View);
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;

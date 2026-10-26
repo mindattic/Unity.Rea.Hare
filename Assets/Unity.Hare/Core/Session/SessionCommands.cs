@@ -98,11 +98,21 @@ namespace Unity.Hare.Session
     public sealed class BeginLevel : SessionCommand
     {
         readonly LevelObjective objective;
+        readonly string levelName;
+        readonly int stationaryPercent;
 
-        public BeginLevel(PlayerId id, LevelObjective objective) : base(id) =>
+        /// <param name="levelName">The script's level_name; null leaves it.</param>
+        /// <param name="stationaryPercent">The script's stationary_percent; -1 (a script without the line) leaves it.</param>
+        public BeginLevel(PlayerId id, LevelObjective objective, string levelName = null, int stationaryPercent = -1) : base(id)
+        {
             this.objective = objective ?? throw new ArgumentNullException(nameof(objective));
+            if (stationaryPercent < -1 || stationaryPercent > 100)
+                throw new ArgumentOutOfRangeException(nameof(stationaryPercent), stationaryPercent, "-1 (left alone) or 0-100.");
+            this.levelName = levelName;
+            this.stationaryPercent = stationaryPercent;
+        }
 
-        internal override bool Apply(GameSession session) { session.BeginLevel(objective); return true; }
+        internal override bool Apply(GameSession session) { session.BeginLevel(objective, levelName, stationaryPercent); return true; }
     }
 
     /// <summary>One step of the session's clock (obj_healthbar's second alarm) and obj_game's objective check.</summary>

@@ -104,6 +104,8 @@ namespace Unity.Hare.Session
         public ObjectiveKind StartingObjective = ObjectiveKind.Points;
         /// <summary>target_name = "Boss".</summary>
         public string StartingTargetName = "Boss";
+        /// <summary>level_name = "Welcome to H.O.P" (U.HARE-T57): what obj_levelstart shows until a level script names its level.</summary>
+        public string StartingLevelName = "Welcome to H.O.P";
 
         /// <summary>obj_coin: at COINS &gt;= 100, LIVES += 1 and COINS = 0.</summary>
         public int CoinsPerExtraLife = 100;
@@ -127,6 +129,7 @@ namespace Unity.Hare.Session
             ValidationHelpers.Positive(errors, path + ".StartingLevel", StartingLevel);
             if (!Enum.IsDefined(typeof(ObjectiveKind), StartingObjective))
                 errors.Add($"{path}.StartingObjective: not an objective kind (was {(int)StartingObjective}).");
+            if (StartingLevelName == null) errors.Add(path + ".StartingLevelName: must not be null.");
             ValidationHelpers.Positive(errors, path + ".CoinsPerExtraLife", CoinsPerExtraLife);
             ValidationHelpers.Positive(errors, path + ".MasterVolumeStep", MasterVolumeStep);
             ValidationHelpers.NonNegative(errors, path + ".TimeLimitWarningSeconds", TimeLimitWarningSeconds);

@@ -36,6 +36,11 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 - the rock field: drift, spin, darkening, healing, breaking, flotsam, replacement (`Rocks/`)
 - the weather (U.HARE-T18): the play rooms' drifting clouds, and the rain, snow, sand and fog emitters a level can
   name in its `Weather` data, ruled by Core's `WeatherField` and drawn by `WeatherView` (`Weather/`)
+- level setup and objectives (U.HARE-T57): each play room runs setup_level when it comes up and on the fade-in's level
+  advance: the level's rocks, structures, vortices and mimics (or generator mode's wormhole emitter), the ship flown in,
+  the obj_levelstart banner, and the objective (points, time limit with its sfx_beep countdown, defeat, survive) ticked
+  on the room clock until set_level_complete pauses play (`Arena/ArenaRoom`, `Arena/LevelStartView`, Core's
+  `LevelSetup`, `LevelStartBanner` and `GameSession`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

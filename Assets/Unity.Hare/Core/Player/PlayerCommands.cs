@@ -32,6 +32,27 @@ namespace Unity.Hare.Player
         }
     }
 
+    /// <summary>
+    /// setup_level's ship (U.HARE-T57): the old obj_player destroyed, a new one created and reset_player run. The new
+    /// instance's Create fills every ammo pool and holds the vulcan and the rocket again (its trails armed); reset_player
+    /// gives it full HP, justspawned and the fly-in heading (<see cref="PlayerRespawned"/>). The energy bar is obj_energybar's,
+    /// not the ship's, so it is left to refill. LIVES are the session's and stay.
+    /// </summary>
+    public sealed class SetUpShip : PlayerCommand
+    {
+        public SetUpShip(PlayerId id) : base(id) { }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Ammo.Reset(ship.Ammo.Tuning);
+            ship.Ground.Restart();
+            ship.Air.Restart();
+            ship.Look.Reset(ship.Look.Tuning);
+            ship.Health.SetUp();
+            return true;
+        }
+    }
+
     /// <summary>A/D: -1 clockwise .. +1 counterclockwise.</summary>
     public sealed class SetTurn : PlayerCommand
     {

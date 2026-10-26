@@ -46,7 +46,7 @@ namespace Unity.Hare.Session
     public sealed class ScenarioChanged : SessionEvent { public int Scenario; }
 
     /// <summary>A level script set its objective; <see cref="Text"/> is set_objective_string's strObjective.</summary>
-    public sealed class ObjectiveSet : SessionEvent { public ObjectiveKind Kind; public string Text; }
+    public sealed class ObjectiveSet : SessionEvent { public ObjectiveKind Kind; public string Text; public string LevelName; }
 
     /// <summary>set_level_complete: the objective was met, play pauses and obj_level_results opens.</summary>
     public sealed class LevelCompleted : SessionEvent { public int Level; public ObjectiveKind Objective; }

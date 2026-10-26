@@ -101,7 +101,9 @@ namespace Unity.Hare.Tests.PlayMode
             // The ship perched in the room's lower right: the view settles on it, inside the room.
             arena.Player.Land();
             Put(arena, 3000f, 1800f);
-            yield return new WaitForSecondsRealtime(0.6f);
+            // setup_level flies the ship in from above the room's middle (U.HARE-T57), so the view has a way to come at 40 px a step.
+            yield return WaitFor(() => arena.State.View.X == 3840f - 1920f && arena.State.View.Y == 2160f - 1080f, "view 0 settling on the ship");
+            yield return null; // the cameras are put on the views in LateUpdate
             Assert.That(arena.State.View.X, Is.EqualTo(3840f - 1920f), "kept inside the room");
             Assert.That(arena.State.View.Y, Is.EqualTo(2160f - 1080f));
             var camera = arena.ViewCamera;
@@ -111,7 +113,7 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(Vector2.Distance(camera.transform.position, expected), Is.LessThan(0.01f), "the camera is on view 0");
 
             Put(arena, 1920f, 1080f);
-            yield return new WaitForSecondsRealtime(0.6f);
+            yield return WaitFor(() => arena.State.View.X == 960f && arena.State.View.Y == 540f, "view 0 centring on the ship");
             Assert.That(arena.State.View.X, Is.EqualTo(960f), "centred on the ship");
             Assert.That(arena.State.View.Y, Is.EqualTo(540f));
         }
@@ -267,6 +269,12 @@ namespace Unity.Hare.Tests.PlayMode
             }
             Assert.That(first, Is.Not.Null, "level_04 places a structure below y 400 in 20 setups");
             Assert.That(UnityEngine.Object.FindObjectsByType<StructureCover>(FindObjectsSortMode.None).Length, Is.EqualTo(arena.Structures.Structures.Count));
+
+            // setup_level now also places level_04's rocks and vortices (U.HARE-T57): take them away so nothing but the
+            // structure is in the ship's path or hits it on the way down.
+            Unity.Hare.Enemies.EnemyDirector.ClearAll();
+            arena.Rocks.ClearAll();
+            yield return null;
 
             var ship = arena.Player;
             var above = arena.ToRoom(first.Position) - new Vector2(0f, 260f);

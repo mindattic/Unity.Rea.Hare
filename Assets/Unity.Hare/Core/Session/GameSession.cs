@@ -19,6 +19,7 @@ namespace Unity.Hare.Session
         readonly List<SessionEvent> events = new List<SessionEvent>();
         PlayerId issuer;
         float secondTimer;
+        const float SecondTolerance = 1e-4f;
         int lastWarnedSecond;
 
         /// <param name="content">The tuning to start from; null reads <see cref="GameContent.Current"/>.</param>
@@ -27,12 +28,15 @@ namespace Unity.Hare.Session
             content ??= GameContent.Current;
             Tuning = content.Session;
             StartingLives = content.Health.StartingLives;
+            StartingStationaryPercent = content.Arena.StartingStationaryPercent;
             Reset();
         }
 
         public SessionTuning Tuning { get; }
         /// <summary>LIVES at the start of a game (<see cref="HealthTuning.StartingLives"/>).</summary>
         public int StartingLives { get; }
+        /// <summary>stationary_percent at the start of a game (<see cref="Arena.ArenaTuning.StartingStationaryPercent"/>).</summary>
+        public int StartingStationaryPercent { get; }
 
         /// <summary>GML: LIVES.</summary>
         public int Lives { get; private set; }
@@ -74,6 +78,13 @@ namespace Unity.Hare.Session
         public bool IsPaused { get; private set; }
         /// <summary>GML: strObjective, set_objective_string's text for the current objective.</summary>
         public string ObjectiveText { get; private set; }
+        /// <summary>GML: level_name, the level script's "Meta Data" (obj_levelstart shows it).</summary>
+        public string LevelName { get; private set; }
+        /// <summary>
+        /// GML: stationary_percent, a globalvar setup_level never resets: a level script that does not set it plays with
+        /// whatever the level before it left (<see cref="Arena.LevelSetting.StationaryPercentAfter"/>, BIBLE V27).
+        /// </summary>
+        public int StationaryPercent { get; private set; }
 
         /// <summary>obj_player's death wait: reset_player when true, game_restart when false.</summary>
         public bool HasLivesLeft => Lives > 0;
@@ -121,6 +132,8 @@ namespace Unity.Hare.Session
             IsLevelComplete = false;
             IsPaused = false;
             ObjectiveText = "";
+            LevelName = Tuning.StartingLevelName;
+            StationaryPercent = StartingStationaryPercent;
             secondTimer = 0f;
             lastWarnedSecond = 0;
         }
@@ -225,8 +238,10 @@ namespace Unity.Hare.Session
         }
 
         /// <summary>setup_level's resets and the level script's objective block, then set_objective_string.</summary>
-        internal void BeginLevel(LevelObjective objective)
+        internal void BeginLevel(LevelObjective objective, string levelName = null, int stationaryPercent = -1)
         {
+            if (levelName != null) LevelName = levelName;
+            if (stationaryPercent >= 0) StationaryPercent = stationaryPercent;
             SetPaused(false);
             IsLevelComplete = false;
             Objective = objective.Kind;
@@ -244,7 +259,7 @@ namespace Unity.Hare.Session
             }
 
             ObjectiveText = DescribeObjective(Objective, GoalScore, TimeLimitSeconds, TargetName);
-            Emit(new ObjectiveSet { Kind = Objective, Text = ObjectiveText });
+            Emit(new ObjectiveSet { Kind = Objective, Text = ObjectiveText, LevelName = LevelName });
         }
 
         internal void DefeatTarget()
@@ -284,7 +299,9 @@ namespace Unity.Hare.Session
             if (deltaTime < 0f) throw new ArgumentOutOfRangeException(nameof(deltaTime), deltaTime, "Must not be negative.");
             float second = GameClock.Seconds(Tuning.SecondSteps);
             secondTimer += deltaTime;
-            while (secondTimer >= second)
+            // A room step is 1/room_speed s: 120 of them add up to a second give or take a float's last bit, which must
+            // still count as obj_healthbar's alarm[0] = one_second firing on its 120th step.
+            while (secondTimer >= second - SecondTolerance)
             {
                 secondTimer -= second;
                 if (IsPaused) continue;
