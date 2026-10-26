@@ -213,6 +213,80 @@ namespace Unity.Hare.Rooms
     }
 
     /// <summary>
+    /// obj_stand_title (spr_stand, 493x1154, origin 246,1154, placed at 928,2592 at half scale, far below the room):
+    /// Create <c>phase = "off"</c>; Step, while <c>phase == "on"</c>, <c>vspeed = -40</c> while <c>y &gt; room_height - 30</c>,
+    /// else <c>vspeed = 0; instance_create(0,0,obj_logo); phase = "off"</c>; Draw: spr_moon_surface at <c>(0, y+250)</c>,
+    /// spr_eyeback at <c>(x-6, y-368)</c> and spr_pupil at <c>(x-12 + mouse_x/120, y-370 + mouse_y/60)</c>, both at half scale,
+    /// then itself over them (the eye shows through its open socket).
+    /// </summary>
+    [Serializable]
+    public class StandTuning
+    {
+        public string Sprite = "spr_stand";
+        public int X = 928;
+        public int Y = 2592;
+        public double Scale = 0.5;
+        /// <summary><c>vspeed = -40</c>: pixels a step it rises.</summary>
+        public int RiseSpeed = 40;
+        /// <summary>It rises while <c>y &gt; room_height - 30</c>.</summary>
+        public int StopAboveBottom = 30;
+        /// <summary><c>draw_sprite(spr_moon_surface, 0, 0, y+250)</c> (origin 0,398: its bottom-left corner).</summary>
+        public string MoonSprite = "spr_moon_surface";
+        public int MoonX = 0;
+        public int MoonOffsetY = 250;
+        /// <summary><c>draw_sprite_ext(spr_eyeback, 0, x-6, y-368, 0.5, 0.5, 0, c_white, 1)</c>.</summary>
+        public string EyeSprite = "spr_eyeback";
+        public int EyeOffsetX = -6;
+        public int EyeOffsetY = -368;
+        public double EyeScale = 0.5;
+        /// <summary><c>draw_sprite_ext(spr_pupil, 0, x-12+(mouse_x/120), y-370+(mouse_y/60), 0.5, 0.5, 0, c_white, 1)</c>: the eye follows the mouse.</summary>
+        public string PupilSprite = "spr_pupil";
+        public int PupilOffsetX = -12;
+        public int PupilOffsetY = -370;
+        public double PupilMouseXDivisor = 120;
+        public double PupilMouseYDivisor = 60;
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidationHelpers.Required(errors, path + ".Sprite", Sprite);
+            ValidationHelpers.Required(errors, path + ".MoonSprite", MoonSprite);
+            ValidationHelpers.Required(errors, path + ".EyeSprite", EyeSprite);
+            ValidationHelpers.Required(errors, path + ".PupilSprite", PupilSprite);
+            if (!(Scale > 0d)) errors.Add($"{path}.Scale: must be positive (was {Scale}).");
+            if (!(EyeScale > 0d)) errors.Add($"{path}.EyeScale: must be positive (was {EyeScale}).");
+            ValidationHelpers.Positive(errors, path + ".RiseSpeed", RiseSpeed);
+            ValidationHelpers.NonNegative(errors, path + ".StopAboveBottom", StopAboveBottom);
+            if (!(PupilMouseXDivisor > 0d)) errors.Add($"{path}.PupilMouseXDivisor: must be positive (was {PupilMouseXDivisor}).");
+            if (!(PupilMouseYDivisor > 0d)) errors.Add($"{path}.PupilMouseYDivisor: must be positive (was {PupilMouseYDivisor}).");
+        }
+    }
+
+    /// <summary>
+    /// obj_logo (spr_logo, 551x510, origin 275,255): Create puts it at <c>(view_xview + width/2 + 200, view_yview + height/2 + 200)</c>,
+    /// <c>image_alpha = 0</c> (its Step's 0.02 a step is <see cref="TitleTuning.MenuFadeSpeed"/>), <c>obj_mouse.visible = true</c>,
+    /// <c>background_vspeed[0] = 0</c>, and makes the buttons; Draw <c>draw_self()</c>.
+    /// </summary>
+    [Serializable]
+    public class LogoTuning
+    {
+        public string Sprite = "spr_logo";
+        /// <summary><c>sprite_get_width(sprite_index)</c>, <c>sprite_get_height(sprite_index)</c>.</summary>
+        public int Width = 551;
+        public int Height = 510;
+        /// <summary>The <c>+ 200</c> on both axes.</summary>
+        public int Margin = 200;
+        /// <summary><c>background_vspeed[0] = 0</c>: the background slot it stops.</summary>
+        public int StopsBackground = 0;
+
+        internal void Validate(List<string> errors, string path)
+        {
+            ValidationHelpers.Required(errors, path + ".Sprite", Sprite);
+            ValidationHelpers.Positive(errors, path + ".Width", Width);
+            ValidationHelpers.Positive(errors, path + ".Height", Height);
+        }
+    }
+
+    /// <summary>
     /// The title's menu as data (the content registry's <c>title</c> section, AGENTS.md rule 4): obj_btn_quickstart,
     /// obj_btn_campaign, obj_btn_level01..08, obj_btn_diff100, obj_btn_diff0 and obj_btn_quit as obj_logo's Create
     /// places them, obj_yesno_dialog with its Yes and No, and the numbers every one of them shares. The defaults are
@@ -279,6 +353,13 @@ namespace Unity.Hare.Rooms
 
         public TitleDialogDefinition Dialog = new TitleDialogDefinition();
 
+        /// <summary>room_title's falling rabbit, clouds and backgrounds (U.HARE-T62).</summary>
+        public DropSceneTuning Scene = DropSceneTuning.Title();
+        /// <summary>obj_stand_title, which rises with the moon and makes obj_logo (U.HARE-T62).</summary>
+        public StandTuning Stand = new StandTuning();
+        /// <summary>obj_logo's sprite and place (U.HARE-T62).</summary>
+        public LogoTuning Logo = new LogoTuning();
+
         /// <summary>obj_logo's Step: <c>image_alpha += 0.02</c> until 1, the alpha every menu caption is drawn at.</summary>
         public double MenuFadeSpeed = 0.02;
         /// <summary>Every button's mouse enter sound: <c>audio_play_sound(sfx_hover, 2, 0)</c>.</summary>
@@ -308,6 +389,12 @@ namespace Unity.Hare.Rooms
             }
             if (Dialog == null) errors.Add(path + ".Dialog: must not be null.");
             else Dialog.Validate(errors, path + ".Dialog");
+            if (Scene == null) errors.Add(path + ".Scene: must not be null.");
+            else Scene.Validate(errors, path + ".Scene");
+            if (Stand == null) errors.Add(path + ".Stand: must not be null.");
+            else Stand.Validate(errors, path + ".Stand");
+            if (Logo == null) errors.Add(path + ".Logo: must not be null.");
+            else Logo.Validate(errors, path + ".Logo");
             if (!(MenuFadeSpeed > 0d) || MenuFadeSpeed > 1d) errors.Add($"{path}.MenuFadeSpeed: must be greater than 0 and at most 1 (was {MenuFadeSpeed}).");
             ValidationHelpers.Required(errors, path + ".HoverSound", HoverSound);
             if (!StartupTuning.IsHexColor(Color)) errors.Add($"{path}.Color: must be #RRGGBB (was {Color ?? "null"}).");

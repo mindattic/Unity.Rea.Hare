@@ -9,11 +9,31 @@ namespace Unity.Hare.Rooms
         public PlayerId Id { get; internal set; }
     }
 
-    /// <summary>obj_title's key or click set <c>obj_stand_title.phase = "on"</c>.</summary>
+    /// <summary>
+    /// <c>obj_stand_title.phase = "on"</c>: obj_title's key or click, or obj_drop_title falling out of the room. The
+    /// rabbit rises and obj_logo follows (<see cref="MenuShown"/>).
+    /// </summary>
     public sealed class MenuCalled : TitleEvent { }
 
-    /// <summary>obj_logo's Create: the menu's buttons exist and <c>obj_mouse.visible = true</c>.</summary>
+    /// <summary>obj_logo's Create: the menu's buttons exist, <c>obj_mouse.visible = true</c> and the night sky stops.</summary>
     public sealed class MenuShown : TitleEvent { }
+
+    /// <summary>obj_drop_title was destroyed (a key or click, or it fell out of the room).</summary>
+    public sealed class TitleDropRemoved : TitleEvent { }
+
+    /// <summary>
+    /// The drop's <c>effect_create_below(ef_smokeup, x, y+40, </c><see cref="Size"/><c>, </c><see cref="Color"/><c>)</c>
+    /// at room pixel (<see cref="X"/>, <see cref="Y"/>): the orange trail every step or Alarm 0's black puff.
+    /// </summary>
+    public sealed class TitleSmokePuffed : TitleEvent
+    {
+        public DropSmoke Smoke;
+        public double X;
+        public double Y;
+        public int Size;
+        /// <summary>#RRGGBB.</summary>
+        public string Color;
+    }
 
     /// <summary><c>audio_play_sound(</c><see cref="Sound"/><c>, ...)</c>.</summary>
     public sealed class TitleSoundRequested : TitleEvent { public string Sound; }

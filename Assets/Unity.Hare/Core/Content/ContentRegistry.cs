@@ -48,8 +48,10 @@ namespace Unity.Hare.Content
         public PopupTuning Popups { get; }
         /// <summary>obj_mouse: the reticle and pointer, and option_showcursor (U.HARE-T61).</summary>
         public MouseTuning Mouse { get; }
-        /// <summary>The title's menu: its buttons and the yes/no dialog (U.HARE-T26).</summary>
+        /// <summary>The title: its menu and yes/no dialog (U.HARE-T26), its falling rabbit, stand and logo (U.HARE-T62).</summary>
         public TitleTuning Title { get; }
+        /// <summary>room_intro: its falling rabbit, A and D, and the quick game it starts (U.HARE-T62).</summary>
+        public IntroTuning Intro { get; }
 
         ContentRegistry()
         {
@@ -75,6 +77,7 @@ namespace Unity.Hare.Content
             Popups = new PopupTuning();
             Mouse = new MouseTuning();
             Title = new TitleTuning();
+            Intro = new IntroTuning();
         }
 
         /// <summary>
@@ -89,7 +92,7 @@ namespace Unity.Hare.Content
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,
         /// one section per top-level key: weapons, ammo, flight, health, weaponPhysicals, emitters, wormholes,
-        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather, popups, mouse, title. A section or field the file omits keeps its default. Throws
+        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather, popups, mouse, title, intro. A section or field the file omits keeps its default. Throws
         /// <see cref="ContentValidationException"/>, listing every problem, if the file is malformed or any value
         /// fails validation.
         /// </summary>
@@ -140,13 +143,14 @@ namespace Unity.Hare.Content
                 Bind(sections, "popups", registry.Popups, errors);
                 Bind(sections, "mouse", registry.Mouse, errors);
                 Bind(sections, "title", registry.Title, errors);
+                Bind(sections, "intro", registry.Intro, errors);
 
                 foreach (var key in sections.Keys)
                 {
                     switch (key.ToLowerInvariant())
                     {
                         case "weapons": case "ammo": case "flight": case "health": case "weaponphysicals":
-                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather": case "popups": case "mouse": case "title":
+                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather": case "popups": case "mouse": case "title": case "intro":
                             break;
                         default:
                             errors.Add($"content.{key}: not a recognised section.");
@@ -177,6 +181,7 @@ namespace Unity.Hare.Content
             registry.Popups.Validate(errors, "popups");
             registry.Mouse.Validate(errors, "mouse");
             registry.Title.Validate(errors, "title");
+            registry.Intro.Validate(errors, "intro");
 
             if (errors.Count > 0) throw new ContentValidationException(errors);
             return registry;

@@ -27,6 +27,39 @@ namespace Unity.Hare.Rooms
         public bool Contains(double px, double py) => Definition.Mask.Contains(X, Y, px, py);
     }
 
+    /// <summary>obj_stand_title as it stands: the rabbit on the moon, below the room until it is called up.</summary>
+    public sealed class TitleStand
+    {
+        internal TitleStand(StandTuning tuning)
+        {
+            Tuning = tuning;
+            X = tuning.X;
+            Y = tuning.Y;
+        }
+
+        public StandTuning Tuning { get; }
+        /// <summary>GML x, y: spr_stand's origin, the middle of its bottom edge.</summary>
+        public double X { get; }
+        public double Y { get; internal set; }
+        public double VSpeed { get; internal set; }
+        /// <summary>GML <c>phase == "on"</c>: rising toward the room.</summary>
+        public bool On { get; internal set; }
+
+        /// <summary>Where its Draw puts spr_moon_surface: <c>(0, y + 250)</c>.</summary>
+        public double MoonX => Tuning.MoonX;
+        public double MoonY => Y + Tuning.MoonOffsetY;
+        /// <summary>Where its Draw puts spr_eyeback: <c>(x - 6, y - 368)</c>.</summary>
+        public double EyeX => X + Tuning.EyeOffsetX;
+        public double EyeY => Y + Tuning.EyeOffsetY;
+
+        /// <summary>Where its Draw puts spr_pupil with the mouse at room pixel (<paramref name="mouseX"/>, <paramref name="mouseY"/>).</summary>
+        public void PupilAt(double mouseX, double mouseY, out double x, out double y)
+        {
+            x = X + Tuning.PupilOffsetX + mouseX / Tuning.PupilMouseXDivisor;
+            y = Y + Tuning.PupilOffsetY + mouseY / Tuning.PupilMouseYDivisor;
+        }
+    }
+
     /// <summary>One obj_yesno_dialog: its action, text, message, top left and its Yes and No.</summary>
     public sealed class TitleDialog
     {
@@ -59,12 +92,19 @@ namespace Unity.Hare.Rooms
     }
 
     /// <summary>
-    /// The title's menu, engine-free: obj_title's key and click, the buttons obj_logo's Create makes (obj_btn_campaign,
+    /// The title, engine-free: the falling rabbit, its clouds and the backgrounds (<see cref="Scene"/>: obj_drop_title,
+    /// obj_drop_emitter, obj_drop_cloud, bg_nightsky under bg_gradient3), obj_stand_title rising with the moon
+    /// (<see cref="Stand"/>), obj_title's key and click, obj_logo and the buttons its Create makes (obj_btn_campaign,
     /// obj_btn_level01..08, obj_btn_diff100, obj_btn_diff0, obj_btn_quit; obj_btn_quickstart is ported but never placed),
-    /// obj_logo's fade-in of their captions, and obj_yesno_dialog with obj_btn_yes and obj_btn_no. There is no global
-    /// instance: the title room's view owns one. State changes only through <see cref="Execute"/>; presentation draws the
-    /// buttons and dialog and plays the events (sounds, the session's game mode, the room flow's fade, the quit) and
-    /// never writes back.
+    /// obj_logo's fade-in, and obj_yesno_dialog with obj_btn_yes and obj_btn_no. There is no global instance: the title
+    /// room's view owns one. State changes only through <see cref="Execute"/>; presentation draws the scene, buttons and
+    /// dialog and plays the events (sounds, smoke, the session's game mode, the room flow's fade, the quit) and never
+    /// writes back.
+    ///
+    /// The menu comes in one of two ways, as in the original: a key or click destroys the drop and the emitter and turns
+    /// obj_stand_title on, or the drop, left alone, hangs for Alarm 1's 200 steps and falls out of the room, which turns
+    /// it on itself (with sfx_land). Either way the rabbit rises 40 px a step until it is within 30 px of the room's
+    /// bottom, and the step after that obj_logo is made: 40 steps from below the room.
     ///
     /// GameMaker runs every instance's mouse events whatever is drawn over it, so the menu's buttons still answer while
     /// the dialog is up, as in the original; none of them overlaps the dialog's box.
@@ -77,23 +117,36 @@ namespace Unity.Hare.Rooms
         PlayerId issuer;
 
         /// <param name="tuning">The title data (the registry's <c>title</c> section).</param>
-        /// <param name="viewWidth">view_wview[0], the title's 1920.</param>
+        /// <param name="viewWidth">view_wview[0], the title's 1920 (the view is the room).</param>
         /// <param name="viewHeight">view_hview[0], the title's 1080.</param>
-        public TitleScreen(TitleTuning tuning, int viewWidth, int viewHeight)
+        /// <param name="random">Where the drop's shake and the clouds' irandom_range come from; null deals a fixed seed.</param>
+        public TitleScreen(TitleTuning tuning, int viewWidth, int viewHeight, IRandomSource random = null)
         {
             Tuning = tuning ?? throw new ArgumentNullException(nameof(tuning));
             if (viewWidth <= 0) throw new ArgumentOutOfRangeException(nameof(viewWidth), viewWidth, "Must be positive.");
             if (viewHeight <= 0) throw new ArgumentOutOfRangeException(nameof(viewHeight), viewHeight, "Must be positive.");
             this.viewWidth = viewWidth;
             this.viewHeight = viewHeight;
+            Scene = new DropScene(tuning.Scene, viewWidth, viewHeight, random ?? new SeededRandom(1));
+            Stand = new TitleStand(tuning.Stand);
         }
 
         public TitleTuning Tuning { get; }
 
+        /// <summary>The falling rabbit, its clouds and the backgrounds.</summary>
+        public DropScene Scene { get; }
+
+        /// <summary>obj_stand_title.</summary>
+        public TitleStand Stand { get; }
+
+        /// <summary>obj_logo's x, y (spr_logo's origin, its middle), once the menu is shown.</summary>
+        public double LogoX => Tuning.Logo.Width / 2d + Tuning.Logo.Margin;
+        public double LogoY => Tuning.Logo.Height / 2d + Tuning.Logo.Margin;
+
         /// <summary>Whether obj_title's Create has run.</summary>
         public bool Created { get; private set; }
 
-        /// <summary>Whether a key or click has called the menu (obj_stand_title's phase "on").</summary>
+        /// <summary>Whether obj_stand_title has been turned on (a key, a click or the drop falling out of the room).</summary>
         public bool MenuCalled { get; private set; }
 
         /// <summary>Whether obj_logo exists, and with it the buttons.</summary>
@@ -156,31 +209,48 @@ namespace Unity.Hare.Rooms
 
         // ---- Rules the commands call ----
 
-        /// <summary>obj_title's Create: <c>mouse.sprite_index = spr_pointer; mouse.visible = false;</c></summary>
+        /// <summary>
+        /// obj_title's Create (<c>mouse.sprite_index = spr_pointer; mouse.visible = false;</c>) with the room's other
+        /// instances: obj_drop_emitter, obj_drop_title and obj_stand_title (phase "off") at their places.
+        /// </summary>
         internal bool Create()
         {
             if (Created) return false;
             Created = true;
             PointerVisible = false;
+            Scene.Create();
+            Stand.Y = Stand.Tuning.Y;
+            Stand.VSpeed = 0d;
+            Stand.On = false;
             return true;
         }
 
         /// <summary>
-        /// obj_title's any-key and left-button events. obj_stand_title (U.HARE-T62) is not ported yet, so the menu comes up
-        /// at once rather than when the rabbit has risen (BIBLE V39); a second call brings no second menu (BIBLE D23).
+        /// obj_title's any-key and left-button events: <c>with(obj_drop_title) instance_destroy(); with(obj_drop_emitter)
+        /// instance_destroy(); obj_stand_title.phase = "on";</c>. Refused while the rabbit is already rising, and once the
+        /// menu is up: in the original a second call makes a second obj_logo and a second menu (BIBLE D23).
         /// </summary>
         internal bool CallMenu()
         {
-            if (!Created || MenuShown) return false;
-            MenuCalled = true;
-            Emit(new MenuCalled());
-            ShowMenu();
+            if (!Created || MenuShown || Stand.On) return false;
+            bool dropGone = Scene.DestroyDrop();
+            Scene.DestroyEmitter();
+            if (dropGone) Emit(new TitleDropRemoved());
+            TurnStandOn();
             return true;
         }
 
+        void TurnStandOn()
+        {
+            Stand.On = true;
+            MenuCalled = true;
+            Emit(new MenuCalled());
+        }
+
         /// <summary>
-        /// obj_logo's Create: <c>image_alpha = 0; obj_mouse.visible = true;</c> and an instance_create for each placed
-        /// button at its x, y. Once only (BIBLE D23).
+        /// obj_logo's Create: <c>image_alpha = 0; obj_mouse.visible = true; background_vspeed[0] = 0;</c> and an
+        /// instance_create for each placed button at its x, y. obj_stand_title's Step makes it once the rabbit has risen;
+        /// the command runs it at once. Once only (BIBLE D23).
         /// </summary>
         internal bool ShowMenu()
         {
@@ -188,17 +258,55 @@ namespace Unity.Hare.Rooms
             MenuShown = true;
             MenuAlpha = 0d;
             PointerVisible = true;
+            Scene.StopBackground(Tuning.Logo.StopsBackground);
             foreach (var definition in Tuning.Buttons)
                 if (definition != null && definition.Placed) menu.Add(new TitleButton(definition, definition.X, definition.Y, inDialog: false));
             Emit(new MenuShown());
             return true;
         }
 
-        /// <summary>obj_logo's Step: <c>if(image_alpha &lt; 1) image_alpha += 0.02; else image_alpha = 1;</c></summary>
+        /// <summary>
+        /// One step at the room's room_speed, in GameMaker's order: the drop scene's alarms, the drop's Step (its smoke;
+        /// below the room it is destroyed with the emitter, obj_stand_title is turned on and sfx_land plays), the
+        /// clouds' Steps, obj_stand_title's Step (rising, or making obj_logo), obj_logo's Step
+        /// (<c>if(image_alpha &lt; 1) image_alpha += 0.02; else image_alpha = 1;</c>; not in the step that makes it),
+        /// then the motion and the backgrounds' scroll.
+        /// </summary>
         internal bool Step()
         {
             if (!Created) return false;
-            if (MenuShown)
+            bool logoExisted = MenuShown;
+            var step = Scene.Step((smoke, x, y) => Emit(new TitleSmokePuffed
+            {
+                Smoke = smoke,
+                X = x,
+                Y = y,
+                Size = Scene.Tuning.SmokeSize,
+                Color = smoke == DropSmoke.Trail ? Scene.Tuning.TrailColor : Scene.Tuning.PuffColor,
+            }));
+            if (step.Below)
+            {
+                // instance_destroy(); obj_stand_title.phase = "on"; with(obj_drop_emitter) instance_destroy(); audio_play_sound(sfx_land,1,0);
+                Scene.DestroyDrop();
+                Emit(new TitleDropRemoved());
+                if (!MenuShown && !Stand.On) TurnStandOn();
+                Scene.DestroyEmitter();
+                PlaySound(Scene.Tuning.LandSound);
+            }
+
+            if (Stand.On)
+            {
+                if (Stand.Y > viewHeight - Stand.Tuning.StopAboveBottom) Stand.VSpeed = -Stand.Tuning.RiseSpeed;
+                else
+                {
+                    Stand.VSpeed = 0d;
+                    Stand.On = false;
+                    ShowMenu();
+                }
+            }
+            Stand.Y += Stand.VSpeed;
+
+            if (logoExisted)
             {
                 if (MenuAlpha < 1d) MenuAlpha += Tuning.MenuFadeSpeed;
                 else MenuAlpha = 1d;

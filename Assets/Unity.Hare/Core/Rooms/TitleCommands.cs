@@ -21,7 +21,10 @@ namespace Unity.Hare.Rooms
         internal override bool Apply(TitleScreen screen) => screen.Create();
     }
 
-    /// <summary>One step at the room's room_speed: obj_logo's Step (the captions' alpha). Refused before Create.</summary>
+    /// <summary>
+    /// One step at the room's room_speed: the falling rabbit and its clouds, obj_stand_title's rise (and obj_logo when it
+    /// is up), obj_logo's Step (the captions' alpha) and the backgrounds' scroll. Refused before Create.
+    /// </summary>
     public sealed class StepTitle : TitleCommand
     {
         public StepTitle(PlayerId id) : base(id) { }
@@ -30,8 +33,9 @@ namespace Unity.Hare.Rooms
 
     /// <summary>
     /// obj_title's key press for any key but F1, and its global left button while neither F1 nor Esc is held:
-    /// <c>obj_stand_title.phase = "on"</c>, which brings in obj_logo and with it the menu (<see cref="MenuShown"/>).
-    /// Refused once the menu is up.
+    /// the drop and the cloud emitter destroyed and <c>obj_stand_title.phase = "on"</c>, which rises the rabbit and then
+    /// brings in obj_logo and with it the menu (<see cref="MenuShown"/>, 40 steps later). Refused while it is rising and
+    /// once the menu is up (BIBLE D23).
     /// </summary>
     public sealed class CallTitleMenu : TitleCommand
     {

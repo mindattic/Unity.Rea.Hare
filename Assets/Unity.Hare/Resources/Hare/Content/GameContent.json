@@ -467,6 +467,41 @@
     "Color": "#FFFFFF",
     "HoverColor": "#6495ED",
     "Outline": 2,
-    "MessageBottomMargin": 30
+    "MessageBottomMargin": 30,
+    "Scene": {
+      "DropSprite": "spr_drop", "DropX": 960, "DropY": -608, "DropScale": 0.5, "FallSpeed": 10, "Jitter": 3, "HangFraction": 0.25, "HangSteps": 200,
+      "SmokeOffsetY": 40, "SmokeSize": 2, "SmokeDelaySteps": 20, "TrailColor": "#FFA040", "PuffColor": "#000000", "LandSound": "sfx_land",
+      "CloudFirstAlarmSteps": 1, "CloudRateSteps": 20, "CloudBatchMin": 4, "CloudBatchMax": 8,
+      "CloudSprites": ["spr_cloud1", "spr_cloud2", "spr_cloud3", "spr_cloud4"], "CloudWidth": 851, "CloudHeight": 313,
+      "CloudSpeedMin": 60, "CloudSpeedMax": 80, "CloudAlphaStep": 0.1, "CloudAlphaMin": 1, "CloudAlphaMax": 3, "CloudBelowMin": 1, "CloudBelowMax": 2,
+      "Backgrounds": [
+        { "Name": "bg_nightsky", "HSpeed": 0, "VSpeed": -5 },
+        { "Name": "bg_gradient3", "HSpeed": 0, "VSpeed": 0 }
+      ]
+    },
+    "Stand": {
+      "Sprite": "spr_stand", "X": 928, "Y": 2592, "Scale": 0.5, "RiseSpeed": 40, "StopAboveBottom": 30,
+      "MoonSprite": "spr_moon_surface", "MoonX": 0, "MoonOffsetY": 250,
+      "EyeSprite": "spr_eyeback", "EyeOffsetX": -6, "EyeOffsetY": -368, "EyeScale": 0.5,
+      "PupilSprite": "spr_pupil", "PupilOffsetX": -12, "PupilOffsetY": -370, "PupilMouseXDivisor": 120, "PupilMouseYDivisor": 60
+    },
+    "Logo": { "Sprite": "spr_logo", "Width": 551, "Height": 510, "Margin": 200, "StopsBackground": 0 }
+  },
+  "intro": {
+    "Scene": {
+      "DropSprite": "spr_drop", "DropX": 960, "DropY": -608, "DropScale": 0.5, "FallSpeed": 10, "Jitter": 3, "HangFraction": 0.25, "HangSteps": 0,
+      "SmokeOffsetY": 40, "SmokeSize": 2, "SmokeDelaySteps": 20, "TrailColor": "#FFA040", "PuffColor": "#000000", "LandSound": "",
+      "CloudFirstAlarmSteps": 1, "CloudRateSteps": 20, "CloudBatchMin": 4, "CloudBatchMax": 8,
+      "CloudSprites": ["spr_cloud1", "spr_cloud2", "spr_cloud3", "spr_cloud4"], "CloudWidth": 851, "CloudHeight": 313,
+      "CloudSpeedMin": 60, "CloudSpeedMax": 80, "CloudAlphaStep": 0.1, "CloudAlphaMin": 1, "CloudAlphaMax": 3, "CloudBelowMin": 1, "CloudBelowMax": 2,
+      "Backgrounds": [
+        { "Name": "bg_nightsky", "HSpeed": 0, "VSpeed": -5 },
+        { "Name": "bg_gradient3", "HSpeed": 0, "VSpeed": 0 }
+      ]
+    },
+    "SteerMargin": 300,
+    "SteerStep": 1,
+    "ExitLevel": 1,
+    "ExitRoom": "GameScreen"
   }
 }

@@ -25,10 +25,13 @@ namespace Unity.Hare.Tests.Core
             return screen;
         }
 
+        /// <summary>A key, then obj_stand_title's 40-step rise to obj_logo.</summary>
         static TitleScreen WithMenu()
         {
             var screen = Created();
             screen.Execute(new CallTitleMenu(P1));
+            for (int i = 0; i < 40; i++) screen.Execute(new StepTitle(P1));
+            Assert.IsTrue(screen.MenuShown, "obj_logo after the rise");
             return screen;
         }
 
@@ -140,19 +143,41 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
-        public void AKeyOrClickBringsInTheMenuWithThePointerOnce()
+        public void AKeyOrClickRisesTheRabbitAndTheMenuComesWithTheLogoFortyStepsLater()
         {
             var screen = Created();
             var result = screen.Execute(new CallTitleMenu(P1));
             Assert.IsTrue(result.Accepted);
-            Assert.IsInstanceOf<MenuCalled>(result.Events[0]);
-            Assert.IsInstanceOf<MenuShown>(result.Events[1]);
+            CollectionAssert.AreEqual(new[] { typeof(TitleDropRemoved), typeof(MenuCalled) }, result.Events.Select(e => e.GetType()),
+                "with(obj_drop_title) instance_destroy(); ... obj_stand_title.phase = \"on\"");
+            Assert.IsNull(screen.Scene.Drop);
+            Assert.IsFalse(screen.Scene.EmitterAlive, "with(obj_drop_emitter) instance_destroy()");
+            Assert.IsTrue(screen.Stand.On);
+            Assert.IsFalse(screen.MenuShown, "no menu until the rabbit has risen");
+            Assert.IsFalse(screen.PointerVisible);
+            Assert.IsFalse(screen.Execute(new CallTitleMenu(P1)).Accepted, "a key while it rises changes nothing");
+
+            for (int i = 1; i < 40; i++)
+            {
+                Assert.IsFalse(screen.Execute(new StepTitle(P1)).Events.OfType<MenuShown>().Any(), "step " + i);
+                Assert.AreEqual(2592 - 40 * i, screen.Stand.Y, "vspeed = -40 while y > room_height - 30");
+            }
+            Assert.AreEqual(1032d, screen.Stand.Y);
+            var logo = screen.Execute(new StepTitle(P1));
+            Assert.AreEqual(1, logo.Events.OfType<MenuShown>().Count(), "the 40th step makes obj_logo");
+            Assert.AreEqual(1032d, screen.Stand.Y, "and stops it within 30 px of the bottom");
+            Assert.IsFalse(screen.Stand.On, "phase = \"off\"");
             Assert.IsTrue(screen.PointerVisible, "obj_logo: obj_mouse.visible = true");
-            Assert.AreEqual(0d, screen.MenuAlpha, "obj_logo: image_alpha = 0");
+            Assert.AreEqual(0d, screen.MenuAlpha, "obj_logo: image_alpha = 0, not stepped in the step that makes it");
             Assert.AreEqual(12, screen.Menu.Count);
+            Assert.AreEqual((475.5, 455d), (screen.LogoX, screen.LogoY), "width/2 + 200, height/2 + 200");
+            Assert.AreEqual(0, screen.Scene.Backgrounds[0].VSpeed, "background_vspeed[0] = 0");
+
             Assert.IsFalse(screen.Execute(new CallTitleMenu(P1)).Accepted, "a second key brings no second menu (BIBLE D23)");
             Assert.IsFalse(screen.Execute(new ShowTitleMenu(P1)).Accepted);
+            for (int i = 0; i < 5; i++) screen.Execute(new StepTitle(P1));
             Assert.AreEqual(12, screen.Menu.Count);
+            Assert.IsFalse(screen.Stand.On);
         }
 
         [Test]
@@ -267,7 +292,7 @@ namespace Unity.Hare.Tests.Core
             quick.Y = 540;
             var screen = new TitleScreen(t, 1920, 1080);
             screen.Execute(new CreateTitle(P1));
-            screen.Execute(new CallTitleMenu(P1));
+            screen.Execute(new ShowTitleMenu(P1));
             var result = Click(screen, "obj_btn_quickstart", fadeIdle: false);
             Assert.AreEqual("sfx_click", ((TitleSoundRequested)result.Events[0]).Sound);
             Assert.IsEmpty(result.Events.OfType<TitleModeChosen>(), "it sets no game mode");
