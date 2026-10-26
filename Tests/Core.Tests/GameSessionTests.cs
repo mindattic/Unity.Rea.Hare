@@ -364,6 +364,17 @@ namespace Unity.Hare.Tests.Core
             Assert.IsFalse(session.UseMetric);
         }
 
+        [Test]
+        public void F12TogglesTheDebugOverlay()
+        {
+            Assert.IsFalse(session.Debug, "globals.gml: debug = false");
+            Assert.AreEqual("Pinball Spring", session.TrackName, "globals.gml: track_name = \"Pinball Spring\"");
+            Assert.IsTrue(Do(new ToggleDebug(P1)).Find<DebugChanged>().Debug);
+            Assert.IsTrue(session.Debug);
+            Do(new ToggleDebug(P1));
+            Assert.IsFalse(session.Debug);
+        }
+
         // ---- game_restart ----
 
         [Test]

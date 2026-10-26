@@ -99,8 +99,44 @@ namespace Unity.Hare.Arena
         public string ImperialUnit = " mph";
         public string MetricUnit = " kph";
 
+        // ---- obj_game's Draw GUI (U.HARE-T59) ----
+
+        /// <summary><c>draw_text_outline(view_wview - 200, view_hview - 90, 1, string(current_score))</c>, fa_right, fnt_score.</summary>
+        public int ScoreOffsetX = 200;
+        public int ScoreOffsetY = 90;
+        /// <summary><c>draw_text_outline(view_wview - 200, view_hview - 35, 1, strObjective)</c>, fa_right, fnt_point.</summary>
+        public int ObjectiveOffsetY = 35;
+        /// <summary>The debug overlay's column (<c>draw_text_outline(20, ...)</c>, fa_left, fnt_point).</summary>
+        public int DebugX = 20;
+        /// <summary>"FPS: " at y 20.</summary>
+        public int DebugFpsY = 20;
+        /// <summary>The ship's lines, from "X,Y: " at y 60 down to "Current Rock Spin: " at y 200, 20 apart.</summary>
+        public int DebugPlayerY = 60;
+        public int DebugLineHeight = 20;
+        /// <summary>"Current Track: " at y 300.</summary>
+        public int DebugTrackY = 300;
+        /// <summary>
+        /// Each debug line's caption, in draw order: FPS, X,Y, Direction, Image Angle, State, Spin, Current Rock, Current
+        /// Rock X,Y, Current Rock Spin, Current Track (the original's own spellings, "Spin : " with its space).
+        /// </summary>
+        public string[] DebugLabels =
+        {
+            "FPS: ", "X,Y: ", "Direction: ", "Image Angle: ", "State: ", "Spin : ", "Current Rock: ", "Current Rock X,Y: ",
+            "Current Rock Spin: ", "Current Track: "
+        };
+        /// <summary>What the rock lines show without a current_rock: <c>string("Null")</c>.</summary>
+        public string DebugNone = "Null";
+        /// <summary>get_state_string for state_idle, state_moving, state_dead and state_leave, in <see cref="PlayerFlightState"/> order.</summary>
+        public string[] DebugStates = { "Idle", "Moving", "Dead", "Leaving" };
+
         internal void Validate(List<string> errors, string path)
         {
+            if (DebugLabels == null || DebugLabels.Length != DebugLabelCount)
+                errors.Add($"{path}.DebugLabels: needs {DebugLabelCount} captions.");
+            if (DebugStates == null || DebugStates.Length != Enum.GetValues(typeof(PlayerFlightState)).Length)
+                errors.Add($"{path}.DebugStates: needs one name per flight state ({Enum.GetValues(typeof(PlayerFlightState)).Length}).");
+            if (DebugNone == null) errors.Add(path + ".DebugNone: must not be null.");
+            ValidationHelpers.Positive(errors, path + ".DebugLineHeight", DebugLineHeight);
             ValidationHelpers.Required(errors, path + ".ExtraLivesSprite", ExtraLivesSprite);
             ValidationHelpers.Required(errors, path + ".CoinSprite", CoinSprite);
             ValidationHelpers.Required(errors, path + ".PipSprite", PipSprite);
@@ -134,6 +170,9 @@ namespace Unity.Hare.Arena
 
         /// <summary>air_asset for <paramref name="weapon"/>.</summary>
         public string AirIcon(AirWeapon weapon) => AirIcons[(int)weapon];
+
+        /// <summary>How many captions <see cref="DebugLabels"/> holds.</summary>
+        public const int DebugLabelCount = 10;
     }
 
     /// <summary>GameMaker's string() of a number: a whole number prints bare, anything else rounded to two places.</summary>
@@ -331,6 +370,29 @@ namespace Unity.Hare.Arena
         public AirWeapon AirWeapon;
         public int GroundPrimaryAmmo, GroundPrimaryMax, GroundSecondaryAmmo, GroundSecondaryMax;
         public int AirPrimaryAmmo, AirPrimaryMax, AirSecondaryAmmo, AirSecondaryMax;
+
+        // ---- obj_game's Draw GUI (U.HARE-T59) ----
+
+        /// <summary>current_score.</summary>
+        public int Score;
+        /// <summary>strObjective.</summary>
+        public string Objective;
+        /// <summary>debug: whether the F12 overlay is drawn.</summary>
+        public bool Debug;
+        /// <summary>GML fps: frames drawn in the last second.</summary>
+        public int Fps;
+        /// <summary>player.x and player.y, room pixels.</summary>
+        public float X, Y;
+        /// <summary>player.direction and player.image_angle, degrees.</summary>
+        public float Direction, ImageAngle;
+        /// <summary>player.spin, degrees a step.</summary>
+        public float Spin;
+        /// <summary>player.current_rock's id, or null for noone.</summary>
+        public int? Rock;
+        /// <summary>current_rock.x, current_rock.y (room pixels) and current_rock.spin (degrees a step).</summary>
+        public float RockX, RockY, RockSpin;
+        /// <summary>track_name.</summary>
+        public string TrackName;
     }
 
     /// <summary>The HUD as drawn this frame: every sprite and line, in the original's draw order.</summary>
@@ -392,15 +454,63 @@ namespace Unity.Hare.Arena
             Energy.Step(reading.Energy, reading.MaxEnergy, reading.Paused, reading.State == PlayerFlightState.Dead);
         }
 
-        /// <summary>The four Draw GUI events for <paramref name="reading"/>.</summary>
+        /// <summary>
+        /// The Draw GUI events for <paramref name="reading"/>: obj_game's own (it is in the room before its Create makes the
+        /// other four, so it draws first), then the four HUD objects'.
+        /// </summary>
         public HudFrame Draw(HudReading reading)
         {
             var frame = new HudFrame();
+            DrawGame(frame, reading);
             DrawHealthBar(frame, reading);
             DrawWeaponGui(frame, reading);
             DrawEnergyBar(frame, reading);
             DrawSpeedometer(frame);
             return frame;
+        }
+
+        /// <summary>
+        /// obj_game's Draw GUI (U.HARE-T59): the score (fnt_score) and strObjective (fnt_point), right-aligned 200 px in
+        /// from the right edge at the bottom; with debug on, FPS, then the ship's position, direction, image_angle,
+        /// get_state_string, spin and current rock (its id, position and spin, or "Null"), then track_name, down the left.
+        /// </summary>
+        void DrawGame(HudFrame frame, HudReading reading)
+        {
+            var d = Definition;
+            float right = GuiWidth - d.ScoreOffsetX;
+            frame.Texts.Add(new HudText("score", GmlText.Int(reading.Score), right, GuiHeight - d.ScoreOffsetY, ResultsAlign.Right, HudFont.Score));
+            frame.Texts.Add(new HudText("objective", reading.Objective ?? "", right, GuiHeight - d.ObjectiveOffsetY, ResultsAlign.Right, HudFont.Point));
+            if (!reading.Debug) return;
+
+            var labels = d.DebugLabels;
+            void Line(string key, int label, string value, float y) =>
+                frame.Texts.Add(new HudText(key, labels[label] + value, d.DebugX, y, ResultsAlign.Left, HudFont.Point));
+
+            Line("debug-fps", 0, GmlText.Int(reading.Fps), d.DebugFpsY);
+            if (reading.HasPlayer)
+            {
+                float y = d.DebugPlayerY;
+                float step = d.DebugLineHeight;
+                int state = (int)reading.State;
+                Line("debug-position", 1, GmlText.Real(reading.X) + "," + GmlText.Real(reading.Y), y);
+                Line("debug-direction", 2, GmlText.Real(reading.Direction), y + step);
+                Line("debug-angle", 3, GmlText.Real(reading.ImageAngle), y + step * 2);
+                Line("debug-state", 4, state >= 0 && state < d.DebugStates.Length ? d.DebugStates[state] : "", y + step * 3);
+                Line("debug-spin", 5, GmlText.Real(reading.Spin), y + step * 4);
+                if (reading.Rock.HasValue)
+                {
+                    Line("debug-rock", 6, GmlText.Int(reading.Rock.Value), y + step * 5);
+                    Line("debug-rock-position", 7, GmlText.Real(reading.RockX) + "," + GmlText.Real(reading.RockY), y + step * 6);
+                    Line("debug-rock-spin", 8, GmlText.Real(reading.RockSpin), y + step * 7);
+                }
+                else
+                {
+                    Line("debug-rock", 6, d.DebugNone, y + step * 5);
+                    Line("debug-rock-position", 7, d.DebugNone, y + step * 6);
+                    Line("debug-rock-spin", 8, d.DebugNone, y + step * 7);
+                }
+            }
+            Line("debug-track", 9, reading.TrackName ?? "", d.DebugTrackY);
         }
 
         void DrawHealthBar(HudFrame frame, HudReading reading)

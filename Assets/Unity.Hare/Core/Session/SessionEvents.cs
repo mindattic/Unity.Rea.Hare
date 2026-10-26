@@ -69,6 +69,9 @@ namespace Unity.Hare.Session
     /// <summary>use_metric changed (the speedometer's units).</summary>
     public sealed class UnitsChanged : SessionEvent { public bool UseMetric; }
 
+    /// <summary>debug changed (obj_game's F12 overlay shown or hidden).</summary>
+    public sealed class DebugChanged : SessionEvent { public bool Debug; }
+
     /// <summary>What a session command did: whether it took effect, and the events it raised in order.</summary>
     public readonly struct SessionResult
     {

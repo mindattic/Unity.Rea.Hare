@@ -299,6 +299,108 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual("160.50", GmlText.Real(160.5025));
         }
 
+        // ---- obj_game (U.HARE-T59) ----
+
+        [Test]
+        public void ScoreAndObjectiveAreRightAlignedAtTheLowerRight()
+        {
+            var r = Flying();
+            r.Score = 340;
+            r.Objective = "Score 500 points";
+            var frame = NewHud().Draw(r);
+
+            var score = frame.Text("score").Value;
+            Assert.AreEqual("340", score.Text);
+            Assert.AreEqual(1920f - 200f, score.X, "view_wview - 200");
+            Assert.AreEqual(1080f - 90f, score.Y, "view_hview - 90");
+            Assert.AreEqual(ResultsAlign.Right, score.Align);
+            Assert.AreEqual(HudFont.Score, score.Font);
+
+            var objective = frame.Text("objective").Value;
+            Assert.AreEqual("Score 500 points", objective.Text);
+            Assert.AreEqual(1920f - 200f, objective.X);
+            Assert.AreEqual(1080f - 35f, objective.Y, "view_hview - 35");
+            Assert.AreEqual(ResultsAlign.Right, objective.Align);
+            Assert.AreEqual(HudFont.Point, objective.Font);
+            Assert.AreEqual("score", frame.Texts[0].Key, "obj_game draws before the HUD objects its Create makes");
+        }
+
+        [Test]
+        public void TheScoreAndObjectiveDrawWithoutAShip()
+        {
+            var frame = NewHud().Draw(new HudReading { Score = 0, Objective = "" });
+            Assert.AreEqual("0", frame.Text("score").Value.Text);
+            Assert.AreEqual("", frame.Text("objective").Value.Text);
+        }
+
+        [Test]
+        public void TheDebugOverlayIsHiddenUntilDebug()
+        {
+            var frame = NewHud().Draw(Flying());
+            Assert.IsNull(frame.Text("debug-fps"));
+            Assert.IsNull(frame.Text("debug-track"));
+        }
+
+        [Test]
+        public void TheDebugOverlayDrawsTheShipAndItsRockDownTheLeft()
+        {
+            var r = Perched();
+            r.Debug = true;
+            r.Fps = 60;
+            r.X = 1200.5f;
+            r.Y = 800f;
+            r.Direction = 90f;
+            r.ImageAngle = 45.25f;
+            r.Spin = 0f;
+            r.Rock = 100123;
+            r.RockX = 1210f;
+            r.RockY = 760f;
+            r.RockSpin = -0.5f;
+            r.TrackName = "Pinball Spring";
+            var frame = NewHud().Draw(r);
+
+            void Line(string key, string text, float y)
+            {
+                var t = frame.Text(key);
+                Assert.IsNotNull(t, key);
+                Assert.AreEqual(text, t.Value.Text, key);
+                Assert.AreEqual(20f, t.Value.X, key);
+                Assert.AreEqual(y, t.Value.Y, key);
+                Assert.AreEqual(ResultsAlign.Left, t.Value.Align, key);
+                Assert.AreEqual(HudFont.Point, t.Value.Font, key);
+            }
+
+            Line("debug-fps", "FPS: 60", 20);
+            Line("debug-position", "X,Y: 1200.50,800", 60);
+            Line("debug-direction", "Direction: 90", 80);
+            Line("debug-angle", "Image Angle: 45.25", 100);
+            Line("debug-state", "State: Idle", 120);
+            Line("debug-spin", "Spin : 0", 140);
+            Line("debug-rock", "Current Rock: 100123", 160);
+            Line("debug-rock-position", "Current Rock X,Y: 1210,760", 180);
+            Line("debug-rock-spin", "Current Rock Spin: -0.50", 200);
+            Line("debug-track", "Current Track: Pinball Spring", 300);
+        }
+
+        [Test]
+        public void WithoutARockTheRockLinesSayNullAndWithoutAShipOnlyFpsAndTrackDraw()
+        {
+            var r = Flying();
+            r.Debug = true;
+            r.TrackName = "Pinball Spring";
+            var frame = NewHud().Draw(r);
+            Assert.AreEqual("State: Moving", frame.Text("debug-state").Value.Text);
+            Assert.AreEqual("Current Rock: Null", frame.Text("debug-rock").Value.Text);
+            Assert.AreEqual("Current Rock X,Y: Null", frame.Text("debug-rock-position").Value.Text);
+            Assert.AreEqual("Current Rock Spin: Null", frame.Text("debug-rock-spin").Value.Text);
+
+            frame = NewHud().Draw(new HudReading { Debug = true, Fps = 30, TrackName = "Pinball Spring" });
+            Assert.AreEqual("FPS: 30", frame.Text("debug-fps").Value.Text);
+            Assert.IsNull(frame.Text("debug-position"), "the ship's lines need instance_exists(player)");
+            Assert.IsNull(frame.Text("debug-rock"));
+            Assert.AreEqual("Current Track: Pinball Spring", frame.Text("debug-track").Value.Text);
+        }
+
         [Test]
         public void TheDefaultsMatchTheContentFile()
         {

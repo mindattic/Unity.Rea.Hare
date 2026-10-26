@@ -246,4 +246,11 @@ namespace Unity.Hare.Session
         public ToggleUnits(PlayerId id) : base(id) { }
         internal override bool Apply(GameSession session) { session.SetUseMetric(!session.UseMetric); return true; }
     }
+
+    /// <summary>obj_game's F12 key press: <c>debug = !debug</c> (U.HARE-T59).</summary>
+    public sealed class ToggleDebug : SessionCommand
+    {
+        public ToggleDebug(PlayerId id) : base(id) { }
+        internal override bool Apply(GameSession session) { session.SetDebug(!session.Debug); return true; }
+    }
 }

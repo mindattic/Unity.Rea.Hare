@@ -219,6 +219,7 @@ namespace Unity.Hare.Arena
             // GML: obj_game's key-press event for M (77).
             controls = new HareControls();
             controls.Meta.Map.Enable();
+            controls.Meta.Debug.Enable(); // and for F12 (123)
 
             // GML: obj_level_results' key-press event for vk_enter (13), which the numpad's Enter sends too.
             enterKey = new InputAction("Enter", InputActionType.Button);
@@ -267,6 +268,7 @@ namespace Unity.Hare.Arena
             if (controls != null)
             {
                 controls.Meta.Map.Disable();
+                controls.Meta.Debug.Disable();
                 controls.Dispose();
                 controls = null;
             }
@@ -562,6 +564,8 @@ namespace Unity.Hare.Arena
         void Update()
         {
             if (controls != null && controls.Meta.Map.WasPressedThisFrame()) Play(State.Execute(new ToggleMinimap(Seat)));
+            if (controls != null && controls.Meta.Debug.WasPressedThisFrame()) RunSession(new ToggleDebug(Seat)); // F12: debug = !debug
+            CountFrame();
             if (Results != null && enterKey != null && enterKey.WasPressedThisFrame()) ContinueFromResults();
 
             // A room scene loaded without the room flow (a test, a tool) still runs on its own room_speed clock.
@@ -575,6 +579,21 @@ namespace Unity.Hare.Arena
         }
 
         void LateUpdate() => Present();
+
+        /// <summary>GML fps, for the debug overlay: the frames drawn in the last whole second (GameMaker updates it once a second).</summary>
+        public int Fps { get; private set; }
+        int framesThisSecond;
+        float fpsTimer;
+
+        void CountFrame()
+        {
+            framesThisSecond++;
+            fpsTimer += Time.unscaledDeltaTime;
+            if (fpsTimer < 1f) return;
+            Fps = framesThisSecond;
+            framesThisSecond = 0;
+            fpsTimer = fpsTimer >= 2f ? 0f : fpsTimer - 1f;
+        }
 
         void OnRoomStepped(RoomId stepped)
         {
@@ -851,10 +870,32 @@ namespace Unity.Hare.Arena
                 UseMetric = session.UseMetric,
                 Paused = Gml.Paused,
                 MaxEnergy = content.Flight.MaxEnergy,
+                Score = session.Score,
+                Objective = session.ObjectiveText,
+                Debug = session.Debug,
+                Fps = Fps,
+                TrackName = session.TrackName,
             };
             if (Player == null) return reading;
             var ship = PlayerSeat.Of(Player.gameObject).Ship;
             reading.HasPlayer = true;
+            if (reading.Debug)
+            {
+                var at = PlayerRoomPosition();
+                reading.X = at.x;
+                reading.Y = at.y;
+                reading.Direction = ship.Flight.Direction;
+                reading.ImageAngle = ship.Flight.Facing;
+                reading.Spin = ship.Flight.Spin / roomDefinition.StepsPerSecond; // spin is degrees a step in GML
+                if (ship.Flight.CurrentRock.HasValue && Player.Perch is Rock rock && rock != null)
+                {
+                    var rockAt = ToRoom(rock.Position);
+                    reading.Rock = ship.Flight.CurrentRock.Value;
+                    reading.RockX = rockAt.x;
+                    reading.RockY = rockAt.y;
+                    reading.RockSpin = rock.Spin;
+                }
+            }
             reading.State = ship.Flight.State;
             reading.Speed = ship.Flight.Speed;
             reading.Energy = ship.Flight.Energy;

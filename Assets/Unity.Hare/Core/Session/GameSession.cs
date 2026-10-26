@@ -85,6 +85,10 @@ namespace Unity.Hare.Session
         /// whatever the level before it left (<see cref="Arena.LevelSetting.StationaryPercentAfter"/>, BIBLE V27).
         /// </summary>
         public int StationaryPercent { get; private set; }
+        /// <summary>GML: debug, obj_game's F12 overlay (FPS, the ship, its rock, the track).</summary>
+        public bool Debug { get; private set; }
+        /// <summary>GML: track_name, the music play_random_music last chose.</summary>
+        public string TrackName { get; private set; }
 
         /// <summary>obj_player's death wait: reset_player when true, game_restart when false.</summary>
         public bool HasLivesLeft => Lives > 0;
@@ -134,6 +138,8 @@ namespace Unity.Hare.Session
             ObjectiveText = "";
             LevelName = Tuning.StartingLevelName;
             StationaryPercent = StartingStationaryPercent;
+            Debug = Tuning.StartingDebug;
+            TrackName = Tuning.StartingTrackName;
             secondTimer = 0f;
             lastWarnedSecond = 0;
         }
@@ -330,6 +336,13 @@ namespace Unity.Hare.Session
             if (clamped == MasterVolume) return;
             MasterVolume = clamped;
             Emit(new MasterVolumeChanged { Volume = MasterVolume });
+        }
+
+        internal void SetDebug(bool debug)
+        {
+            if (Debug == debug) return;
+            Debug = debug;
+            Emit(new DebugChanged { Debug = debug });
         }
 
         internal void SetUseMetric(bool useMetric)

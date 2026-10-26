@@ -132,11 +132,53 @@ namespace Unity.Hare.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator ObjGameDrawsTheScoreAndObjectiveAndF12TogglesTheDebugOverlay()
+        {
+            yield return Enter();
+            var arena = Arena();
+            yield return null;
+            yield return null;
+            var view = arena.HudView;
+
+            // U.HARE-T59: obj_game's Draw GUI, current_score and strObjective at the lower right.
+            Assert.That(view.TextOf("score"), Is.EqualTo(arena.Session.Score.ToString()));
+            Assert.That(view.TextOf("objective"), Is.EqualTo(arena.Session.ObjectiveText).And.Not.Empty, "set_objective_string's strObjective");
+            var score = view.TextElement("score");
+            Assert.That(score.style.left.value.value, Is.EqualTo(1920f - 200f));
+            Assert.That(score.style.top.value.value, Is.EqualTo(1080f - 90f));
+            Assert.That(view.TextElement("objective").style.top.value.value, Is.EqualTo(1080f - 35f));
+            arena.Session.Execute(new Unity.Hare.Session.AddScore(RoomFlowDirector.Seat, 120));
+            yield return null;
+            Assert.That(view.TextOf("score"), Is.EqualTo(arena.Session.Score.ToString()));
+
+            // F12: debug = !debug.
+            Assert.That(view.TextElement("debug-fps"), Is.Null, "debug starts off");
+            Press(keyboard.f12Key);
+            yield return null;
+            Release(keyboard.f12Key);
+            yield return null;
+            Assert.That(arena.Session.Debug, Is.True);
+            yield return WaitFor(() => view.TextOf("debug-fps") != null && view.TextOf("debug-fps") != "FPS: 0", "a second of frames counted", 3f);
+            Assert.That(view.TextOf("debug-state"), Is.EqualTo("State: Moving"));
+            Assert.That(view.TextOf("debug-rock"), Is.EqualTo("Current Rock: Null"));
+            Assert.That(view.TextOf("debug-track"), Is.EqualTo("Current Track: Pinball Spring"));
+            Assert.That(view.TextOf("debug-position"), Does.StartWith("X,Y: "));
+            Press(keyboard.f12Key);
+            yield return null;
+            Release(keyboard.f12Key);
+            yield return null;
+            Assert.That(arena.Session.Debug, Is.False);
+            Assert.That(view.TextElement("debug-fps"), Is.Null);
+        }
+
+        const int W = 1920, H = 1080;
+        Color32[] rendered;
+
+        [UnityTest]
         public IEnumerator TheHudRenders()
         {
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
                 Assert.Ignore("needs a graphics device: run the PlayMode tests without -nographics (tools/unity.ps1 -Graphics)");
-            const int W = 1920, H = 1080;
             yield return Enter();
             var arena = Arena();
             // Wait out obj_levelstart's banner so the HUD stands alone, then knock a pip off and use some energy.
@@ -146,6 +188,54 @@ namespace Unity.Hare.Tests.PlayMode
             health.TryTakeHit();
             arena.Player.TryBoost();
             yield return new WaitForSecondsRealtime(0.3f);
+            yield return Render(arena, "hud.png");
+            var hud = rendered;
+
+            int Drawn(int left, int top, int right, int bottom) => Count(hud, left, top, right, bottom);
+            Assert.That(Drawn(0, 978, 64, 1080), Is.GreaterThan(500), "spr_extralives at the bottom left");
+            Assert.That(Drawn(140, 980, 404, 1044), Is.GreaterThan(2000), "the health pips");
+            Assert.That(Drawn(145, 1047, 399, 1077), Is.GreaterThan(2000), "the energy bar");
+            Assert.That(Drawn(1776, 1003, 1900, 1060), Is.GreaterThan(1000), "the weapon icons");
+            Assert.That(Drawn(1500, 990, 1720, 1035), Is.GreaterThan(200), "obj_game's score, right-aligned at view_wview - 200");
+            Assert.That(Drawn(1300, 1045, 1720, 1065), Is.GreaterThan(200), "obj_game's strObjective under it");
+            Assert.That(Drawn(1723, 990, 1770, 1065), Is.EqualTo(0), "both end at view_wview - 200 (the outline reaches a pixel past it)");
+            Assert.That(Drawn(600, 0, 1300, 900), Is.EqualTo(0), "nothing over the middle of the play field");
+            Assert.That(Drawn(0, 0, 500, 320), Is.EqualTo(0), "no debug overlay until F12");
+        }
+
+        [UnityTest]
+        public IEnumerator TheDebugOverlayRenders()
+        {
+            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+                Assert.Ignore("needs a graphics device: run the PlayMode tests without -nographics (tools/unity.ps1 -Graphics)");
+            yield return Enter();
+            var arena = Arena();
+            yield return WaitFor(() => arena.BannerView == null, "the level banner fading", 8f);
+            Press(keyboard.f12Key);
+            yield return null;
+            Release(keyboard.f12Key);
+            yield return WaitFor(() => arena.HudView.TextOf("debug-fps") != "FPS: 0", "a second of frames counted", 3f);
+            yield return Render(arena, "hud-debug.png");
+            var hud = rendered;
+
+            Assert.That(Count(hud, 20, 20, 300, 40), Is.GreaterThan(100), "FPS at (20, 20)");
+            Assert.That(Count(hud, 20, 60, 300, 220), Is.GreaterThan(1000), "the ship's lines from y 60 to 200");
+            Assert.That(Count(hud, 20, 300, 400, 320), Is.GreaterThan(100), "Current Track at (20, 300)");
+            Assert.That(Count(hud, 0, 0, 19, 320), Is.EqualTo(0), "fa_left from x 20 (the outline reaches 19)");
+        }
+
+        static int Count(Color32[] hud, int left, int top, int right, int bottom) // rows counted from the top, as GameMaker counts y
+        {
+            int count = 0;
+            for (int y = top; y < bottom; y++)
+            for (int x = left; x < right; x++)
+                if (hud[(H - 1 - y) * W + x].a > 128) count++;
+            return count;
+        }
+
+        /// <summary>Renders the room and its HUD to Screenshots/<paramref name="file"/>; the HUD layer alone is left in <see cref="rendered"/>.</summary>
+        IEnumerator Render(ArenaRoom arena, string file)
+        {
 
             var camera = arena.ViewCamera;
             var world = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32);
@@ -184,24 +274,11 @@ namespace Unity.Hare.Tests.PlayMode
             texture.Apply();
             var folder = Path.Combine(Path.GetDirectoryName(Application.dataPath), "Screenshots");
             Directory.CreateDirectory(folder);
-            File.WriteAllBytes(Path.Combine(folder, "hud.png"), texture.EncodeToPNG());
+            File.WriteAllBytes(Path.Combine(folder, file), texture.EncodeToPNG());
             UnityEngine.Object.Destroy(texture);
             world.Release();
             ui.Release();
-
-            int Drawn(int left, int top, int right, int bottom) // rows counted from the top, as GameMaker counts y
-            {
-                int count = 0;
-                for (int y = top; y < bottom; y++)
-                for (int x = left; x < right; x++)
-                    if (hud[(H - 1 - y) * W + x].a > 128) count++;
-                return count;
-            }
-            Assert.That(Drawn(0, 978, 64, 1080), Is.GreaterThan(500), "spr_extralives at the bottom left");
-            Assert.That(Drawn(140, 980, 404, 1044), Is.GreaterThan(2000), "the health pips");
-            Assert.That(Drawn(145, 1047, 399, 1077), Is.GreaterThan(2000), "the energy bar");
-            Assert.That(Drawn(1776, 1003, 1900, 1060), Is.GreaterThan(1000), "the weapon icons");
-            Assert.That(Drawn(600, 0, 1300, 900), Is.EqualTo(0), "nothing over the middle of the play field");
+            rendered = hud;
         }
 
         static Color32[] Read(RenderTexture rt, int width, int height)
