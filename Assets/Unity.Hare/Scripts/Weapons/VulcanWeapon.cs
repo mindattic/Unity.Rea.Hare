@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Unity.Hare.Audio;
 using Unity.Hare.Content;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -71,7 +72,7 @@ namespace Unity.Hare.Weapons
         /// <summary>The vulcan only ever answers fire_primary.</summary>
         public bool IsGroundPrimary => true;
 
-        /// <summary>Raised for every bullet fired; VFX (muzzle flash, cartridge, UH-T31) hooks in here.</summary>
+        /// <summary>Raised for every bullet fired (after its <see cref="MuzzleFlash"/>); the cartridge hooks in here.</summary>
         public event Action<Bullet> Fired;
 
         /// <summary>Raised for every sound cue, whether or not a clip is assigned.</summary>
@@ -155,7 +156,9 @@ namespace Unity.Hare.Weapons
             float aim = ship.AimDirection;
             Vector2 heading = new Vector2(Mathf.Cos(aim * Mathf.Deg2Rad), Mathf.Sin(aim * Mathf.Deg2Rad));
             Vector2 origin = (Vector2)transform.position + heading * stats.MuzzleDistance;
-            origin.y += UnityEngine.Random.Range(-stats.MuzzleJitter, stats.MuzzleJitter); // GML: Y + irandom_range(-5,5)
+            // GML: muzzleflash = instance_create(X, Y, obj_muzzleflash), image_angle = bullet.direction (X, Y: before the jitter).
+            MuzzleFlash.Spawn(origin, aim);
+            origin.y +=UnityEngine.Random.Range(-stats.MuzzleJitter, stats.MuzzleJitter); // GML: Y + irandom_range(-5,5)
 
             var go = new GameObject("VulcanBullet");
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);

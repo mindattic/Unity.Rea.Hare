@@ -59,6 +59,8 @@ rebuilds them by mistake):
   the cloud emitter are not placed by any room or level script (the weather ones are gated by
   commented-out lines); UH-T18 still ports them because they are real objects.
 - There is no grenade weapon (already noted), and `obj_fly`'s second frame never shows (already noted).
+- `obj_oval_explosion` is created by nothing; U.HARE-T31 ports it (`OvalExplosion`) because it is a real object,
+  but nothing spawns it.
 
 ## Parity matrix
 
@@ -83,7 +85,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Weather and ambience | clouds, rain, snow, sand, fog | None | UH-T18 |
 | Backdrop props | `obj_moon_surface`, `obj_surface_reflection`, backgrounds (`obj_flotsum` is built with the rocks) | None | UH-T58 |
 | Pickups | carrot, coin, chip, cartridge, `random_pickup`, `spawn_chips` | None | UH-T23 |
-| VFX | muzzle flash, oval/tiny/rocket/grenade explosion, rail swirl | Rocket and grenade explosion logic only | UH-T31 |
+| VFX | `obj_muzzleflash`, `obj_oval_explosion`/`obj_tinyexplosion`/`obj_rocket_explosion`/`obj_grenade_explosion`, `generate_swirl`/`obj_rail_swirl`, the weapons' `effect_create_below` (`ef_smoke`, `ef_smokeup`, `ef_flare`) | Built: `MuzzleFlash` (vulcan, shotgun), `RocketExplosion` drawn and sounded, `OvalExplosion` (created by nothing, as in the original), `RailgunShot`'s swirls inside the room and its smoke, the shotgun/flamer smoke and the laser's flare through `GmlEffects` (BIBLE V23) | done: U.HARE-T31 |
 | Level data and the ten levels | `level_01-10`, `level_default`, composition/objective/setting | None (`EnemyComposition` is a start) | UH-T20 |
 | Level setup, objectives, time limit, level start banner | `setup_level`, `obj_game`, `obj_levelstart`, `set_level_complete` | None | UH-T57 |
 | Arena room, camera, loops, boundaries, minimap | `obj_game`, room views | Core's `Arena/ArenaWorld` (the play rooms' sizes from `rooms`, their views and background slots and every level script's setting half as data in `arena`: backgrounds, scroll speeds, loop_horizontal/loop_vertical/randomize_on_loop; the backgrounds' scroll; view 0 and the minimap following the player as GameMaker's runner does, inside the room, view 0 at 40 px a step; show_map and M; obj_player's wrap and 400 px buffer_zone rules with random_positions; the off-screen arrow and dotted leap line), played by `ArenaRoom` (obj_game) in each play room: the level's imported backgrounds, the minimap camera in its 300x200 port, the 1920x1080 HUD layer, `PlayerArrows` (spr_direction_arrow, spr_big_arrow, the leap line); out of bounds costs a life through the ship's `LeaveArena` (lives unified with the session in UH-T54); the Meta/Map action is now M, as in obj_game | done: U.HARE-T52 |

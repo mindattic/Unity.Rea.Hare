@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 
 namespace Unity.Hare.Weapons
 {
@@ -7,7 +8,8 @@ namespace Unity.Hare.Weapons
     /// it re-anchors at the muzzle (player gun + 34 px along mouse_angle) and runs 2000 px along the
     /// aim, kills one par_enemy on that line (collision_line), and is drawn by draw_beam in
     /// cornflower blue up to the first rock/structure. As in the original, the kill check uses the
-    /// full line; only the drawing stops at blockers. The laser gun creates and destroys it.
+    /// full line; only the drawing stops at blockers. Every step it also puffs a small cornflower
+    /// ef_flare under everything at the muzzle. The laser gun creates and destroys it.
     /// </summary>
     public class LaserBeam : MonoBehaviour
     {
@@ -16,6 +18,7 @@ namespace Unity.Hare.Weapons
         LaserGun owner;
         LineRenderer glow;
         LineRenderer core;
+        float flareSteps;
 
         public Vector2 Start { get; private set; }
         public Vector2 End { get; private set; }
@@ -31,13 +34,34 @@ namespace Unity.Hare.Weapons
             coreGo.transform.SetParent(transform, false);
             core = Gml.AddLine(coreGo, new Color(1f, 1f, 1f, 0.8f), Gml.Px(1f));
             Tick();
+            Flare();
         }
 
         void Update()
         {
             if (owner == null) { Destroy(gameObject); return; }
             Tick();
+            Glow(Time.deltaTime);
         }
+
+        /// <summary>
+        /// GML Step's effect_create_below(ef_flare, x1, y1, 0, c_cornflowerblue): one small cornflower flare at the
+        /// muzzle every step the beam is on, for the steps <paramref name="dt"/> seconds hold. Returns how many it made.
+        /// </summary>
+        public int Glow(float dt)
+        {
+            flareSteps += dt * Gml.StepsPerSecond;
+            int made = 0;
+            while (flareSteps >= 1f - 1e-4f)
+            {
+                flareSteps -= 1f;
+                Flare();
+                made++;
+            }
+            return made;
+        }
+
+        void Flare() => GmlEffects.CreateBelow(GmlEffectKind.Flare, Start, 0, Cornflower);
 
         /// <summary>One GML Step: follow the aim, kill the enemy on the line, update the drawing.</summary>
         public void Tick()

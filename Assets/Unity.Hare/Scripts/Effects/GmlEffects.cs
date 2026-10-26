@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Unity.Hare.Effects
 {
-    /// <summary>The GameMaker built-in effects the death effects use (GML ef_* constants).</summary>
+    /// <summary>The GameMaker built-in effects the game uses (GML ef_* constants).</summary>
     public enum GmlEffectKind
     {
         /// <summary>ef_firework: a burst of flares falling under gravity.</summary>
@@ -16,7 +16,9 @@ namespace Unity.Hare.Effects
         /// <summary>ef_smokeup: puffs of smoke rising and shrinking.</summary>
         SmokeUp = 5,
         /// <summary>ef_spark: one spark at a random angle, shrinking away.</summary>
-        Spark = 7
+        Spark = 7,
+        /// <summary>ef_flare: one flare at a random angle, shrinking away (the laser's muzzle glow).</summary>
+        Flare = 8
     }
 
     /// <summary>GameMaker's built-in particle shapes (pt_shape_*), by their GML index.</summary>
@@ -132,15 +134,17 @@ namespace Unity.Hare.Effects
                         0f, 360f, 1f, 0.4f, Life(lifeMin), Life(lifeMax), gravity * f, 270f), count, 0f);
             }
 
-            if (kind == GmlEffectKind.Spark)
+            if (kind == GmlEffectKind.Spark || kind == GmlEffectKind.Flare)
             {
-                // Eff_Effect07: one pt_shape_spark, Size(s, s, -incr f), Orientation(0, 360), Life(life / f); alpha stays 1.
+                // Eff_Effect07 (ef_spark) and Eff_Effect08 (ef_flare) are the same particle in a different shape:
+                // one pt_shape_spark / pt_shape_flare, Size(s, s, -incr f), Orientation(0, 360), Life(life / f); alpha stays 1.
+                var shape = kind == GmlEffectKind.Flare ? GmlParticleShape.Flare : GmlParticleShape.Spark;
                 if (size == 0) return Spark(0.4f, 0.02f, 20f);
                 if (size == 2) return Spark(1.2f, 0.04f, 30f);
                 return Spark(0.75f, 0.03f, 25f);
 
                 GmlEffectRecipe Spark(float s, float shrink, float life) =>
-                    new GmlEffectRecipe(new GmlParticleType(GmlParticleShape.Spark, s, s, -shrink * f, 0f, 0f,
+                    new GmlEffectRecipe(new GmlParticleType(shape, s, s, -shrink * f, 0f, 0f,
                         0f, 0f, 1f, 1f, Life(life), Life(life), 0f, 0f, 0f, 360f), 1, 0f);
             }
 

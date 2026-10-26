@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Hare.Content;
+using Unity.Hare.Effects;
 
 namespace Unity.Hare.Weapons
 {
@@ -12,6 +13,8 @@ namespace Unity.Hare.Weapons
     /// blast per room_speed (1 s, alarm_reset_fire_secondary). In HARE the shotgun is the default
     /// ground secondary (Ctrl + left mouse): ground_ammo_secondary, 12 ammo, 4 per blast, +2 per
     /// second; as a ground primary it costs 1 of ground_ammo_primary (<see cref="PlayerAmmo"/>).
+    /// Each blast leaves a <see cref="MuzzleFlash"/> turned to the last pellet's direction and a
+    /// medium black ef_smoke under everything at the muzzle.
     /// </summary>
     public class Shotgun : PerchedWeapon, IGroundWeapon
     {
@@ -42,10 +45,11 @@ namespace Unity.Hare.Weapons
         {
             var stats = Stats;
             lastBlast.Clear();
+            float direction = aim;
             for (int i = 0; i < stats.PelletCount; i++)
             {
                 Vector2 start = origin + Gml.Dir(aim) * Random.Range(0f, stats.Grouping);
-                float direction = aim + Random.Range(-stats.SpreadDegrees, stats.SpreadDegrees + 1);
+                direction = aim + Random.Range(-stats.SpreadDegrees, stats.SpreadDegrees + 1);
 
                 var go = new GameObject("ShotgunPellet");
                 go.transform.position = new Vector3(start.x, start.y, transform.position.z);
@@ -54,6 +58,10 @@ namespace Unity.Hare.Weapons
                 pellet.Init(gameObject, direction, stats.PelletSpeed, Core.Table.BulletDamage(GunType.Shotgun), stats.PelletLifetime, stats.PelletRadius);
                 lastBlast.Add(pellet);
             }
+
+            // GML: obj_muzzleflash at X, Y turned to pellet.direction (the last pellet's), then effect_create_below(ef_smoke, X, Y, 1, c_black).
+            MuzzleFlash.Spawn(origin, direction);
+            GmlEffects.CreateBelow(GmlEffectKind.Smoke, origin, 1, Color.black);
         }
     }
 }

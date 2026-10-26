@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Hare.Art;
 using Unity.Hare.Audio;
 using Unity.Hare.Weapons;
 
@@ -8,7 +9,8 @@ namespace Unity.Hare.Effects
     /// <summary>
     /// Loads the original's art and sound from Resources/Hare, in code, so no object needs a
     /// reference wired in the Inspector. Sprites are gmlHARE's frames (Resources/Hare/Sprites/
-    /// spr_name_frame, pivot on the GML origin, see the editor's HareArtImporter); sounds come from
+    /// spr_name_frame, pivot on the GML origin, see the editor's HareArtImporter), else the imported art's
+    /// <see cref="HareArtManifest"/> (U.HARE-T46, pivots on the same origins); sounds come from
     /// <see cref="HareAudio"/> by GML sound name (the imported sound/ resources, U.HARE-T47). A missing
     /// asset gives null, so logic still runs without art.
     /// </summary>
@@ -28,6 +30,14 @@ namespace Unity.Hare.Effects
             if (!sprites.TryGetValue(key, out var sprite))
             {
                 sprite = Resources.Load<Sprite>(SpritesPath + key);
+                // Sprites not copied under Resources/Hare/Sprites come from the imported art (U.HARE-T46's manifest).
+                if (sprite == null)
+                {
+                    // No wrapping here (the manifest's Frame wraps like image_index): a frame past the end is null.
+                    var manifest = HareArtManifest.Load();
+                    var asset = manifest != null ? manifest.FindSprite(name) : null;
+                    if (asset?.frames != null && frame >= 0 && frame < asset.frames.Length) sprite = asset.frames[frame];
+                }
                 sprites[key] = sprite;
             }
             return sprite;

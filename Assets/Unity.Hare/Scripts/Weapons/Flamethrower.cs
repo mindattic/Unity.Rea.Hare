@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Hare.Content;
+using Unity.Hare.Effects;
 
 namespace Unity.Hare.Weapons
 {
@@ -9,7 +10,8 @@ namespace Unity.Hare.Weapons
     /// <see cref="Flame"/> every 8 steps (alarm_reset_fire = 8), straight along the aim at
     /// 4 px/step. The cone comes from each flame growing as it travels. Costs 1 ammo per flame
     /// (set_ammo_cost); as a ground primary it draws on ground_ammo_primary, which starts at 150
-    /// and refills 10 per second (<see cref="PlayerAmmo"/>).
+    /// and refills 10 per second (<see cref="PlayerAmmo"/>). Each flame puffs a small black
+    /// ef_smokeup under everything at the muzzle.
     /// </summary>
     public class Flamethrower : PerchedWeapon, IGroundWeapon
     {
@@ -35,6 +37,8 @@ namespace Unity.Hare.Weapons
             go.transform.position = origin;
             LastFlame = go.AddComponent<Flame>();
             LastFlame.Init(Player, aim, stats.FlameSpeed, stats.FlameLifetime, stats.FlameRadius);
+            // GML: effect_create_below(ef_smokeup, X, Y, 0, c_black) at the muzzle with every flame.
+            GmlEffects.CreateBelow(GmlEffectKind.SmokeUp, origin, 0, Color.black);
         }
     }
 }
