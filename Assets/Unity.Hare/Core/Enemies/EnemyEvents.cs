@@ -33,13 +33,44 @@ namespace Unity.Hare.Enemies
         /// <summary>GML random_pickup(x, y) (the pickups ticket spawns the carrot or coin).</summary>
         public readonly bool DropsPickup;
 
-        public EnemyKill(EnemyDeathCause cause, Vec2 position, int points, bool awardsScore, bool dropsPickup)
+        /// <summary>Which body died: the enemy itself, or one of its parts (a worm segment, a phalanx shield, an illusion, a mine).</summary>
+        public readonly BodyPart Part;
+
+        public EnemyKill(EnemyDeathCause cause, Vec2 position, int points, bool awardsScore, bool dropsPickup, BodyPart part = BodyPart.Main)
         {
             Cause = cause;
             Position = position;
             Points = points;
             AwardsScore = awardsScore;
             DropsPickup = dropsPickup;
+            Part = part;
+        }
+
+        /// <summary>
+        /// Whether obj_level_results' "Enemies Killed" counts it (KILLS, docs/BIBLE.md D11, U.HARE-T22): a whole enemy (not a
+        /// part) the ship's weapons destroyed: its bullets (only its own rounds, as only they score), rockets and their
+        /// explosions, the shield wall, the laser, the railgun and the flamer. Parts going with their owner, the enemy
+        /// mine's own fuse or proximity blast and a body taken out of the world are not kills.
+        /// </summary>
+        public bool CountsAsKill
+        {
+            get
+            {
+                if (Part != BodyPart.Main) return false;
+                switch (Cause)
+                {
+                    case EnemyDeathCause.Bullet: return AwardsScore;
+                    case EnemyDeathCause.Rocket:
+                    case EnemyDeathCause.RocketExplosion:
+                    case EnemyDeathCause.ShieldWall:
+                    case EnemyDeathCause.Laser:
+                    case EnemyDeathCause.Railgun:
+                    case EnemyDeathCause.Flame:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
     }
 

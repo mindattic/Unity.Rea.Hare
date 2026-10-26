@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Hare.Content;
 using Unity.Hare.Input;
+using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Player
 {
@@ -281,6 +282,15 @@ namespace Unity.Hare.Player
                 body.linearVelocity = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad)) * flight.Speed;
         }
 
+        /// <summary>
+        /// obj_level_results' Enter (U.HARE-T22): <c>player.state = state_leave; player.invulnerable = true</c>. The room
+        /// steers it from then on (<see cref="AimExit"/>). Returns whether it took effect.
+        /// </summary>
+        public bool Leave() => Send(new LeaveLevel(Id)).Accepted;
+
+        /// <summary>The leaving ship's exit_angle, degrees (GML's convention), as the room works it out each step.</summary>
+        public bool AimExit(float degrees) => Send(new AimExit(Id, degrees)).Accepted;
+
         /// <summary>GML: fling_player (the ship's rock broke or left the room, or obj_rocket hit it there).</summary>
         public bool Fling() => Send(new Fling(Id)).Accepted;
 
@@ -306,6 +316,14 @@ namespace Unity.Hare.Player
         /// </summary>
         public void Step(float dt)
         {
+            // obj_player's Step: if(state != state_leave) { if(!paused) { ... } else { speed = 0; } } (U.HARE-T22): while the
+            // game is paused (obj_level_results up) the ship stands still; a leaving ship flies on whatever paused says.
+            if (Gml.Paused && Core.Flight.State != PlayerFlightState.Leaving)
+            {
+                if (body != null) body.linearVelocity = Vector2.zero;
+                return;
+            }
+
             RideRock(dt);
             Send(new StepFlight(Id, dt));
 
@@ -316,7 +334,7 @@ namespace Unity.Hare.Player
 
             transform.rotation = Quaternion.Euler(0f, 0f, flight.Facing);
             flewLastStep = flight.State == PlayerFlightState.Moving;
-            if (!flewLastStep)
+            if (!flewLastStep && flight.State != PlayerFlightState.Leaving)
             {
                 body.linearVelocity = Vector2.zero;
                 return;
@@ -368,6 +386,11 @@ namespace Unity.Hare.Player
                 case ShipFlung _:
                     Perch = null;
                     Flung?.Invoke();
+                    break;
+                case ShipLeaving _:
+                    Perch = null;
+                    flewLastStep = false;
+                    transform.rotation = Quaternion.Euler(0f, 0f, Facing);
                     break;
                 case ShipHalted _:
                     Perch = null;

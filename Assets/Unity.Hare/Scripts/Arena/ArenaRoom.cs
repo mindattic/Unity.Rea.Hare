@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Unity.Hare.Art;
@@ -43,6 +44,11 @@ namespace Unity.Hare.Arena
     /// room_goto when the next level plays in another room). Every room step it ticks the session's clock and objective
     /// (obj_healthbar's second, obj_game's objective check), steps obj_levelstart, and watches level_08's target; it plays
     /// the session's sfx_beep countdown and keeps the runtime's paused flag on the session's.
+    ///
+    /// And it is the level's end (U.HARE-T22): set_level_complete's obj_level_results (<see cref="Results"/>, drawn by
+    /// <see cref="LevelResultsView"/> with obj_healthbar's <see cref="Clock"/> and KILLS, which it counts from the enemies'
+    /// deaths), Enter's <see cref="ContinueFromResults"/>, and the leaving ship's steering and exit off the top, which sets
+    /// up the next level with the score zeroed (docs/BIBLE.md V31).
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class ArenaRoom : MonoBehaviour
@@ -63,6 +69,23 @@ namespace Unity.Hare.Arena
         GameSession ownSession;
         RoomFlowDirector subscribed;
         bool warnedTarget;
+        InputAction enterKey;
+        bool leftLevel;
+
+        /// <summary>
+        /// obj_level_results (U.HARE-T22): set_level_complete's panel while it is up, else null. Enter
+        /// (<see cref="ContinueFromResults"/>) sends the ship off and takes it away.
+        /// </summary>
+        public LevelResults Results { get; private set; }
+
+        /// <summary>The panel as drawn on the HUD (null while there is none).</summary>
+        public LevelResultsView ResultsView { get; private set; }
+
+        /// <summary>
+        /// obj_healthbar's minutes:seconds (strTime), made with the room (obj_game's Create makes one per room) and counted on
+        /// every unpaused second the session counts; the results panel's "Time" (U.HARE-T22).
+        /// </summary>
+        public HudClock Clock { get; private set; } = new HudClock();
 
         /// <summary>The room's rules and state.</summary>
         public ArenaWorld State { get; private set; }
@@ -187,6 +210,13 @@ namespace Unity.Hare.Arena
             // GML: obj_game's key-press event for M (77).
             controls = new HareControls();
             controls.Meta.Map.Enable();
+
+            // GML: obj_level_results' key-press event for vk_enter (13), which the numpad's Enter sends too.
+            enterKey = new InputAction("Enter", InputActionType.Button);
+            enterKey.AddBinding("<Keyboard>/enter");
+            enterKey.AddBinding("<Keyboard>/numpadEnter");
+            enterKey.Enable();
+            EnemyDirector.Killed += OnEnemyKilled;
         }
 
         void Start()
@@ -217,6 +247,13 @@ namespace Unity.Hare.Arena
                 subscribed = null;
             }
             if (Generator != null) Generator.LevelCompleted -= OnGeneratorCompleted;
+            EnemyDirector.Killed -= OnEnemyKilled;
+            if (enterKey != null)
+            {
+                enterKey.Disable();
+                enterKey.Dispose();
+                enterKey = null;
+            }
             DetachHealth();
             if (controls != null)
             {
@@ -259,6 +296,8 @@ namespace Unity.Hare.Arena
             }
             BannerView?.RemoveFromHierarchy();
             BannerView = null;
+            RemoveResults(); // Clear Objects' with(obj_level_results) instance_destroy()
+            leftLevel = false;
 
             // instance_create(0,0, obj_levelstart): its Create plays sfx_switch; it draws the globals the script sets below.
             Banner = new LevelStartBanner(session.LevelName, session.ObjectiveText, content.Arena);
@@ -351,9 +390,17 @@ namespace Unity.Hare.Arena
         }
 
         /// <summary>The room flow's fade reached black: <c>current_level += 1; setup_level();</c>.</summary>
-        void OnLevelAdvance()
+        void OnLevelAdvance() => AdvanceLevel(resetScore: false);
+
+        /// <summary>
+        /// <c>current_level += 1; setup_level()</c>, after <c>current_score = 0; level_complete = false</c> when
+        /// <paramref name="resetScore"/> (the leaving ship's exit off the top, U.HARE-T22; the fade-in does not): the next
+        /// level here, or the level script's room_goto when it plays in another room. Like the original it goes straight
+        /// on to the next level and never back to room_map (docs/BIBLE.md V31).
+        /// </summary>
+        void AdvanceLevel(bool resetScore)
         {
-            RunSession(new AdvanceLevel(Seat, resetScore: false));
+            RunSession(new AdvanceLevel(Seat, resetScore));
             var session = Session;
             var elsewhere = LevelSetup.RoomGoto(content.Arena, session.Mode, session.Level, Room);
             var flow = Flow;
@@ -406,10 +453,61 @@ namespace Unity.Hare.Arena
                 case PausedChanged paused:
                     Gml.Paused = paused.Paused;
                     break;
+                case SecondElapsed _:
+                    Clock.Tick(); // obj_healthbar's alarm: seconds += 1 ... strTime
+                    break;
                 case Unity.Hare.Session.LevelCompleted completed:
-                    LevelCompleted?.Invoke(completed.Level); // obj_level_results is the results screen's (its own ticket)
+                    ShowResults(); // set_level_complete: instance_create(0,0, obj_level_results) at (screen_width/2, screen_height/4)
+                    LevelCompleted?.Invoke(completed.Level);
                     break;
             }
+        }
+
+        /// <summary>set_level_complete's obj_level_results, drawn on the HUD with the room's strTime and KILLS.</summary>
+        void ShowResults()
+        {
+            RemoveResults();
+            Results = new LevelResults(content.Arena.Results);
+            if (Hud != null) ResultsView = LevelResultsView.Show(Hud, Results, content.Arena, () => Clock.Text, () => Session.Kills);
+        }
+
+        void RemoveResults()
+        {
+            ResultsView?.RemoveFromHierarchy();
+            ResultsView = null;
+            Results = null;
+        }
+
+        /// <summary>
+        /// obj_level_results' Enter (U.HARE-T22): <c>paused = false; player.state = state_leave; player.exit_x = player.x;
+        /// player.invulnerable = true; audio_play_sound(sfx_boost, 1, 0); effect_create_below(ef_ring, player.x, player.y, 1,
+        /// c_white); instance_destroy()</c>. The ship then flies off the top (<see cref="Step"/>) and the next level is set up.
+        /// False when no results panel is up.
+        /// </summary>
+        public bool ContinueFromResults()
+        {
+            if (Results == null) return false;
+            var definition = Results.Definition;
+            RemoveResults();
+            RunSession(new Unity.Hare.Session.SetPaused(Seat, false));
+            HareAudio.Play(definition.ContinueSound);
+            if (Player == null)
+            {
+                AdvanceLevel(resetScore: true); // no ship to fly off: straight on, as its exit would
+                return true;
+            }
+            Player.Leave();
+            Play(State.Execute(new SendPlayerOff(Seat, PlayerRoomPosition().x)));
+            ColorUtility.TryParseHtmlString(definition.ContinueRingColor, out var ring);
+            GmlEffects.CreateBelow(GmlEffectKind.Ring, Player.transform.position, definition.ContinueRingSize, ring);
+            return true;
+        }
+
+        /// <summary>KILLS += 1 for an enemy the ship's weapons destroyed (docs/BIBLE.md D11).</summary>
+        void OnEnemyKilled(EnemyKill kill)
+        {
+            if (Active != this || !kill.CountsAsKill) return;
+            RunSession(new RecordKill(Seat));
         }
 
         /// <summary>
@@ -455,6 +553,7 @@ namespace Unity.Hare.Arena
         void Update()
         {
             if (controls != null && controls.Meta.Map.WasPressedThisFrame()) Play(State.Execute(new ToggleMinimap(Seat)));
+            if (Results != null && enterKey != null && enterKey.WasPressedThisFrame()) ContinueFromResults();
 
             // A room scene loaded without the room flow (a test, a tool) still runs on its own room_speed clock.
             if (director == null)
@@ -480,10 +579,17 @@ namespace Unity.Hare.Arena
         /// </summary>
         public void Step()
         {
-            if (Player != null && !PlayerIsDead())
+            bool leaving = Player != null && State.PlayerLeaving;
+            if (Player != null && !leaving && !PlayerIsDead())
             {
                 var at = PlayerRoomPosition();
                 Play(State.Execute(new CheckPlayerBounds(Seat, at.x, at.y)));
+            }
+            if (leaving)
+            {
+                // state_leave's Step instead of the boundary check (U.HARE-T22): exit_angle, then off the top.
+                var at = PlayerRoomPosition();
+                Play(State.Execute(new StepLeave(Seat, at.x, at.y)));
             }
             if (Player != null && State.Reflection.Active)
             {
@@ -512,6 +618,13 @@ namespace Unity.Hare.Arena
                 BannerView?.Refresh();
                 BannerView = null;
                 Banner = null;
+            }
+
+            // The leaving ship went off the top: current_score = 0; level_complete = false; current_level += 1; setup_level().
+            if (leftLevel)
+            {
+                leftLevel = false;
+                AdvanceLevel(resetScore: true);
             }
         }
 
@@ -545,6 +658,12 @@ namespace Unity.Hare.Arena
                     case SurfaceSplashed splash:
                         ColorUtility.TryParseHtmlString(splash.Color, out var color);
                         GmlEffects.CreateBelow(GmlEffectKind.Firework, ToWorld(splash.X, splash.Y), splash.Size, color);
+                        break;
+                    case ExitAimed aimed:
+                        if (Player != null) Player.AimExit(aimed.Angle);
+                        break;
+                    case PlayerLeftLevel _:
+                        leftLevel = true; // set up at the end of this step, once everything else has run
                         break;
                 }
                 EventPlayed?.Invoke(e);
@@ -628,6 +747,7 @@ namespace Unity.Hare.Arena
         {
             if (State == null) return;
             BannerView?.Refresh();
+            ResultsView?.Refresh();
             PlaceCamera(ViewCamera, State.View);
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;

@@ -117,6 +117,12 @@ namespace Unity.Hare.Player
                     Vector2 jet = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z - 180f) * Gml.Px(Tuning.JetOffsetPx);
                     GmlEffects.CreateBelow(GmlEffectKind.Smoke, jet, 0, Orange);
                     break;
+                case LeaveSmokePuffed _:
+                    // state_leave (U.HARE-T22): ef_smokeup (0, c_black) and ef_smoke (1, c_orange) at the same jetX/jetY.
+                    Vector2 exhaust = (Vector2)transform.position + Gml.Dir(transform.eulerAngles.z - 180f) * Gml.Px(Tuning.JetOffsetPx);
+                    GmlEffects.CreateBelow(GmlEffectKind.SmokeUp, exhaust, 0, Color.black);
+                    GmlEffects.CreateBelow(GmlEffectKind.Smoke, exhaust, 1, Orange);
+                    break;
             }
         }
     }

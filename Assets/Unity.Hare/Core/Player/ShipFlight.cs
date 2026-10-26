@@ -96,7 +96,7 @@ namespace Unity.Hare.Player
         {
             get
             {
-                if (State != PlayerFlightState.Moving) return Vec2.Zero;
+                if (State != PlayerFlightState.Moving && State != PlayerFlightState.Leaving) return Vec2.Zero;
                 double radians = Direction * Math.PI / 180.0;
                 return new Vec2((float)Math.Cos(radians) * Speed, (float)Math.Sin(radians) * Speed);
             }
@@ -209,7 +209,7 @@ namespace Unity.Hare.Player
         /// <summary>Perching where the ship is, facing as it does (no surface to ride: scripted landings and tests).</summary>
         public bool Land()
         {
-            if (State == PlayerFlightState.Dead) return false;
+            if (State == PlayerFlightState.Dead || State == PlayerFlightState.Leaving) return false;
             Perch();
             sink.Emit(new ShipLanded());
             return true;
@@ -278,7 +278,7 @@ namespace Unity.Hare.Player
         /// </summary>
         public bool Fling(float endFlashSeconds)
         {
-            if (State == PlayerFlightState.Dead) return false;
+            if (State == PlayerFlightState.Dead || State == PlayerFlightState.Leaving) return false;
 
             Direction = Facing;
             State = PlayerFlightState.Moving;
@@ -385,6 +385,70 @@ namespace Unity.Hare.Player
             Facing = direction;
         }
 
+        /// <summary>GML exit_angle (Create's 90): the way the leaving ship turns toward, degrees.</summary>
+        public float ExitAngle { get; private set; } = 90f;
+
+        /// <summary>
+        /// obj_level_results' Enter (U.HARE-T22): <c>player.state = state_leave</c>, whatever the ship was doing (perched,
+        /// flying, spinning). The leave branch of its Step then runs instead of everything else: no shield, perch, boost,
+        /// brake or spin applies any more. A dead ship is sent off too, as the original sets state_leave whatever the state was;
+        /// its death wait ends with it (docs/BIBLE.md D21). Refused when already leaving.
+        /// </summary>
+        public bool Leave()
+        {
+            if (State == PlayerFlightState.Leaving) return false;
+            DropShield();
+            State = PlayerFlightState.Leaving;
+            IsBoosting = false;
+            IsBraking = false;
+            IsCrouching = false;
+            Spin = 0f;
+            WasSpinning = false;
+            endFlashTimer = 0f;
+            CurrentRock = null;
+            CurrentStructure = null;
+            ExitAngle = 90f; // until the room's first look at exit_x
+            Speed = tuning.FlightSpeed * 2f;
+            sink.Emit(new ShipLeaving { Direction = Direction });
+            return true;
+        }
+
+        /// <summary>The leave's <c>exit_angle = point_direction(x, y, exit_x, -sprite_height)</c>, set every step. Refused unless leaving.</summary>
+        public bool AimExit(float degrees)
+        {
+            if (State != PlayerFlightState.Leaving) return false;
+            ExitAngle = Maths.Repeat(degrees, 360f);
+            return true;
+        }
+
+        /// <summary>
+        /// GML check_rotate_clockwise(target, angle): the signed turn from <paramref name="angle"/> to
+        /// <paramref name="target"/> the short way round (exactly half way round counts as counter-clockwise when the target
+        /// is the larger angle, clockwise otherwise), and whether it is negative.
+        /// </summary>
+        public static bool RotatesClockwise(float target, float angle)
+        {
+            target = Maths.Repeat(target, 360f);
+            angle = Maths.Repeat(angle, 360f);
+            float turn;
+            if (target > angle) turn = target > angle + 180f ? -(360f - target + angle) : target - angle;
+            else turn = angle > target + 180f ? 360f - angle + target : target - angle;
+            return turn < 0f;
+        }
+
+        /// <summary>
+        /// obj_player's Step while state_leave: <c>if(check_rotate_clockwise(exit_angle, direction)) direction -= 3 else
+        /// direction += 3; image_angle = direction; speed = flight_speed * 2</c>. It always turns, so on its heading it
+        /// wobbles a step either side, as the original does.
+        /// </summary>
+        void StepLeave(float dt)
+        {
+            float turned = tuning.LeaveTurnDegreesPerSecond * dt;
+            Direction = Maths.Repeat(RotatesClockwise(ExitAngle, Direction) ? Direction - turned : Direction + turned, 360f);
+            Facing = Direction;
+            Speed = tuning.FlightSpeed * 2f;
+        }
+
         /// <summary>GML: reset_player's flight half. Energy is left alone and refills on its own.</summary>
         public void Respawn(float direction)
         {
@@ -407,6 +471,11 @@ namespace Unity.Hare.Player
             // GML obj_player Step "Shielding": the wall collapses once the energy bar is empty.
             if (IsShielding && Energy <= 0f) DropShield();
 
+            if (State == PlayerFlightState.Leaving)
+            {
+                StepLeave(dt);
+                return;
+            }
             if (State != PlayerFlightState.Moving) return;
 
             // GML Step: image_angle += spin.

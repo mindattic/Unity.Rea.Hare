@@ -35,6 +35,7 @@
     "SpinDegreesPerSecond": 360,
     "SpinRecoverDegreesPerSecond": 360,
     "SpinSnapDegrees": 3,
+    "LeaveTurnDegreesPerSecond": 360,
     "ShieldRadius": 0.75
   },
   "health": {
@@ -183,6 +184,12 @@
     "LevelStartObjectiveOffsetY": 65,
     "LevelStartOutline": 2,
     "TimeLimitBeepSound": "sfx_beep",
+    "Results": {
+      "Sprite": "spr_results", "Width": 712, "Height": 712, "OriginX": 356, "OriginY": 0, "X": 960, "Y": 270,
+      "Alpha": 0.7, "Margin": 25, "Outline": 1, "Title": "Level Complete", "TimeLabel": "Time",
+      "KillsLabel": "Enemies Killed", "Prompt": "Press [ENTER] to continue", "ContinueSound": "sfx_boost",
+      "ContinueRingSize": 1, "ContinueRingColor": "#FFFFFF"
+    },
     "MoonSurface": { "Sprite": "spr_moon_surface", "Depth": 1, "RiseSpeed": 40 },
     "StartingStationaryPercent": 50,
     "Levels": [

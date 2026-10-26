@@ -82,6 +82,36 @@ namespace Unity.Hare.Arena
         internal override bool Apply(ArenaWorld arena) => arena.StepReflection(x, y, imageAngle, direction);
     }
 
+    /// <summary>
+    /// obj_level_results' Enter (U.HARE-T22): the seat's player leaves the level, heading for exit_x (room pixels, its x
+    /// as Enter was pressed) above the room's top. Refused when it is already leaving.
+    /// </summary>
+    public sealed class SendPlayerOff : ArenaCommand
+    {
+        readonly float exitX;
+
+        public SendPlayerOff(PlayerId id, float exitX) : base(id) => this.exitX = exitX;
+
+        internal override bool Apply(ArenaWorld arena) => arena.SendPlayerOff(exitX);
+    }
+
+    /// <summary>
+    /// obj_player's Step while state_leave for the seat's ship at (x, y), room pixels: its exit_angle
+    /// (<see cref="ExitAimed"/>) and, once above the room, <see cref="PlayerLeftLevel"/>. Refused unless leaving.
+    /// </summary>
+    public sealed class StepLeave : ArenaCommand
+    {
+        readonly float x, y;
+
+        public StepLeave(PlayerId id, float x, float y) : base(id)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        internal override bool Apply(ArenaWorld arena) => arena.StepLeave(x, y);
+    }
+
     /// <summary>obj_game's M key: show_map flips and view 1 with it (<see cref="MinimapToggled"/>).</summary>
     public sealed class ToggleMinimap : ArenaCommand
     {

@@ -62,6 +62,7 @@ namespace Unity.Hare.Player
         /// <summary>The GML sprite for a ship in <paramref name="state"/>.</summary>
         public static string SpriteFor(PlayerFlightState state, bool crouching, bool shielding, bool hurting)
         {
+            if (state == PlayerFlightState.Leaving) return Leap; // state_leave: sprite_index = asset_leap, every step (U.HARE-T22)
             if (state == PlayerFlightState.Moving || state == PlayerFlightState.Dead) return hurting ? LeapHurt : Leap;
             if (crouching || shielding) return hurting ? CrouchHurt : Crouch;
             return hurting ? IdleHurt : Idle;

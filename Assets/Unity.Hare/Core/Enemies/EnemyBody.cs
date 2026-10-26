@@ -265,7 +265,7 @@ namespace Unity.Hare.Enemies
         {
             if (IsDead) return;
             IsDead = true;
-            var kill = new EnemyKill(cause, Position, points, awardsScore, dropsPickup);
+            var kill = new EnemyKill(cause, Position, points, awardsScore, dropsPickup, Part);
             world.Retire(this);
             Emit(new EnemyKilled { Kill = kill });
         }

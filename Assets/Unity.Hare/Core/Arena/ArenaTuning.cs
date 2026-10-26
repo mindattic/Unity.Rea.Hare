@@ -396,6 +396,8 @@ namespace Unity.Hare.Arena
         public int LevelStartOutline = 2;
         /// <summary>obj_game's Step: audio_play_sound(sfx_beep, 1, 0) for each of a time limit's last seconds (U.HARE-T57).</summary>
         public string TimeLimitBeepSound = "sfx_beep";
+        /// <summary>obj_level_results, set_level_complete's panel (U.HARE-T22).</summary>
+        public LevelResultsDefinition Results = new LevelResultsDefinition();
 
         /// <summary>obj_moon_surface's numbers (U.HARE-T58; nothing in the original creates one).</summary>
         public MoonSurfaceDefinition MoonSurface = new MoonSurfaceDefinition();
@@ -622,6 +624,8 @@ namespace Unity.Hare.Arena
 
             if (MoonSurface == null) errors.Add(path + ".MoonSurface: must not be null.");
             else MoonSurface.Validate(errors, path + ".MoonSurface");
+            if (Results == null) errors.Add(path + ".Results: must not be null.");
+            else Results.Validate(errors, path + ".Results");
             if (StartingStationaryPercent < 0 || StartingStationaryPercent > 100)
                 errors.Add($"{path}.StartingStationaryPercent: must be 0-100 (was {StartingStationaryPercent}).");
             ValidateParts(errors, path + ".SettingParts", SettingParts, (p, e, at) => p.Validate(e, at));

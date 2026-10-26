@@ -51,6 +51,12 @@ namespace Unity.Hare.Player
     public sealed class SpawnJetPuffed : PlayerEvent { }
 
     /// <summary>
+    /// obj_player's Step while state_leave (U.HARE-T22), every step: a black ef_smokeup (size 0) and an orange ef_smoke
+    /// (size 1), both 36 px behind the ship (<c>lengthdir(Len, image_angle - 180)</c>).
+    /// </summary>
+    public sealed class LeaveSmokePuffed : PlayerEvent { }
+
+    /// <summary>
     /// What obj_player draws and the trails it leaves, as numbers and events (presentation reads this and never writes):
     /// <list type="bullet">
     /// <item>the pose (<see cref="PlayerShip.Pose"/>) in <see cref="ShipHealth.Color"/>, at <see cref="Scale"/>, hidden while dead;</item>
@@ -219,7 +225,9 @@ namespace Unity.Hare.Player
         /// <summary>obj_player's Step: <c>if(justspawned) effect_create_below(ef_smoke, jetX, jetY, 0, c_orange)</c>, every step.</summary>
         void TickJet(float dt)
         {
-            if (!health.IsSpawnProtected || flight.State == PlayerFlightState.Dead)
+            // Both jets are obj_player Step code: the justspawned one inside if(state != state_leave), the leave smoke in its else.
+            bool leaving = flight.State == PlayerFlightState.Leaving;
+            if (!leaving && (!health.IsSpawnProtected || flight.State == PlayerFlightState.Dead))
             {
                 jetClock = 0f;
                 return;
@@ -228,7 +236,8 @@ namespace Unity.Hare.Player
             while (jetClock >= 1f - Epsilon)
             {
                 jetClock -= 1f;
-                sink.Emit(new SpawnJetPuffed());
+                if (leaving) sink.Emit(new LeaveSmokePuffed());
+                else sink.Emit(new SpawnJetPuffed());
             }
         }
 

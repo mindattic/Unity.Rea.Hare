@@ -80,6 +80,31 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) { ship.Flight.SkimSurface(direction); return true; }
     }
 
+    /// <summary>
+    /// obj_level_results' Enter for the seat's ship (U.HARE-T22): <c>player.state = state_leave; player.invulnerable =
+    /// true</c>. The ship leaves its perch (if any), flies at twice flight_speed and can no longer be hurt until setup_level
+    /// replaces it. Refused while dead or already leaving.
+    /// </summary>
+    public sealed class LeaveLevel : PlayerCommand
+    {
+        public LeaveLevel(PlayerId id) : base(id) { }
+
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (!ship.Flight.Leave()) return false;
+            ship.Health.MakeInvulnerableToLeave();
+            return true;
+        }
+    }
+
+    /// <summary>The leaving ship's exit_angle, degrees, as the room works it out each step. Refused unless leaving.</summary>
+    public sealed class AimExit : PlayerCommand
+    {
+        readonly float degrees;
+        public AimExit(PlayerId id, float degrees) : base(id) => this.degrees = degrees;
+        internal override bool Apply(PlayerShip ship) => ship.Flight.AimExit(degrees);
+    }
+
     /// <summary>GML player_boost.</summary>
     public sealed class Boost : PlayerCommand
     {

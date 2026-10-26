@@ -41,6 +41,12 @@ namespace Unity.Hare.Player
         public float Speed;
     }
 
+    /// <summary>
+    /// obj_level_results' Enter sent the ship off the level (U.HARE-T22: state_leave, invulnerable for good), off its
+    /// perch if it had one, heading <see cref="Direction"/> for now.
+    /// </summary>
+    public sealed class ShipLeaving : PlayerEvent { public float Direction; }
+
     /// <summary>The ship stopped dead (player_hurt's HP-reached-0 branch).</summary>
     public sealed class ShipHalted : PlayerEvent { }
 

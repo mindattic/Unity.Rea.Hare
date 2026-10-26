@@ -4,12 +4,14 @@ using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
-    /// <summary>Mirrors obj_player's top-level states (GML: state_idle / state_moving / state_dead).</summary>
+    /// <summary>Mirrors obj_player's top-level states (GML: state_idle / state_moving / state_dead / state_leave).</summary>
     public enum PlayerFlightState
     {
         Idle,
         Moving,
-        Dead
+        Dead,
+        /// <summary>GML state_leave (U.HARE-T22): obj_level_results' Enter sent the ship off the top of the room.</summary>
+        Leaving
     }
 
     /// <summary>
@@ -44,6 +46,9 @@ namespace Unity.Hare.Player
         /// <summary>was_spinning's a_near_b(image_angle, direction, 3): this close, the facing snaps onto the heading.</summary>
         public float SpinSnapDegrees = 3f;
 
+        /// <summary>state_leave's turn toward exit_angle: <c>direction -= 3</c> or <c>+= 3</c> a step (x 120).</summary>
+        public float LeaveTurnDegreesPerSecond = 360f;
+
         /// <summary>obj_shieldwall's hitbox radius, world units.</summary>
         public float ShieldRadius = 0.75f;
 
@@ -63,6 +68,7 @@ namespace Unity.Hare.Player
             ValidationHelpers.Positive(errors, path + ".SpinDegreesPerSecond", SpinDegreesPerSecond);
             ValidationHelpers.Positive(errors, path + ".SpinRecoverDegreesPerSecond", SpinRecoverDegreesPerSecond);
             ValidationHelpers.NonNegative(errors, path + ".SpinSnapDegrees", SpinSnapDegrees);
+            ValidationHelpers.Positive(errors, path + ".LeaveTurnDegreesPerSecond", LeaveTurnDegreesPerSecond);
             ValidationHelpers.Positive(errors, path + ".ShieldRadius", ShieldRadius);
         }
     }

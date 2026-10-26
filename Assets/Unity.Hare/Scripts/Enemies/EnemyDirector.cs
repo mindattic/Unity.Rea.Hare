@@ -77,6 +77,9 @@ namespace Unity.Hare.Enemies
 
         public static EnemyWorld World => world ?? (world = new EnemyWorld(new SeededRandom(seed)));
 
+        /// <summary>An enemy died (a body's <see cref="EnemyKilled"/>, after its view played it): what killed it and how.</summary>
+        public static event Action<EnemyKill> Killed;
+
         /// <summary>
         /// Starts a fresh world (and optionally a new seed): nothing survives, every view is forgotten.
         /// <paramref name="newSeed"/> pins that seed until the next <c>Reset(null)</c>; with no argument it clears
@@ -305,6 +308,7 @@ namespace Unity.Hare.Enemies
             if (e is EnemyKilled killed)
             {
                 views.Remove(e.SourceId);
+                Killed?.Invoke(killed.Kill); // the play room counts KILLS from it (U.HARE-T22, BIBLE D11)
                 // The kill branch's random_pickup(x, y) (U.HARE-T23).
                 if (killed.Kill.DropsPickup) Pickups.PickupDirector.DropRandom(killed.Kill.Position.ToVector2());
             }

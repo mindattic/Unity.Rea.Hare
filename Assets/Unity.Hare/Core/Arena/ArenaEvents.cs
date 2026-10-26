@@ -58,6 +58,18 @@ namespace Unity.Hare.Arena
         public float Direction;
     }
 
+    /// <summary>
+    /// obj_player's Step while state_leave (U.HARE-T22): <c>exit_angle</c> is now <see cref="Angle"/> degrees (GML's,
+    /// counter-clockwise on screen), the way the ship turns toward, 3 degrees a step.
+    /// </summary>
+    public sealed class ExitAimed : ArenaEvent { public float Angle; }
+
+    /// <summary>
+    /// The leaving ship went off the room's top (<c>y &lt; -sprite_height</c>): <c>speed = 0; current_score = 0;
+    /// level_complete = false; current_level += 1; setup_level()</c> (U.HARE-T22).
+    /// </summary>
+    public sealed class PlayerLeftLevel : ArenaEvent { }
+
     /// <summary>random_positions: one new position per object, room pixels, in the order they were counted.</summary>
     public sealed class PositionsScattered : ArenaEvent { public Vec2[] Points = Array.Empty<Vec2>(); }
 }

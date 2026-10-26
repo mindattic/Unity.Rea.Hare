@@ -50,7 +50,22 @@ namespace Unity.Hare.Player
         public bool IsGameOver { get; private set; }
 
         /// <summary>GML: invulnerable. Set by a hit, cleared when flash_time runs out.</summary>
-        public bool IsInvulnerable => invulnerableTimer > Epsilon;
+        public bool IsInvulnerable => leaving || invulnerableTimer > Epsilon;
+
+        /// <summary>
+        /// obj_level_results' Enter: <c>player.invulnerable = true</c> with no end_flash alarm, so the leaving ship cannot
+        /// be hurt until setup_level replaces it (U.HARE-T22). Reset, a respawn and setup_level's ship clear it. A ship sent off
+        /// while dead no longer waits out its death: in the original alarm_death_wait's reset_player put it back to
+        /// state_moving, so it never left and the level never finished (docs/BIBLE.md D21).
+        /// </summary>
+        internal void MakeInvulnerableToLeave()
+        {
+            leaving = true;
+            IsDead = false;
+            deathTimer = 0f;
+        }
+
+        bool leaving;
         /// <summary>GML: justspawned. Set by a (re)spawn, cleared when flash_time runs out or the ship perches.</summary>
         public bool IsSpawnProtected => spawnProtectionTimer > Epsilon;
         /// <summary>GML: hurting. Drives the *_hurt sprite pose (<see cref="ShipPose"/>).</summary>
@@ -70,6 +85,7 @@ namespace Unity.Hare.Player
             IsDead = false;
             IsGameOver = false;
             invulnerableTimer = 0f;
+            leaving = false;
             hurtTimer = 0f;
             deathTimer = 0f;
             StopFlashing();
@@ -135,7 +151,7 @@ namespace Unity.Hare.Player
             // Alarm 1 (end_flash): invulnerable = false; color = c_white.
             if (wasInvulnerable && !IsInvulnerable) Color = ShipColor.White;
             // Alarm 5 (flashing): while invulnerable, the next colour; it re-arms every 3 steps.
-            if (flashing && IsInvulnerable) TickFlash(deltaTime);
+            if (flashing && invulnerableTimer > Epsilon) TickFlash(deltaTime);
 
             if (!IsDead) return;
             deathTimer -= deltaTime;
@@ -209,6 +225,7 @@ namespace Unity.Hare.Player
             IsDead = false;
             Health = tuning.MaxHealth;
             invulnerableTimer = 0f;
+            leaving = false;
             hurtTimer = 0f;
             StopFlashing();
             spawnProtectionTimer = GameClock.Seconds(tuning.SpawnProtectionSteps);

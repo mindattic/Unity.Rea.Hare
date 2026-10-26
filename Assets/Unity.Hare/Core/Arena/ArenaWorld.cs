@@ -267,6 +267,57 @@ namespace Unity.Hare.Arena
             return true;
         }
 
+        /// <summary>
+        /// obj_level_results' Enter sent the player off (U.HARE-T22): <c>player.state = state_leave; player.exit_x =
+        /// player.x</c>. From now on obj_player's Step skips its boundary check (it is inside <c>if(state != state_leave)</c>)
+        /// and runs <see cref="StepLeave"/> instead.
+        /// </summary>
+        public bool PlayerLeaving { get; private set; }
+
+        /// <summary>GML exit_x: the room x the ship heads for, above the room's top.</summary>
+        public float ExitX { get; private set; }
+
+        /// <summary>GML exiting: the ship has gone off the top and the next level was set up (once).</summary>
+        public bool PlayerExited { get; private set; }
+
+        /// <summary>The leave's start; refused when the player is already leaving.</summary>
+        internal bool SendPlayerOff(float exitX)
+        {
+            if (PlayerLeaving) return false;
+            PlayerLeaving = true;
+            ExitX = exitX;
+            return true;
+        }
+
+        /// <summary>
+        /// obj_player's Step while state_leave, for a ship at (<paramref name="x"/>, <paramref name="y"/>):
+        /// <c>exit_angle = point_direction(x, y, exit_x, -sprite_height)</c> (<see cref="ExitAimed"/>), and once
+        /// <c>y &lt; -sprite_height</c>, the first time only (<c>if(!exiting)</c>), <see cref="PlayerLeftLevel"/>:
+        /// <c>current_score = 0; level_complete = false; current_level += 1; setup_level()</c>. Refused unless leaving.
+        /// </summary>
+        internal bool StepLeave(float x, float y)
+        {
+            if (!PlayerLeaving) return false;
+            float top = -Tuning.PlayerSize;
+            Emit(new ExitAimed { Angle = PointDirection(x, y, ExitX, top) });
+            if (y < top && !PlayerExited)
+            {
+                PlayerExited = true;
+                Emit(new PlayerLeftLevel());
+            }
+            return true;
+        }
+
+        /// <summary>GML point_direction in room pixels (y grows downward): degrees in [0, 360), counter-clockwise on screen.</summary>
+        public static float PointDirection(float x1, float y1, float x2, float y2)
+        {
+            double dx = x2 - x1, dy = y1 - y2;
+            if (dx == 0 && dy == 0) return 0f;
+            double degrees = Math.Atan2(dy, dx) * 180.0 / Math.PI;
+            if (degrees < 0) degrees += 360.0;
+            return degrees >= 360.0 ? 0f : (float)degrees;
+        }
+
         /// <summary>obj_game's M key: <c>show_map = !show_map; view_visible[1] = show_map</c>.</summary>
         internal bool ToggleMinimap()
         {
