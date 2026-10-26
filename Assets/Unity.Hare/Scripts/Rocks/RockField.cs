@@ -21,9 +21,10 @@ namespace Unity.Hare.Rocks
     /// room is replaced the same way (no flotsum), so the field keeps its size.</item>
     /// </list>
     /// Per level (level_01-10): rocks 15-30 (level_default, 1, 2, 6, 7, 9, generator), 15-20
-    /// (3), 20 (4, the shaft), 0 (5, the side-scroll), 20-24 (8); stationary_percent 50 (default,
-    /// 1, generator), 25 (2), 15 (3), 75 (6), 30 (7), 60 (8). Levels pass theirs to <see cref="Setup"/>
-    /// (UH-T20, UH-T57).
+    /// (3), 20 (4, the shaft), 0 (5, the side-scroll), 20-24 (8); stationary_percent 50 (1,
+    /// generator), 25 (2), 15 (3), 75 (6), 30 (7), 60 (8), and whatever the level before left for the
+    /// rest. The numbers are each level's data (<see cref="Arena.LevelSetting.RockMin"/>,
+    /// <see cref="Arena.LevelSetting.StationaryPercentAfter"/>, U.HARE-T20); U.HARE-T57 passes them to <see cref="Setup"/>.
     /// create_new_rock gave its rock a random heading over the sign it meant for the side it came
     /// from, so half the new rocks left at once and the still ones sat parked outside the room for
     /// good, thinning the field; fixed: a new rock always heads into the room, at 0.1-1.5 px/step.
