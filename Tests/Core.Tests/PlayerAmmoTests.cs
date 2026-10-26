@@ -197,6 +197,16 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
+        public void LandingWithTheVulcanLeavesTheGroundPrimaryAboveItsLoweredMaximum()
+        {
+            // HARE.gmx: Create sets ground_ammo_primary 150; set_ammo_cost only writes the max (120), so "150 / 120" is original behaviour.
+            rig.Install(1, GunType.Vulcan, WeaponSlot.Primary);
+            rig.Do(new Land(rig.Id));
+            Assert.AreEqual(120, Ammo.Max(AmmoPool.GroundPrimary));
+            Assert.AreEqual(150, Ammo.Current(AmmoPool.GroundPrimary), "set_ammo_cost does not touch the count");
+        }
+
+        [Test]
         public void RegenSnapsACountAboveTheMaximumDownSilently()
         {
             rig.Do(new SetAmmoCost(rig.Id, GroundWeapon.Vulcan, null, null, false));
