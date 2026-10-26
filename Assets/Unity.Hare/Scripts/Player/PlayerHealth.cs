@@ -59,6 +59,16 @@ namespace Unity.Hare.Player
         /// <summary>GML: hurting. Drives the *_hurt sprite pose.</summary>
         public bool IsHurting => Core.Health.IsHurting;
 
+        /// <summary>
+        /// Where reset_player flies the ship back in from; null for the position it started the scene at. The arena
+        /// (U.HARE-T52) sets it to its <c>(room_width / 2, -sprite_height)</c>.
+        /// </summary>
+        public Transform RespawnPoint
+        {
+            get => respawnPoint;
+            set => respawnPoint = value;
+        }
+
         /// <summary>Raised after a hit that left the ship alive; the argument is the HP remaining.</summary>
         public event Action<int> Damaged;
         /// <summary>Raised when HP reaches 0; the argument is the lives remaining.</summary>
@@ -90,6 +100,13 @@ namespace Unity.Hare.Player
         /// in the original).
         /// </summary>
         public bool TryTakeHit(bool ignoresSpawnProtection = false) => Send(new TakeHit(Id, ignoresSpawnProtection)).Accepted;
+
+        /// <summary>
+        /// obj_player's Step past the buffer zone of an edge that does not loop (the arena's
+        /// <see cref="Arena.PlayerOutOfBounds"/>): a life goes and reset_player flies the ship back in, or the game
+        /// restarts with none left. False while dead or once the game is over.
+        /// </summary>
+        public bool LoseLifeOutOfBounds() => Send(new LeaveArena(Id)).Accepted;
 
         /// <summary>Advances the original's alarms by <paramref name="deltaTime"/> seconds.</summary>
         public void Tick(float deltaTime)

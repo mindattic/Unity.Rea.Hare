@@ -630,7 +630,7 @@ namespace Unity.Hare.Input
                 {
                     ""name"": """",
                     ""id"": ""778ce872-924f-433a-8318-4129a3bd7236"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",

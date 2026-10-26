@@ -180,7 +180,8 @@ polling the five views used before):
 
 The weapon controls match gmlHARE (docs/BIBLE.md §8 V6). `HareControls` also carries a `Meta` action
 map (Leap, Shield, Flashbomb, Helper, Pause, Restart, Map, Debug, Menu) with keyboard and, where it
-makes sense, gamepad bindings already defined as data; nothing reads them yet; they land with
+makes sense, gamepad bindings already defined as data. Map (M, as obj_game's key) toggles the arena's
+minimap (U.HARE-T52); the rest land with
 landing (U.HARE-T53), the hotkeys ticket (U.HARE-T60), flashbombs (U.HARE-T67), the HUD/debug
 overlay (U.HARE-T59) and the map/menu rooms (U.HARE-T19/U.HARE-T26).
 

@@ -37,6 +37,13 @@ namespace Unity.Hare.Player
         public float AimDirection { get; private set; } = 270f;
 
         /// <summary>
+        /// GML: spin, degrees the ship turns a step while it flies spinning (fling_player and the hit collisions set it to
+        /// 3, U.HARE-T53); 0 otherwise, and reset_player and landing put it back to 0. obj_player's Draw shows
+        /// spr_direction_arrow while it is not 0.
+        /// </summary>
+        public float Spin { get; private set; }
+
+        /// <summary>
         /// World units per second the ship moves: <see cref="Speed"/> along <see cref="Direction"/> while flying
         /// (GML direction/speed, so 0 degrees is +x and counter-clockwise positive), nothing while perched or dead.
         /// </summary>
@@ -63,6 +70,7 @@ namespace Unity.Hare.Player
             Direction = 270f;
             Speed = tuning.FlightSpeed;
             Energy = tuning.MaxEnergy;
+            Spin = 0f;
         }
 
         public void SetAimDirection(float degrees) => AimDirection = Maths.Repeat(degrees, 360f);
@@ -94,8 +102,7 @@ namespace Unity.Hare.Player
         /// <summary>GML: player_leap. Only launches from Idle, and only within jump_arc of the current facing.</summary>
         public bool TryLeap(float aimDirection)
         {
-            if (State != PlayerFlightState.Idle) return false;
-            if (Math.Abs(Maths.DeltaAngle(Direction, aimDirection)) > tuning.JumpArcDegrees) return false;
+            if (!CanLeap(aimDirection)) return false;
 
             DropShield(); // GML player_leap: shielding = false; with(obj_shieldwall) instance_destroy()
             Direction = aimDirection;
@@ -107,6 +114,14 @@ namespace Unity.Hare.Player
             return true;
         }
 
+        /// <summary>
+        /// GML: can_jump, worked out every step while perched: the aim is within jump_arc of the ship's facing
+        /// (<c>abs(mouse_angle - image_angle) &lt;= jump_arc || abs(mouse_angle - image_angle) &gt;= 360 - jump_arc</c>).
+        /// The leap and obj_player's dotted leap line both need it; it is false in flight.
+        /// </summary>
+        public bool CanLeap(float aimDirection) =>
+            State == PlayerFlightState.Idle && Math.Abs(Maths.DeltaAngle(Direction, aimDirection)) <= tuning.JumpArcDegrees;
+
         /// <summary>Perching on a rock or structure (par_rock/par_structure).</summary>
         public bool Land()
         {
@@ -115,6 +130,7 @@ namespace Unity.Hare.Player
             IsBoosting = false;
             IsBraking = false;
             Speed = 0f;
+            Spin = 0f;
             sink.Emit(new ShipLanded());
             return true;
         }
@@ -159,6 +175,7 @@ namespace Unity.Hare.Player
             DropShield(); // reset_player: with(obj_shieldwall) instance_destroy()
             Direction = direction;
             Speed = tuning.FlightSpeed;
+            Spin = 0f;
         }
 
         /// <summary>One physics step of <paramref name="dt"/> seconds.</summary>

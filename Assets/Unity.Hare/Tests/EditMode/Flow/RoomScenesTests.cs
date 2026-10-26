@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Unity.Hare.Arena;
 using Unity.Hare.EditorTools;
 using Unity.Hare.Flow;
 using Unity.Hare.Input;
@@ -92,6 +93,24 @@ namespace Unity.Hare.Tests.EditMode
             }
             Assert.That(ProjectSetup.RoomControllerType(RoomId.Startup), Is.EqualTo(typeof(StartupRoom)));
         }
+
+        [Test]
+        public void EachPlayRoomHoldsObjGamesArena_AndNoOtherRoomDoes()
+        {
+            foreach (var room in RoomList.All)
+            {
+                var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
+                var arenas = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<ArenaRoom>(true)).ToList();
+                if (ProjectSetup.IsPlayRoom(room))
+                {
+                    Assert.That(arenas.Count, Is.EqualTo(1), room + ": one obj_game");
+                    Assert.That(arenas[0].name, Is.EqualTo(ArenaRoom.ObjectName));
+                    Assert.That(arenas[0].transform.childCount, Is.EqualTo(0), room + ": it builds its backgrounds, minimap and HUD itself, at runtime");
+                    Assert.That(ProjectSetup.RoomControllerType(room), Is.EqualTo(typeof(ArenaRoom)));
+                }
+                else Assert.That(arenas, Is.Empty, room + ": the arena is the play rooms' alone");
+            }
+        }
     }
 
     /// <summary>U.HARE-T50: the keys the room flow reads, as the original's controllers answer them.</summary>
@@ -116,6 +135,16 @@ namespace Unity.Hare.Tests.EditMode
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
             base.TearDown();
+        }
+
+        [Test]
+        public void MTogglesTheMinimap()
+        {
+            Press(keyboard.mKey);
+            Assert.That(controls.Meta.Map.WasPressedThisFrame(), Is.True, "obj_game: M key press runs show_map = !show_map");
+            Release(keyboard.mKey);
+            Press(keyboard.tabKey);
+            Assert.That(controls.Meta.Map.WasPressedThisFrame(), Is.False, "Tab is not the original's key");
         }
 
         [Test]

@@ -65,6 +65,18 @@ namespace Unity.Hare.Player
         /// <summary>GML: mouse_angle, degrees in GML's math convention. The shield wall faces this way.</summary>
         public float AimDirection => Core.Flight.AimDirection;
 
+        /// <summary>GML: spin, degrees a step the ship turns while it flies spinning (0 unless flung, U.HARE-T53).</summary>
+        public float Spin => Core.Flight.Spin;
+
+        /// <summary>GML: can_jump: perched with the aim within jump_arc of the ship's facing.</summary>
+        public bool CanLeap => Core.Flight.CanLeap(AimDirection);
+
+        /// <summary>
+        /// GML: mouse_x/mouse_y, the world point the mouse aims at (where the dotted leap line ends); null while the
+        /// aim comes from the gamepad's stick or there is no pointer.
+        /// </summary>
+        public Vector2? AimPoint { get; private set; }
+
         /// <summary>The damage gate player_hurt consults: a raised shield absorbs the hit instead of costing HP.</summary>
         public bool BlocksDamage => IsShielding;
 
@@ -119,15 +131,18 @@ namespace Unity.Hare.Player
             if (stick.sqrMagnitude > 0.25f) // ~0.5 deadzone, squared
             {
                 SetAimDirection(Mathf.Atan2(stick.y, stick.x) * Mathf.Rad2Deg);
+                AimPoint = null;
                 return;
             }
 
             var cam = Camera.main;
-            if (cam == null || Mouse.current == null) return; // no pointer device to read a screen position from
+            if (cam == null || Mouse.current == null) { AimPoint = null; return; } // no pointer device to read a screen position from
 
             Vector3 screen = player.Aim.ReadValue<Vector2>();
             screen.z = -cam.transform.position.z;
-            Vector2 offset = (Vector2)cam.ScreenToWorldPoint(screen) - (Vector2)transform.position;
+            Vector2 aimPoint = cam.ScreenToWorldPoint(screen);
+            AimPoint = aimPoint;
+            Vector2 offset = aimPoint - (Vector2)transform.position;
             if (offset.sqrMagnitude > Mathf.Epsilon) SetAimDirection(Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg);
         }
 

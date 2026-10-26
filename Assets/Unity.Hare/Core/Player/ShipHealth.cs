@@ -106,6 +106,25 @@ namespace Unity.Hare.Player
             sink.Emit(new PlayerDied { Lives = Lives });
         }
 
+        /// <summary>
+        /// obj_player's Step past the buffer zone of an edge that does not loop (U.HARE-T52):
+        /// <c>if(LIVES &gt; 0) { LIVES -= 1; } else { game_restart(); } reset_player();</c>. With a life to spare it goes
+        /// (<see cref="PlayerLeftArena"/>) and the ship is reset to fly back in (<see cref="PlayerRespawned"/>); with none
+        /// the game restarts (<see cref="GameEnded"/>). Refused while dead or once the game is over.
+        /// </summary>
+        public bool LeaveArena()
+        {
+            if (IsDead || IsGameOver) return false;
+            if (Lives > 0)
+            {
+                Lives--;
+                sink.Emit(new PlayerLeftArena { Lives = Lives });
+                Respawn();
+            }
+            else EndGame();
+            return true;
+        }
+
         /// <summary>GML: reset_player.</summary>
         void Respawn()
         {

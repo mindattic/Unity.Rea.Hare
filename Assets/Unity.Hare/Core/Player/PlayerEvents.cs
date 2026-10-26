@@ -34,6 +34,9 @@ namespace Unity.Hare.Player
     /// <summary>HP reached 0; <see cref="Lives"/> is the lives remaining.</summary>
     public sealed class PlayerDied : PlayerEvent { public int Lives; }
 
+    /// <summary>The ship flew out of the arena past its buffer zone and lost a life; <see cref="Lives"/> is the lives remaining.</summary>
+    public sealed class PlayerLeftArena : PlayerEvent { public int Lives; }
+
     /// <summary>reset_player: the ship flies back in heading <see cref="Direction"/> degrees.</summary>
     public sealed class PlayerRespawned : PlayerEvent { public float Direction; }
 

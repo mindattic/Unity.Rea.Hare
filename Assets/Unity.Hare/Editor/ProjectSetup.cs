@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Unity.Hare.Arena;
 using Unity.Hare.Audio;
 using Unity.Hare.EditorTools.Rendering;
 using Unity.Hare.Flow;
@@ -47,9 +48,10 @@ namespace Unity.Hare.EditorTools
 
         /// <summary>
         /// The object that runs <paramref name="room"/>, as its own ticket builds it (obj_startup in startup,
-        /// U.HARE-T51); null for a room whose controller is not built yet.
+        /// U.HARE-T51; obj_game's arena in the play rooms, U.HARE-T52); null for a room whose controller is not built yet.
         /// </summary>
-        public static System.Type RoomControllerType(RoomId room) => room == RoomId.Startup ? typeof(StartupRoom) : null;
+        public static System.Type RoomControllerType(RoomId room) =>
+            room == RoomId.Startup ? typeof(StartupRoom) : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
         /// Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing (a room
@@ -138,7 +140,8 @@ namespace Unity.Hare.EditorTools
         /// <summary>
         /// One room's scene: the 2D camera rig (letterboxed to the reference resolution, carrying the screen overlay
         /// the room's obj_fade_* draws on) and a global 2D light; the play rooms also get room_gamescreen's night-sky
-        /// backdrop and obj_player, and startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and
+        /// backdrop, obj_player and obj_game's arena (<see cref="ArenaRoom"/>, which builds its backgrounds, minimap and HUD itself),
+        /// and startup its obj_startup (<see cref="StartupRoom"/>, which builds its backgrounds and
         /// note itself). What else each room holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
@@ -149,6 +152,7 @@ namespace Unity.Hare.EditorTools
             bool play = IsPlayRoom(room);
             AddCameraAndLight(play ? Backdrop : Color.black);
             if (play) AddPlayerShip();
+            if (play) ArenaRoom.Create();
             if (room == RoomId.Startup) StartupRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);

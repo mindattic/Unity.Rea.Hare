@@ -102,7 +102,7 @@ _Nothing recorded yet._
 - **U.HARE-US-O1 ⬜** As a player, the game remembers my lives, coins, skill points, score, difficulty and place in the campaign through one game-session state, the same way the original's globals did
 - **U.HARE-US-O2 ⬜** As a player, the game moves between its rooms (startup, title, intro, story, map, game, upgrade) with the original's fade transitions and Esc behaviour, so it flows like the original
 - **U.HARE-US-O3 ⬜** As a player, I see the startup screen with the circuit-board backdrop and the controller note before the title, the way the original opens
-- **U.HARE-US-O4 ⬜** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
+- **U.HARE-US-O4 ✅** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
 - **U.HARE-US-O5 ⬜** As a player, each level starts with its name banner, its objective and its time limit, runs its enemy emitters, and ends when I have met the objective, like the original
 - **U.HARE-US-O6 ⬜** As a player, I see my score, the level objective, the elapsed time, my extra lives and my health pips on screen while I play
 - **U.HARE-US-O7 ⬜** As a player, I can pause, restart the level, toggle the minimap, units, volume and fullscreen with the original's keys

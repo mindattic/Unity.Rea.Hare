@@ -117,5 +117,65 @@
     "NoteOutlineColor": "#000000",
     "FullscreenOnEntry": true,
     "ContinueRoom": "Title"
+  },
+  "arena": {
+    "BufferZone": 400,
+    "PlayerSize": 96,
+    "ShowMapOnStart": false,
+    "OffscreenArrowInset": 64,
+    "OffscreenArrowSprite": "spr_big_arrow",
+    "DirectionArrowSprite": "spr_direction_arrow",
+    "ArrowAlpha": 0.5,
+    "LeapLineDash": 4,
+    "LeapLineWidth": 1,
+    "LeapLineAlpha": 0.3,
+    "LeapLineColor": "#9ACEEB",
+    "GunOffset": -13,
+    "ShowLeapArrow": true,
+    "HudWidth": 1920,
+    "HudHeight": 1080,
+    "Rooms": [
+      {
+        "Room": "GameScreen",
+        "Backgrounds": [
+          { "Name": "bg_nightsky", "Visible": true, "HTiled": false, "VTiled": false, "Stretch": true },
+          { "Name": "", "Visible": true, "HTiled": false, "VTiled": false, "Stretch": true }
+        ],
+        "View": { "Width": 1920, "Height": 1080, "PortX": 0, "PortY": 0, "PortWidth": 1920, "PortHeight": 1080, "HBorder": 1920, "VBorder": 1080, "HSpeed": 40, "VSpeed": 40 },
+        "Minimap": { "Width": 3000, "Height": 2000, "PortX": 1600, "PortY": 800, "PortWidth": 300, "PortHeight": 200, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 }
+      },
+      {
+        "Room": "SideScroll",
+        "Backgrounds": [
+          { "Name": "bg_tropicalocean", "Visible": true, "HTiled": true, "VTiled": false, "Stretch": false },
+          { "Name": "", "Visible": true, "HTiled": false, "VTiled": false, "Stretch": false }
+        ],
+        "View": { "Width": 1920, "Height": 1080, "PortX": 0, "PortY": 0, "PortWidth": 1920, "PortHeight": 1080, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 },
+        "Minimap": { "Width": 3000, "Height": 2000, "PortX": 1300, "PortY": 860, "PortWidth": 300, "PortHeight": 200, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 }
+      },
+      {
+        "Room": "Shaft",
+        "Backgrounds": [
+          { "Name": "bg_stormclouds", "Visible": true, "HTiled": true, "VTiled": true, "Stretch": false },
+          { "Name": "", "Visible": true, "HTiled": false, "VTiled": false, "Stretch": false }
+        ],
+        "View": { "Width": 1920, "Height": 1080, "PortX": 0, "PortY": 0, "PortWidth": 1920, "PortHeight": 1080, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 },
+        "Minimap": { "Width": 3000, "Height": 2000, "PortX": 1300, "PortY": 860, "PortWidth": 300, "PortHeight": 200, "HBorder": 1920, "VBorder": 1080, "HSpeed": -1, "VSpeed": -1 }
+      }
+    ],
+    "Levels": [
+      { "Level": 1, "Script": "level_01", "Name": "Hydras & Saws", "Room": "GameScreen", "Background": "bg_worldcurve", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 2, "Script": "level_02", "Name": "Meatballs & Phalanx", "Room": "GameScreen", "Background": "bg_moonview", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 3, "Script": "level_03", "Name": "Sky Worms & Daggers", "Room": "GameScreen", "Background": "bg_uphigh", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 4, "Script": "level_04", "Name": "Storm Shaft", "Room": "Shaft", "Background": "bg_stormclouds", "Overlay": "", "HSpeed": -1, "VSpeed": 0, "Tiled": false, "LoopHorizontal": true, "LoopVertical": true, "RandomizeOnLoop": false },
+      { "Level": 5, "Script": "level_05", "Name": "Tangerine Islands", "Room": "SideScroll", "Background": "bg_tropicalocean", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": true, "LoopVertical": false, "RandomizeOnLoop": true },
+      { "Level": 6, "Script": "level_06", "Name": "Wraiths", "Room": "GameScreen", "Background": "bg_nightsky", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": true, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 7, "Script": "level_07", "Name": "Trilobytes", "Room": "GameScreen", "Background": "bg_worldcurve", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 8, "Script": "level_08", "Name": "Scrap Mental", "Room": "GameScreen", "Background": "bg_worldcurve", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 9, "Script": "level_09", "Name": "Time Out", "Room": "GameScreen", "Background": "bg_atmosphere", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+      { "Level": 10, "Script": "level_10", "Name": "Upper Eschelon", "Room": "GameScreen", "Background": "bg_atmosphere", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false }
+    ],
+    "DefaultLevel": { "Level": 0, "Script": "level_default", "Name": "Default Level", "Room": "GameScreen", "Background": "bg_orange", "Overlay": "", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false },
+    "GeneratorLevel": { "Level": 0, "Script": "level_enemygenerator", "Name": "Enemy Generator", "Room": "GameScreen", "Background": "bg_nightsky", "Overlay": "bg_gradient3", "HSpeed": 0, "VSpeed": 0, "Tiled": false, "LoopHorizontal": false, "LoopVertical": false, "RandomizeOnLoop": false }
   }
 }

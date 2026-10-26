@@ -45,5 +45,21 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(new Rect(0f, 0f, 1f, 1f), LetterboxCamera.ComputeViewportRect(1920f, 0f, Reference));
             Assert.AreEqual(new Rect(0f, 0f, 1f, 1f), LetterboxCamera.ComputeViewportRect(1920f, 1080f, 0f));
         }
+    
+        [Test]
+        public void AViewPort_IsPlacedInsideTheLetterboxedWindow_YFromTheTop()
+        {
+            // room_gamescreen's view 1: 300x200 at (1600, 800) of the 1920x1080 window (U.HARE-T52).
+            var port = new Rect(1600f, 800f, 300f, 200f);
+            var full = LetterboxCamera.ComputePortRect(new Rect(0f, 0f, 1f, 1f), port);
+            Assert.AreEqual(1600f / 1920f, full.x, 1e-5f);
+            Assert.AreEqual(80f / 1080f, full.y, 1e-5f, "1080 - 800 - 200 above the bottom");
+            Assert.AreEqual(300f / 1920f, full.width, 1e-5f);
+            Assert.AreEqual(200f / 1080f, full.height, 1e-5f);
+
+            var pillarboxed = LetterboxCamera.ComputePortRect(new Rect(0.125f, 0f, 0.75f, 1f), port);
+            Assert.AreEqual(0.125f + 0.75f * 1600f / 1920f, pillarboxed.x, 1e-5f);
+            Assert.AreEqual(0.75f * 300f / 1920f, pillarboxed.width, 1e-5f);
+        }
     }
 }

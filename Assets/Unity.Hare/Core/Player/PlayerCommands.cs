@@ -158,6 +158,16 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) { ship.Health.Reset(tuning ?? ship.Health.Tuning); return true; }
     }
 
+    /// <summary>
+    /// obj_player's Step past a non-looping edge's buffer zone (the arena's <c>PlayerOutOfBounds</c>): a life goes and
+    /// reset_player runs, or the game restarts with none left.
+    /// </summary>
+    public sealed class LeaveArena : PlayerCommand
+    {
+        public LeaveArena(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Health.LeaveArena();
+    }
+
     /// <summary>A damage source reached the ship. Accepted when the hit landed.</summary>
     public sealed class TakeHit : PlayerCommand
     {
