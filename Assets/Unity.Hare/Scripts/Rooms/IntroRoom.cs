@@ -51,7 +51,11 @@ namespace Unity.Hare.Rooms
         {
             var content = GameContent.Current;
             room = content.Rooms.Get(RoomId.Intro);
-            State = new IntroScreen(content.Intro, room.Width, room.Height, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
+            // The map's launched mission, if the campaign came here from room_map (U.HARE-T19, docs/BIBLE.md V42).
+            var session = RoomFlowDirector.Active != null ? RoomFlowDirector.Active.Session : null;
+            bool mission = session != null && session.Mode == GameMode.Campaign && session.Scenario > 0 && session.MissionLevel > 0;
+            State = new IntroScreen(content.Intro, room.Width, room.Height, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)),
+                mission ? session.Scenario : -1, mission ? session.MissionLevel : 0);
             SceneView = DropSceneView.Create(transform, State.Scene);
             BuildPanel();
 
@@ -119,6 +123,9 @@ namespace Unity.Hare.Rooms
                         break;
                     case IntroModeChosen mode:
                         if (director != null) director.ExecuteSession(new ChooseQuickstart(seat, mode.Level));
+                        break;
+                    case IntroMissionKept kept:
+                        if (director != null) director.ExecuteSession(new ChooseMission(seat, kept.Scenario, kept.Level));
                         break;
                     case IntroRoomRequested go:
                         if (director != null) director.Execute(new GoToRoom(seat, go.Room));

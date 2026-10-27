@@ -149,6 +149,24 @@ namespace Unity.Hare.Tests.EditMode
         }
 
         [Test]
+        public void TheMapSceneHoldsObjMap_AndNoOtherRoomDoes()
+        {
+            foreach (var room in RoomList.All)
+            {
+                var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
+                var maps = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Hare.Map.MapRoom>(true)).ToList();
+                if (room == RoomId.Map)
+                {
+                    Assert.That(maps.Count, Is.EqualTo(1), "room_map.room.gmx places one obj_map");
+                    Assert.That(maps[0].name, Is.EqualTo(Unity.Hare.Map.MapRoom.ObjectName));
+                    Assert.That(maps[0].transform.childCount, Is.EqualTo(0), "it builds its sky, earth, markers, panel and tip itself, at runtime");
+                }
+                else Assert.That(maps, Is.Empty, room + ": obj_map is room_map's alone");
+            }
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Map), Is.EqualTo(typeof(Unity.Hare.Map.MapRoom)));
+        }
+
+        [Test]
         public void EachPlayRoomHoldsObjGamesArena_AndNoOtherRoomDoes()
         {
             foreach (var room in RoomList.All)

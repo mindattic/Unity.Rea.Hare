@@ -399,6 +399,39 @@ Read in full for U.HARE-T28 (the rules in BIBLE V41):
 - `load_scenario`: `switch(current_scenario)` 1 runs `level_01`..`level_05` for `current_level` 1..5; 2, 3 and 4 run
   `level_06`..`level_10`; `default` runs `level_default`. Called by setup_level in `gm_campaign`.
 
+## Map (room_map, U.HARE-T19)
+
+- room_map 1920x1080 at 60, background 0 `bg_nightsky` tiled (hspeed set by obj_map/obj_destination). Instances in
+  order: obj_earthball (901,1253; Create moves it to 960,1080), obj_uss_warren (1143,513; Create y = 372),
+  obj_scanner (1045,532), obj_destination (903,722; Create y = 549), obj_map (-100,63), obj_scenario_details (92,179).
+- globals.gml: `current_mission = 0`, `mission_count = 4`, `rotate_direction = "counterclockwise"`,
+  `current_scenario = -1`, `current_conversation` (obj_map's comm box, read by obj_destination).
+- obj_map Create: obj_fade_map, obj_mouse (spr_pointer), `whitedot_exists = false`, obj_btn_upgrade (100,40),
+  `mode = "idle"`, `mission[0..3]` obj_alert at 16/150/270/310 degrees with scenario_id 1-4, obj_conversation, obj_tip
+  ("Mission Command#" + two indented lines). Keys: D (68) and A (65) press, only `mode == "idle" && !whitedot_exists`:
+  sfx_flick, "moving", clockwise/counterclockwise, `background_hspeed[0] = 1 / -1`, current_mission -1/+1 with wrap,
+  comm box "slideout" (the old per-press turn and ef_smoke are commented out). Esc (27): `room_goto(room_title)`. Any
+  key (1): if not A, D or Esc held, `current_scenario != -1` and no dot: obj_white_dot at the ship toward
+  obj_destination (`image_angle = direction`), `obj_earthball.auto_speed = 0`, sfx_takeoff.
+- obj_earthball Step: idle `image_angle -= auto_speed` (0.01), normalize_angle. obj_destination Step: moving hides
+  obj_scenario_details, `current_scenario = -1`, turns the earth `-turn_speed` counterclockwise else `+turn_speed` (2),
+  normalize. Collision with obj_alert: if `other.scenario_id != last_scenario`: last_scenario, "idle",
+  `background_hspeed[0] = 0`, panel visible with `"Scenario " + string(scenario_id)`, current_scenario, comm box
+  "slidein". Its Draw is commented out. spr_destination 64x130, origin 32,130, precise, bbox 25..35 x 0..129 (opaque
+  throughout); spr_alertmarker 32x64, origin 16,32, six frames, precise per frame, bbox set by hand to 0..31 x 23..40.
+- obj_white_dot (spr_dropdot 9x9, origin 4,4, five frames, rectangle box 0..8 x 3..5; depth 1): Create
+  `image_speed = 0.1; fade_speed = 0.003`; Step `if(distance_to_point(destX, destY) > 1) { move_towards_point(destX,
+  destY, 1); image_alpha -= fade_speed; } else room_goto(room_intro)`.
+- obj_scenario_details: spr_tip_box, alpha 0.7, margin 20, `visible = false`; Draw GUI the box at 0.7 then the text
+  (fnt_point, outline 1) at x+20, y+20. obj_btn_upgrade: spr_button_area_small (depth -5), "Upgrades" at y-10 (fnt_point,
+  outline 2, c_white / c_cornflowerblue), mouse enter sfx_hover, message "Upgrade H.A.R.E. Unit's systems" at
+  (room_width/2, room_height-30) while over, left press sfx_click and obj_fade_map to room_upgrade.
+- obj_scanner: spr_scanner_beam at alpha 0.2, `y = 1080 - 531 - 211 + 50`; Step sways image_angle by sweepY (+/-0.1 at
+  0.004 a step) and flickers `image_alpha = 0.01 * irandom_range(16, 24)` (U.HARE-T63).
+- room_intro's obj_drop_intro ends in `gamemode = gm_quickstart; current_scenario = -1; current_level = 1`, so the
+  picked scenario never reaches load_scenario (owner-directed fix, BIBLE V42); D24 records the stale
+  current_scenario on re-entering the map.
+
 ## Audio
 
 `play_random_music`, `obj_jukebox` for music track rotation. HARE.gmx ships 152 sound assets

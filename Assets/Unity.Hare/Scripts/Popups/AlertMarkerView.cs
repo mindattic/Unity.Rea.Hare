@@ -48,14 +48,28 @@ namespace Unity.Hare.Popups
         public bool Step(double earthX, double earthY, double earthAngle, bool mapIdle)
         {
             bool pinged = Marker.Step(earthX, earthY, earthAngle, mapIdle, out double px, out double py);
-            if (pinged)
-            {
-                var at = toWorld(px, py);
-                GmlEffects.CreateAbove(GmlEffectKind.Ring, at, Marker.Definition.PingSize, pingColor);
-                Pinged?.Invoke(at);
-            }
+            if (pinged) Ping(px, py);
             Draw();
             return pinged;
+        }
+
+        /// <summary>
+        /// The draw-only path room_map uses (U.HARE-T19): its <see cref="Unity.Hare.Map.MapScreen"/> steps the marker in
+        /// GameMaker's order and this draws it where it stands, in <paramref name="blend"/> (draw_self's image_blend; the
+        /// locked boss's grey).
+        /// </summary>
+        public void Present(Color blend)
+        {
+            if (Renderer != null) Renderer.color = blend;
+            Draw();
+        }
+
+        /// <summary>Alarm 0's <c>effect_create_above(ef_ring, x, y, 0, c_red)</c> at room pixel (<paramref name="x"/>, <paramref name="y"/>).</summary>
+        public void Ping(double x, double y)
+        {
+            var at = toWorld(x, y);
+            GmlEffects.CreateAbove(GmlEffectKind.Ring, at, Marker.Definition.PingSize, pingColor);
+            Pinged?.Invoke(at);
         }
 
         /// <summary>draw_self: the frame, the place and the turn.</summary>

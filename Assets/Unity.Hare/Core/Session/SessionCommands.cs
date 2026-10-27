@@ -57,6 +57,30 @@ namespace Unity.Hare.Session
     }
 
     /// <summary>
+    /// room_map's launched mission (U.HARE-T19, owner-directed, docs/BIBLE.md V42): the campaign at
+    /// <c>scenario</c>'s <c>level</c>, which room_intro then keeps instead of starting a quick game at level 1 as the
+    /// original did. Completing that level wins the mission (<see cref="MissionWon"/>).
+    /// </summary>
+    public sealed class ChooseMission : SessionCommand
+    {
+        readonly int scenario, level;
+
+        public ChooseMission(PlayerId id, int scenario, int level) : base(id)
+        {
+            if (scenario < 1) throw new ArgumentOutOfRangeException(nameof(scenario), scenario, "Scenarios start at 1.");
+            if (level < 1) throw new ArgumentOutOfRangeException(nameof(level), level, "Levels start at 1.");
+            this.scenario = scenario;
+            this.level = level;
+        }
+
+        internal override bool Apply(GameSession session)
+        {
+            session.ChooseMode(GameMode.Campaign, scenario, level, session.Difficulty, level);
+            return true;
+        }
+    }
+
+    /// <summary>
     /// obj_btn_diff0 and obj_btn_diff100 (and obj_btn_level09): the enemy generator at <c>difficulty</c>. The
     /// buttons set only gamemode and difficulty, so the scenario and level stay where they were.
     /// </summary>

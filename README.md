@@ -58,6 +58,12 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   earth reaching the bottom, starts the campaign and fades to the map, and Esc goes to the title. obj_conversation's
   comm box (Admiral Zee's portrait, his typed line, sfx_flick and sfx_woof as a key sends it away) is ready for the
   map, and load_scenario's scenario-to-level table is in data (Core's `Story/`; `Story/StoryRoom`, `ConversationView`)
+- the map (U.HARE-T19): room_map's earth turns with A and D (sfx_flick, the sky scrolling) until a mission marker
+  comes under the destination, which shows its panel and slides Admiral Zee's comm box in; any other key sends the
+  white dot from the USS Warren down to it and launches that mission through room_intro. By the owner's direction
+  there is a mission for each of the ten levels, the chosen one is kept (the original dropped it), and the boss is
+  locked until every other mission is won, the wins saved as `campaign.json` in the profile's `Saves/`; the Upgrades
+  button fades to the garage (Core's `Map/`, `Session/CampaignProgress`; `Map/MapRoom`, `CampaignStore`)
 - player profiles: the shared MindAttic Unity.Shared package for display name, colour, music/SFX volume, mutes
   and reduce motion, plus Hare's own `difficulty`/`useMetric`/`fullscreen` block of settings.json
   (`Scripts/Settings/ActiveProfile.cs`, `HareSettings`); a campaign save belongs under the profile's `Saves/`

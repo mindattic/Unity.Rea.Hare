@@ -55,6 +55,8 @@ namespace Unity.Hare.Content
         public IntroTuning Intro { get; }
         /// <summary>room_story's typewriter and scroll, obj_conversation, obj_typewriter and load_scenario (U.HARE-T28).</summary>
         public StoryTuning Story { get; }
+        /// <summary>room_map: obj_map, obj_earthball, obj_destination, obj_white_dot, the panel and the Upgrades button (U.HARE-T19).</summary>
+        public Map.MapTuning Map { get; }
 
         ContentRegistry()
         {
@@ -82,6 +84,7 @@ namespace Unity.Hare.Content
             Title = new TitleTuning();
             Intro = new IntroTuning();
             Story = new StoryTuning();
+            Map = new Map.MapTuning();
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace Unity.Hare.Content
         /// <summary>
         /// Parses <paramref name="json"/> (see <see cref="MiniJson"/>) and overlays it on the compiled-in defaults,
         /// one section per top-level key: weapons, ammo, flight, health, weaponPhysicals, emitters, wormholes,
-        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather, popups, mouse, title, intro, story. A section or field the file omits keeps its default. Throws
+        /// enemies, levels, dialogue, upgrades, session, online, rooms, startup, arena, look, pickups, weather, popups, mouse, title, intro, story, map. A section or field the file omits keeps its default. Throws
         /// <see cref="ContentValidationException"/>, listing every problem, if the file is malformed or any value
         /// fails validation.
         /// </summary>
@@ -149,13 +152,14 @@ namespace Unity.Hare.Content
                 Bind(sections, "title", registry.Title, errors);
                 Bind(sections, "intro", registry.Intro, errors);
                 Bind(sections, "story", registry.Story, errors);
+                Bind(sections, "map", registry.Map, errors);
 
                 foreach (var key in sections.Keys)
                 {
                     switch (key.ToLowerInvariant())
                     {
                         case "weapons": case "ammo": case "flight": case "health": case "weaponphysicals":
-                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather": case "popups": case "mouse": case "title": case "intro": case "story":
+                        case "emitters": case "wormholes": case "enemies": case "levels": case "dialogue": case "upgrades": case "session": case "online": case "rooms": case "startup": case "arena": case "look": case "pickups": case "weather": case "popups": case "mouse": case "title": case "intro": case "story": case "map":
                             break;
                         default:
                             errors.Add($"content.{key}: not a recognised section.");
@@ -188,6 +192,7 @@ namespace Unity.Hare.Content
             registry.Title.Validate(errors, "title");
             registry.Intro.Validate(errors, "intro");
             registry.Story.Validate(errors, "story");
+            registry.Map.Validate(errors, "map");
 
             if (errors.Count > 0) throw new ContentValidationException(errors);
             return registry;

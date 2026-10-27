@@ -425,10 +425,16 @@
       "Sprite": "spr_alertmarker", "Frames": 6, "Depth": -10, "ImageSpeed": 0.2, "Length": 550, "PingRateSteps": 30, "PingSize": 0,
       "PingColor": "#FF0000",
       "Missions": [
-        { "Degree": 16, "ScenarioId": 1 },
-        { "Degree": 150, "ScenarioId": 2 },
-        { "Degree": 270, "ScenarioId": 3 },
-        { "Degree": 310, "ScenarioId": 4 }
+        { "Degree": 16, "ScenarioId": 1, "Level": 1, "Boss": false },
+        { "Degree": 150, "ScenarioId": 2, "Level": 2, "Boss": false },
+        { "Degree": 270, "ScenarioId": 3, "Level": 3, "Boss": false },
+        { "Degree": 310, "ScenarioId": 4, "Level": 4, "Boss": false },
+        { "Degree": 50, "ScenarioId": 5, "Level": 5, "Boss": false },
+        { "Degree": 83, "ScenarioId": 6, "Level": 6, "Boss": false },
+        { "Degree": 117, "ScenarioId": 7, "Level": 7, "Boss": false },
+        { "Degree": 190, "ScenarioId": 8, "Level": 8, "Boss": true },
+        { "Degree": 230, "ScenarioId": 9, "Level": 9, "Boss": false },
+        { "Degree": 343, "ScenarioId": 10, "Level": 10, "Boss": false }
       ]
     }
   },
@@ -571,5 +577,21 @@
       { "Scenario": 4, "Levels": ["level_06", "level_07", "level_08", "level_09", "level_10"] }
     ],
     "DefaultScenarioLevel": "level_default"
+  },
+  "map": {
+    "Background": "bg_nightsky", "SkyScroll": 1, "SwitchSound": "sfx_flick",
+    "EarthSprite": "spr_earthball", "EarthHeight": 1062, "TurnSpeed": 2, "AutoSpeed": 0.01,
+    "ShipSprite": "spr_uss_warren", "ShipX": 1143, "ScannerBeamHeight": 211, "ShipHeight": 66, "ShipLift": 100,
+    "DestinationX": 903,
+    "DotSprite": "spr_dropdot", "DotFrames": 5, "DotImageSpeed": 0.1, "DotFadeSpeed": 0.003, "DotSpeed": 1, "DotArriveDistance": 1,
+    "LaunchSound": "sfx_takeoff", "LaunchRoom": "Intro",
+    "PanelX": 92, "PanelY": 179, "PanelSprite": "spr_tip_box", "PanelAlpha": 0.7, "PanelMargin": 20, "PanelOutline": 1,
+    "PanelText": "Scenario {0}#{1}", "LockedText": "#Locked: win every other mission first", "LockedColor": "#808080",
+    "Upgrade": {
+      "Object": "obj_btn_upgrade", "X": 100, "Y": 40, "Sprite": "spr_button_area_small", "Width": 210, "Height": 35,
+      "XOrigin": 105, "YOrigin": 17, "Label": "Upgrades", "LabelOffset": -10, "Outline": 2,
+      "Message": "Upgrade H.A.R.E. Unit's systems", "MessageBottomMargin": 30, "Color": "#FFFFFF", "HoverColor": "#6495ED",
+      "HoverSound": "sfx_hover", "ClickSound": "sfx_click", "Room": "Upgrade"
+    }
   }
 }

@@ -32,6 +32,12 @@ namespace Unity.Hare.Rooms
     /// <summary><c>gamemode = gm_quickstart; current_scenario = -1; current_level = </c><see cref="Level"/>.</summary>
     public sealed class IntroModeChosen : IntroEvent { public int Level; }
 
+    /// <summary>
+    /// The map's mission is kept (U.HARE-T19, owner-directed, docs/BIBLE.md V42): the campaign plays
+    /// <see cref="Scenario"/>'s <see cref="Level"/> instead of a quick game at level 1.
+    /// </summary>
+    public sealed class IntroMissionKept : IntroEvent { public int Scenario; public int Level; }
+
     /// <summary><c>room_goto(</c><see cref="Room"/><c>)</c>.</summary>
     public sealed class IntroRoomRequested : IntroEvent { public RoomId Room; }
 }

@@ -10,8 +10,9 @@ namespace Unity.Hare.Rooms
     /// room's view owns one. State changes only through <see cref="Execute"/>; presentation draws <see cref="Scene"/>
     /// and plays the events (smoke, the tip, the session's game mode, the room change) and never writes back.
     ///
-    /// Nothing in the original goes to room_intro (no script or object names it, and it is not the first room); it is
-    /// ported because it is a real room, and the room flow can be sent there.
+    /// In the original only obj_white_dot's arrival on room_map goes to room_intro, and the quick game at level 1 threw
+    /// the chosen mission away; by the owner's direction (U.HARE-T19, docs/BIBLE.md V42) a mission launched from the
+    /// map is kept (<see cref="MissionScenario"/>, <see cref="IntroMissionKept"/>).
     /// </summary>
     public sealed class IntroScreen
     {
@@ -22,13 +23,30 @@ namespace Unity.Hare.Rooms
         /// <param name="roomWidth">room_width, 1920.</param>
         /// <param name="roomHeight">room_height, 1080.</param>
         /// <param name="random">Where the drop's shake and the clouds' irandom_range come from.</param>
-        public IntroScreen(IntroTuning tuning, int roomWidth, int roomHeight, IRandomSource random)
+        /// <param name="missionScenario">The map's launched mission (the session's campaign scenario), or -1 for none.</param>
+        /// <param name="missionLevel">The level that mission plays (the session's MissionLevel), or 0.</param>
+        public IntroScreen(IntroTuning tuning, int roomWidth, int roomHeight, IRandomSource random, int missionScenario = -1, int missionLevel = 0)
         {
             Tuning = tuning ?? throw new ArgumentNullException(nameof(tuning));
             Scene = new DropScene(tuning.Scene, roomWidth, roomHeight, random ?? throw new ArgumentNullException(nameof(random)));
+            if (missionScenario > 0 && missionLevel > 0)
+            {
+                MissionScenario = missionScenario;
+                MissionLevel = missionLevel;
+            }
         }
 
         public IntroTuning Tuning { get; }
+
+        /// <summary>
+        /// The mission room_map launched (U.HARE-T19, owner-directed, docs/BIBLE.md V42), -1 when the intro was not
+        /// reached from the map. The original's obj_drop_intro always set <c>gamemode = gm_quickstart; current_scenario =
+        /// -1; current_level = 1</c>, discarding it; here the dropped rabbit plays the chosen mission's level instead.
+        /// </summary>
+        public int MissionScenario { get; } = -1;
+
+        /// <summary>The level <see cref="MissionScenario"/> plays, 0 for none.</summary>
+        public int MissionLevel { get; }
 
         /// <summary>The falling rabbit, its clouds and the backgrounds.</summary>
         public DropScene Scene { get; }
@@ -94,7 +112,8 @@ namespace Unity.Hare.Rooms
             if (step.Below && !Left)
             {
                 Left = true;
-                Emit(new IntroModeChosen { Level = Tuning.ExitLevel });
+                if (MissionScenario > 0) Emit(new IntroMissionKept { Scenario = MissionScenario, Level = MissionLevel });
+                else Emit(new IntroModeChosen { Level = Tuning.ExitLevel });
                 Emit(new IntroRoomRequested { Room = Tuning.ExitRoom });
             }
             return true;

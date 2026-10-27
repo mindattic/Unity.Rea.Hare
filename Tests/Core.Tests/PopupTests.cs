@@ -120,7 +120,15 @@ namespace Unity.Hare.Tests.Core
         public void AnAlertRidesTheEarthsRimAndPingsEvery30StepsOnlyWhileTheMapIsIdle()
         {
             var definition = ContentRegistry.Default.Popups.Alert;
-            Assert.That(definition.Missions, Has.Length.EqualTo(4));
+            Assert.That(definition.Missions, Has.Length.EqualTo(10), "one per original level, owner-directed (BIBLE V42)");
+            CollectionAssert.AreEqual(new float[] { 16, 150, 270, 310 }, new[] { definition.Missions[0].Degree, definition.Missions[1].Degree,
+                definition.Missions[2].Degree, definition.Missions[3].Degree }, "obj_map's original four first");
+            for (int i = 0; i < 10; i++)
+            {
+                ClassicAssert.AreEqual(i + 1, definition.Missions[i].ScenarioId);
+                ClassicAssert.AreEqual(i + 1, definition.Missions[i].Level, "mission n launches level_0n");
+                ClassicAssert.AreEqual(i == 7, definition.Missions[i].Boss, "level_08, Scrap Mental, is the boss");
+            }
             var alert = new AlertMarker(definition, 90, 3);
 
             alert.Step(960, 1000, 0, true, out _, out _);
@@ -180,6 +188,8 @@ namespace Unity.Hare.Tests.Core
             {
                 ClassicAssert.AreEqual(defaults.Alert.Missions[i].Degree, fromFile.Alert.Missions[i].Degree);
                 ClassicAssert.AreEqual(defaults.Alert.Missions[i].ScenarioId, fromFile.Alert.Missions[i].ScenarioId);
+                ClassicAssert.AreEqual(defaults.Alert.Missions[i].Level, fromFile.Alert.Missions[i].Level);
+                ClassicAssert.AreEqual(defaults.Alert.Missions[i].Boss, fromFile.Alert.Missions[i].Boss);
             }
         }
 

@@ -198,6 +198,19 @@ namespace Unity.Hare.Tests.Core
             for (int i = 0; i < defaults.Story.Scenarios.Length; i++)
                 CollectionAssert.AreEqual(defaults.Story.Scenarios[i].Levels, fromFile.Story.Scenarios[i].Levels);
 
+            // U.HARE-T19's map section.
+            Assert.AreEqual(defaults.Map.TurnSpeed, fromFile.Map.TurnSpeed);
+            Assert.AreEqual(defaults.Map.AutoSpeed, fromFile.Map.AutoSpeed);
+            Assert.AreEqual(defaults.Map.ShipX, fromFile.Map.ShipX);
+            Assert.AreEqual(defaults.Map.DestinationX, fromFile.Map.DestinationX);
+            Assert.AreEqual(defaults.Map.DotFadeSpeed, fromFile.Map.DotFadeSpeed);
+            Assert.AreEqual(defaults.Map.LaunchRoom, fromFile.Map.LaunchRoom);
+            Assert.AreEqual(defaults.Map.PanelText, fromFile.Map.PanelText);
+            Assert.AreEqual(defaults.Map.LockedText, fromFile.Map.LockedText);
+            Assert.AreEqual(defaults.Map.Upgrade.Message, fromFile.Map.Upgrade.Message);
+            Assert.AreEqual(defaults.Map.Upgrade.Room, fromFile.Map.Upgrade.Room);
+            Assert.AreEqual(defaults.Map.MarkerMask.Frames.Length, fromFile.Map.MarkerMask.Frames.Length, "the masks are compiled in");
+
             foreach (EnemyKind kind in System.Enum.GetValues(typeof(EnemyKind)))
             {
                 var expected = defaults.Enemies.Get(kind);

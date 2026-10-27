@@ -9,7 +9,8 @@ namespace Unity.Hare.Arena
     /// Which level script setup_level runs (U.HARE-T57): <c>if(gamemode == gm_quickstart)</c> level_01..level_10 for
     /// current_level 1..10 and level_default past them, <c>gm_generator</c> level_enemygenerator. <c>gm_campaign</c>'s
     /// load_scenario is U.HARE-T64's; until it lands the campaign plays the quick-start chain, which is what
-    /// load_scenario's scenario 1 maps levels 1-5 to.
+    /// load_scenario's scenario 1 maps levels 1-5 to. A mission launched from room_map (U.HARE-T19, owner-directed,
+    /// docs/BIBLE.md V42) is the campaign at its own level n, so this already plays level_0n for it.
     /// </summary>
     public static class LevelSetup
     {

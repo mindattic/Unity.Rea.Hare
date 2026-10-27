@@ -50,6 +50,13 @@ namespace Unity.Hare.Flow
         /// </summary>
         public GameSession Session { get; private set; }
 
+        /// <summary>
+        /// The map missions won so far (U.HARE-T19, owner-directed, docs/BIBLE.md V42), read from the profile's
+        /// <c>campaign.json</c> (<see cref="CampaignStore"/>) and saved each time the session raises
+        /// <see cref="MissionWon"/>. It outlives game_restart, as a save does.
+        /// </summary>
+        public CampaignProgress Campaign { get; private set; }
+
         /// <summary>Every event the session raises through <see cref="ExecuteSession"/> or <see cref="PlaySession"/>.</summary>
         public event Action<SessionEvent> SessionEventPlayed;
 
@@ -92,6 +99,7 @@ namespace Unity.Hare.Flow
             DontDestroyOnLoad(gameObject);
             Flow = new RoomFlow(GameContent.Current);
             Session = NewSession();
+            Campaign = CampaignStore.Load();
             controls = new HareControls();
             controls.Meta.Menu.Enable();
             controls.Meta.Fullscreen.Enable();
@@ -138,8 +146,15 @@ namespace Unity.Hare.Flow
         public void PlaySession(SessionResult result)
         {
             if (result.Events == null) return;
-            foreach (var e in result.Events) SessionEventPlayed?.Invoke(e);
+            foreach (var e in result.Events)
+            {
+                if (e is MissionWon won && Campaign != null && Campaign.RecordWin(won.Scenario)) CampaignStore.Save(Campaign);
+                SessionEventPlayed?.Invoke(e);
+            }
         }
+
+        /// <summary>Puts <paramref name="progress"/> in place of the loaded campaign (tests, and U.HARE-T65's save).</summary>
+        public void UseCampaign(CampaignProgress progress) => Campaign = progress ?? new CampaignProgress();
 
         /// <summary>
         /// GML game_restart: the game starts over as if just launched. globals.gml runs again (a new
@@ -256,9 +271,9 @@ namespace Unity.Hare.Flow
         /// <summary>
         /// What every room scene gets as it comes up: the camera's screen overlay the fade draws on, HARE.gmx's
         /// option_showcursor (the system cursor hidden), and the obj_mouse its controller creates (U.HARE-T61): the map's and
-        /// upgrade room's spr_pointer and the play rooms' reticle. obj_title makes its own (U.HARE-T26's TitleRoom, during the
-        /// scene's Awake, so it is already there); obj_map and obj_upgrade are not built yet (U.HARE-T19, U.HARE-T24), so
-        /// theirs is made here, as their Create events make it.
+        /// upgrade room's spr_pointer and the play rooms' reticle. obj_title and obj_map make their own (U.HARE-T26's
+        /// TitleRoom and U.HARE-T19's MapRoom, during the scene's Awake, so it is already there); obj_upgrade is not built
+        /// yet (U.HARE-T24), so its is made here, as its Create event makes it.
         /// </summary>
         void SetUpRoomScene(Scene scene, RoomId room)
         {

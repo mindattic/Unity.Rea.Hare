@@ -133,6 +133,7 @@ namespace Unity.Hare.Session
             TimeElapsedSeconds = 0;
             Scenario = Tuning.StartingScenario;
             Level = Tuning.StartingLevel;
+            MissionLevel = 0;
             IsLevelComplete = false;
             IsPaused = false;
             ObjectiveText = "";
@@ -228,8 +229,15 @@ namespace Unity.Hare.Session
             Emit(new KillsChanged { Kills = Kills });
         }
 
-        internal void ChooseMode(GameMode mode, int scenario, int level, int difficulty)
+        /// <summary>
+        /// The level the map's chosen mission launched (U.HARE-T19, docs/BIBLE.md V42), 0 when the game did not start
+        /// from the map. Completing that level in the campaign wins the mission (<see cref="MissionWon"/>).
+        /// </summary>
+        public int MissionLevel { get; private set; }
+
+        internal void ChooseMode(GameMode mode, int scenario, int level, int difficulty, int missionLevel = 0)
         {
+            MissionLevel = missionLevel;
             Mode = mode;
             Scenario = scenario;
             Level = level;
@@ -280,6 +288,8 @@ namespace Unity.Hare.Session
             if (IsLevelComplete) return false;
             IsLevelComplete = true;
             Emit(new LevelCompleted { Level = Level, Objective = Objective });
+            if (Mode == GameMode.Campaign && Scenario > 0 && MissionLevel > 0 && Level == MissionLevel)
+                Emit(new MissionWon { Scenario = Scenario, Level = Level });
             SetPaused(true);
             return true;
         }

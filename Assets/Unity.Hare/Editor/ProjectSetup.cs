@@ -54,7 +54,8 @@ namespace Unity.Hare.EditorTools
         /// </summary>
         public static System.Type RoomControllerType(RoomId room) =>
             room == RoomId.Startup ? typeof(StartupRoom) : room == RoomId.Title ? typeof(TitleRoom) : room == RoomId.Intro ? typeof(IntroRoom)
-            : room == RoomId.Story ? typeof(StoryRoom) : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
+            : room == RoomId.Story ? typeof(StoryRoom) : room == RoomId.Map ? typeof(Unity.Hare.Map.MapRoom)
+            : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
         /// Batch entry point: pipeline, project settings, the room scenes and the bootstrap, each only if missing (a room
@@ -149,7 +150,8 @@ namespace Unity.Hare.EditorTools
         /// its obj_title (<see cref="TitleRoom"/>, which builds its backgrounds, falling rabbit, stand, logo, menu, dialog and
         /// pointer itself) and room_intro its obj_intro (<see cref="IntroRoom"/>, which builds its backgrounds, falling rabbit
         /// and tip itself) and room_story its obj_story (<see cref="StoryRoom"/>, which builds its sky, earth and typewriter
-        /// itself). What else each room
+        /// itself) and room_map its obj_map (<see cref="Unity.Hare.Map.MapRoom"/>, which builds its sky, earth, ship,
+        /// markers, white dot, panel, Upgrades button, comm box, tip and pointer itself). What else each room
         /// holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
@@ -165,6 +167,7 @@ namespace Unity.Hare.EditorTools
             if (room == RoomId.Title) TitleRoom.Create();
             if (room == RoomId.Intro) IntroRoom.Create();
             if (room == RoomId.Story) StoryRoom.Create();
+            if (room == RoomId.Map) Unity.Hare.Map.MapRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);
         }

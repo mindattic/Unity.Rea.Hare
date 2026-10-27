@@ -115,19 +115,29 @@ namespace Unity.Hare.Popups
         }
     }
 
-    /// <summary>One of obj_map's four missions: <c>mission[i] = instance_create(0,0, obj_alert); .degree; .scenario_id</c>.</summary>
+    /// <summary>
+    /// One of obj_map's missions: <c>mission[i] = instance_create(0,0, obj_alert); .degree; .scenario_id</c>. The
+    /// original makes four; by the owner's direction (U.HARE-T19, docs/BIBLE.md V42) there is one for every level the
+    /// original has, each launching its own <see cref="Level"/>, and the boss's is locked until every other one is won.
+    /// </summary>
     [Serializable]
     public class AlertMission
     {
         public float Degree;
         public int ScenarioId = -1;
+        /// <summary>The level (current_level, level_01..level_10) launching this mission starts.</summary>
+        public int Level = 1;
+        /// <summary>The boss's mission: locked on the map until every other mission has been won.</summary>
+        public bool Boss;
 
         public AlertMission() { }
 
-        public AlertMission(float degree, int scenarioId)
+        public AlertMission(float degree, int scenarioId, int level = 0, bool boss = false)
         {
             Degree = degree;
             ScenarioId = scenarioId;
+            Level = level > 0 ? level : scenarioId;
+            Boss = boss;
         }
     }
 
@@ -149,13 +159,23 @@ namespace Unity.Hare.Popups
         /// <summary>Alarm 0: <c>effect_create_above(ef_ring, pingX, pingY, 0, c_red)</c>.</summary>
         public int PingSize = 0;
         public string PingColor = "#FF0000";
-        /// <summary>obj_map's Create: the four missions.</summary>
+        /// <summary>
+        /// obj_map's Create made four (16, 150, 270 and 310 degrees, scenarios 1-4, <c>mission_count = 4</c>); by the
+        /// owner's direction there is one for each of the original's ten levels, the original four first, the other six
+        /// in the gaps between them, mission n launching level_0n and the boss (level_08) locked until the rest are won.
+        /// </summary>
         public AlertMission[] Missions =
         {
-            new AlertMission(16, 1),
-            new AlertMission(150, 2),
-            new AlertMission(270, 3),
-            new AlertMission(310, 4),
+            new AlertMission(16, 1, 1),
+            new AlertMission(150, 2, 2),
+            new AlertMission(270, 3, 3),
+            new AlertMission(310, 4, 4),
+            new AlertMission(50, 5, 5),
+            new AlertMission(83, 6, 6),
+            new AlertMission(117, 7, 7),
+            new AlertMission(190, 8, 8, boss: true),
+            new AlertMission(230, 9, 9),
+            new AlertMission(343, 10, 10),
         };
 
         internal void Validate(List<string> errors, string path)
@@ -168,8 +188,19 @@ namespace Unity.Hare.Popups
             ValidationHelpers.NonNegative(errors, path + ".PingSize", PingSize);
             FloatTextDefinition.CheckColor(errors, path + ".PingColor", PingColor);
             if (Missions == null) errors.Add(path + ".Missions: must not be null (an empty list for none).");
-            else for (int i = 0; i < Missions.Length; i++)
-                if (Missions[i] == null) errors.Add($"{path}.Missions[{i}]: must not be null.");
+            else
+            {
+                var scenarios = new HashSet<int>();
+                for (int i = 0; i < Missions.Length; i++)
+                {
+                    var m = Missions[i];
+                    if (m == null) { errors.Add($"{path}.Missions[{i}]: must not be null."); continue; }
+                    if (m.ScenarioId < 1) errors.Add($"{path}.Missions[{i}].ScenarioId: must be 1 or more (was {m.ScenarioId}).");
+                    else if (!scenarios.Add(m.ScenarioId)) errors.Add($"{path}.Missions[{i}].ScenarioId: {m.ScenarioId} is listed more than once.");
+                    if (m.Level < 1) errors.Add($"{path}.Missions[{i}].Level: must be 1 or more (was {m.Level}).");
+                    if (float.IsNaN(m.Degree) || float.IsInfinity(m.Degree)) errors.Add($"{path}.Missions[{i}].Degree: must be a number (was {m.Degree}).");
+                }
+            }
         }
     }
 

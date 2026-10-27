@@ -45,6 +45,13 @@ namespace Unity.Hare.Session
     /// <summary>obj_destination set current_scenario.</summary>
     public sealed class ScenarioChanged : SessionEvent { public int Scenario; }
 
+    /// <summary>
+    /// The level a map mission launched was completed in the campaign (U.HARE-T19, owner-directed, docs/BIBLE.md V42):
+    /// the mission <see cref="Scenario"/> is won, and the campaign's save records it (the boss unlocks once every other
+    /// mission is won).
+    /// </summary>
+    public sealed class MissionWon : SessionEvent { public int Scenario; public int Level; }
+
     /// <summary>A level script set its objective; <see cref="Text"/> is set_objective_string's strObjective.</summary>
     public sealed class ObjectiveSet : SessionEvent { public ObjectiveKind Kind; public string Text; public string LevelName; }
 
