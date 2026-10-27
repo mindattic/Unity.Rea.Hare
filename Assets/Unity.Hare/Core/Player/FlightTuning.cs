@@ -15,7 +15,7 @@ namespace Unity.Hare.Player
     }
 
     /// <summary>
-    /// obj_player's flight numbers. The energy rates are this rebuild's own until obj_energybar is ported (UH-T15).
+    /// obj_player's flight numbers and obj_energybar's (U.HARE-T89).
     /// <see cref="FlightSpeed"/> and <see cref="BrakeSpeed"/> are the original's px a step, as <see cref="ShipFlight.Speed"/>
     /// holds them; <see cref="ShipFlight.WorldSpeed"/> turns them into world units a second (U.HARE-T88).
     /// </summary>
@@ -37,8 +37,15 @@ namespace Unity.Hare.Player
         /// <summary>obj_energybar: boost, brake and shield need this fraction of the bar to start.</summary>
         public float MaxEnergy = 100f;
         public float MinEnergyFractionToStart = 0.33f;
-        public float EnergyDrainPerSecond = 40f;
-        public float EnergyFillPerSecond = 25f;
+        /// <summary>obj_energybar Create's <c>rate = 4</c>: Alarm 0 fires every this many steps and fills or drains.</summary>
+        public int EnergyTickSteps = 4;
+        /// <summary>obj_energybar Alarm 0, mode "fill": <c>currentValue += 1</c> until maxValue, then mode "idle".</summary>
+        public float EnergyFillPerTick = 1f;
+        /// <summary>
+        /// obj_energybar Alarm 0, mode "drain": <c>if(currentValue &gt; 0) currentValue -= 1;</c> then
+        /// <c>currentValue -= 1</c> again, held at 0 by its Step's range check: 2 a tick.
+        /// </summary>
+        public float EnergyDrainPerTick = 2f;
 
         /// <summary>jump_arc: how far from the ship's facing a leap may aim.</summary>
         public float JumpArcDegrees = 100f;
@@ -68,8 +75,9 @@ namespace Unity.Hare.Player
             ValidationHelpers.Positive(errors, path + ".MaxEnergy", MaxEnergy);
             if (MinEnergyFractionToStart < 0f || MinEnergyFractionToStart > 1f)
                 errors.Add($"{path}.MinEnergyFractionToStart: must be between 0 and 1 (was {MinEnergyFractionToStart}).");
-            ValidationHelpers.Positive(errors, path + ".EnergyDrainPerSecond", EnergyDrainPerSecond);
-            ValidationHelpers.Positive(errors, path + ".EnergyFillPerSecond", EnergyFillPerSecond);
+            ValidationHelpers.Positive(errors, path + ".EnergyTickSteps", EnergyTickSteps);
+            ValidationHelpers.Positive(errors, path + ".EnergyFillPerTick", EnergyFillPerTick);
+            ValidationHelpers.Positive(errors, path + ".EnergyDrainPerTick", EnergyDrainPerTick);
             ValidationHelpers.NonNegative(errors, path + ".JumpArcDegrees", JumpArcDegrees);
             ValidationHelpers.Positive(errors, path + ".SpinDegreesPerSecond", SpinDegreesPerSecond);
             ValidationHelpers.Positive(errors, path + ".SpinRecoverDegreesPerSecond", SpinRecoverDegreesPerSecond);

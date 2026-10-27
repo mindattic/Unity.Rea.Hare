@@ -161,7 +161,7 @@ namespace Unity.Hare.Tests.Core
         {
             rig.Landed();
             Assert.IsTrue(rig.Do(new RaiseShield(rig.Id)).Accepted);
-            // Drain to just under 33% (40/s placeholder drain), then release and retry.
+            // Drain to just under 33% (obj_energybar: 2 every 4 steps), then release and retry.
             while (Flight.Energy >= 33f) Step(0.1f);
             rig.Do(new DropShield(rig.Id));
             Assert.IsFalse(rig.Do(new RaiseShield(rig.Id)).Accepted);
@@ -193,6 +193,112 @@ namespace Unity.Hare.Tests.Core
             rig.Do(new DropShield(rig.Id));
             Step(1f);
             Assert.Greater(Flight.Energy, drained);
+        }
+
+        // ---- obj_energybar (U.HARE-T89) ----
+
+        void Steps(int steps) { for (int i = 0; i < steps; i++) Step(1f / 120f); }
+
+        [Test]
+        public void TheBarStartsFullAndIdle()
+        {
+            Assert.AreEqual(EnergyMode.Idle, Flight.EnergyMode);
+            Steps(120);
+            Assert.AreEqual(100f, Flight.Energy);
+        }
+
+        [Test]
+        public void DrainTakesTwoEveryFourSteps()
+        {
+            rig.Do(new Boost(rig.Id));
+            Assert.AreEqual(EnergyMode.Drain, Flight.EnergyMode);
+            Steps(3);
+            Assert.AreEqual(100f, Flight.Energy, "Alarm 0 has not come round yet");
+            Steps(1);
+            Assert.AreEqual(98f, Flight.Energy, "-1 then -1 again");
+            Steps(116);
+            Assert.AreEqual(40f, Flight.Energy, "60 a second");
+        }
+
+        [Test]
+        public void FillAddsOneEveryFourStepsThenGoesIdle()
+        {
+            rig.Landed();
+            rig.Do(new RaiseShield(rig.Id));
+            Steps(120); // 100 -> 40
+            Assert.AreEqual(40f, Flight.Energy);
+            rig.Do(new ReleaseShieldKey(rig.Id));
+            Assert.AreEqual(EnergyMode.Fill, Flight.EnergyMode);
+            Steps(120);
+            Assert.AreEqual(70f, Flight.Energy, "30 a second");
+            Steps(120 * 2);
+            Assert.AreEqual(100f, Flight.Energy);
+            Assert.AreEqual(EnergyMode.Idle, Flight.EnergyMode, "a fill at maxValue goes idle");
+        }
+
+        [Test]
+        public void TheBarDoesNotRefillJustBecauseABoostEnded()
+        {
+            rig.Do(new Boost(rig.Id));
+            Steps(40); // 100 -> 80
+            Assert.AreEqual(80f, Flight.Energy);
+            rig.Landed(); // landing: mode = "fill"
+            Assert.AreEqual(EnergyMode.Fill, Flight.EnergyMode);
+
+            var other = new PlayerRig();
+            other.Do(new Brake(other.Id));
+            while (other.Flight.IsBraking) other.Do(new StepFlight(other.Id, 1f / 120f));
+            Assert.AreEqual(0f, other.Flight.Energy, "a brake runs until the bar is empty");
+            Assert.AreEqual(EnergyMode.Fill, other.Flight.EnergyMode, "and running dry sets fill");
+        }
+
+        [Test]
+        public void ABoostRunsUntilTheBarIsEmptyThenEasesBackAndFills()
+        {
+            rig.Do(new Boost(rig.Id));
+            Steps(200); // 100 / 2 per tick = 50 ticks = 200 steps
+            Assert.AreEqual(0f, Flight.Energy);
+            Assert.IsTrue(Flight.IsBoosting, "rocketing stays on while speed eases back to flight_speed");
+            Assert.AreEqual(EnergyMode.Drain, Flight.EnergyMode);
+            while (Flight.IsBoosting) Step(1f / 120f);
+            Assert.AreEqual(EnergyMode.Fill, Flight.EnergyMode);
+        }
+
+        [Test]
+        public void AShieldCollapsedByAnEmptyBarStaysDrainingUntilTheKeyIsReleased()
+        {
+            rig.Landed();
+            rig.Do(new RaiseShield(rig.Id));
+            Steps(200);
+            Assert.IsFalse(Flight.IsShielding);
+            Assert.AreEqual(EnergyMode.Drain, Flight.EnergyMode);
+            Steps(120);
+            Assert.AreEqual(0f, Flight.Energy);
+            rig.Do(new ReleaseShieldKey(rig.Id));
+            Steps(4);
+            Assert.AreEqual(1f, Flight.Energy);
+        }
+
+        [Test]
+        public void LeapingFromBehindTheShieldEndsItsDrain()
+        {
+            rig.Landed();
+            rig.Do(new RaiseShield(rig.Id));
+            Steps(40); // 100 -> 80
+            rig.Do(new Leap(rig.Id, 270f));
+            Assert.AreEqual(EnergyMode.Fill, Flight.EnergyMode, "BIBLE D25: the original kept draining in flight");
+            Steps(4);
+            Assert.AreEqual(81f, Flight.Energy);
+        }
+
+        [Test]
+        public void RespawningFillsABarThatIsNotFull()
+        {
+            rig.Do(new Boost(rig.Id));
+            Steps(40);
+            rig.Flight.Respawn(270f);
+            Assert.AreEqual(80f, Flight.Energy, "reset_player keeps the value");
+            Assert.AreEqual(EnergyMode.Fill, Flight.EnergyMode);
         }
 
         [Test]

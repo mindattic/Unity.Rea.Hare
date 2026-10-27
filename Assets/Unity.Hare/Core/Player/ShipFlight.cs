@@ -3,6 +3,17 @@ using Unity.Hare.Content;
 
 namespace Unity.Hare.Player
 {
+    /// <summary>obj_energybar's <c>mode</c>: what its Alarm 0 does to the bar every <c>rate</c> steps.</summary>
+    public enum EnergyMode
+    {
+        /// <summary>Create's "idle", and where "fill" ends at maxValue: the bar is left alone.</summary>
+        Idle,
+        /// <summary>"fill": +1 a tick until maxValue.</summary>
+        Fill,
+        /// <summary>"drain": -2 a tick, held at 0. Boost, brake and the shield set it; nothing else stops it but a "fill".</summary>
+        Drain,
+    }
+
     /// <summary>
     /// obj_player's flight state machine (gmlHARE Create/Step/Alarm events): continuous forward flight along
     /// <see cref="Direction"/> at <see cref="Speed"/>, A/D rotation, boost and brake gated by an energy resource,
@@ -19,6 +30,7 @@ namespace Unity.Hare.Player
         float turnInput;
         float facing;
         float endFlashTimer;
+        float energyTimer;
 
         internal ShipFlight(EventSink sink)
         {
@@ -31,6 +43,12 @@ namespace Unity.Hare.Player
         public bool IsBoosting { get; private set; }
         public bool IsBraking { get; private set; }
         public float Energy { get; private set; }
+
+        /// <summary>
+        /// obj_energybar's mode (U.HARE-T89). The bar does not refill because a drain stopped: only landing, a boost or
+        /// brake running dry, the boost/brake keys' release while perched and reset_player set "fill".
+        /// </summary>
+        public EnergyMode EnergyMode { get; private set; }
 
         /// <summary>GML direction: the heading the ship flies along.</summary>
         public float Direction { get; private set; }
@@ -133,8 +151,18 @@ namespace Unity.Hare.Player
             Facing = Direction;
             Speed = tuning.FlightSpeed;
             Energy = tuning.MaxEnergy;
+            EnergyMode = EnergyMode.Idle; // obj_energybar Create: currentValue = 100; mode = "idle"; alarm[0] = rate
+            energyTimer = EnergyTickSeconds;
             ClearSpinAndPerch();
         }
+
+        float EnergyTickSeconds => GameClock.Seconds(tuning.EnergyTickSteps);
+
+        /// <summary>
+        /// <c>obj_energybar.mode = "fill"</c>: what landing, a boost or brake running dry, the boost/brake keys' release while
+        /// perched and reset_player (when the bar is not full) do.
+        /// </summary>
+        public void StartEnergyFill() => EnergyMode = EnergyMode.Fill;
 
         void ClearSpinAndPerch()
         {
@@ -173,6 +201,7 @@ namespace Unity.Hare.Player
 
             IsBoosting = true;
             Speed *= 2f;
+            EnergyMode = EnergyMode.Drain;
             return true;
         }
 
@@ -183,6 +212,7 @@ namespace Unity.Hare.Player
             if (Energy < MinEnergyToStart) return false;
 
             IsBraking = true;
+            EnergyMode = EnergyMode.Drain;
             return true;
         }
 
@@ -196,6 +226,7 @@ namespace Unity.Hare.Player
             if (!CanLeap(aimDirection)) return false;
 
             DropShield(); // GML player_leap: shielding = false; with(obj_shieldwall) instance_destroy()
+            EndShieldDrain();
             float perchedFacing = Facing;
             Direction = aimDirection;
             Facing = aimDirection;
@@ -258,6 +289,7 @@ namespace Unity.Hare.Player
 
         void Perch()
         {
+            EnergyMode = EnergyMode.Fill; // obj_player's par_rock / par_structure collision: obj_energybar.mode = "fill"
             State = PlayerFlightState.Idle;
             IsBoosting = false;
             IsBraking = false;
@@ -299,6 +331,7 @@ namespace Unity.Hare.Player
             Spin = tuning.SpinDegreesPerSecond;
             endFlashTimer = endFlashSeconds;
             DropShield();
+            EndShieldDrain();
             CurrentRock = null;
             sink.Emit(new ShipFlung { Direction = Direction, Speed = Speed });
             return true;
@@ -359,6 +392,7 @@ namespace Unity.Hare.Player
             if (Energy < MinEnergyToStart) return false; // GML: sfx_disabled
 
             IsShielding = true;
+            EnergyMode = EnergyMode.Drain;
             sink.Emit(new ShieldRaised { Radius = tuning.ShieldRadius });
             return true;
         }
@@ -369,6 +403,17 @@ namespace Unity.Hare.Player
             if (!IsShielding) return;
             IsShielding = false;
             sink.Emit(new ShieldDropped());
+        }
+
+        /// <summary>
+        /// player_leap and fling_player take the shield down (<c>shielding = false; with(obj_shieldwall) instance_destroy()</c>)
+        /// but never touch obj_energybar, so in the original the shield's "drain" outlived it and emptied the bar in flight
+        /// until the next landing. Fixed (docs/BIBLE.md D25): a drain nothing is paying for any more becomes a "fill", as the
+        /// shield key's own release does. A boost or brake still running keeps its drain.
+        /// </summary>
+        void EndShieldDrain()
+        {
+            if (EnergyMode == EnergyMode.Drain && !IsBoosting && !IsBraking) EnergyMode = EnergyMode.Fill;
         }
 
         /// <summary>GML: player_hurt's "HP reached 0" branch. Stops the ship dead and drops every flight mode.</summary>
@@ -461,7 +506,9 @@ namespace Unity.Hare.Player
             Speed = tuning.FlightSpeed * 2f;
         }
 
-        /// <summary>GML: reset_player's flight half. Energy is left alone and refills on its own.</summary>
+        /// <summary>
+        /// GML: reset_player's flight half. The bar keeps its value; <c>if(currentValue != maxValue) mode = "fill"</c>.
+        /// </summary>
         public void Respawn(float direction)
         {
             State = PlayerFlightState.Moving;
@@ -471,6 +518,7 @@ namespace Unity.Hare.Player
             Direction = direction;
             Facing = direction;
             Speed = tuning.FlightSpeed;
+            if (Energy != tuning.MaxEnergy) EnergyMode = EnergyMode.Fill;
             ClearSpinAndPerch();
         }
 
@@ -502,15 +550,20 @@ namespace Unity.Hare.Player
             if (IsBoosting && Energy <= 0f)
             {
                 Speed = Maths.MoveTowards(Speed, tuning.FlightSpeed, tuning.SpeedChangeRatePerSecond * dt);
-                if (Math.Abs(Speed - tuning.FlightSpeed) < 1e-6f) IsBoosting = false;
+                if (Math.Abs(Speed - tuning.FlightSpeed) < 1e-6f)
+                {
+                    IsBoosting = false; // obj_player Step "Rocketing": rocketing = false; obj_energybar.mode = "fill"
+                    EnergyMode = EnergyMode.Fill;
+                }
             }
             else if (IsBraking)
             {
                 Speed = Maths.MoveTowards(Speed, tuning.BrakeSpeed, tuning.SpeedChangeRatePerSecond * dt);
                 if (Energy <= 0f)
                 {
-                    IsBraking = false;
+                    IsBraking = false; // obj_player Step "Braking": braking = false; obj_energybar.mode = "fill"
                     Speed = tuning.FlightSpeed;
+                    EnergyMode = EnergyMode.Fill;
                 }
             }
 
@@ -548,12 +601,29 @@ namespace Unity.Hare.Player
             Facing += Math.Min(tuning.SpinRecoverDegreesPerSecond * dt, remaining);
         }
 
+        /// <summary>
+        /// obj_energybar's Alarm 0, re-armed every <c>rate</c> (4) steps whatever the mode: "fill" adds 1 until maxValue and
+        /// then goes "idle", "drain" takes 2 (its Step holds the bar in 0..maxValue). The alarm runs before obj_player's Step,
+        /// as here. Its Step skips the range check while the ship is dead, so the original's bar could sink below 0 under a
+        /// dead ship's drain and show a negative percentage until reset_player; the first living Step put it back to 0, so
+        /// this holds it at 0 throughout, which plays the same.
+        /// </summary>
         void TickEnergy(float dt)
         {
-            if (IsBoosting || IsBraking || IsShielding)
-                Energy = Math.Max(0f, Energy - tuning.EnergyDrainPerSecond * dt);
-            else
-                Energy = Math.Min(tuning.MaxEnergy, Energy + tuning.EnergyFillPerSecond * dt);
+            energyTimer -= dt;
+            while (energyTimer <= 1e-4f) // a hair of slack so whole steps of 1/120 s ring on the step they should
+            {
+                energyTimer += EnergyTickSeconds;
+                if (EnergyMode == EnergyMode.Fill)
+                {
+                    if (Energy < tuning.MaxEnergy) Energy = Math.Min(tuning.MaxEnergy, Energy + tuning.EnergyFillPerTick);
+                    else EnergyMode = EnergyMode.Idle;
+                }
+                else if (EnergyMode == EnergyMode.Drain)
+                {
+                    Energy = Math.Max(0f, Energy - tuning.EnergyDrainPerTick);
+                }
+            }
         }
     }
 }

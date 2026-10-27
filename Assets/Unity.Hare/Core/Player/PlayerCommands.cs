@@ -279,17 +279,23 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship)
         {
             if (ship.Flight.State != PlayerFlightState.Idle) return false;
+            ship.Flight.StartEnergyFill(); // KeyRelease 87/83 while state_idle: obj_energybar.mode = "fill"
             ship.Flight.StandUp();
             ship.Flight.DropShield();
             return true;
         }
     }
 
-    /// <summary>The shield key was released.</summary>
+    /// <summary>The shield key was released: the shield drops and, while perched, the bar starts to fill.</summary>
     public sealed class DropShield : PlayerCommand
     {
         public DropShield(PlayerId id) : base(id) { }
-        internal override bool Apply(PlayerShip ship) { ship.Flight.DropShield(); return true; }
+        internal override bool Apply(PlayerShip ship)
+        {
+            if (ship.Flight.State == PlayerFlightState.Idle) ship.Flight.StartEnergyFill();
+            ship.Flight.DropShield();
+            return true;
+        }
     }
 
     /// <summary>Stops the ship dead and drops every flight mode (player_hurt's HP-reached-0 flight half).</summary>
