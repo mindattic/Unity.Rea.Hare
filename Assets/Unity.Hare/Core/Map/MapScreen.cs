@@ -139,7 +139,8 @@ namespace Unity.Hare.Map
     /// mission no marker shows.
     ///
     /// Each step runs as GameMaker orders it: the markers' Alarm 0 (pings, while idle), obj_earthball's Step (idle,
-    /// <c>image_angle -= auto_speed</c>), obj_destination's Step (moving: the turn), the markers' Step (their place on
+    /// <c>image_angle -= auto_speed</c>), obj_scanner's Step (its sway and flicker, <see cref="MapScanner"/>),
+    /// obj_destination's Step (moving: the turn), the markers' Step (their place on
     /// the rim), obj_white_dot's Step, then obj_destination's collision with obj_alert, then background_x[0] by its
     /// hspeed.
     /// </summary>
@@ -149,6 +150,7 @@ namespace Unity.Hare.Map
         readonly List<MapMission> missions = new List<MapMission>();
         readonly HashSet<int> won;
         readonly Func<int, string> levelName;
+        readonly IRandomSource random;
         PlayerId issuer;
 
         /// <param name="tuning">The map data (the registry's <c>map</c> section).</param>
@@ -158,9 +160,11 @@ namespace Unity.Hare.Map
         /// <param name="levelName">The level_name of a level (the arena section's), for the panel.</param>
         /// <param name="roomWidth">room_width, 1920.</param>
         /// <param name="roomHeight">room_height, 1080.</param>
+        /// <param name="random">Where obj_scanner's flicker (irandom_range) comes from; null for a fixed seed.</param>
         public MapScreen(MapTuning tuning, AlertDefinition alert, ConversationBox conversation, IEnumerable<int> wonScenarios,
-            Func<int, string> levelName, int roomWidth, int roomHeight)
+            Func<int, string> levelName, int roomWidth, int roomHeight, IRandomSource random = null)
         {
+            this.random = random ?? new SeededRandom(1);
             Tuning = tuning ?? throw new ArgumentNullException(nameof(tuning));
             Alert = alert ?? throw new ArgumentNullException(nameof(alert));
             Conversation = conversation;
@@ -207,6 +211,9 @@ namespace Unity.Hare.Map
         /// <summary>obj_uss_warren's place.</summary>
         public double ShipX { get; private set; }
         public double ShipY { get; private set; }
+
+        /// <summary>obj_scanner (made by Create; U.HARE-T63).</summary>
+        public MapScanner Scanner { get; private set; }
 
         /// <summary>obj_destination's place (never drawn).</summary>
         public double DestinationX { get; private set; }
@@ -288,6 +295,8 @@ namespace Unity.Hare.Map
             AutoSpeed = t.AutoSpeed;
             ShipX = t.ShipX;
             ShipY = t.ShipY(RoomHeight);
+            // obj_scanner: y = room_height - earth/2 - spr_scanner_beam + 50; image_alpha = 0.2; the sweep at rest.
+            Scanner = new MapScanner(t, RoomHeight, random);
             // obj_destination: last_scenario = -1; y = room_height - sprite_get_height(spr_earthball)/2.
             DestinationX = t.DestinationX;
             DestinationY = t.DestinationY(RoomHeight);
@@ -322,6 +331,9 @@ namespace Unity.Hare.Map
 
             // obj_earthball's Step.
             if (Mode == MapMode.Idle) EarthAngle = StoryScreen.NormalizeAngle(EarthAngle - AutoSpeed);
+
+            // obj_scanner's Step: the sway and the flicker, whatever the map does.
+            Scanner.Step();
 
             // obj_destination's Step.
             if (Mode == MapMode.Moving)

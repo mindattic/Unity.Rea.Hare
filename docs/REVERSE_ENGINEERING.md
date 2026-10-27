@@ -458,7 +458,11 @@ Read in full for U.HARE-T28 (the rules in BIBLE V41):
   outline 2, c_white / c_cornflowerblue), mouse enter sfx_hover, message "Upgrade H.A.R.E. Unit's systems" at
   (room_width/2, room_height-30) while over, left press sfx_click and obj_fade_map to room_upgrade.
 - obj_scanner: spr_scanner_beam at alpha 0.2, `y = 1080 - 531 - 211 + 50`; Step sways image_angle by sweepY (+/-0.1 at
-  0.004 a step) and flickers `image_alpha = 0.01 * irandom_range(16, 24)` (U.HARE-T63).
+  0.004 a step) and flickers `image_alpha = 0.01 * irandom_range(16, 24)` (U.HARE-T63). spr_scanner_beam is 210x211
+  with its origin at (210, 0), the top-right corner, so the beam swings about the corner under the ship: 0 to 2.6
+  degrees and back every 102 steps (GML's `<`/`>` are false within the 0.00001 epsilon). Same depth (0) as
+  obj_earthball, created after it, so drawn over the earth's rim. obj_map's own draw_self (spr_room_loop 96x96, origin
+  48,48, at -100,63) is off the room.
 - room_intro's obj_drop_intro ends in `gamemode = gm_quickstart; current_scenario = -1; current_level = 1`, so the
   picked scenario never reaches load_scenario (owner-directed fix, BIBLE V42); D24 records the stale
   current_scenario on re-entering the map.

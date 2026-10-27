@@ -203,6 +203,15 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual(defaults.Map.AutoSpeed, fromFile.Map.AutoSpeed);
             Assert.AreEqual(defaults.Map.ShipX, fromFile.Map.ShipX);
             Assert.AreEqual(defaults.Map.DestinationX, fromFile.Map.DestinationX);
+            Assert.AreEqual(defaults.Map.ScannerSprite, fromFile.Map.ScannerSprite);
+            Assert.AreEqual(defaults.Map.ScannerX, fromFile.Map.ScannerX);
+            Assert.AreEqual(defaults.Map.ScannerLift, fromFile.Map.ScannerLift);
+            Assert.AreEqual(defaults.Map.ScannerAlpha, fromFile.Map.ScannerAlpha);
+            Assert.AreEqual(defaults.Map.ScannerSweepAmount, fromFile.Map.ScannerSweepAmount);
+            Assert.AreEqual(defaults.Map.ScannerSweepSpeed, fromFile.Map.ScannerSweepSpeed);
+            Assert.AreEqual(defaults.Map.ScannerAlphaUnit, fromFile.Map.ScannerAlphaUnit);
+            Assert.AreEqual(defaults.Map.ScannerAlphaMin, fromFile.Map.ScannerAlphaMin);
+            Assert.AreEqual(defaults.Map.ScannerAlphaMax, fromFile.Map.ScannerAlphaMax);
             Assert.AreEqual(defaults.Map.DotFadeSpeed, fromFile.Map.DotFadeSpeed);
             Assert.AreEqual(defaults.Map.LaunchRoom, fromFile.Map.LaunchRoom);
             Assert.AreEqual(defaults.Map.PanelText, fromFile.Map.PanelText);

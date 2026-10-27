@@ -582,6 +582,8 @@
     "Background": "bg_nightsky", "SkyScroll": 1, "SwitchSound": "sfx_flick",
     "EarthSprite": "spr_earthball", "EarthHeight": 1062, "TurnSpeed": 2, "AutoSpeed": 0.01,
     "ShipSprite": "spr_uss_warren", "ShipX": 1143, "ScannerBeamHeight": 211, "ShipHeight": 66, "ShipLift": 100,
+    "ScannerSprite": "spr_scanner_beam", "ScannerX": 1045, "ScannerLift": 50, "ScannerAlpha": 0.2,
+    "ScannerSweepAmount": 0.1, "ScannerSweepSpeed": 0.004, "ScannerAlphaUnit": 0.01, "ScannerAlphaMin": 16, "ScannerAlphaMax": 24,
     "DestinationX": 903,
     "DotSprite": "spr_dropdot", "DotFrames": 5, "DotImageSpeed": 0.1, "DotFadeSpeed": 0.003, "DotSpeed": 1, "DotArriveDistance": 1,
     "LaunchSound": "sfx_takeoff", "LaunchRoom": "Intro",

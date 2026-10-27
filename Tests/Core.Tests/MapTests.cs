@@ -390,6 +390,114 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual(270d, MapWhiteDot.PointDirection(0, 0, 0, 10));
         }
 
+        // ---- obj_scanner (U.HARE-T63) ----
+
+        /// <summary>Deals the given numbers in turn (then the last one again) and records each irandom_range asked.</summary>
+        sealed class ScriptedRandom : IRandomSource
+        {
+            readonly int[] values;
+            int dealt;
+            public readonly List<(int Min, int Max)> Asked = new List<(int, int)>();
+            public ScriptedRandom(params int[] values) => this.values = values;
+            public int IRandom(int min, int max)
+            {
+                Asked.Add((min, max));
+                return values[Math.Min(dealt++, values.Length - 1)];
+            }
+            public float Range(float min, float max) => min;
+        }
+
+        static MapScreen MapWith(IRandomSource random)
+        {
+            var content = Content;
+            var screen = new MapScreen(content.Map, content.Popups.Alert, null, null, level => "", 1920, 1080, random);
+            Assert.IsTrue(screen.Execute(new CreateMap(P1)).Accepted);
+            return screen;
+        }
+
+        [Test]
+        public void TheScannerStartsUnderTheShipAtAlpha02_WithTheSweepAtRest()
+        {
+            var s = MapWith(new ScriptedRandom(20)).Scanner;
+            Assert.IsNotNull(s, "obj_scanner is made with the room");
+            Assert.AreEqual(1045, s.X, "obj_scanner stays at the x it is placed at");
+            Assert.AreEqual(388, s.Y, "1080 - 1062/2 - 211 + 50");
+            Assert.AreEqual(0.2d, s.Alpha, 1e-6, "image_alpha = 0.2");
+            Assert.AreEqual(0d, s.ImageAngle);
+            Assert.AreEqual(0d, s.SweepY);
+            Assert.IsTrue(s.SweepLeft);
+        }
+
+        [Test]
+        public void TheScannerFlickersAt001TimesIrandomRange16To24EveryStep()
+        {
+            var random = new ScriptedRandom(16, 24, 19);
+            var map = MapWith(random);
+            Step(map, 1);
+            Assert.AreEqual(0.16d, map.Scanner.Alpha, 1e-12);
+            Step(map, 1);
+            Assert.AreEqual(0.24d, map.Scanner.Alpha, 1e-12);
+            Step(map, 1);
+            Assert.AreEqual(0.19d, map.Scanner.Alpha, 1e-12);
+            Assert.AreEqual(0.19f, map.Scanner.DrawAlpha, 1e-6f);
+            CollectionAssert.AreEqual(new[] { (16, 24), (16, 24), (16, 24) }, random.Asked);
+        }
+
+        [Test]
+        public void TheScannerSwaysByTheGmlSweep_Between0AndAbout26Degrees_Every102Steps()
+        {
+            var map = MapWith(new ScriptedRandom(20));
+            var s = map.Scanner;
+
+            // Replay obj_scanner's Step literally (GML's < and > are false within its 0.00001 epsilon).
+            bool left = true;
+            double sweepY = 0d, angle = 0d, min = 0d, max = 0d;
+            for (int i = 0; i < 400; i++)
+            {
+                if (left) { if (sweepY < 0.1d && Math.Abs(sweepY - 0.1d) >= 1e-5) sweepY += 0.004d; else left = false; }
+                else { if (sweepY > -0.1d && Math.Abs(sweepY + 0.1d) >= 1e-5) sweepY -= 0.004d; else left = true; }
+                angle += sweepY;
+                Step(map, 1);
+                Assert.AreEqual(sweepY, s.SweepY, 1e-12, "sweepY at step " + (i + 1));
+                Assert.AreEqual(angle, s.ImageAngle, 1e-9, "image_angle at step " + (i + 1));
+                Assert.AreEqual(left, s.SweepLeft, "sweepLeft at step " + (i + 1));
+                Assert.LessOrEqual(Math.Abs(s.SweepY), 0.1d + 1e-9, "sweepY never passes sweepAmount");
+                min = Math.Min(min, s.ImageAngle);
+                max = Math.Max(max, s.ImageAngle);
+            }
+            Assert.AreEqual(2.6d, max, 0.01d, "the beam swings up to about 2.6 degrees");
+            Assert.AreEqual(0d, min, 0.01d, "and back to where it started");
+
+            // Rising 25 steps to 0.1, one step to turn, 50 down to -0.1, one to turn, 25 back: 102 steps a sway.
+            var again = MapWith(new ScriptedRandom(20));
+            Step(again, 102);
+            Assert.AreEqual(0d, again.Scanner.SweepY, 1e-9);
+            Assert.AreEqual(0d, again.Scanner.ImageAngle, 1e-9);
+            Assert.IsTrue(again.Scanner.SweepLeft);
+        }
+
+        [Test]
+        public void TheScannerKeepsSwayingWhileTheEarthTurns_AndAfterTheLaunch()
+        {
+            var map = MapWith(new ScriptedRandom(20));
+            Step(map, 10);
+            double before = map.Scanner.ImageAngle;
+            Assert.IsTrue(map.Execute(new PressMapD(P1)).Accepted);
+            Step(map, 5);
+            Assert.AreNotEqual(before, map.Scanner.ImageAngle, "obj_scanner's Step ignores obj_map's mode");
+            Assert.AreEqual(1045, map.Scanner.X, "and never moves");
+            Assert.AreEqual(388, map.Scanner.Y);
+        }
+
+        [Test]
+        public void TheGmlLessIsFalseWithinTheEpsilon()
+        {
+            Assert.IsTrue(MapScanner.GmlLess(0.09d, 0.1d));
+            Assert.IsFalse(MapScanner.GmlLess(0.1d - 1e-6, 0.1d), "equal within 0.00001");
+            Assert.IsFalse(MapScanner.GmlLess(0.1d, 0.1d));
+            Assert.IsFalse(MapScanner.GmlLess(0.2d, 0.1d));
+        }
+
         // ---- The data ----
 
         [Test]

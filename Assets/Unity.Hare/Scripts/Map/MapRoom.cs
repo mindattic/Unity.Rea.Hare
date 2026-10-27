@@ -24,6 +24,8 @@ namespace Unity.Hare.Map
     /// <list type="bullet">
     /// <item>bg_nightsky, tiled on the backdrop layer and scrolled by background_hspeed[0];</item>
     /// <item>obj_earthball's spr_earthball (depth 0) turning on its origin, and obj_uss_warren's spr_uss_warren (depth 1);</item>
+    /// <item>obj_scanner's spr_scanner_beam (depth 0, made after the earth so drawn over it), swaying about its top-right
+    /// origin and flickering at 0.16-0.24 (U.HARE-T63);</item>
     /// <item>a marker for every mission (<see cref="AlertMarkerView"/>, depth -10; the locked boss's in grey) and its pings;</item>
     /// <item>obj_white_dot's spr_dropdot (depth 1), fading on its way to obj_destination;</item>
     /// <item>obj_btn_upgrade (depth -5): spr_button_area_small, "Upgrades" white or cornflower blue, its message under
@@ -34,14 +36,16 @@ namespace Unity.Hare.Map
     /// It steps the screen on the room flow's clock (<see cref="RoomFlowDirector.RoomStepped"/>), sends A, D, any key
     /// (with A, D and Esc as held), the mouse and the left button as commands, and plays what comes back: sounds, pings,
     /// the session's scenario and mission, the fade to room_upgrade and <c>room_goto(room_intro)</c>. Esc to room_title
-    /// is the room flow's (the rooms table's EscapeToTitle). It decides no rule itself. obj_scanner's sweeping beam is
-    /// U.HARE-T63's.
+    /// is the room flow's (the rooms table's EscapeToTitle). It decides no rule itself.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class MapRoom : MonoBehaviour
     {
         /// <summary>The name ProjectSetup gives the room's object, after the GML object.</summary>
         public const string ObjectName = "obj_map";
+
+        /// <summary>The beam's z: nearer the camera than the earth's 0, so the equal-depth tie draws it over the earth.</summary>
+        const float ScannerNearer = -0.01f;
 
         readonly List<AlertMarkerView> markers = new List<AlertMarkerView>();
         RoomDefinition room;
@@ -68,6 +72,9 @@ namespace Unity.Hare.Map
 
         /// <summary>obj_uss_warren.</summary>
         public SpriteRenderer Ship { get; private set; }
+
+        /// <summary>obj_scanner's beam.</summary>
+        public SpriteRenderer Scanner { get; private set; }
 
         /// <summary>obj_white_dot (off until launched).</summary>
         public SpriteRenderer WhiteDot { get; private set; }
@@ -115,7 +122,7 @@ namespace Unity.Hare.Map
             var active = RoomFlowDirector.Active;
             IEnumerable<int> won = active != null && active.Campaign != null ? active.Campaign.Won : Array.Empty<int>();
             State = new MapScreen(map, content.Popups.Alert, box, won, level => content.Arena.SettingFor(level)?.Name ?? "",
-                room.Width, room.Height);
+                room.Width, room.Height, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
 
             BuildWorld(map);
             BuildPanel(map);
@@ -288,6 +295,15 @@ namespace Unity.Hare.Map
                 var at = ToWorld(State.ShipX, State.ShipY);
                 Ship.transform.position = new Vector3(at.x, at.y, 0f);
             }
+            if (Scanner != null && State.Scanner != null)
+            {
+                // Same depth as the earth; GameMaker draws equal depths in creation order, so the beam (made after
+                // obj_earthball in room order) is drawn over the earth's rim: a hair nearer the camera breaks the tie.
+                var scanner = State.Scanner;
+                var at = ToWorld(scanner.X, scanner.Y);
+                Scanner.transform.SetPositionAndRotation(new Vector3(at.x, at.y, ScannerNearer), Quaternion.Euler(0f, 0f, (float)scanner.ImageAngle));
+                Scanner.color = new Color(1f, 1f, 1f, scanner.DrawAlpha);
+            }
             for (int i = 0; i < markers.Count && i < State.Missions.Count; i++)
                 markers[i].Present(State.Missions[i].Locked ? lockedColor : Color.white);
             if (WhiteDot != null)
@@ -347,6 +363,8 @@ namespace Unity.Hare.Map
 
             Earth = MakeSprite("obj_earthball", map.EarthSprite, 0);
             Ship = MakeSprite("obj_uss_warren", map.ShipSprite, 1);
+            Scanner = MakeSprite("obj_scanner", map.ScannerSprite, 0);
+            Scanner.color = new Color(1f, 1f, 1f, map.ScannerAlpha);
             WhiteDot = MakeSprite("obj_white_dot", map.DotSprite, 1);
             WhiteDot.enabled = false;
         }

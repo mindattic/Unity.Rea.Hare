@@ -108,7 +108,7 @@ _Nothing recorded yet._
 - **U.HARE-US-O7 ⬜** As a player, I can pause, restart the level, toggle the minimap, units, volume and fullscreen with the original's keys
 - **U.HARE-US-O8 ⬜** As a player, I aim with the original's blue reticle in the game and its pointer on menus
 - **U.HARE-US-O9 ⬜** As a player, the title screen opens with the original's falling drop, the standing rabbit and the logo before the menu appears
-- **U.HARE-US-O10 ⬜** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot
+- **U.HARE-US-O10 🟡** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot (built by U.HARE-T19 and U.HARE-T63; covered by Core MapTests and PlayMode MapRoomPlayTests, not yet run)
 - **U.HARE-US-O11 ⬜** As a player, I can start a quick game, the campaign or the enemy generator at a difficulty I choose, like the original's three game modes
 - **U.HARE-US-O12 ⬜** As a player, my campaign progress, coins, skill points and purchased upgrades are saved to my profile and restored when I return
 - **U.HARE-US-O13 ⬜** As a player, I can see who made the music and sound effects I hear, as the original's licences require

@@ -92,6 +92,22 @@ namespace Unity.Hare.Map
         public int ShipHeight = 66;
         public int ShipLift = 100;
 
+        /// <summary>
+        /// obj_scanner (U.HARE-T63): spr_scanner_beam (210x211, origin 210,0) placed at x 1045, depth 0; its Create's
+        /// <c>y = room_height - earth/2 - spr_scanner_beam's 211 + 50</c> (388) and <c>image_alpha = 0.2</c>.
+        /// </summary>
+        public string ScannerSprite = "spr_scanner_beam";
+        public int ScannerX = 1045;
+        public int ScannerLift = 50;
+        public float ScannerAlpha = 0.2f;
+        /// <summary>Create's <c>sweepAmount = 0.1; sweepSpeed = 0.004</c>: the Step's sway added to image_angle.</summary>
+        public double ScannerSweepAmount = 0.1d;
+        public double ScannerSweepSpeed = 0.004d;
+        /// <summary>Step's flicker: <c>image_alpha = 0.01 * irandom_range(16, 24)</c>.</summary>
+        public double ScannerAlphaUnit = 0.01d;
+        public int ScannerAlphaMin = 16;
+        public int ScannerAlphaMax = 24;
+
         /// <summary>obj_destination: placed at x 903; Create's <c>y = room_height - sprite_get_height(spr_earthball)/2</c>. Never drawn.</summary>
         public int DestinationX = 903;
         /// <summary>spr_destination's mask (64x130, origin 32,130, a precise mask opaque over its whole 25..35 x 0..129 box).</summary>
@@ -152,6 +168,9 @@ namespace Unity.Hare.Map
         /// <summary>obj_uss_warren's Create: <c>y = room_height - earth/2 - spr_scanner_beam - spr_uss_warren + 100</c> (372).</summary>
         public double ShipY(int roomHeight) => roomHeight - EarthHeight / 2d - ScannerBeamHeight - ShipHeight + ShipLift;
 
+        /// <summary>obj_scanner's Create: <c>y = room_height - earth/2 - spr_scanner_beam + 50</c> (388).</summary>
+        public double ScannerY(int roomHeight) => roomHeight - EarthHeight / 2d - ScannerBeamHeight + ScannerLift;
+
         /// <summary>obj_destination's Create: <c>y = room_height - sprite_get_height(spr_earthball)/2</c> (549).</summary>
         public double DestinationY(int roomHeight) => roomHeight - EarthHeight / 2d;
 
@@ -167,6 +186,12 @@ namespace Unity.Hare.Map
             ValidationHelpers.Required(errors, path + ".ShipSprite", ShipSprite);
             ValidationHelpers.NonNegative(errors, path + ".ScannerBeamHeight", ScannerBeamHeight);
             ValidationHelpers.NonNegative(errors, path + ".ShipHeight", ShipHeight);
+            ValidationHelpers.Required(errors, path + ".ScannerSprite", ScannerSprite);
+            if (ScannerAlpha < 0f || ScannerAlpha > 1f) errors.Add($"{path}.ScannerAlpha: must be 0-1 (was {ScannerAlpha}).");
+            if (!(ScannerSweepAmount >= 0d)) errors.Add($"{path}.ScannerSweepAmount: must not be negative (was {ScannerSweepAmount}).");
+            if (!(ScannerSweepSpeed > 0d)) errors.Add($"{path}.ScannerSweepSpeed: must be greater than 0 (was {ScannerSweepSpeed}).");
+            if (!(ScannerAlphaUnit >= 0d)) errors.Add($"{path}.ScannerAlphaUnit: must not be negative (was {ScannerAlphaUnit}).");
+            if (ScannerAlphaMin > ScannerAlphaMax) errors.Add($"{path}.ScannerAlphaMin: must not exceed ScannerAlphaMax (was {ScannerAlphaMin} > {ScannerAlphaMax}).");
             if (DestinationMask == null) errors.Add(path + ".DestinationMask: must not be null.");
             else DestinationMask.Validate(errors, path + ".DestinationMask");
             if (MarkerMask == null) errors.Add(path + ".MarkerMask: must not be null.");

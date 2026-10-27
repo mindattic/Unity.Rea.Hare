@@ -106,6 +106,13 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(map.Background.sprite.texture.name, Is.EqualTo("bg_nightsky"));
             Assert.That(map.Earth.sprite.name, Does.StartWith("spr_earthball"));
             Assert.That(map.Ship.sprite.name, Does.StartWith("spr_uss_warren"));
+            Assert.That(map.Scanner.sprite.name, Does.StartWith("spr_scanner_beam"), "obj_scanner (U.HARE-T63)");
+            Assert.That(map.Scanner.sortingOrder, Is.EqualTo(map.Earth.sortingOrder), "depth 0, as the earth");
+            Assert.That(map.Scanner.transform.position.z, Is.LessThan(map.Earth.transform.position.z), "made after the earth, drawn over it");
+            var beam = map.ToRoom(map.Scanner.transform.position);
+            Assert.That(beam.x, Is.EqualTo(1045f).Within(0.01f));
+            Assert.That(beam.y, Is.EqualTo(388f).Within(0.01f));
+            Assert.That(map.Scanner.color.a, Is.InRange(0.16f - 1e-4f, 0.24f + 1e-4f), "alpha 0.2, then the 0.16-0.24 flicker");
             Assert.That(map.Markers.Count, Is.EqualTo(10), "a marker per original level (BIBLE V42)");
             var boss = map.Markers[7];
             Assert.That(boss.Marker.ScenarioId, Is.EqualTo(8));
