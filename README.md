@@ -164,7 +164,7 @@ powershell -File tools/unity.ps1 -Graphics -Log playmode -Extra "-runTests -test
 powershell -File tools/unity.ps1 -Log online-tests -Extra "-runTests -testPlatform PlayMode -assemblyNames Unity.Hare.Tests.Online -testResults TestResults-Online.xml"
 
 # a bare dev build (no icon/product-settings polish -- U.HARE-T71) to Build/Hare/Hare.exe
-powershell -File tools/deploy.ps1
+powershell -File tools/run.ps1
 
 # builds (if Build/Hare/Hare.exe is missing or -Build is given) and launches it, muted by default
 powershell -File tools/play.ps1
@@ -266,7 +266,7 @@ Assets/Unity.Hare/
     gml-fonts.json     every GML font, its font.gmx fields and glyph table, who draws with it, the typeface licences
     Atlases/           GameMaker's baked glyph atlases (GmlFontBuilder's source)
   Online/              Unity.Hare.Online asmdef (U.HARE-T35, on Unity.Multiplayer): HareNetPlayer (the NetEntity player), HareAuthority (the server's one world), HareOnlineGame (the front end's items), HareBot
-  Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter, HareBuild (the dev build tools/deploy.ps1 runs); Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
+  Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter, HareBuild (the dev build tools/run.ps1 runs); Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
     Rendering/         Unity.Hare.Editor.Rendering asmdef: UrpSeam, SortingLayerSetup (the only code that references UnityEngine.Rendering.Universal)
     Online/            Unity.Hare.Editor.Online asmdef: OnlineSceneBuilder (Online.unity, the player prefab, the prefab list, mp-host.json)
   Tests/EditMode/      Unity.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
@@ -284,7 +284,7 @@ tools/
   import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Hare/Audio
   import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Hare/Fonts
   gml-json.ps1         the stable JSON writer the import scripts share
-  deploy.ps1           a bare dev build (HareBuild.BuildWindows) to Build/Hare/Hare.exe (U.HARE-T80; release polish is U.HARE-T71)
+  run.ps1              a bare dev build (HareBuild.BuildWindows) to Build/Hare/Hare.exe (U.HARE-T80; release polish is U.HARE-T71)
   play.ps1             builds if needed, then launches Build/Hare/Hare.exe muted by default (-Sound to opt in; U.HARE-T80)
 docs/
   BIBLE.md             design rules, architecture, data, fixed defects and deviations

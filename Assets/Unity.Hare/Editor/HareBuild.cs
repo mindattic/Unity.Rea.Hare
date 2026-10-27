@@ -10,7 +10,7 @@ namespace Unity.Hare.EditorTools
     /// Builds the standalone Windows player for development: a bare build (no icon, product-settings polish or
     /// release checklist -- those are U.HARE-T71) good enough for <c>tools/play.ps1</c> to launch and prove the
     /// game runs, and sounds, as built -- not just in the Editor (U.HARE-T80).
-    /// tools/deploy.ps1 runs this in batch mode:
+    /// tools/run.ps1 runs this in batch mode:
     /// Unity -batchmode -quit -projectPath . -executeMethod Unity.Hare.EditorTools.HareBuild.BuildWindows
     /// </summary>
     public static class HareBuild
