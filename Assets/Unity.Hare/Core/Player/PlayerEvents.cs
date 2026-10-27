@@ -50,6 +50,12 @@ namespace Unity.Hare.Player
     /// <summary>The ship stopped dead (player_hurt's HP-reached-0 branch).</summary>
     public sealed class ShipHalted : PlayerEvent { }
 
+    /// <summary>player_boost went through: rocketing, the speed doubled (it also makes obj_booster_schematic, U.HARE-T92).</summary>
+    public sealed class BoostStarted : PlayerEvent { }
+
+    /// <summary>player_brake went through: braking (it also makes obj_brake_schematic, U.HARE-T92).</summary>
+    public sealed class BrakeStarted : PlayerEvent { }
+
     /// <summary>player_shield raised the obj_shieldwall.</summary>
     public sealed class ShieldRaised : PlayerEvent { public float Radius; }
 

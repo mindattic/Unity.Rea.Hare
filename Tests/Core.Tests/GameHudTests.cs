@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using Unity.Hare.Arena;
@@ -38,6 +39,62 @@ namespace Unity.Hare.Tests.Core
             var r = Flying(0f);
             r.State = PlayerFlightState.Idle;
             return r;
+        }
+
+        // ---- obj_booster_schematic / obj_brake_schematic (U.HARE-T92) ----
+
+        [Test]
+        public void ABoostsSchematicIsDrawnCentredAtTheBottomAtSevenTenths()
+        {
+            var hud = NewHud();
+            hud.ShowSchematic(SchematicKind.Booster);
+            var s = hud.Draw(Flying()).Sprite("schematic-0").Value;
+            Assert.AreEqual("spr_rocketbooster_schematic", s.Sprite);
+            Assert.AreEqual(960f - 150f, s.X, 1e-3f, "x = view_wview/2, less the origin");
+            Assert.AreEqual(1080f - 349f / 2f - 174f, s.Y, 1e-3f, "y = view_hview - height/2, less the origin");
+            Assert.AreEqual(0.7f, s.Alpha, 1e-6f);
+            Assert.IsTrue(float.IsNaN(s.Width), "drawn at its own size");
+        }
+
+        [Test]
+        public void ASchematicFadesEveryStepPausedOrNotAndGoesTheStepAfterZero()
+        {
+            var hud = NewHud();
+            hud.ShowSchematic(SchematicKind.Brake);
+            var paused = new HudReading { Paused = true };
+            hud.Step(paused);
+            Assert.AreEqual(0.695, hud.Schematics[0].Alpha, 1e-6, "no paused check, and no ship needed");
+            for (int i = 1; i < 140; i++) hud.Step(Flying());
+            Assert.AreEqual(1, hud.Schematics.Count);
+            Assert.AreEqual(0.0, hud.Schematics[0].Alpha, 1e-6);
+            hud.Step(Flying());
+            hud.Step(Flying());
+            Assert.AreEqual(0, hud.Schematics.Count, "destroyed once its alpha is no longer above 0");
+            Assert.IsNull(hud.Draw(Flying()).Sprite("schematic-0"));
+        }
+
+        [Test]
+        public void EachBoostOrBrakeAddsItsOwnSchematicDrawnAfterTheHud()
+        {
+            var hud = NewHud();
+            hud.ShowSchematic(SchematicKind.Booster);
+            hud.Step(Flying());
+            hud.ShowSchematic(SchematicKind.Brake);
+            var frame = hud.Draw(Flying());
+            Assert.AreEqual("spr_rocketbooster_schematic", frame.Sprite("schematic-0").Value.Sprite);
+            Assert.AreEqual("spr_brake_schematic", frame.Sprite("schematic-1").Value.Sprite);
+            Assert.AreEqual(1080f - 350f / 2f - 175f, frame.Sprite("schematic-1").Value.Y, 1e-3f);
+            Assert.AreEqual("schematic-1", frame.Sprites[frame.Sprites.Count - 1].Key, "made after obj_game's HUD objects, so drawn on top");
+        }
+
+        [Test]
+        public void BoostAndBrakeRaiseTheEventsThatMakeTheSchematics()
+        {
+            var rig = new PlayerRig();
+            Assert.AreEqual(1, rig.Do(new Boost(rig.Id)).Events.OfType<BoostStarted>().Count());
+            var other = new PlayerRig();
+            Assert.AreEqual(1, other.Do(new Brake(other.Id)).Events.OfType<BrakeStarted>().Count());
+            Assert.AreEqual(0, other.Do(new Boost(other.Id)).Events.OfType<BoostStarted>().Count(), "refused while braking");
         }
 
         // ---- obj_healthbar ----

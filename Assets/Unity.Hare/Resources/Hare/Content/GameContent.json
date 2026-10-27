@@ -244,7 +244,10 @@
       "DebugX": 20, "DebugFpsY": 20, "DebugPlayerY": 60, "DebugLineHeight": 20, "DebugTrackY": 300,
       "DebugLabels": ["FPS: ", "X,Y: ", "Direction: ", "Image Angle: ", "State: ", "Spin : ", "Current Rock: ",
         "Current Rock X,Y: ", "Current Rock Spin: ", "Current Track: "],
-      "DebugNone": "Null", "DebugStates": ["Idle", "Moving", "Dead", "Leaving"]
+      "DebugNone": "Null", "DebugStates": ["Idle", "Moving", "Dead", "Leaving"],
+      "BoosterSchematicSprite": "spr_rocketbooster_schematic", "BoosterSchematicHeight": 349, "BoosterSchematicOriginX": 150,
+      "BoosterSchematicOriginY": 174, "BrakeSchematicSprite": "spr_brake_schematic", "BrakeSchematicHeight": 350,
+      "BrakeSchematicOriginX": 150, "BrakeSchematicOriginY": 175, "SchematicAlpha": 0.7, "SchematicFadePerStep": 0.005
     },
     "MoonSurface": { "Sprite": "spr_moon_surface", "Depth": 1, "RiseSpeed": 40 },
     "StartingStationaryPercent": 50,

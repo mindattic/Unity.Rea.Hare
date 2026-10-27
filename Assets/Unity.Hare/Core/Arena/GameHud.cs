@@ -129,6 +129,23 @@ namespace Unity.Hare.Arena
         /// <summary>get_state_string for state_idle, state_moving, state_dead and state_leave, in <see cref="PlayerFlightState"/> order.</summary>
         public string[] DebugStates = { "Idle", "Moving", "Dead", "Leaving" };
 
+        // ---- obj_booster_schematic and obj_brake_schematic (U.HARE-T92) ----
+
+        /// <summary>obj_booster_schematic's sprite (300x349, origin 150,174), made by every player_boost that goes through.</summary>
+        public string BoosterSchematicSprite = "spr_rocketbooster_schematic";
+        public int BoosterSchematicHeight = 349;
+        public int BoosterSchematicOriginX = 150;
+        public int BoosterSchematicOriginY = 174;
+        /// <summary>obj_brake_schematic's sprite (300x350, origin 150,175), made by every player_brake that goes through.</summary>
+        public string BrakeSchematicSprite = "spr_brake_schematic";
+        public int BrakeSchematicHeight = 350;
+        public int BrakeSchematicOriginX = 150;
+        public int BrakeSchematicOriginY = 175;
+        /// <summary>Create: <c>image_alpha = 0.7</c>.</summary>
+        public float SchematicAlpha = 0.7f;
+        /// <summary>Step (not paused-gated): <c>if(image_alpha &gt; 0) image_alpha -= 0.005; else instance_destroy()</c>.</summary>
+        public float SchematicFadePerStep = 0.005f;
+
         internal void Validate(List<string> errors, string path)
         {
             if (DebugLabels == null || DebugLabels.Length != DebugLabelCount)
@@ -148,6 +165,12 @@ namespace Unity.Hare.Arena
             ValidationHelpers.Required(errors, path + ".WeaponSelectSprite", WeaponSelectSprite);
             ValidationHelpers.Required(errors, path + ".GroundSecondaryIcon", GroundSecondaryIcon);
             ValidationHelpers.Required(errors, path + ".AirSecondaryIcon", AirSecondaryIcon);
+            ValidationHelpers.Required(errors, path + ".BoosterSchematicSprite", BoosterSchematicSprite);
+            ValidationHelpers.Required(errors, path + ".BrakeSchematicSprite", BrakeSchematicSprite);
+            ValidationHelpers.Positive(errors, path + ".BoosterSchematicHeight", BoosterSchematicHeight);
+            ValidationHelpers.Positive(errors, path + ".BrakeSchematicHeight", BrakeSchematicHeight);
+            ValidationHelpers.Positive(errors, path + ".SchematicFadePerStep", SchematicFadePerStep);
+            if (SchematicAlpha <= 0f || SchematicAlpha > 1f) errors.Add($"{path}.SchematicAlpha: must be above 0 and at most 1 (was {SchematicAlpha}).");
             ValidationHelpers.NonNegative(errors, path + ".Outline", Outline);
             ValidationHelpers.Positive(errors, path + ".EnergyWidth", EnergyWidth);
             ValidationHelpers.Positive(errors, path + ".EnergyHeight", EnergyHeight);
@@ -347,6 +370,33 @@ namespace Unity.Hare.Arena
         public override string ToString() => Key + ": " + Text;
     }
 
+    /// <summary>Which flight schematic flashes on the HUD.</summary>
+    public enum SchematicKind
+    {
+        /// <summary>obj_booster_schematic (player_boost).</summary>
+        Booster,
+        /// <summary>obj_brake_schematic (player_brake).</summary>
+        Brake,
+    }
+
+    /// <summary>
+    /// One obj_booster_schematic or obj_brake_schematic (U.HARE-T92): made at <c>(view_wview/2, view_hview - height/2)</c>
+    /// with <c>image_alpha = 0.7</c>, it fades 0.005 a step, paused or not, and is destroyed on the step after it reaches 0;
+    /// its Draw GUI draws frame 0 at that alpha (its Draw is <c>//draw_self()</c>, so nothing in the room).
+    /// </summary>
+    public sealed class FlightSchematic
+    {
+        internal FlightSchematic(SchematicKind kind, double alpha)
+        {
+            Kind = kind;
+            Alpha = alpha;
+        }
+
+        public SchematicKind Kind { get; }
+        /// <summary>image_alpha, kept in a double as GameMaker's real is.</summary>
+        public double Alpha { get; internal set; }
+    }
+
     /// <summary>What the HUD reads from the game each frame (GML: player, LIVES, COINS, strTime, use_metric, paused).</summary>
     public struct HudReading
     {
@@ -446,9 +496,29 @@ namespace Unity.Hare.Arena
         public EnergyGauge Energy { get; }
         public Speedometer Speedometer { get; }
 
-        /// <summary>One room step: obj_speedometer's Step and obj_energybar's End Step (nothing without a ship).</summary>
+        readonly List<FlightSchematic> schematics = new List<FlightSchematic>();
+
+        /// <summary>The boost and brake schematics on screen, oldest (drawn first) first.</summary>
+        public IReadOnlyList<FlightSchematic> Schematics => schematics;
+
+        /// <summary>
+        /// player_boost / player_brake's <c>instance_create(0, 0, obj_booster_schematic / obj_brake_schematic)</c>: one more
+        /// schematic at full Create alpha (an earlier one still fading stays on screen too).
+        /// </summary>
+        public FlightSchematic ShowSchematic(SchematicKind kind)
+        {
+            var schematic = new FlightSchematic(kind, Definition.SchematicAlpha);
+            schematics.Add(schematic);
+            return schematic;
+        }
+
+        /// <summary>
+        /// One room step: the schematics' Steps (whether or not there is a ship or the game is paused), then
+        /// obj_speedometer's Step and obj_energybar's End Step (nothing without a ship).
+        /// </summary>
         public void Step(HudReading reading)
         {
+            StepSchematics();
             if (!reading.HasPlayer) return;
             Speedometer.Step(reading.State, reading.Speed, reading.UseMetric);
             Energy.Step(reading.Energy, reading.MaxEnergy, reading.Paused, reading.State == PlayerFlightState.Dead);
@@ -466,7 +536,40 @@ namespace Unity.Hare.Arena
             DrawWeaponGui(frame, reading);
             DrawEnergyBar(frame, reading);
             DrawSpeedometer(frame);
+            DrawSchematics(frame);
             return frame;
+        }
+
+        void StepSchematics()
+        {
+            double fade = Definition.SchematicFadePerStep;
+            for (int i = 0; i < schematics.Count; i++)
+            {
+                var s = schematics[i];
+                if (s.Alpha > 0) s.Alpha -= fade;
+                else schematics.RemoveAt(i--);
+            }
+        }
+
+        /// <summary>
+        /// The schematics' Draw GUI, after the four HUD objects (made later at the same depth 0):
+        /// <c>draw_sprite_ext(sprite_index, 0, x, y, 1, 1, 0, c_white, image_alpha)</c> with x = view_wview/2 and
+        /// y = view_hview - height/2, so the sprite's top-left is (x - originX, y - originY).
+        /// </summary>
+        void DrawSchematics(HudFrame frame)
+        {
+            var d = Definition;
+            for (int i = 0; i < schematics.Count; i++)
+            {
+                var s = schematics[i];
+                bool booster = s.Kind == SchematicKind.Booster;
+                string sprite = booster ? d.BoosterSchematicSprite : d.BrakeSchematicSprite;
+                float height = booster ? d.BoosterSchematicHeight : d.BrakeSchematicHeight;
+                float originX = booster ? d.BoosterSchematicOriginX : d.BrakeSchematicOriginX;
+                float originY = booster ? d.BoosterSchematicOriginY : d.BrakeSchematicOriginY;
+                float x = GuiWidth / 2f, y = GuiHeight - height / 2f;
+                frame.Sprites.Add(new HudSprite("schematic-" + i, sprite, x - originX, y - originY, N, N, (float)Math.Max(0.0, s.Alpha)));
+            }
         }
 
         /// <summary>

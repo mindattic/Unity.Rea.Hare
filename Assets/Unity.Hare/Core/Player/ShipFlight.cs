@@ -202,6 +202,7 @@ namespace Unity.Hare.Player
             IsBoosting = true;
             Speed *= 2f;
             EnergyMode = EnergyMode.Drain;
+            sink.Emit(new BoostStarted());
             return true;
         }
 
@@ -213,6 +214,7 @@ namespace Unity.Hare.Player
 
             IsBraking = true;
             EnergyMode = EnergyMode.Drain;
+            sink.Emit(new BrakeStarted());
             return true;
         }
 

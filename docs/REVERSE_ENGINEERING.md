@@ -342,8 +342,9 @@ Completion: `set_level_complete`, `obj_level_results`, `obj_levelstart`.
 Drops: `obj_carrot`, `obj_coin`, `obj_chip`, `obj_cartridge`, `obj_drop_cloud`/`obj_drop_emitter`
 /`obj_drop_intro`/`obj_drop_title`, via `random_pickup`/`spawn_chips`. Upgrade/garage screen
 (`room_upgrade`): `obj_upgrade`, `obj_upgrade_vulcan1`, `obj_upgrade_shotgun1`,
-`obj_upgrade_missle`/`obj_upgrade_missle1`, `obj_rabbit_schematic`, `obj_booster_schematic`,
-`obj_brake_schematic`.
+`obj_upgrade_missle`/`obj_upgrade_missle1`, `obj_rabbit_schematic`. (`obj_booster_schematic` and
+`obj_brake_schematic` are not the garage's: room_upgrade places neither; `player_boost`/`player_brake` make them, the
+HUD's fading boost and brake flashes, U.HARE-T92.)
 
 ## UI / menus
 

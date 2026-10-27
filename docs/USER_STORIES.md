@@ -60,7 +60,7 @@ _Nothing recorded yet._
 
 ## Epic H — Pickups, Economy & Upgrades
 - **U.HARE-US-H1 ⬜** As a player, I collect carrots, coins, chips and cartridges dropped by enemies/rocks (random_pickup, spawn_chips, obj_drop*) as the game's currency/ammo pickups
-- **U.HARE-US-H2 ⬜** As a player, I spend currency in the upgrade/garage screen (room_upgrade, obj_upgrade, obj_upgrade_vulcan1, obj_upgrade_shotgun1, obj_upgrade_missle1, obj_rabbit_schematic, obj_booster_schematic, obj_brake_schematic) to improve my ship
+- **U.HARE-US-H2 ⬜** As a player, I spend currency in the upgrade/garage screen (room_upgrade, obj_upgrade, obj_upgrade_vulcan1, obj_upgrade_shotgun1, obj_upgrade_missle1, obj_rabbit_schematic) to improve my ship
 
 
 ## Epic I — UI, HUD & Menus

@@ -592,13 +592,33 @@ namespace Unity.Hare.Arena
                 }
             }
             if (Arrows == null) Arrows = PlayerArrows.Create(this);
+            shipSeat = PlayerSeat.Of(ship.gameObject);
+            shipSeat.EventRaised += OnShipEvent;
         }
+
+        PlayerSeat shipSeat;
 
         void DetachHealth()
         {
+            if (shipSeat != null)
+            {
+                shipSeat.EventRaised -= OnShipEvent;
+                shipSeat = null;
+            }
             if (health == null) return;
             health.Damaged -= OnPlayerDamaged;
             health = null;
+        }
+
+        /// <summary>
+        /// player_boost and player_brake each <c>instance_create(0, 0, obj_booster_schematic / obj_brake_schematic)</c>
+        /// when they go through: the HUD's fading schematic (U.HARE-T92).
+        /// </summary>
+        void OnShipEvent(PlayerEvent e)
+        {
+            if (GameHud == null) return;
+            if (e is BoostStarted) GameHud.ShowSchematic(SchematicKind.Booster);
+            else if (e is BrakeStarted) GameHud.ShowSchematic(SchematicKind.Brake);
         }
 
         /// <summary>player_hurt's obj_losthealth at <c>column2 + HP * width</c> on the GUI layer.</summary>
