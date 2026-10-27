@@ -114,7 +114,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Map scenery | `obj_earthball`, `obj_scanner`, `obj_uss_warren`, `obj_white_dot`, `obj_scenario_details` | None | UH-T63 |
 | Game modes and difficulty | `gm_*`, `obj_btn_diff*`, `level_enemygenerator` | None | UH-T64 |
 | Garage and upgrades | `obj_upgrade*`, schematics, `SKILLPOINTS` | None | UH-T24 |
-| Helper hawk | `obj_helper`, `create_helper` | None | UH-T66 |
+| Helper hawk | `obj_helper`, `create_helper` | Built: Core's `Helper/HelperField` (create_helper's one helper, here one per ship; obj_helper's Create, alarms, held arrows, Up/Down speed steps, Page Down's solo mouse follow, the return out of view and Delete's rocket explosion; numbers in `helper`), HareControls' `Helper` map (the arrows, Page Down, Delete; the arrows taken off the ship's `Rotate`, which in the original is A/D only), read by `PlayerShipController`; Runtime's `HelperDirector` and `HelperView` (spr_helper, the ef_ring/ef_smoke/ef_smokeup/ef_spark effects, sfx_hawk, `RocketExplosion`), obj_carrot's and obj_coin's obj_helper collisions through the pickups' `CollectPickup` for the helper's ship; BIBLE V43 | done: U.HARE-T66 |
 | Flashbomb | `obj_flashbomb`, `obj_rabbit_schematic` | None | UH-T67 |
 | Boss: Scrap Mental | `obj_scrapmental`, `obj_shrapnel_*` | None | UH-T68 (supersedes UH-T32) |
 | Music and jukebox | `obj_jukebox`, `play_random_music` | None | UH-T29 |

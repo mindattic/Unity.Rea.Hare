@@ -593,5 +593,27 @@
       "Message": "Upgrade H.A.R.E. Unit's systems", "MessageBottomMargin": 30, "Color": "#FFFFFF", "HoverColor": "#6495ED",
       "HoverSound": "sfx_hover", "ClickSound": "sfx_click", "Room": "Upgrade"
     }
+  },
+  "helper": {
+    "Sprite": "spr_helper",
+    "Depth": 0,
+    "CallSound": "sfx_hawk",
+    "StartSpeedPx": 4,
+    "MaxSpeedPx": 4,
+    "MinSpeedPx": 1,
+    "SpeedStepPx": 1,
+    "TurnSpeed": 2,
+    "SmokeEverySteps": 40,
+    "SparkEverySteps": 5,
+    "SparkJitterPx": 2,
+    "SoloTurnDegrees": 2,
+    "SoloNearDegrees": 4,
+    "ReturnDistancePx": 400,
+    "RingSize": 1,
+    "SmokeSize": 0,
+    "TrailSize": 0,
+    "SparkSize": 0,
+    "ExplosionEffectSize": 0,
+    "Box": [-16, -16, 15, 15]
   }
 }

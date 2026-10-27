@@ -52,11 +52,42 @@ superseded by HARE's versions.
 2499-line object file — the largest single object, effectively the whole player state machine.
 Confirmed event surface: Create, 11 Alarms (0–10, used for timers: weapon cooldowns, boost,
 spin-up/down, etc.), Step, Collision with `obj_bullet`, `obj_rocket`, `obj_rocket_explosion`,
-`par_enemy`, `par_rock`, `par_structure`, held-Keyboard, Key Press and Key Release (arrow-style
-directional input), Mouse (global button events), Draw.
+`par_enemy`, `par_rock`, `par_structure`, held-Keyboard, Key Press and Key Release, Mouse (global
+button events), Draw. The held keys that turn the ship are A (65) and D (68) only; the arrow keys'
+presses (37-40) each run `create_helper` (read for U.HARE-T66, below).
 
 Player-related scripts: `player_boost`, `player_brake`, `player_leap`, `player_shield`,
 `player_hurt`, `reset_player`, `fling_player`.
+
+### The helper hawk (`obj_helper`, `create_helper`; read for U.HARE-T66)
+
+- `create_helper` (obj_player's arrow presses): `if(!instance_exists(obj_helper)) helper = instance_create(x, y, obj_helper)`.
+- obj_helper: spr_helper (32x32, origin 16,16, colkind 2 ellipse, bbox 0..31), depth 0, not persistent, no parent.
+  Create: `audio_play_sound(sfx_hawk,1,0)`, `turn_speed = 2`, `speed = Speed = last_speed = max_speed = 4`,
+  `firstPass = true`, `smoke_delay = 40`, `spark_delay = 5`, `poll_rate = 20`, `alarm[0] = 40`, `alarm[1] = 5`,
+  `direction = player.image_angle; image_angle = direction`, `state = "free"`, `turning = false`, `solo = false`.
+- Step (`if(!paused)`, else `speed = 0`): `speed = Speed`; "free": if `solo`, `mouse_direction =
+  point_direction(x,y,mouse_x,mouse_y)` and, unless `a_near_b(direction, mouse_direction, 4)`,
+  `check_rotate_clockwise(mouse_direction, direction)` ? `direction -= 2` : `direction += 2`, `image_angle = direction`;
+  `firstPass`: `effect_create_below(ef_ring,x,y,1,c_white)`; `!in_view(x,y)`: `last_speed = speed; state = "return"`,
+  else `effect_create_below(ef_smoke,x,y,0,c_gold)`. "return": `distance_to_object(player) > 400`: ef_smoke c_orange,
+  `direction = image_angle = point_direction(x,y,player.x,player.y)`, `speed = Speed = max_speed` (or `player.speed`
+  if greater; a commented-out 2-degree turn sits beside it); otherwise `state = "free"; firstPass = true; speed =
+  Speed = last_speed` (its sfx_hawk replay is commented out).
+- Alarm 0 (re-armed every 40 steps): `effect_create_below(ef_smokeup, x - hspeed, y - vspeed, 0, c_white)` if
+  unpaused. Alarm 1 (every 5): if unpaused and `turning`, `rndcolor = irandom_range(1,3)`, `rnd_x`/`rnd_y =
+  irandom_range(-2,2)`, ef_spark below at `x - hspeed + rnd_x, y - vspeed + rnd_y` in c_amber/c_pink/c_cornflowerblue.
+  Alarm 2 (`speed += 1; turn_speed = ceil(speed / 2); alarm[2] = poll_rate`) and Alarm 3 (`speed -= 1`) are never
+  started: only the Up/Down key releases touch them, setting them to 0.
+- Keyboard (held): left (37) `turning = true; direction += turn_speed; image_angle += turn_speed`, right (39) the
+  same with `-=`, both `!paused` and "free". Key press: Up (38) `if(speed < max_speed) { speed += 1; Speed = speed }`,
+  Down (40) `if(speed > 1) { speed -= 1; Speed = speed }`, both `!paused` and "free"; Page Down (34) `solo = !solo`;
+  Delete (46) `instance_create(other.x, other.y, obj_rocket_explosion)`, `effect_create_above(ef_smokeup,x,y,0,c_black)`,
+  `effect_create_above(ef_firework,x,y,0,c_orange)`, `instance_destroy()`. Key release: left/right `turning = false`;
+  Up `alarm[2] = 0`, Down `alarm[3] = 0`.
+- Collision par_projectile and par_enemy: the whole body (the same explosion as Delete) is commented out.
+- obj_carrot and obj_coin each have a Collision obj_helper event identical to their obj_player one. Nothing else
+  names obj_helper; `setup_level` does not clear it. `globals.gml` declares `globalvar helper`.
 
 ## Weapons
 

@@ -35,6 +35,8 @@ namespace Unity.Hare.Tests.EditMode
             DestroyAll<Pickups.ScrapView>();
             EnemyDirector.Reset();
             Pickups.PickupDirector.Reset();
+            DestroyAll<Helper.HelperView>();
+            Helper.HelperDirector.Reset();
         }
 
         public static PlayerShipController Ship(Vector2 position)

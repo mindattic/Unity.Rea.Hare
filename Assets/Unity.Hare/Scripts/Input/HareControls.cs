@@ -238,28 +238,6 @@ namespace Unity.Hare.Input
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""7c870e64-f71a-4e71-a878-c7b6857e7c55"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""c12605ae-76f8-4781-b538-8fc5a01ae6fc"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""1243c215-2918-4fd1-84f4-db9cc3bf818d"",
                     ""path"": ""<Gamepad>/leftStick/x"",
@@ -568,15 +546,6 @@ namespace Unity.Hare.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Helper"",
-                    ""type"": ""Button"",
-                    ""id"": ""c3edd7af-c81f-4e72-85e3-808b6b4096a8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""d35f52d5-28f8-4aed-b7fa-649ad8e84ab9"",
@@ -698,28 +667,6 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Flashbomb"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cbf6e1f1-b294-4dca-ba89-f70b793bc729"",
-                    ""path"": ""<Keyboard>/h"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Helper"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1d2e3f40-5162-4738-94a5-b6c7d8e9f0a1"",
-                    ""path"": ""<Keyboard>/slash"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Helper"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -856,6 +803,178 @@ namespace Unity.Hare.Input
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Helper"",
+            ""id"": ""67afb2af-ef59-4108-a873-6c71200d5838"",
+            ""actions"": [
+                {
+                    ""name"": ""TurnLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ca6be1e-5399-4153-973e-b59f036df427"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TurnRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""18d64980-b2aa-42b4-8576-321411c6c1bc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Faster"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccb3d26f-ff01-4470-a0e9-762c106a2800"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Slower"",
+                    ""type"": ""Button"",
+                    ""id"": ""72fdadbd-a2c8-49d6-8f1b-efd6091eedc6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Solo"",
+                    ""type"": ""Button"",
+                    ""id"": ""c01ca12c-2723-4559-82c4-2a6f519cbdac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Detonate"",
+                    ""type"": ""Button"",
+                    ""id"": ""a31cec2d-2496-4ddc-b1a1-8e48b651cfac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1cf066c4-b945-4db2-a2cd-56a4f9793175"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eee849bd-3493-48da-aa32-f479bf4231d6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a502864e-5e5b-4683-a349-94dfc3b134ea"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11e99e4f-aaca-416f-b31c-b5c39bc2f815"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74a55960-58a9-480b-a559-c5fcde08569f"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Faster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23a28472-8619-4f7d-8104-39494c22de8a"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Faster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad46bb58-6bec-4091-a85c-c4bf8b2dd6d9"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Slower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52b1fabd-c1c6-4372-87c0-f2382b98c584"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Slower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b61f0f5-f6b8-4a20-8740-16246828ce67"",
+                    ""path"": ""<Keyboard>/pageDown"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Solo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e53ce1ba-6095-4f2f-b3fe-59c540925319"",
+                    ""path"": ""<Keyboard>/delete"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Detonate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -907,7 +1026,6 @@ namespace Unity.Hare.Input
             m_Meta_Leap = m_Meta.FindAction("Leap", throwIfNotFound: true);
             m_Meta_Shield = m_Meta.FindAction("Shield", throwIfNotFound: true);
             m_Meta_Flashbomb = m_Meta.FindAction("Flashbomb", throwIfNotFound: true);
-            m_Meta_Helper = m_Meta.FindAction("Helper", throwIfNotFound: true);
             m_Meta_Pause = m_Meta.FindAction("Pause", throwIfNotFound: true);
             m_Meta_Restart = m_Meta.FindAction("Restart", throwIfNotFound: true);
             m_Meta_Map = m_Meta.FindAction("Map", throwIfNotFound: true);
@@ -918,12 +1036,21 @@ namespace Unity.Hare.Input
             m_Meta_VolumeUp = m_Meta.FindAction("VolumeUp", throwIfNotFound: true);
             m_Meta_VolumeDown = m_Meta.FindAction("VolumeDown", throwIfNotFound: true);
             m_Meta_AddScore = m_Meta.FindAction("AddScore", throwIfNotFound: true);
+            // Helper
+            m_Helper = asset.FindActionMap("Helper", throwIfNotFound: true);
+            m_Helper_TurnLeft = m_Helper.FindAction("TurnLeft", throwIfNotFound: true);
+            m_Helper_TurnRight = m_Helper.FindAction("TurnRight", throwIfNotFound: true);
+            m_Helper_Faster = m_Helper.FindAction("Faster", throwIfNotFound: true);
+            m_Helper_Slower = m_Helper.FindAction("Slower", throwIfNotFound: true);
+            m_Helper_Solo = m_Helper.FindAction("Solo", throwIfNotFound: true);
+            m_Helper_Detonate = m_Helper.FindAction("Detonate", throwIfNotFound: true);
         }
 
         ~@HareControls()
         {
             UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, HareControls.Player.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_Meta.enabled, "This will cause a leak and performance issues, HareControls.Meta.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Helper.enabled, "This will cause a leak and performance issues, HareControls.Helper.Disable() has not been called.");
         }
 
         /// <summary>
@@ -1219,7 +1346,6 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Meta_Leap;
         private readonly InputAction m_Meta_Shield;
         private readonly InputAction m_Meta_Flashbomb;
-        private readonly InputAction m_Meta_Helper;
         private readonly InputAction m_Meta_Pause;
         private readonly InputAction m_Meta_Restart;
         private readonly InputAction m_Meta_Map;
@@ -1253,10 +1379,6 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Meta/Flashbomb".
             /// </summary>
             public InputAction @Flashbomb => m_Wrapper.m_Meta_Flashbomb;
-            /// <summary>
-            /// Provides access to the underlying input action "Meta/Helper".
-            /// </summary>
-            public InputAction @Helper => m_Wrapper.m_Meta_Helper;
             /// <summary>
             /// Provides access to the underlying input action "Meta/Pause".
             /// </summary>
@@ -1332,9 +1454,6 @@ namespace Unity.Hare.Input
                 @Flashbomb.started += instance.OnFlashbomb;
                 @Flashbomb.performed += instance.OnFlashbomb;
                 @Flashbomb.canceled += instance.OnFlashbomb;
-                @Helper.started += instance.OnHelper;
-                @Helper.performed += instance.OnHelper;
-                @Helper.canceled += instance.OnHelper;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -1385,9 +1504,6 @@ namespace Unity.Hare.Input
                 @Flashbomb.started -= instance.OnFlashbomb;
                 @Flashbomb.performed -= instance.OnFlashbomb;
                 @Flashbomb.canceled -= instance.OnFlashbomb;
-                @Helper.started -= instance.OnHelper;
-                @Helper.performed -= instance.OnHelper;
-                @Helper.canceled -= instance.OnHelper;
                 @Pause.started -= instance.OnPause;
                 @Pause.performed -= instance.OnPause;
                 @Pause.canceled -= instance.OnPause;
@@ -1451,6 +1567,157 @@ namespace Unity.Hare.Input
         /// Provides a new <see cref="MetaActions" /> instance referencing this action map.
         /// </summary>
         public MetaActions @Meta => new MetaActions(this);
+
+        // Helper
+        private readonly InputActionMap m_Helper;
+        private List<IHelperActions> m_HelperActionsCallbackInterfaces = new List<IHelperActions>();
+        private readonly InputAction m_Helper_TurnLeft;
+        private readonly InputAction m_Helper_TurnRight;
+        private readonly InputAction m_Helper_Faster;
+        private readonly InputAction m_Helper_Slower;
+        private readonly InputAction m_Helper_Solo;
+        private readonly InputAction m_Helper_Detonate;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "Helper".
+        /// </summary>
+        public struct HelperActions
+        {
+            private @HareControls m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public HelperActions(@HareControls wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/TurnLeft".
+            /// </summary>
+            public InputAction @TurnLeft => m_Wrapper.m_Helper_TurnLeft;
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/TurnRight".
+            /// </summary>
+            public InputAction @TurnRight => m_Wrapper.m_Helper_TurnRight;
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/Faster".
+            /// </summary>
+            public InputAction @Faster => m_Wrapper.m_Helper_Faster;
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/Slower".
+            /// </summary>
+            public InputAction @Slower => m_Wrapper.m_Helper_Slower;
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/Solo".
+            /// </summary>
+            public InputAction @Solo => m_Wrapper.m_Helper_Solo;
+            /// <summary>
+            /// Provides access to the underlying input action "Helper/Detonate".
+            /// </summary>
+            public InputAction @Detonate => m_Wrapper.m_Helper_Detonate;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_Helper; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="HelperActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(HelperActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="HelperActions" />
+            public void AddCallbacks(IHelperActions instance)
+            {
+                if (instance == null || m_Wrapper.m_HelperActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_HelperActionsCallbackInterfaces.Add(instance);
+                @TurnLeft.started += instance.OnTurnLeft;
+                @TurnLeft.performed += instance.OnTurnLeft;
+                @TurnLeft.canceled += instance.OnTurnLeft;
+                @TurnRight.started += instance.OnTurnRight;
+                @TurnRight.performed += instance.OnTurnRight;
+                @TurnRight.canceled += instance.OnTurnRight;
+                @Faster.started += instance.OnFaster;
+                @Faster.performed += instance.OnFaster;
+                @Faster.canceled += instance.OnFaster;
+                @Slower.started += instance.OnSlower;
+                @Slower.performed += instance.OnSlower;
+                @Slower.canceled += instance.OnSlower;
+                @Solo.started += instance.OnSolo;
+                @Solo.performed += instance.OnSolo;
+                @Solo.canceled += instance.OnSolo;
+                @Detonate.started += instance.OnDetonate;
+                @Detonate.performed += instance.OnDetonate;
+                @Detonate.canceled += instance.OnDetonate;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="HelperActions" />
+            private void UnregisterCallbacks(IHelperActions instance)
+            {
+                @TurnLeft.started -= instance.OnTurnLeft;
+                @TurnLeft.performed -= instance.OnTurnLeft;
+                @TurnLeft.canceled -= instance.OnTurnLeft;
+                @TurnRight.started -= instance.OnTurnRight;
+                @TurnRight.performed -= instance.OnTurnRight;
+                @TurnRight.canceled -= instance.OnTurnRight;
+                @Faster.started -= instance.OnFaster;
+                @Faster.performed -= instance.OnFaster;
+                @Faster.canceled -= instance.OnFaster;
+                @Slower.started -= instance.OnSlower;
+                @Slower.performed -= instance.OnSlower;
+                @Slower.canceled -= instance.OnSlower;
+                @Solo.started -= instance.OnSolo;
+                @Solo.performed -= instance.OnSolo;
+                @Solo.canceled -= instance.OnSolo;
+                @Detonate.started -= instance.OnDetonate;
+                @Detonate.performed -= instance.OnDetonate;
+                @Detonate.canceled -= instance.OnDetonate;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="HelperActions.UnregisterCallbacks(IHelperActions)" />.
+            /// </summary>
+            /// <seealso cref="HelperActions.UnregisterCallbacks(IHelperActions)" />
+            public void RemoveCallbacks(IHelperActions instance)
+            {
+                if (m_Wrapper.m_HelperActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="HelperActions.AddCallbacks(IHelperActions)" />
+            /// <seealso cref="HelperActions.RemoveCallbacks(IHelperActions)" />
+            /// <seealso cref="HelperActions.UnregisterCallbacks(IHelperActions)" />
+            public void SetCallbacks(IHelperActions instance)
+            {
+                foreach (var item in m_Wrapper.m_HelperActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_HelperActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="HelperActions" /> instance referencing this action map.
+        /// </summary>
+        public HelperActions @Helper => new HelperActions(this);
         private int m_KeyboardMouseSchemeIndex = -1;
         /// <summary>
         /// Provides access to the input control scheme.
@@ -1598,13 +1865,6 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnFlashbomb(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Helper" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-            /// </summary>
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnHelper(InputAction.CallbackContext context);
-            /// <summary>
             /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1674,6 +1934,56 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAddScore(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Helper" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="HelperActions.AddCallbacks(IHelperActions)" />
+        /// <seealso cref="HelperActions.RemoveCallbacks(IHelperActions)" />
+        public interface IHelperActions
+        {
+            /// <summary>
+            /// Method invoked when associated input action "TurnLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTurnLeft(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "TurnRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTurnRight(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Faster" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnFaster(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Slower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSlower(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Solo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSolo(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Detonate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnDetonate(InputAction.CallbackContext context);
         }
     }
 }

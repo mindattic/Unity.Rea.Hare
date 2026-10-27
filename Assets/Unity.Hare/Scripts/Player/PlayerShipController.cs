@@ -48,6 +48,7 @@ namespace Unity.Hare.Player
                 {
                     controls = new HareControls();
                     controls.Player.Enable();
+                    controls.Helper.Enable(); // the arrows, Page Down and Delete: obj_helper's keys (U.HARE-T66)
                 }
                 return controls;
             }
@@ -135,8 +136,9 @@ namespace Unity.Hare.Player
         {
             var player = Controls.Player;
 
-            // GML rotate_counterclockwise/rotate_clockwise: A (and the left arrow) is +turn_speed, D (and the
-            // right arrow) is -turn_speed; both held cancels to 0, same as the two separate key checks before it.
+            // GML rotate_counterclockwise/rotate_clockwise: A is +turn_speed, D is -turn_speed; both held cancels to 0,
+            // same as the two separate key checks before it. The arrows are not the ship's: they call and fly obj_helper
+            // (U.HARE-T66, ReadHelperKeys).
             SetTurnInput(player.Rotate.ReadValue<float>());
 
             UpdateAim();
@@ -157,7 +159,31 @@ namespace Unity.Hare.Player
             // GML Alt / middle mouse: spin while held in flight, wind the facing back on release.
             if (player.Spin.WasPressedThisFrame()) Send(new PressSpinKey(Id));
             if (player.Spin.WasReleasedThisFrame()) Send(new ReleaseSpinKey(Id));
+
+            ReadHelperKeys();
         }
+
+        /// <summary>
+        /// The helper hawk's keys (U.HARE-T66), HareControls' Helper map. obj_helper's own key events run first: the
+        /// held left (37) and right (39) arrows turn it and their release stops the turn, the Up (38) and Down (40) presses
+        /// step its speed, Page Down (34) toggles solo and Delete (46) sets it off. Then obj_player's own press of any
+        /// arrow, create_helper: a new helper at the ship when there is none (it has not seen the press that made it).
+        /// </summary>
+        void ReadHelperKeys()
+        {
+            var keys = Controls.Helper;
+            Helper.HelperDirector.HoldTurn(Id, keys.TurnLeft.IsPressed(), keys.TurnRight.IsPressed());
+            if (keys.Faster.WasPressedThisFrame()) Helper.HelperDirector.Execute(new Helper.PressHelperFaster(Id));
+            if (keys.Slower.WasPressedThisFrame()) Helper.HelperDirector.Execute(new Helper.PressHelperSlower(Id));
+            if (keys.Solo.WasPressedThisFrame()) Helper.HelperDirector.Execute(new Helper.ToggleHelperSolo(Id));
+            if (keys.Detonate.WasPressedThisFrame()) Helper.HelperDirector.Execute(new Helper.DetonateHelper(Id));
+            if (keys.TurnLeft.WasPressedThisFrame() || keys.TurnRight.WasPressedThisFrame()
+                || keys.Faster.WasPressedThisFrame() || keys.Slower.WasPressedThisFrame())
+                CallHelper();
+        }
+
+        /// <summary>create_helper: obj_helper at the ship, heading its image_angle, unless this ship's helper exists.</summary>
+        public bool CallHelper() => Helper.HelperDirector.Call(Id, transform.position, Facing);
 
         /// <summary>Space's press boosts in flight; the right mouse button's brakes, or boosts with Ctrl (Alternate) held.</summary>
         AirPress LeapKeyAirPress()
@@ -431,6 +457,7 @@ namespace Unity.Hare.Player
             if (controls != null)
             {
                 controls.Player.Disable();
+                controls.Helper.Disable();
                 // Dispose() calls Object.Destroy(asset), which Unity refuses outside Play mode (e.g. an EditMode
                 // test's DestroyImmediate on this ship, which still runs OnDestroy synchronously); DestroyImmediate
                 // the underlying asset directly when there is no Play mode to defer the real destroy to.

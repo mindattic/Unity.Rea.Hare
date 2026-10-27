@@ -210,6 +210,12 @@ namespace Unity.Hare.Tests.Core
             Assert.AreEqual(defaults.Map.Upgrade.Message, fromFile.Map.Upgrade.Message);
             Assert.AreEqual(defaults.Map.Upgrade.Room, fromFile.Map.Upgrade.Room);
             Assert.AreEqual(defaults.Map.MarkerMask.Frames.Length, fromFile.Map.MarkerMask.Frames.Length, "the masks are compiled in");
+            Assert.AreEqual(defaults.Helper.CallSound, fromFile.Helper.CallSound);
+            Assert.AreEqual(defaults.Helper.StartSpeedPx, fromFile.Helper.StartSpeedPx);
+            Assert.AreEqual(defaults.Helper.TurnSpeed, fromFile.Helper.TurnSpeed);
+            Assert.AreEqual(defaults.Helper.SmokeEverySteps, fromFile.Helper.SmokeEverySteps);
+            Assert.AreEqual(defaults.Helper.ReturnDistancePx, fromFile.Helper.ReturnDistancePx);
+            CollectionAssert.AreEqual(defaults.Helper.Box, fromFile.Helper.Box);
 
             foreach (EnemyKind kind in System.Enum.GetValues(typeof(EnemyKind)))
             {

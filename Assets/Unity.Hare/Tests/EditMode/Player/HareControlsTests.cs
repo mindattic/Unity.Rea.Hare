@@ -55,15 +55,40 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(-1f, controls.Player.Rotate.ReadValue<float>());
         }
 
+        /// <summary>
+        /// U.HARE-T66: in HARE.gmx the ship turns only with A and D (obj_player's keyboard events 65 and 68); the arrows
+        /// are obj_helper's (obj_player's arrow presses call create_helper, the helper's own events turn it and step its
+        /// speed), with Page Down (34) its solo toggle and Delete (46) its detonation.
+        /// </summary>
         [Test]
-        public void ArrowKeysMatchAAndD()
+        public void TheArrowsPageDownAndDeleteAreTheHelpersNotTheShips()
         {
-            Press(keyboard.leftArrowKey);
-            Assert.AreEqual(1f, controls.Player.Rotate.ReadValue<float>(), "left arrow matches A (counterclockwise)");
-            Release(keyboard.leftArrowKey);
+            controls.Helper.Enable();
+            try
+            {
+                Press(keyboard.leftArrowKey);
+                Assert.AreEqual(0f, controls.Player.Rotate.ReadValue<float>(), "the left arrow does not turn the ship");
+                Assert.IsTrue(controls.Helper.TurnLeft.IsPressed());
+                Release(keyboard.leftArrowKey);
 
-            Press(keyboard.rightArrowKey);
-            Assert.AreEqual(-1f, controls.Player.Rotate.ReadValue<float>(), "right arrow matches D (clockwise)");
+                Press(keyboard.rightArrowKey);
+                Assert.AreEqual(0f, controls.Player.Rotate.ReadValue<float>(), "nor does the right");
+                Assert.IsTrue(controls.Helper.TurnRight.IsPressed());
+                Release(keyboard.rightArrowKey);
+
+                Press(keyboard.upArrowKey);
+                Assert.IsTrue(controls.Helper.Faster.WasPressedThisFrame());
+                Press(keyboard.downArrowKey);
+                Assert.IsTrue(controls.Helper.Slower.WasPressedThisFrame());
+                Press(keyboard.pageDownKey);
+                Assert.IsTrue(controls.Helper.Solo.WasPressedThisFrame());
+                Press(keyboard.deleteKey);
+                Assert.IsTrue(controls.Helper.Detonate.WasPressedThisFrame());
+            }
+            finally
+            {
+                controls.Helper.Disable();
+            }
         }
 
         [Test]

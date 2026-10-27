@@ -199,7 +199,7 @@ polling the five views used before):
 
 | Input | Flying | Perched |
 |---|---|---|
-| A / D, left/right arrow | turn left / right | |
+| A / D | turn left / right | |
 | W or Space | boost | raise the shield (held) |
 | S or Left Shift | brake | raise the shield (held) |
 | Mouse | aim | aim |
@@ -228,7 +228,19 @@ there (U.HARE-T60, docs/BIBLE.md V37):
 | F12 | debug overlay |
 | Esc | back to the title |
 
-Leap, Shield, Flashbomb and Helper land with flashbombs (U.HARE-T67) and the helper.
+Leap, Shield and Flashbomb land with flashbombs (U.HARE-T67).
+
+The arrows are the helper hawk's, as in gmlHARE (U.HARE-T66, docs/BIBLE.md V43), on HareControls' `Helper` map:
+
+| Key | The helper hawk |
+|---|---|
+| Any arrow (press) | call it at the ship, heading where the ship points (one at a time) |
+| Left / right arrow (held) | turn it 2 degrees a step |
+| Up / down arrow (press) | one px a step faster (to 4) / slower (to 1) |
+| Page Down | solo: it steers itself toward the mouse |
+| Delete | set it off as a rocket explosion |
+
+It picks up carrots and coins for its ship and flies home once it leaves the view.
 
 ## Project layout
 
