@@ -47,7 +47,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(1, FlamesAlive());
             var flame = flamer.LastFlame;
             Assert.AreEqual(120f, flame.Direction, 1e-4f);
-            Assert.AreEqual(4f, flame.Speed);
+            Assert.AreEqual(Gml.Px(4f) * Gml.StepsPerSecond, flame.Speed, 1e-4f, "flame.speed = 4 px a step (U.HARE-T88)");
             Assert.AreEqual(muzzle, (Vector2)flame.transform.position);
             Assert.AreEqual(149, flamer.Ammo);
         }

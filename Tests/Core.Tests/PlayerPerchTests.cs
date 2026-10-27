@@ -158,6 +158,18 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
+        public void BoostingAfterATakeOffDoublesTheCurrentSpeedRockBonusIncluded()
+        {
+            rig.Do(new LandOn(rig.Id, Rock(normal: 90f, speed: -1.5f, spin: -0.25f)));
+            rig.Do(new Leap(rig.Id, 60f));
+            float takeOff = Flight.Speed;
+
+            Assert.IsTrue(rig.Do(new Boost(rig.Id)).Accepted);
+            Assert.AreEqual(takeOff * 2f, Flight.Speed, 1e-4f, "player_boost: player.speed = player.speed * 2 (U.HARE-T88)");
+            Assert.AreNotEqual(Flight.Tuning.FlightSpeed * 2f, Flight.Speed, "not flight_speed * 2");
+        }
+
+        [Test]
         public void LeapingOffAStructureTakesOffAtFlightSpeed()
         {
             rig.Do(new LandOn(rig.Id, new LandingSurface(SurfaceKind.Structure, 3, 90f)));

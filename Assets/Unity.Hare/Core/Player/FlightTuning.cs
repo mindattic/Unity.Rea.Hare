@@ -15,17 +15,23 @@ namespace Unity.Hare.Player
     }
 
     /// <summary>
-    /// obj_player's flight numbers. Brake is half of flight speed and boost double, as in the original; absolute
-    /// values are placeholders to retune once real sprites set the world scale (UH-T2 note), and the energy rates
-    /// are this rebuild's own until obj_energybar is ported (UH-T15). Speeds are per second (GML px per step x 120).
+    /// obj_player's flight numbers. The energy rates are this rebuild's own until obj_energybar is ported (UH-T15).
+    /// <see cref="FlightSpeed"/> and <see cref="BrakeSpeed"/> are the original's px a step, as <see cref="ShipFlight.Speed"/>
+    /// holds them; <see cref="ShipFlight.WorldSpeed"/> turns them into world units a second (U.HARE-T88).
     /// </summary>
     [Serializable]
     public class FlightTuning
     {
+        /// <summary>obj_player Create's flight_speed (and reset_player's speed = 5), px a step.</summary>
         public float FlightSpeed = 5f;
+        /// <summary>obj_player Create's brake_speed, px a step.</summary>
         public float BrakeSpeed = 2.5f;
         public float TurnSpeedDegreesPerSecond = 120f;
         public float BrakeTurnSpeedDegreesPerSecond = 240f;
+        /// <summary>
+        /// The boost and brake ease, px a step gained or lost a second: obj_player Step's <c>speed -= 0.05</c> each step
+        /// (x 120).
+        /// </summary>
         public float SpeedChangeRatePerSecond = 6f;
 
         /// <summary>obj_energybar: boost, brake and shield need this fraction of the bar to start.</summary>

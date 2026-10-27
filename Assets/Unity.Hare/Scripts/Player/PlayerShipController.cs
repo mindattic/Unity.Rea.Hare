@@ -305,7 +305,7 @@ namespace Unity.Hare.Player
             var flight = Core.Flight;
             transform.rotation = Quaternion.Euler(0f, 0f, flight.Facing);
             if (body != null && flight.State == PlayerFlightState.Moving)
-                body.linearVelocity = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad)) * flight.Speed;
+                body.linearVelocity = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad)) * flight.WorldSpeed;
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Unity.Hare.Player
             }
 
             Vector2 heading = new Vector2(Mathf.Cos(flight.Direction * Mathf.Deg2Rad), Mathf.Sin(flight.Direction * Mathf.Deg2Rad));
-            body.linearVelocity = heading * flight.Speed;
+            body.linearVelocity = heading * flight.WorldSpeed; // speed is px a step (U.HARE-T88)
         }
 
         void RideRock(float dt)

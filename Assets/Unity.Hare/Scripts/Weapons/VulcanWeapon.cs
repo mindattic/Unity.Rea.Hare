@@ -164,7 +164,7 @@ namespace Unity.Hare.Weapons
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);
             if (bulletSprite != null) go.AddComponent<SpriteRenderer>().sprite = bulletSprite;
             var bullet = go.AddComponent<Bullet>();
-            bullet.Init(gameObject, aim, stats.BulletSpeed, Core.Table.BulletDamage(GunType.Vulcan), stats.BulletLifetime, stats.BulletRadius);
+            bullet.Init(gameObject, aim, Gml.Px(stats.BulletSpeed) * Gml.StepsPerSecond, Core.Table.BulletDamage(GunType.Vulcan), stats.BulletLifetime, stats.BulletRadius);
 
             // GML: cartridge = instance_create(player.gunX, player.gunY, obj_cartridge) (U.HARE-T23).
             Pickups.PickupDirector.EjectCasing(Pickups.ScrapKind.Cartridge, GunPoint(transform));

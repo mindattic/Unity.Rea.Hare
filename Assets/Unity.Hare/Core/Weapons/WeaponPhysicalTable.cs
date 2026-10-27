@@ -23,6 +23,7 @@ namespace Unity.Hare.Weapons
     [Serializable]
     public class VulcanPhysicalStats
     {
+        /// <summary>shoot_vulcan's bullet.speed = 8, px a step; the vulcan fires it at Gml.Px(8) x 120 units a second (U.HARE-T88).</summary>
         public float BulletSpeed = 8f;
         public float BulletLifetime = 3f;
         public float BulletRadius = 0.05f;
@@ -49,6 +50,7 @@ namespace Unity.Hare.Weapons
         public int SpreadDegrees = 8;
         /// <summary>GML 12 px of stagger along the aim, in units.</summary>
         public float Grouping = 0.12f;
+        /// <summary>shoot_shotgun's velocity = 12, px a step; fired at Gml.Px(12) x 120 units a second (U.HARE-T88).</summary>
         public float PelletSpeed = 12f;
         /// <summary>
         /// Used only with no play room running: in one, a pellet (an obj_bullet) goes once past the room's buffer_zone
@@ -73,6 +75,7 @@ namespace Unity.Hare.Weapons
     [Serializable]
     public class FlamerPhysicalStats
     {
+        /// <summary>shoot_flamer's flame.speed = 4, px a step; fired at Gml.Px(4) x 120 units a second (U.HARE-T88).</summary>
         public float FlameSpeed = 4f;
         /// <summary>42 frames at image_speed 0.3, in seconds.</summary>
         public float FlameLifetime = 42f / 0.3f / GameClock.StepsPerSecond;

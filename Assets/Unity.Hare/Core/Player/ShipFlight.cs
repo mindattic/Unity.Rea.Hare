@@ -35,7 +35,15 @@ namespace Unity.Hare.Player
         /// <summary>GML direction: the heading the ship flies along.</summary>
         public float Direction { get; private set; }
 
+        /// <summary>
+        /// GML speed, in the original's px a step (flight_speed 5, brake_speed 2.5, boost doubling it), so the rock's
+        /// take-off bonus adds to it and the speedometer reads it as obj_player's speed. <see cref="WorldSpeed"/> is the
+        /// same speed in world units a second, which is what moves the ship (U.HARE-T88).
+        /// </summary>
         public float Speed { get; private set; }
+
+        /// <summary><see cref="Speed"/> as world units a second: <c>GameClock.Px(speed) * GameClock.StepsPerSecond</c>.</summary>
+        public float WorldSpeed => GameClock.Px(Speed) * GameClock.StepsPerSecond;
 
         /// <summary>
         /// GML image_angle, degrees in [0, 360): the way the ship points. It turns with <see cref="Direction"/>, runs away
@@ -89,7 +97,7 @@ namespace Unity.Hare.Player
         public float RockSpinPerStep { get; private set; }
 
         /// <summary>
-        /// World units per second the ship moves: <see cref="Speed"/> along <see cref="Direction"/> while flying
+        /// World units per second the ship moves: <see cref="WorldSpeed"/> along <see cref="Direction"/> while flying
         /// (GML direction/speed, so 0 degrees is +x and counter-clockwise positive), nothing while perched or dead.
         /// </summary>
         public Vec2 Velocity
@@ -98,7 +106,8 @@ namespace Unity.Hare.Player
             {
                 if (State != PlayerFlightState.Moving && State != PlayerFlightState.Leaving) return Vec2.Zero;
                 double radians = Direction * Math.PI / 180.0;
-                return new Vec2((float)Math.Cos(radians) * Speed, (float)Math.Sin(radians) * Speed);
+                float speed = WorldSpeed;
+                return new Vec2((float)Math.Cos(radians) * speed, (float)Math.Sin(radians) * speed);
             }
         }
 
@@ -153,14 +162,17 @@ namespace Unity.Hare.Player
         /// </summary>
         public bool IsTurning { get; private set; }
 
-        /// <summary>GML: player_boost. Instant speed jump, held while energy lasts.</summary>
+        /// <summary>
+        /// GML: player_boost. <c>player.speed = player.speed * 2</c>: the ship's current speed doubles (a take-off's rock
+        /// bonus included), held while energy lasts.
+        /// </summary>
         public bool TryBoost()
         {
             if (State != PlayerFlightState.Moving || IsBraking) return false;
             if (Energy < MinEnergyToStart) return false;
 
             IsBoosting = true;
-            Speed = tuning.FlightSpeed * 2f;
+            Speed *= 2f;
             return true;
         }
 

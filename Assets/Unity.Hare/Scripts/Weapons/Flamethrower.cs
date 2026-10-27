@@ -36,7 +36,7 @@ namespace Unity.Hare.Weapons
             var go = new GameObject("Flame");
             go.transform.position = origin;
             LastFlame = go.AddComponent<Flame>();
-            LastFlame.Init(Player, aim, stats.FlameSpeed, stats.FlameLifetime, stats.FlameRadius);
+            LastFlame.Init(Player, aim, Gml.Px(stats.FlameSpeed) * Gml.StepsPerSecond, stats.FlameLifetime, stats.FlameRadius);
             // GML: effect_create_below(ef_smokeup, X, Y, 0, c_black) at the muzzle with every flame.
             GmlEffects.CreateBelow(GmlEffectKind.SmokeUp, origin, 0, Color.black);
         }

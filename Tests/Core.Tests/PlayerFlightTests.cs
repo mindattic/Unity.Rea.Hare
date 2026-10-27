@@ -31,7 +31,20 @@ namespace Unity.Hare.Tests.Core
         {
             Assert.IsTrue(rig.Do(new Boost(rig.Id)).Accepted);
             Assert.IsTrue(Flight.IsBoosting);
-            Assert.AreEqual(10f, Flight.Speed); // flight_speed(5) * 2, GML player_boost
+            Assert.AreEqual(10f, Flight.Speed); // speed(5) * 2, GML player_boost
+            Assert.AreEqual(12f, Flight.WorldSpeed, 1e-4f, "10 px a step at 120 steps a second (U.HARE-T88)");
+        }
+
+        [Test]
+        public void SpeedIsPxAStepAndMovesTheShipAtTheOriginalsRate()
+        {
+            Assert.AreEqual(5f, Flight.Speed, "flight_speed, px a step");
+            Assert.AreEqual(GameClock.Px(5f) * GameClock.StepsPerSecond, Flight.WorldSpeed, 1e-4f);
+            Assert.AreEqual(Flight.WorldSpeed, Flight.Velocity.Magnitude, 1e-4f, "600 px a second, not 500 (U.HARE-T88)");
+
+            rig.Do(new Brake(rig.Id));
+            Step(1f / 120f);
+            Assert.AreEqual(5f - 0.05f, Flight.Speed, 1e-4f, "speed -= 0.05 each step");
         }
 
         [Test]

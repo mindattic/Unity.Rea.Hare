@@ -59,7 +59,7 @@ namespace Unity.Hare.Tests.EditMode
             var bullet = fired[0];
             Assert.AreSame(ship.gameObject, bullet.Owner);
             Assert.AreEqual(0f, bullet.Direction, 0.001f);
-            Assert.AreEqual(8f, bullet.Velocity.x, 0.001f);
+            Assert.AreEqual(Gml.Px(8f) * Gml.StepsPerSecond, bullet.Velocity.x, 0.001f, "bullet.speed = 8 px a step (U.HARE-T88)");
             Assert.AreEqual(0f, bullet.Velocity.y, 0.001f);
             Assert.Greater(bullet.transform.position.x, ship.transform.position.x, "spawns at the muzzle, ahead of the ship");
             Assert.AreEqual(149, vulcan.Ammo, "subtract_ground_ammo: 1 round per shot");

@@ -72,7 +72,7 @@ namespace Unity.Hare.Tests.EditMode
                 float spread = Mathf.DeltaAngle(30f, pellet.Direction);
                 Assert.LessOrEqual(Mathf.Abs(spread), 8f + 1e-3f);
                 Assert.AreEqual(Mathf.Round(spread), spread, 1e-3f, "spread is whole degrees (irandom_range)");
-                Assert.AreEqual(12f, pellet.Speed);
+                Assert.AreEqual(Gml.Px(12f) * Gml.StepsPerSecond, pellet.Speed, 1e-4f, "velocity = 12 px a step (U.HARE-T88)");
                 Assert.AreSame(player.gameObject, pellet.Owner);
 
                 // Pellets start strung out 0..grouping along the aim from the muzzle.

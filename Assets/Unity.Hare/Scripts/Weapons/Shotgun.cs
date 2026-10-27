@@ -55,7 +55,7 @@ namespace Unity.Hare.Weapons
                 go.transform.position = new Vector3(start.x, start.y, transform.position.z);
                 if (pelletSprite != null) go.AddComponent<SpriteRenderer>().sprite = pelletSprite;
                 var pellet = go.AddComponent<Bullet>();
-                pellet.Init(gameObject, direction, stats.PelletSpeed, Core.Table.BulletDamage(GunType.Shotgun), stats.PelletLifetime, stats.PelletRadius);
+                pellet.Init(gameObject, direction, Gml.Px(stats.PelletSpeed) * Gml.StepsPerSecond, Core.Table.BulletDamage(GunType.Shotgun), stats.PelletLifetime, stats.PelletRadius);
                 lastBlast.Add(pellet);
             }
 

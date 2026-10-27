@@ -56,7 +56,7 @@ namespace Unity.Hare.Tests.Core
             var world = NewWorld();
             var a = world.Seat(0);
             var b = world.Seat(1);
-            float speed = world.Ship(a).Flight.Speed;
+            float speed = world.Ship(a).Flight.WorldSpeed; // speed (px a step) as units a second (U.HARE-T88)
 
             world.Step(Dt);
 
@@ -158,7 +158,8 @@ namespace Unity.Hare.Tests.Core
             var rig = new PlayerRig();
             var v = rig.Flight.Velocity;
             Assert.AreEqual(0f, v.X, 1e-4f);
-            Assert.AreEqual(-rig.Flight.Speed, v.Y, 1e-4f);
+            Assert.AreEqual(-rig.Flight.WorldSpeed, v.Y, 1e-4f);
+            Assert.AreEqual(6f, rig.Flight.WorldSpeed, 1e-4f, "flight_speed 5 px a step x 120 steps = 600 px = 6 units a second (U.HARE-T88)");
         }
 
         // ---- the content registry's online section ----
