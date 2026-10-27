@@ -675,6 +675,13 @@ namespace Unity.Hare.Player
         internal override bool Apply(PlayerShip ship) { ship.Air.Tick(dt); return true; }
     }
 
+    /// <summary>obj_player KeyPress 66 (B): the vulcan's rounds take the next look (<see cref="ShipLook.BulletSprite"/>).</summary>
+    public sealed class CycleBulletSprite : PlayerCommand
+    {
+        public CycleBulletSprite(PlayerId id) : base(id) { }
+        internal override bool Apply(PlayerShip ship) => ship.Look.CycleBulletSprite();
+    }
+
     /// <summary>GML fire_secondary for the current air weapon. Accepted when a shot went out.</summary>
     public sealed class FireAir : PlayerCommand
     {

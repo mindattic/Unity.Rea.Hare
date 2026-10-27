@@ -201,6 +201,15 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BulletLook"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d8b2f61-9a3c-4e07-b1d4-6c0e8a7f2b93"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -509,6 +518,17 @@ namespace Unity.Hare.Input
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Alternate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4e9c2b7-1f60-4d83-9e5a-3b7d0c8f6a21"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BulletLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1021,6 +1041,7 @@ namespace Unity.Hare.Input
             m_Player_Leap = m_Player.FindAction("Leap", throwIfNotFound: true);
             m_Player_Spin = m_Player.FindAction("Spin", throwIfNotFound: true);
             m_Player_Alternate = m_Player.FindAction("Alternate", throwIfNotFound: true);
+            m_Player_BulletLook = m_Player.FindAction("BulletLook", throwIfNotFound: true);
             // Meta
             m_Meta = asset.FindActionMap("Meta", throwIfNotFound: true);
             m_Meta_Leap = m_Meta.FindAction("Leap", throwIfNotFound: true);
@@ -1138,6 +1159,7 @@ namespace Unity.Hare.Input
         private readonly InputAction m_Player_Leap;
         private readonly InputAction m_Player_Spin;
         private readonly InputAction m_Player_Alternate;
+        private readonly InputAction m_Player_BulletLook;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1197,6 +1219,10 @@ namespace Unity.Hare.Input
             /// Provides access to the underlying input action "Player/Alternate".
             /// </summary>
             public InputAction @Alternate => m_Wrapper.m_Player_Alternate;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/BulletLook".
+            /// </summary>
+            public InputAction @BulletLook => m_Wrapper.m_Player_BulletLook;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1259,6 +1285,9 @@ namespace Unity.Hare.Input
                 @Alternate.started += instance.OnAlternate;
                 @Alternate.performed += instance.OnAlternate;
                 @Alternate.canceled += instance.OnAlternate;
+                @BulletLook.started += instance.OnBulletLook;
+                @BulletLook.performed += instance.OnBulletLook;
+                @BulletLook.canceled += instance.OnBulletLook;
             }
 
             /// <summary>
@@ -1306,6 +1335,9 @@ namespace Unity.Hare.Input
                 @Alternate.started -= instance.OnAlternate;
                 @Alternate.performed -= instance.OnAlternate;
                 @Alternate.canceled -= instance.OnAlternate;
+                @BulletLook.started -= instance.OnBulletLook;
+                @BulletLook.performed -= instance.OnBulletLook;
+                @BulletLook.canceled -= instance.OnBulletLook;
             }
 
             /// <summary>
@@ -1835,6 +1867,13 @@ namespace Unity.Hare.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAlternate(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "BulletLook" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnBulletLook(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Meta" which allows adding and removing callbacks.

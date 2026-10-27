@@ -31,6 +31,47 @@ namespace Unity.Hare.Tests.Core
             return seen;
         }
 
+        // ---- bullet_asset and the B key (U.HARE-T93) ----
+
+        [Test]
+        public void TheVulcansRoundsStartAsSprBulletVulcan()
+        {
+            Assert.AreEqual("spr_bullet_vulcan", new PlayerRig().Ship.Look.BulletSprite, "obj_player Create");
+        }
+
+        [Test]
+        public void TheBKeyCyclesTheBulletLookAndWrapsRound()
+        {
+            var rig = NewRig();
+            string[] expected = { "spr_bullet_blue", "spr_bullet_orange", "spr_bullet_flash", "spr_bullet", "spr_bullet_vulcan" };
+            foreach (string sprite in expected)
+            {
+                Assert.IsTrue(rig.Do(new CycleBulletSprite(rig.Id)).Accepted);
+                Assert.AreEqual(sprite, rig.Ship.Look.BulletSprite);
+            }
+        }
+
+        [Test]
+        public void ANewShipForTheNextLevelStartsBackOnSprBulletVulcan()
+        {
+            var rig = NewRig();
+            rig.Do(new CycleBulletSprite(rig.Id));
+            rig.Do(new SetUpShip(rig.Id)); // setup_level's new obj_player
+            Assert.AreEqual("spr_bullet_vulcan", rig.Ship.Look.BulletSprite);
+        }
+
+        [Test]
+        public void TheBulletLooksAreData()
+        {
+            var registry = ContentRegistry.FromJson("{ \"weaponPhysicals\": { \"Vulcan\": { \"BulletSprites\": [\"spr_bullet\"] } } }");
+            CollectionAssert(registry.WeaponPhysicals.Vulcan.BulletSprites, "spr_bullet");
+            NUnit.Framework.Assert.Throws<ContentValidationException>(() =>
+                ContentRegistry.FromJson("{ \"weaponPhysicals\": { \"Vulcan\": { \"BulletSprites\": [] } } }"));
+        }
+
+        static void CollectionAssert(string[] actual, params string[] expected) =>
+            NUnit.Framework.Legacy.CollectionAssert.AreEqual(expected, actual);
+
         // ---- Alarm 2: the smoke trail ----
 
         [Test]

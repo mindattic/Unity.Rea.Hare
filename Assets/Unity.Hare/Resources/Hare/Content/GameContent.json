@@ -61,7 +61,8 @@
   "weaponPhysicals": {
     "PerchedMuzzle": { "GunOffsetPx": -13, "MuzzleDistancePx": 34 },
     "AirMuzzle": { "GunOffsetPx": -13, "MuzzleDistancePx": 34 },
-    "Vulcan": { "BulletSpeed": 8, "BulletLifetime": 3, "BulletRadius": 0.05, "MuzzleDistance": 0.34, "MuzzleJitter": 0.05 },
+    "Vulcan": { "BulletSpeed": 8, "BulletLifetime": 3, "BulletRadius": 0.05, "MuzzleDistance": 0.34, "MuzzleJitter": 0.05,
+      "BulletSprites": ["spr_bullet_vulcan", "spr_bullet_blue", "spr_bullet_orange", "spr_bullet_flash", "spr_bullet"] },
     "Shotgun": { "PelletCount": 16, "SpreadDegrees": 8, "Grouping": 0.12, "PelletSpeed": 12, "PelletLifetime": 2, "PelletRadius": 0.03 },
     "Flamer": { "FlameSpeed": 4, "FlameLifetime": 1.1666667, "FlameRadius": 0.5 },
     "Laser": { "BeamLengthPx": 2000 },

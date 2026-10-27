@@ -92,6 +92,7 @@ namespace Unity.Hare.Player
             this.flight = flight;
             this.health = health;
             this.random = random;
+            BulletSprite = GameContent.Current.WeaponPhysicals.Vulcan.BulletSprites[0]; // Create: bullet_asset = spr_bullet_vulcan
             sink.Emitted += Observe;
         }
 
@@ -99,6 +100,25 @@ namespace Unity.Hare.Player
 
         /// <summary>GML ground_weapon_asset, as the weapon it shows.</summary>
         public GroundWeapon HeldWeapon { get; private set; } = GroundWeapon.Vulcan;
+
+        /// <summary>
+        /// GML bullet_asset: the sprite the vulcan's rounds are drawn with (shoot_vulcan's <c>bullet.sprite_index =
+        /// player.bullet_asset</c>), stepped by the B key (<see cref="CycleBulletSprite"/>, U.HARE-T93).
+        /// </summary>
+        public string BulletSprite { get; private set; }
+
+        /// <summary>
+        /// obj_player KeyPress 66 (B, no paused check): <c>bullet_asset</c> moves to the next of
+        /// <see cref="VulcanPhysicalStats.BulletSprites"/>, the last back to the first; a sprite not in the list stays.
+        /// </summary>
+        internal bool CycleBulletSprite()
+        {
+            var sprites = GameContent.Current.WeaponPhysicals.Vulcan.BulletSprites;
+            int index = Array.IndexOf(sprites, BulletSprite);
+            if (index < 0) return false;
+            BulletSprite = sprites[(index + 1) % sprites.Length];
+            return true;
+        }
 
         /// <summary>The GML sprite of <see cref="HeldWeapon"/> (spr_weapon_vulcan ...).</summary>
         public string HeldWeaponSprite => WeaponSprite(HeldWeapon);
@@ -139,6 +159,7 @@ namespace Unity.Hare.Player
         {
             tuning = newTuning ?? GameContent.Current.Look;
             HeldWeapon = GroundWeapon.Vulcan;
+            BulletSprite = GameContent.Current.WeaponPhysicals.Vulcan.BulletSprites[0]; // Create: bullet_asset = spr_bullet_vulcan
             jetClock = 0f;
             wasTurning = false;
             ArmTrails();

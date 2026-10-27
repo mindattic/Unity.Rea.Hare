@@ -207,6 +207,7 @@ polling the five views used before):
 | Ctrl + left mouse | drop a mine | fire the ground secondary (shotgun) |
 | Q | | next ground primary (vulcan, laser, railgun, shotgun, flamer) |
 | E | next air weapon (rocket, mine) | next air weapon (rocket, mine) |
+| B | the vulcan rounds' next look (5 sprites, round and round) | the same |
 
 The system cursor is hidden while the rooms run: the mouse is drawn as obj_mouse, a reticle on the aim point in
 play (green flying, blue when a leap can go that way, red when it cannot) and spr_pointer on the title, map and

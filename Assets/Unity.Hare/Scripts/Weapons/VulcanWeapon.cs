@@ -22,9 +22,6 @@ namespace Unity.Hare.Weapons
     {
         public const float StepsPerSecond = GameClock.StepsPerSecond;
 
-        [Header("Bullet (obj_bullet; distances are placeholders until sprites set the world scale)")]
-        [SerializeField] Sprite bulletSprite;
-
         static VulcanPhysicalStats Stats => GameContent.Current.WeaponPhysicals.Vulcan;
 
         [Header("Sound (sfx_vulcan_*, sfx_empty_clip; the reloads are PlayerAmmo's)")]
@@ -162,7 +159,8 @@ namespace Unity.Hare.Weapons
 
             var go = new GameObject("VulcanBullet");
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);
-            if (bulletSprite != null) go.AddComponent<SpriteRenderer>().sprite = bulletSprite;
+            // shoot_vulcan: bullet.sprite_index = player.bullet_asset (the B key's choice, U.HARE-T93) at obj_bullet's depth -3.
+            HareArt.Show(go, Core.Look.BulletSprite, -3);
             var bullet = go.AddComponent<Bullet>();
             bullet.Init(gameObject, aim, Gml.Px(stats.BulletSpeed) * Gml.StepsPerSecond, Core.Table.BulletDamage(GunType.Vulcan), stats.BulletLifetime, stats.BulletRadius);
 

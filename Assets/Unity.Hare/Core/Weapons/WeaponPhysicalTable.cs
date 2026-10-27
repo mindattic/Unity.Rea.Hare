@@ -31,9 +31,17 @@ namespace Unity.Hare.Weapons
         public float MuzzleDistance = 0.34f;
         /// <summary>GML Y + irandom_range(-5, 5): 5 px of jitter, in units.</summary>
         public float MuzzleJitter = 0.05f;
+        /// <summary>
+        /// obj_player's bullet_asset and its B key (KeyPress 66): Create starts on the first, each press moves to the next
+        /// and the last goes back to the first; shoot_vulcan draws each round with it (<c>bullet.sprite_index =
+        /// player.bullet_asset</c>).
+        /// </summary>
+        public string[] BulletSprites = { "spr_bullet_vulcan", "spr_bullet_blue", "spr_bullet_orange", "spr_bullet_flash", "spr_bullet" };
 
         internal void Validate(List<string> errors, string path)
         {
+            if (BulletSprites == null || BulletSprites.Length == 0) errors.Add($"{path}.BulletSprites: needs at least one sprite.");
+            else for (int i = 0; i < BulletSprites.Length; i++) ValidationHelpers.Required(errors, $"{path}.BulletSprites[{i}]", BulletSprites[i]);
             ValidationHelpers.Positive(errors, path + ".BulletSpeed", BulletSpeed);
             ValidationHelpers.Positive(errors, path + ".BulletLifetime", BulletLifetime);
             ValidationHelpers.Positive(errors, path + ".BulletRadius", BulletRadius);

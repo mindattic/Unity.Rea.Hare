@@ -156,6 +156,9 @@ namespace Unity.Hare.Player
             if (player.Leap.WasPressedThisFrame()) Send(new PressLeapKey(Id, LeapKeyAirPress()));
             if (player.Leap.WasReleasedThisFrame()) TryLeap(AimDirection);
 
+            // GML KeyPress 66 (B, no paused check): the vulcan's rounds take the next bullet_asset (U.HARE-T93).
+            if (player.BulletLook.WasPressedThisFrame()) Send(new CycleBulletSprite(Id));
+
             // GML Alt / middle mouse: spin while held in flight, wind the facing back on release.
             if (player.Spin.WasPressedThisFrame()) Send(new PressSpinKey(Id));
             if (player.Spin.WasReleasedThisFrame()) Send(new ReleaseSpinKey(Id));

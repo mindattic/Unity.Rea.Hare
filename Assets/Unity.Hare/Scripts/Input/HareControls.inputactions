@@ -113,6 +113,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "BulletLook",
+                    "type": "Button",
+                    "id": "5d8b2f61-9a3c-4e07-b1d4-6c0e8a7f2b93",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -421,6 +430,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Alternate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4e9c2b7-1f60-4d83-9e5a-3b7d0c8f6a21",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BulletLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
