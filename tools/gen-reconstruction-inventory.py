@@ -81,8 +81,7 @@ def main():
             elif c.tag in plural and c.get("name") is not None:
                 nfold += 1
                 walk(c, path + [c.get("name")])
-        if len(path) > 1:
-            folders[plural[el.tag]].append(("/".join(path[1:]), nres, nfold))
+        folders[plural[el.tag]].append(("/".join(path[1:]) or "(top level: " + path[0] + ")", nres, nfold))
 
     for top in root:
         if top.tag in plural:
@@ -122,7 +121,10 @@ def main():
         return ", ".join(names) + (" +%d more" % more if more > 0 else "")
 
     # ---- Unity side ----------------------------------------------------------------------------
-    unity = {}
+    unity = {}      # token -> files naming it in code or content
+    unity_c = {}    # token -> files naming it only in comments
+    stems = set()   # code tokens, for family (prefix + index) matches
+    strip = re.compile(r"//[^" + chr(10) + r"]*|/\*.*?\*/", re.S)
     for base in ("Assets/Unity.Hare/Core", "Assets/Unity.Hare/Scripts", "Assets/Unity.Hare/Resources"):
         for dp, dn, fn in os.walk(os.path.join(REPO, base)):
             for f in fn:
@@ -130,8 +132,13 @@ def main():
                     continue
                 rel = os.path.relpath(os.path.join(dp, f), REPO).replace("\\", "/")
                 rel = rel.replace("Assets/Unity.Hare/", "")
-                for t in tokens(read(os.path.join(dp, f))):
+                text = read(os.path.join(dp, f))
+                code = strip.sub(" ", text) if f.endswith(".cs") else text
+                ct = tokens(code)
+                for t in ct:
                     unity.setdefault(t, set()).add(rel)
+                for t in tokens(text) - ct:
+                    unity_c.setdefault(t, set()).add(rel)
     imported = {"sprite": set(), "background": set(), "sound": set(), "font": set()}
     try:
         d = json.load(open(os.path.join(REPO, "Assets/Unity.Hare/Art/gml-art.json"), encoding="utf-8-sig"))
@@ -144,26 +151,56 @@ def main():
     except Exception as e:
         print("warning: importer tables not read:", e, file=sys.stderr)
 
-    def unity_files(name, limit=2):
-        fs = sorted(unity.get(name, ()))
-        s = ", ".join("`%s`" % f for f in fs[:limit])
-        return s + (" +%d" % (len(fs) - limit) if len(fs) > limit else "")
+    def fmt_files(fs, limit=2):
+        fs = sorted(fs)
+        return ", ".join("`%s`" % f for f in fs[:limit]) + (" +%d" % (len(fs) - limit) if len(fs) > limit else "")
+
+    def unity_files(name):
+        return fmt_files(unity.get(name, ()))
+
+    def family(name):
+        """Files naming the name's family stem (spr_boss_hull for spr_boss_hull3), built there with an index."""
+        stem = name.rstrip("0123456789")
+        if stem != name and len(stem) > 4 and unity.get(stem):
+            return stem, unity[stem]
+        return None, ()
 
     def status(kind, name, used):
-        uf = unity_files(name)
         extra = NOTES.get(name)
+        uf = unity_files(name)
         if name in OVERRIDES:
             st, note = OVERRIDES[name]
             return st, "; ".join(x for x in (uf, note) if x)
+        if not used:
+            empty = kind == "script" and os.path.exists(os.path.join(src, "scripts", name + ".gml"))                 and os.path.getsize(os.path.join(src, "scripts", name + ".gml")) == 0
+            note = "nothing in the original uses it" + ("; the script file is empty" if empty else "")
+            if uf:
+                note += "; Unity mentions it in " + uf
+            elif unity_c.get(name):
+                note += "; Unity mentions it only in comments: " + fmt_files(unity_c[name])
+            if kind in imported and name in imported[kind]:
+                note = "asset imported; " + note
+            return ("imported, not reached" if kind in imported and name in imported[kind] else "not reached"), note
         if uf:
             return "ported", "; ".join(x for x in (uf, extra) if x)
+        stem, ff = family(name)
+        if ff:
+            return "ported", "family `%s` + index in %s" % (stem, fmt_files(ff))
+        if unity_c.get(name):
+            return "ported, by comment reference", fmt_files(unity_c[name])
+        if kind == "sound":
+            if name.startswith("music_"):
+                return "not ported, UH-T29", "music story: nothing plays the track yet (imported as a streamed clip)"
+            return "not ported, UH-T30", "sound-effect wiring: imported as a clip, no event plays it yet"
+        owners = [k.split(":", 1)[1] for k in used if k.startswith("obj:")]
         if kind in imported and name in imported[kind]:
-            if not used:
-                return "imported, not reached", "asset imported; nothing in the original uses it"
-            return "imported", "asset imported; no Unity code names it (a name prefix or its owner's sheet may draw it)"
-        if not used:
-            empty = kind == "script" and os.path.getsize(os.path.join(src, "scripts", name + ".gml")) == 0
-            return "not reached", "nothing in the original uses it" + ("; the script file is empty" if empty else "")
+            ported_owner = [o for o in owners if unity.get(o) or unity_c.get(o)]
+            if ported_owner:
+                return "imported, owner ported", "drawn by `%s`, which Unity names; no code names this %s itself" % (ported_owner[0], kind)
+            ov = [o for o in owners if o in OVERRIDES]
+            if ov:
+                return "%s (owner `%s`)" % (OVERRIDES[ov[0]][0], ov[0]), "asset imported; " + OVERRIDES[ov[0]][1]
+            return "not ported, owner not ported", "asset imported; users in the original: " + fmt_users(used)
         return "not ported", REASONS.get(name, "no Unity code names it; check the owning story")
 
     L = []
@@ -173,11 +210,14 @@ def main():
     w("U.HARE-T94 (rebuild standard point 1: record every original asset). One row per resource in `HARE.gmx`'s")
     w("`HARE.project.gmx`, generated by `tools/gen-reconstruction-inventory.py` (re-run it with `--write` after")
     w("a port lands; do not hand-edit the rows). **Used by** lists what in the original names the asset (room")
-    w("instance, object event or parent, script call; first four). **Status**: ported (Unity runtime code,")
-    w("content or tuning names it; the files are shown), in progress, imported (the asset is in the project but")
-    w("no code names it), not reached (nothing in the original uses it either) or not ported (with why). A name")
-    w("built at run time from a prefix is not seen as a reference, so a sprite or sound marked imported may still")
-    w("be used by its family's code; the tables above cover those.")
+    w("instance, object event or parent, script call; first four). **Status**: `ported` (Unity code or content names")
+    w("it, or a family stem plus an index; the files are shown); `ported, by comment reference` (only comments in")
+    w("the Unity code name it: the original's name is kept in the doc comments of the C# port that replaces it, so")
+    w("this is documentary evidence, not a symbol match); `in progress`; `imported, owner ported` (the sprite or")
+    w("background is in the project and its owning object is ported, but no code names the asset itself);")
+    w("`not ported, <ticket or why>`; `not reached` and `imported, not reached` (nothing in the original uses")
+    w("it, so parity does not need it; any Unity mention is noted). The original is scanned by name, so an asset")
+    w("the original builds from a prefix at run time shows as unused there; the family tables above cover those.")
     w("")
 
     total = {}
@@ -191,8 +231,8 @@ def main():
         counts = {}
         for nm, grp in sorted(rows):
             ub = used(nm)
-            st, note = status(kind, nm, len(ub) > 0)
-            key = st.split(",")[0]
+            st, note = status(kind, nm, ub)
+            key = st
             counts[key] = counts.get(key, 0) + 1
             w("| `%s` | %s | %s | %s | %s |" % (nm, grp.split("/", 1)[1] if "/" in grp else "", fmt_users(ub), st, note))
         w("")
