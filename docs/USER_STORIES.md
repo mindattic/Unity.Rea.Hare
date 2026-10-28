@@ -48,7 +48,7 @@ _Nothing recorded yet._
 
 ## Epic F — Rocks, Hazards & Environment
 - **U.HARE-US-F1 ⬜** As a player, I navigate around destructible rocks (rock1-5, create_new_rock, move_rocks, rock_destroyed) that behave like the original's par_rock family
-- **U.HARE-US-F2 ✅** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
+- **U.HARE-US-F2 ⬜** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
 
 
 ## Epic G — Levels, Map & Procedural Generation
@@ -102,13 +102,13 @@ _Nothing recorded yet._
 - **U.HARE-US-O1 ⬜** As a player, the game remembers my lives, coins, skill points, score, difficulty and place in the campaign through one game-session state, the same way the original's globals did
 - **U.HARE-US-O2 ⬜** As a player, the game moves between its rooms (startup, title, intro, story, map, game, upgrade) with the original's fade transitions and Esc behaviour, so it flows like the original
 - **U.HARE-US-O3 ⬜** As a player, I see the startup screen with the circuit-board backdrop and the controller note before the title, the way the original opens
-- **U.HARE-US-O4 ✅** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
+- **U.HARE-US-O4 ⬜** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
 - **U.HARE-US-O5 ⬜** As a player, each level starts with its name banner, its objective and its time limit, runs its enemy emitters, and ends when I have met the objective, like the original
 - **U.HARE-US-O6 ⬜** As a player, I see my score, the level objective, the elapsed time, my extra lives and my health pips on screen while I play
 - **U.HARE-US-O7 ⬜** As a player, I can pause, restart the level, toggle the minimap, units, volume and fullscreen with the original's keys
 - **U.HARE-US-O8 ⬜** As a player, I aim with the original's blue reticle in the game and its pointer on menus
 - **U.HARE-US-O9 ⬜** As a player, the title screen opens with the original's falling drop, the standing rabbit and the logo before the menu appears
-- **U.HARE-US-O10 🟡** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot (built by U.HARE-T19 and U.HARE-T63; covered by Core MapTests and PlayMode MapRoomPlayTests, not yet run)
+- **U.HARE-US-O10 ⬜** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot
 - **U.HARE-US-O11 ⬜** As a player, I can start a quick game, the campaign or the enemy generator at a difficulty I choose, like the original's three game modes
 - **U.HARE-US-O12 ⬜** As a player, my campaign progress, coins, skill points and purchased upgrades are saved to my profile and restored when I return
 - **U.HARE-US-O13 ⬜** As a player, I can see who made the music and sound effects I hear, as the original's licences require
@@ -125,7 +125,7 @@ _Nothing recorded yet._
 - **U.HARE-US-Q2 ⬜** As a player, I lose a life when I die or leave the arena, drop back in from the top of the screen, and the game restarts when my lives run out, like the original
 - **U.HARE-US-Q3 ⬜** As a player, my rabbit looks and animates like the original: idle, crouch, leap and hurt poses, the weapon held at my aim, smoke and spark trails, and the flashing when invulnerable
 - **U.HARE-US-Q4 ⬜** As a player, I find structures with their covers on the rocks of a level (and can land on them), as set by each level's structure range
-- **U.HARE-US-Q5 ✅** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage (U.HARE-T58: Core `ArenaWorldTests` reflection and moon tests, EditMode `MoonSurfaceViewTests`, PlayMode `StageModePlayTests.TheSideScrollsWater_ReflectsTheShip_SplashesUnderIt_AndIsAFloor`)
+- **U.HARE-US-Q5 ⬜** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage
 
 
 ## Epic R — Companion, Special Abilities & Boss
@@ -241,3 +241,4 @@ _Nothing recorded yet._
 | U.HARE-T94 | 2026-10-26 | docs | open | RECONSTRUCTION.md does not record every original asset (rebuild standard point 1): it inventories by family and counts, and these HARE.gmx names appear in none of RECONSTRUCTION.md, REVERSE_ENGINEERING.md or BIBLE.md: objects obj_btn_map, obj_btn_shaft, obj_btn_upgrade, obj_btn_upgrade_shotgun, obj_btn_upgrade_vulcan; scripts angle_between_two_lines, line_collision, rotate_clockwise, rotate_counterclockwise, set_objective_string, stop_vulcan_sfx, worm_gib, draw_dottedline, script69 and script73 (both empty), and the empty script folders' 'functions'; backgrounds bg_circuitboard/2/3 (only described), bg_gradient2, bg_rabbit_schematic, bg_rabbit_schematic_transparent, bg_semiopaque80; 148 of the 213 sprites and most of the 69 sfx_* are never named (only gml-art.json/gml-audio.json list them). Add a per-asset inventory appendix (every object, script, room, sprite, background, sound, font, data file) to RECONSTRUCTION.md with where each is used and its port or 'not reached'/'not ported, why' status, generated from the .gmx if practical | — |
 | U.HARE-T95 | 2026-10-26 | fix | open | Several spawned objects draw nothing because their view's serialized Sprite field is never set (the generated room scenes save it as {fileID: 0}): Shotgun.pelletSprite (obj_shotgun_pellet), MineLauncher.mineSprite and AirWeaponLoadout.mineSprite (obj_mine), and possibly Firefly.litSprite/darkSprite and Vortex.vortexSprite if nothing else assigns them. Resolve each through HareArt by the GML sprite the original gives the object (sprite_index / Create), at its object's depth and image_angle, drop the dead serialized fields, check every other spawned view (enemy rounds, flames, rockets) for the same, and add an EditMode/PlayMode check that each spawned weapon/enemy object has a non-null sprite. (The vulcan's bullet was fixed with U.HARE-T93.) | — |
 | U.HARE-T96 | 2026-10-27 | chore | closed | Add agent-session.json, ContentRegistry.cs; Update USER_STORIES.md | — |
+| U.HARE-T97 | 2026-10-27 | docs | closed | Update USER_STORIES.md | — |
