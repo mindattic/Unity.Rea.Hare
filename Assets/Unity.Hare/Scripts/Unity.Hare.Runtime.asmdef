@@ -3,6 +3,7 @@
     "rootNamespace": "Unity.Hare",
     "references": [
         "Unity.Hare.Core",
+        "MindAttic.Capture.Unity",
         "Unity.InputSystem",
         "Unity.Shared",
         "Unity.Shared.Core"
