@@ -34,6 +34,7 @@ namespace Unity.Hare.Weapons
         /// </summary>
         public const float MaxRangeUnits = 40f;
 
+        Effects.SpriteAnimation anim;
         Rigidbody2D body;
         Vector2 launchPosition;
         float accelerateTimer;
@@ -64,7 +65,7 @@ namespace Unity.Hare.Weapons
             hitbox.isTrigger = true;
             hitbox.radius = Gml.Px(6f);
 
-            Effects.HareArt.Show(gameObject, SpriteName, Depth); // obj_rocket's spr_rocket_anime (U.HARE-T95)
+            anim = new Effects.SpriteAnimation(SpriteName, SpriteFrames, SpriteSpeed, Effects.HareArt.Show(gameObject, SpriteName, Depth)); // obj_rocket's spr_rocket_anime (U.HARE-T95)
             launchPosition = position;
             transform.position = position;
             SetDirection(directionDegrees);
@@ -111,8 +112,7 @@ namespace Unity.Hare.Weapons
                 }
             }
 
-            var look = GetComponent<SpriteRenderer>();
-            if (look != null) look.sprite = Effects.HareArt.Frame(SpriteName, Mathf.FloorToInt(Age * Gml.StepsPerSecond * SpriteSpeed) % SpriteFrames);
+            anim?.AdvanceLooping(steps);
 
             Home(steps);
 

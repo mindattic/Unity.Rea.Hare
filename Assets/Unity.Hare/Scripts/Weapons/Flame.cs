@@ -25,6 +25,8 @@ namespace Unity.Hare.Weapons
         public const float GrowPerSecond = 0.01f * Gml.StepsPerSecond;  // grow_rate per step
         public const float StartAlpha = 0.75f;                                 // image_alpha
 
+        Effects.SpriteAnimation anim;
+
         public PlayerShipController Owner { get; private set; }
         public float Direction { get; private set; }
         public float Speed { get; private set; }
@@ -58,6 +60,7 @@ namespace Unity.Hare.Weapons
                 c.a = StartAlpha;
                 spriteRenderer.color = c;
             }
+            anim = new Effects.SpriteAnimation(SpriteName, SpriteFrames, SpriteSpeed, spriteRenderer); // image_speed 0.3, played once
             SetScale(StartScale);
         }
 
@@ -69,8 +72,7 @@ namespace Unity.Hare.Weapons
             transform.position += (Vector3)(Velocity * dt);
             if (Scale < MaxScale) SetScale(Mathf.Min(MaxScale, Scale + GrowPerSecond * dt));
             Age += dt;
-            var look = GetComponent<SpriteRenderer>();
-            if (look != null) look.sprite = Effects.HareArt.Frame(SpriteName, Mathf.Min(SpriteFrames - 1, Mathf.FloorToInt(Age * Gml.StepsPerSecond * SpriteSpeed)));
+            anim?.Advance(dt * Gml.StepsPerSecond);
             // GML Animation End: instance_destroy(). The tolerance keeps float dust from adding a step.
             if (Age >= Lifetime - 1e-4f)
             {
