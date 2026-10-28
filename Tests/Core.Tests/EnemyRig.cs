@@ -46,8 +46,9 @@ namespace Unity.Hare.Tests.Core
         public EnemyResult ShipBullet(EnemyBody target, Vec2? at = null, float direction = 0f, float speed = 1f, int key = 11) =>
             Do(new StrikeBullet(target.Id, new BulletShot(false, true, at ?? target.Position, direction, speed, key)));
 
-        public EnemyResult EnemyBullet(EnemyBody target, Vec2? at = null, float direction = 0f, int key = 12) =>
-            Do(new StrikeBullet(target.Id, new BulletShot(true, false, at ?? target.Position, direction, 1f, key)));
+        /// <summary>An enemy's round at <paramref name="target"/>; by default the target's own (GML other.owner == ID), else <paramref name="shooter"/>'s.</summary>
+        public EnemyResult EnemyBullet(EnemyBody target, Vec2? at = null, float direction = 0f, int key = 12, EnemyBody shooter = null) =>
+            Do(new StrikeBullet(target.Id, new BulletShot(true, false, at ?? target.Position, direction, 1f, key, (shooter ?? target).Id)));
 
         public EnemyResult Rocket(EnemyBody target, Vec2? at = null) => Do(new StrikeRocket(target.Id, at ?? target.Position));
 

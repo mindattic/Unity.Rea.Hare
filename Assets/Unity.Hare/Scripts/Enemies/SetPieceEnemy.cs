@@ -130,7 +130,7 @@ namespace Unity.Hare.Enemies
 
         BulletShot ShotOf(Bullet bullet) => bullet == null
             ? new BulletShot(false, false, Core.Position, 0f, 0f)
-            : new BulletShot(bullet.FromEnemy, IsPlayerRound(bullet), ((Vector2)bullet.transform.position).ToVec2(), bullet.Direction, bullet.Speed, bullet.GetInstanceID());
+            : new BulletShot(bullet.FromEnemy, IsPlayerRound(bullet), ((Vector2)bullet.transform.position).ToVec2(), bullet.Direction, bullet.Speed, bullet.GetInstanceID(), bullet.ShooterId);
 
         public bool OnProjectileHit(Bullet bullet)
         {
@@ -327,7 +327,7 @@ namespace Unity.Hare.Enemies
         /// <summary>Every enemy round, as it is fired (sounds and sprites hang off this).</summary>
         public static event Action<Bullet> Fired;
 
-        public static Bullet Spawn(GameObject owner, Vector2 origin, float direction, float speedPxPerStep)
+        public static Bullet Spawn(GameObject owner, Vector2 origin, float direction, float speedPxPerStep, int shooterId = -1)
         {
             var go = new GameObject("EnemyBullet");
             go.transform.position = new Vector3(origin.x, origin.y, 0f);
@@ -337,7 +337,7 @@ namespace Unity.Hare.Enemies
             float reachPx = new Vector2(Gml.RoomWidthPx, Gml.RoomHeightPx).magnitude + 2f * BufferZonePx;
             float speed = Mathf.Max(0.01f, Mathf.Abs(speedPxPerStep));
             bullet.Init(owner, direction, Gml.Px(speedPxPerStep) * Gml.StepsPerSecond, 1, Gml.Steps(reachPx / speed), Gml.Px(RadiusPx));
-            bullet.MarkFromEnemy();
+            bullet.MarkFromEnemy(shooterId);
             var source = go.AddComponent<PlayerDamageSource>();
             source.DestroyOnHit = true;
             source.HitOverride = health => EnemyDirector.Hurt(health, null);

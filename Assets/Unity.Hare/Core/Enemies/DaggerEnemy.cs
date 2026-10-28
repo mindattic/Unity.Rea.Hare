@@ -161,7 +161,7 @@ namespace Unity.Hare.Enemies
         /// <summary>GML collision with obj_bullet: both go; points only for the ship's own rounds. Enemy rounds pass through.</summary>
         protected override bool BulletHit(in BulletShot shot)
         {
-            if (shot.FromEnemy) return false;
+            if (IgnoresRound(shot)) return false;
             TinyExplosionAt(shot.Position);
             DeathBurst();
             Die(EnemyDeathCause.Bullet, EnemyTable.Get(Kind).Points, shot.FromPlayer, true);

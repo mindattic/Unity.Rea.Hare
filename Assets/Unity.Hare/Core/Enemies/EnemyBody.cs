@@ -32,8 +32,10 @@ namespace Unity.Hare.Enemies
     /// <summary>One shot of the ship's or an enemy's that reached an enemy.</summary>
     public readonly struct BulletShot
     {
-        /// <summary>GML other.owner == ID: an enemy's round, which every "other.owner != ID" event ignores.</summary>
+        /// <summary>GML other.owner is an enemy's ID: an enemy's round. Only its own shooter's body ignores it (see <see cref="EnemyBody.IgnoresRound"/>).</summary>
         public readonly bool FromEnemy;
+        /// <summary>The firing enemy's id (GML owner = ID), or -1 when unknown or not an enemy's round.</summary>
+        public readonly int ShooterId;
         /// <summary>GML other.owner == player.id: the ship's own round, the only kind that scores.</summary>
         public readonly bool FromPlayer;
         public readonly Vec2 Position;
@@ -43,7 +45,7 @@ namespace Unity.Hare.Enemies
         /// <summary>Identifies the round, so a shield bounces it once (GML last_impact).</summary>
         public readonly int Key;
 
-        public BulletShot(bool fromEnemy, bool fromPlayer, Vec2 position, float direction, float speedUnitsPerSecond, int key = 0)
+        public BulletShot(bool fromEnemy, bool fromPlayer, Vec2 position, float direction, float speedUnitsPerSecond, int key = 0, int shooterId = -1)
         {
             FromEnemy = fromEnemy;
             FromPlayer = fromPlayer;
@@ -51,6 +53,7 @@ namespace Unity.Hare.Enemies
             Direction = direction;
             SpeedUnitsPerSecond = speedUnitsPerSecond;
             Key = key;
+            ShooterId = shooterId;
         }
     }
 
@@ -200,6 +203,12 @@ namespace Unity.Hare.Enemies
         {
             if (ImageAlpha < 1f) ImageAlpha = Math.Min(1f, ImageAlpha + FadeInPerStep * steps);
         }
+
+        /// <summary>
+        /// GML <c>other.owner != ID</c> in a Collision obj_bullet event: every enemy's ID is its own id, so a body skips
+        /// only the rounds it fired itself; another enemy's round runs the full handler (U.HARE-T91).
+        /// </summary>
+        protected bool IgnoresRound(in BulletShot shot) => shot.FromEnemy && shot.ShooterId == Id;
 
         /// <summary>GML x/y = ...: a jump, not motion.</summary>
         protected internal void Teleport(Vec2 position) => Position = position;

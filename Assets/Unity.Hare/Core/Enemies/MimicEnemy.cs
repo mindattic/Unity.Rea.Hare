@@ -98,7 +98,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool BulletHit(in BulletShot shot)
         {
-            if (IllusionAlpha >= 1f || shot.FromEnemy) return false;
+            if (IllusionAlpha >= 1f || IgnoresRound(shot)) return false;
             TinyExplosionAt(shot.Position);
             Emit(new RocketExplosionRaised { At = shot.Position });
             DeathBurst();

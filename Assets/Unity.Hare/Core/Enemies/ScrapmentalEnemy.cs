@@ -195,8 +195,8 @@ namespace Unity.Hare.Enemies
 
         protected override bool BulletHit(in BulletShot shot)
         {
-            // other.owner != ID: its own slivers pass through (the only enemy rounds in level_08).
-            if (!Alive || shot.FromEnemy) return false;
+            // other.owner != ID: its own slivers pass through; another enemy's round does not (U.HARE-T91).
+            if (!Alive || IgnoresRound(shot)) return false;
             if (Rgb > DefeatRgb)
             {
                 Teleport(Position + GmlMath.Dir(shot.Direction) * (shot.SpeedUnitsPerSecond / GameClock.StepsPerSecond / 2f));
@@ -431,7 +431,7 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(in BulletShot shot)
         {
             TinyExplosionAt(shot.Position);
-            if (!shot.FromEnemy && Mode == ShrapnelPieceMode.Attached)
+            if (!IgnoresRound(shot) && Mode == ShrapnelPieceMode.Attached)
             {
                 if (Rgb > ScrapmentalEnemy.DefeatRgb)
                 {

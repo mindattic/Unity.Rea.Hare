@@ -43,13 +43,20 @@ namespace Unity.Hare.Weapons
         public Vector2 Velocity => body != null ? body.linearVelocity : Vector2.zero;
 
         /// <summary>
-        /// GML owner = ID (-1): fired by an enemy. Every enemy's ID is -1 too, so their
-        /// "other.owner != ID" checks let enemy rounds pass through other enemies.
+        /// GML owner = ID: fired by an enemy. Each enemy's ID is its own id, so an enemy's "other.owner != ID" check
+        /// skips only the rounds it fired (<see cref="ShooterId"/>); another enemy's round hits it (U.HARE-T91).
         /// </summary>
         public bool FromEnemy { get; private set; }
 
-        /// <summary>Flags this round as an enemy's (see <see cref="FromEnemy"/>).</summary>
-        public void MarkFromEnemy() => FromEnemy = true;
+        /// <summary>The firing enemy's Core id, or -1 when unknown.</summary>
+        public int ShooterId { get; private set; } = -1;
+
+        /// <summary>Flags this round as an enemy's (see <see cref="FromEnemy"/>), fired by the enemy with this id.</summary>
+        public void MarkFromEnemy(int shooterId = -1)
+        {
+            FromEnemy = true;
+            ShooterId = shooterId;
+        }
 
         /// <summary>Called right after AddComponent (Awake does not run in EditMode).</summary>
         public void Init(GameObject owner, float direction, float speed, int damage, float lifetime, float radius)

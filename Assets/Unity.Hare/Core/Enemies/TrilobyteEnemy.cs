@@ -80,7 +80,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool BulletHit(in BulletShot shot)
         {
-            if (shot.FromEnemy) return false;
+            if (IgnoresRound(shot)) return false;
             TinyExplosionAt(shot.Position);
             DeathBurst();
             Die(EnemyDeathCause.Bullet, EnemyTable.Get(Kind).Points, shot.FromPlayer, true);

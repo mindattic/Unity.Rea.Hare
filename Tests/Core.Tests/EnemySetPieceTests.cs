@@ -38,6 +38,37 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
+        public void AnotherEnemysRoundHitsADaggerButItsOwnPassesAndNeitherScores()
+        {
+            var rig = new EnemyRig();
+            var shooter = rig.Spawn<DaggerEnemy>(EnemyKind.Dagger, Vec2.Zero);
+            var victim = rig.Spawn<DaggerEnemy>(EnemyKind.Dagger, Vec2.Zero);
+            Assert.IsFalse(rig.EnemyBullet(shooter, shooter: shooter).Accepted, "its own round passes");
+            Assert.IsFalse(shooter.IsDead);
+            Assert.IsTrue(rig.EnemyBullet(victim, shooter: shooter).Accepted, "another enemy's round runs the handler");
+            var kill = rig.Kill(victim);
+            Assert.AreEqual(EnemyDeathCause.Bullet, kill.Cause);
+            Assert.IsFalse(kill.AwardsScore, "only other.owner == player.id scores");
+            Assert.IsTrue(kill.DropsPickup);
+        }
+
+        [Test]
+        public void AnotherEnemysRoundCostsAHydraATurretAndIsSpentOnAMeatball()
+        {
+            var rig = new EnemyRig(5051);
+            var shooter = rig.Spawn<DaggerEnemy>(EnemyKind.Dagger, Vec2.Zero);
+            var hydra = rig.Spawn<HydraEnemy>(EnemyKind.Hydra, Vec2.Zero);
+            int arms = hydra.Arms;
+            Assert.IsFalse(rig.EnemyBullet(hydra, shooter: hydra).Accepted, "a hydra's own round passes");
+            Assert.AreEqual(arms, hydra.Arms);
+            Assert.IsTrue(rig.EnemyBullet(hydra, shooter: shooter).Accepted);
+            Assert.AreEqual(arms - 1, hydra.Arms);
+
+            var meatball = rig.Spawn<MeatballEnemy>(EnemyKind.Meatball, Vec2.Zero);
+            Assert.IsTrue(rig.EnemyBullet(meatball, shooter: shooter).Accepted, "another enemy's round is spent on a meatball");
+        }
+
+        [Test]
         public void MeatballShipBulletsDarkenAndShoveItThenTheOneAfter128BurstsIt()
         {
             var rig = new EnemyRig(5050);

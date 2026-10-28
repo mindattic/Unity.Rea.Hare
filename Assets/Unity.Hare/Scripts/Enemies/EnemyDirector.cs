@@ -310,7 +310,7 @@ namespace Unity.Hare.Enemies
                 case RoundFired fired:
                 {
                     var owner = ViewOf<Component>(fired.SourceId);
-                    var bullet = EnemyRounds.Spawn(owner != null ? owner.gameObject : null, fired.Origin.ToVector2(), fired.Direction, fired.SpeedPxPerStep);
+                    var bullet = EnemyRounds.Spawn(owner != null ? owner.gameObject : null, fired.Origin.ToVector2(), fired.Direction, fired.SpeedPxPerStep, fired.SourceId);
                     (SinkOf(fired.SourceId) as EnemyBodyView)?.OnRound(fired, bullet);
                     return;
                 }

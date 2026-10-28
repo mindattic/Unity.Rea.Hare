@@ -86,7 +86,7 @@ namespace Unity.Hare.Enemies
 
         protected override bool BulletHit(in BulletShot shot)
         {
-            if (shot.FromEnemy) return false;
+            if (IgnoresRound(shot)) return false;
             if (Rgb > BurstRgb)
             {
                 // Pushback: x += other.hspeed / 2.
