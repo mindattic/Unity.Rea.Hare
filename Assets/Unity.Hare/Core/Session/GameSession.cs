@@ -235,6 +235,12 @@ namespace Unity.Hare.Session
         /// </summary>
         public int MissionLevel { get; private set; }
 
+        /// <summary>
+        /// The level being played is the map mission's own (U.HARE-T64, owner-directed, docs/BIBLE.md V42): once it is
+        /// finished the game goes back to room_map rather than on to the next level.
+        /// </summary>
+        public bool EndsMission => Mode == GameMode.Campaign && Scenario > 0 && MissionLevel > 0 && Level == MissionLevel;
+
         internal void ChooseMode(GameMode mode, int scenario, int level, int difficulty, int missionLevel = 0)
         {
             MissionLevel = missionLevel;
@@ -288,8 +294,7 @@ namespace Unity.Hare.Session
             if (IsLevelComplete) return false;
             IsLevelComplete = true;
             Emit(new LevelCompleted { Level = Level, Objective = Objective });
-            if (Mode == GameMode.Campaign && Scenario > 0 && MissionLevel > 0 && Level == MissionLevel)
-                Emit(new MissionWon { Scenario = Scenario, Level = Level });
+            if (EndsMission) Emit(new MissionWon { Scenario = Scenario, Level = Level });
             SetPaused(true);
             return true;
         }

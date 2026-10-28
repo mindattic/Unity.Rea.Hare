@@ -128,7 +128,8 @@ namespace Unity.Hare.Rooms
                         if (director != null) director.ExecuteSession(new ChooseMission(seat, kept.Scenario, kept.Level));
                         break;
                     case IntroRoomRequested go:
-                        if (director != null) director.Execute(new GoToRoom(seat, go.Room));
+                        // room_gamescreen, or the room the kept mission's level script plays in (U.HARE-T64).
+                        if (director != null) director.Execute(new GoToRoom(seat, TitleRoom.EntryRoom(director, go.Room)));
                         break;
                 }
                 EventPlayed?.Invoke(e);

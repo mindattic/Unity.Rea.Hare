@@ -125,7 +125,18 @@
       {"Id": "conversation.map.03", "Speaker": "Admiral Zee", "Text": "Alien invaders have broken through the blockade!"}
     ]
   },
-  "upgrades": { "Upgrades": [] },
+  "upgrades": {
+    "Upgrades": [],
+    "Screen": {
+      "Background": "bg_metal", "BackgroundHSpeed": -1,
+      "MapButton": {
+        "Object": "obj_btn_map", "X": 100, "Y": 40, "Sprite": "spr_button_area_small", "Width": 210, "Height": 35,
+        "XOrigin": 105, "YOrigin": 17, "Label": "Observation Deck", "LabelOffset": -10, "Outline": 2,
+        "Message": "Upgrade H.A.R.E. Unit's systems", "MessageBottomMargin": 30, "Color": "#FFFFFF", "HoverColor": "#6495ED",
+        "HoverSound": "sfx_hover", "ClickSound": "sfx_click", "Room": "Map"
+      }
+    }
+  },
   "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 },
   "rooms": {
     "Rooms": [

@@ -305,7 +305,7 @@ namespace Unity.Hare.Arena
         public void Begin(int level)
         {
             var session = Session;
-            var setting = LevelSetup.SettingFor(content.Arena, session.Mode, level, Room);
+            var setting = LevelSetup.SettingFor(content.Arena, content.Story, session, level, Room);
             bool created = State != null && State.Created;
             State = new ArenaWorld(content.Arena, roomDefinition, setting, new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks)));
             SpawnPoint.position = ToWorld(State.SpawnX, State.SpawnY);
@@ -424,14 +424,23 @@ namespace Unity.Hare.Arena
         /// <c>current_level += 1; setup_level()</c>, after <c>current_score = 0; level_complete = false</c> when
         /// <paramref name="resetScore"/> (the leaving ship's exit off the top, U.HARE-T22; the fade-in does not): the next
         /// level here, or the level script's room_goto when it plays in another room. Like the original it goes straight
-        /// on to the next level and never back to room_map (docs/BIBLE.md V31).
+        /// on to the next level (docs/BIBLE.md V31), except that a map mission's level, once won, goes back to room_map
+        /// instead (U.HARE-T64, owner-directed, V42: otherwise winning level_07 would run straight into the locked boss).
         /// </summary>
         void AdvanceLevel(bool resetScore)
         {
+            var flow = Flow;
+            var back = LevelSetup.RoomAfterLevel(Session);
+            if (back.HasValue && flow != null)
+            {
+                RunSession(new Unity.Hare.Session.SetPaused(Seat, false));
+                flow.Execute(new GoToRoom(Seat, back.Value));
+                return;
+            }
+
             RunSession(new AdvanceLevel(Seat, resetScore));
             var session = Session;
-            var elsewhere = LevelSetup.RoomGoto(content.Arena, session.Mode, session.Level, Room);
-            var flow = Flow;
+            var elsewhere = LevelSetup.RoomGoto(content.Arena, content.Story, session, session.Level, Room);
             if (elsewhere.HasValue && flow != null)
             {
                 // setup_level got as far as the level script here before its if(room != room_x) room_goto(room_x): the

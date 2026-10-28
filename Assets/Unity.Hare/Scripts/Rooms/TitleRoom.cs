@@ -250,7 +250,8 @@ namespace Unity.Hare.Rooms
                         if (director != null) director.ExecuteSession(ModeCommand(mode));
                         break;
                     case TitleFadeRequested fade:
-                        if (director != null) director.Execute(new FadeToRoom(RoomFlowDirector.Seat, fade.Room, fade.OnlyWhenIdle));
+                        // A level button's room_gamescreen is where its level script plays (level_04 the shaft, U.HARE-T64).
+                        if (director != null) director.Execute(new FadeToRoom(RoomFlowDirector.Seat, EntryRoom(director, fade.Room), fade.OnlyWhenIdle));
                         break;
                     case TitleDialogOpened opened:
                         BuildDialog(opened.Dialog);
@@ -270,6 +271,13 @@ namespace Unity.Hare.Rooms
                 }
                 EventPlayed?.Invoke(e);
             }
+        }
+
+        /// <summary>The play room the session's level script runs in, for a fade to a play room (<see cref="Arena.LevelSetup.EntryRoom"/>).</summary>
+        internal static RoomId EntryRoom(RoomFlowDirector director, RoomId requested)
+        {
+            var content = GameContent.Current;
+            return Arena.LevelSetup.EntryRoom(content.Arena, content.Story, director.Session, requested);
         }
 
         static SessionCommand ModeCommand(TitleModeChosen mode)

@@ -29,6 +29,9 @@ namespace Unity.Hare.Content
     {
         public UpgradeCost[] Upgrades = Array.Empty<UpgradeCost>();
 
+        /// <summary>room_upgrade's background and obj_btn_map, its way back to room_map (U.HARE-T64).</summary>
+        public Upgrade.UpgradeScreenTuning Screen = new Upgrade.UpgradeScreenTuning();
+
         public UpgradeCost Find(string id)
         {
             foreach (var upgrade in Upgrades)
@@ -38,6 +41,8 @@ namespace Unity.Hare.Content
 
         internal void Validate(List<string> errors, string path)
         {
+            if (Screen == null) errors.Add(path + ".Screen: must not be null.");
+            else Screen.Validate(errors, path + ".Screen");
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < Upgrades.Length; i++)
             {

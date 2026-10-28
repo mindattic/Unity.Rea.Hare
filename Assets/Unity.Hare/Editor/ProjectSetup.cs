@@ -55,6 +55,7 @@ namespace Unity.Hare.EditorTools
         public static System.Type RoomControllerType(RoomId room) =>
             room == RoomId.Startup ? typeof(StartupRoom) : room == RoomId.Title ? typeof(TitleRoom) : room == RoomId.Intro ? typeof(IntroRoom)
             : room == RoomId.Story ? typeof(StoryRoom) : room == RoomId.Map ? typeof(Unity.Hare.Map.MapRoom)
+            : room == RoomId.Upgrade ? typeof(Unity.Hare.Upgrade.UpgradeRoom)
             : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
@@ -151,7 +152,9 @@ namespace Unity.Hare.EditorTools
         /// pointer itself) and room_intro its obj_intro (<see cref="IntroRoom"/>, which builds its backgrounds, falling rabbit
         /// and tip itself) and room_story its obj_story (<see cref="StoryRoom"/>, which builds its sky, earth and typewriter
         /// itself) and room_map its obj_map (<see cref="Unity.Hare.Map.MapRoom"/>, which builds its sky, earth, ship,
-        /// markers, white dot, panel, Upgrades button, comm box, tip and pointer itself). What else each room
+        /// markers, white dot, panel, Upgrades button, comm box, tip and pointer itself) and room_upgrade its obj_upgrade
+        /// (<see cref="Unity.Hare.Upgrade.UpgradeRoom"/>, which builds its bg_metal, Observation Deck button and pointer
+        /// itself; U.HARE-T64). What else each room
         /// holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
         public static void RebuildRoomScene(RoomId room)
@@ -168,6 +171,7 @@ namespace Unity.Hare.EditorTools
             if (room == RoomId.Intro) IntroRoom.Create();
             if (room == RoomId.Story) StoryRoom.Create();
             if (room == RoomId.Map) Unity.Hare.Map.MapRoom.Create();
+            if (room == RoomId.Upgrade) Unity.Hare.Upgrade.UpgradeRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
             Debug.Log("[Unity.Hare] Room scene written to " + path);
         }

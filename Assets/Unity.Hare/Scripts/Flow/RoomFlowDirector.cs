@@ -271,9 +271,9 @@ namespace Unity.Hare.Flow
         /// <summary>
         /// What every room scene gets as it comes up: the camera's screen overlay the fade draws on, HARE.gmx's
         /// option_showcursor (the system cursor hidden), and the obj_mouse its controller creates (U.HARE-T61): the map's and
-        /// upgrade room's spr_pointer and the play rooms' reticle. obj_title and obj_map make their own (U.HARE-T26's
-        /// TitleRoom and U.HARE-T19's MapRoom, during the scene's Awake, so it is already there); obj_upgrade is not built
-        /// yet (U.HARE-T24), so its is made here, as its Create event makes it.
+        /// upgrade room's spr_pointer and the play rooms' reticle. obj_title, obj_map and obj_upgrade make their own
+        /// (U.HARE-T26's TitleRoom, U.HARE-T19's MapRoom and U.HARE-T64's UpgradeRoom, during the scene's Awake, so it is
+        /// already there); any other room's is made here.
         /// </summary>
         void SetUpRoomScene(Scene scene, RoomId room)
         {
