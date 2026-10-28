@@ -39,7 +39,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsTrue(player.BlocksDamage);
             Assert.IsNotNull(player.Shield);
             Assert.AreSame(player, player.Shield.Owner);
-            Assert.IsTrue(player.Shield.GetComponent<CircleCollider2D>().isTrigger);
+            Assert.IsTrue(player.Shield.GetComponent<PolygonCollider2D>().isTrigger);
         }
 
         [Test]
@@ -111,6 +111,46 @@ namespace Unity.Hare.Tests.EditMode
             Vector2 n = player.Shield.NormalAt((Vector2)player.transform.position + Vector2.right * 2f);
             Assert.AreEqual(1f, n.x, 1e-4f);
             Assert.AreEqual(0f, n.y, 1e-4f);
+        }
+
+        [Test]
+        public void WallMaskIsAHalfDiscInFrontOfTheAim()
+        {
+            var player = NewPerchedController();
+            player.TryShield();
+            var poly = player.Shield.GetComponent<PolygonCollider2D>();
+            Assert.IsNull(player.Shield.GetComponent<CircleCollider2D>());
+            float r = ShieldWall.MaskRadiusPx / 100f;
+            foreach (var p in poly.points)
+            {
+                Assert.GreaterOrEqual(p.x, -1e-4f, "behind the ship");
+                Assert.LessOrEqual(p.magnitude, r + 1e-4f);
+            }
+            Assert.Less(r, 0.5f);
+        }
+
+        [Test]
+        public void WallDrawsShieldwallAnimeWithFlickerAlphaAndCyclesFrames()
+        {
+            var player = NewPerchedController();
+            player.TryShield();
+            var wall = player.Shield;
+            var sr = wall.GetComponent<SpriteRenderer>();
+            Assert.IsNotNull(sr);
+            Assert.AreEqual(0, wall.CurrentFrame);
+            wall.Tick(1f);                    // Step +1
+            Assert.AreEqual(1, wall.CurrentFrame);
+            wall.Tick(1f);
+            Assert.AreEqual(2, wall.CurrentFrame);
+            wall.Tick(1f);                    // third step: Step +1 and Alarm 1 +1
+            Assert.AreEqual(4, wall.CurrentFrame);
+            wall.Tick(3f);                    // 5, 0, then 1 + alarm 2
+            Assert.AreEqual(ShieldWall.SpriteFrames, 6);
+            for (int s = 3; s <= 6; s++)
+            {
+                wall.Flicker(s);
+                Assert.AreEqual(0.1f * s, sr.color.a, 1e-4f);
+            }
         }
     }
 }

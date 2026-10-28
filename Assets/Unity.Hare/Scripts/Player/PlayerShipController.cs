@@ -426,7 +426,7 @@ namespace Unity.Hare.Player
                     if (body != null) body.linearVelocity = Vector2.zero;
                     break;
                 case ShieldRaised raised:
-                    RaiseWall(raised.Radius);
+                    RaiseWall();
                     break;
                 case ShieldDropped _:
                     RemoveWall();
@@ -438,12 +438,12 @@ namespace Unity.Hare.Player
             }
         }
 
-        void RaiseWall(float radius)
+        void RaiseWall()
         {
             RemoveWall();
             var go = new GameObject("ShieldWall");
             Shield = go.AddComponent<ShieldWall>();
-            Shield.Init(this, radius);
+            Shield.Init(this);
         }
 
         void RemoveWall()

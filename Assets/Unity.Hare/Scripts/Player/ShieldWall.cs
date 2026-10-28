@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Weapons;
 
 namespace Unity.Hare.Player
 {
@@ -21,30 +22,78 @@ namespace Unity.Hare.Player
     /// It lives exactly as long as <see cref="PlayerShipController.IsShielding"/> is true; the
     /// controller creates and destroys it.
     /// </summary>
-    [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(PolygonCollider2D))]
     public class ShieldWall : MonoBehaviour
     {
+        /// <summary>spr_shield_hitbox's mask: a half disc of about 47 px radius on the front (+x) side only (U.HARE-T90).</summary>
+        public const float MaskRadiusPx = 47f;
+        public const string SpriteName = "spr_shieldwall_anime";
+        public const int SpriteFrames = 6;
+        /// <summary>Alarm 1 advances the frame again every 3 unpaused steps.</summary>
+        public const int AlarmEverySteps = 3;
+        public const int Depth = 0;
+
         PlayerShipController owner;
         SpriteRenderer spriteRenderer;
+        float stepRemainder;
+        int alarmSteps;
+
+        /// <summary>spr_shieldwall_anime frame (GML current_frame).</summary>
+        public int CurrentFrame { get; private set; }
 
         public PlayerShipController Owner => owner;
         public float Alpha { get; private set; }
 
         /// <summary>Called by the controller right after AddComponent (Awake does not run in EditMode).</summary>
-        public void Init(PlayerShipController player, float radius)
+        public void Init(PlayerShipController player)
         {
             owner = player;
-            var hitbox = GetComponent<CircleCollider2D>();
+            var hitbox = GetComponent<PolygonCollider2D>();
             hitbox.isTrigger = true;
-            hitbox.radius = radius;
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            const int arc = 12;
+            var points = new Vector2[arc + 1];
+            for (int i = 0; i <= arc; i++)
+            {
+                float a = (-90f + 180f * i / arc) * Mathf.Deg2Rad;
+                points[i] = new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * Gml.Px(MaskRadiusPx);
+            }
+            hitbox.points = points;
+            spriteRenderer = Effects.HareArt.Show(gameObject, SpriteName, Depth);
+            CurrentFrame = 0;
+            alarmSteps = 0;
+            stepRemainder = 0f;
+            ApplyFrame();
             Follow();
+        }
+
+        /// <summary>
+        /// Advances <paramref name="steps"/> GML steps: every Step moves current_frame on one (wrapping at 6) and
+        /// Alarm 1, ringing every 3 steps, moves it on again.
+        /// </summary>
+        public void Tick(float steps)
+        {
+            stepRemainder += steps;
+            while (stepRemainder >= 1f)
+            {
+                stepRemainder -= 1f;
+                NextFrame();
+                if (++alarmSteps >= AlarmEverySteps) { alarmSteps = 0; NextFrame(); }
+            }
+            ApplyFrame();
+        }
+
+        void NextFrame() => CurrentFrame = CurrentFrame < SpriteFrames - 1 ? CurrentFrame + 1 : 0;
+
+        void ApplyFrame()
+        {
+            if (spriteRenderer != null) spriteRenderer.sprite = Effects.HareArt.Frame(SpriteName, CurrentFrame);
         }
 
         void LateUpdate()
         {
             if (owner == null) { Destroy(gameObject); return; }
             Follow();
+            Tick(Effects.SpriteAnimation.StepsIn(Time.deltaTime));
             Flicker(Random.Range(3, 7));
         }
 
