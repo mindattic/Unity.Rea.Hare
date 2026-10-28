@@ -8,6 +8,11 @@ namespace Unity.Hare.Enemies
         WormSegmentBody Rules => (WormSegmentBody)Core;
 
         protected override string BodySprite => "spr_worm_segment";
+        protected override float BodyBlend => Rgb / 255f;
+
+        /// <summary>obj_worm_segment Draw: spr_worm_segment at (x, y) turned to back_angle tinted image_blend, then draw_self.</summary>
+        protected override void DrawLayers(int bodyOrder) =>
+            DrawLayer("back", "spr_worm_segment", bodyOrder, 1, Position, BackAngle, Rgb / 255f);
 
         public Worm Head => EnemyDirector.ViewOf<Worm>(Rules.Head.Id);
         /// <summary>GML parent: the part this one follows.</summary>

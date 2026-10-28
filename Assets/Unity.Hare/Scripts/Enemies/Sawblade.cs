@@ -13,6 +13,10 @@ namespace Unity.Hare.Enemies
 
         protected override string BodySprite => "spr_sawblade";
 
+        /// <summary>obj_sawblade Draw: spr_sawblade at (x, y) turned to back_angle, then draw_self.</summary>
+        protected override void DrawLayers(int bodyOrder) =>
+            DrawLayer("back", "spr_sawblade", bodyOrder, 1, Position, BackAngle);
+
         /// <summary>GML rot_speed, degrees/step.</summary>
         public float Spin => Rules.Spin;
         public float BackAngle => Rules.BackAngle;

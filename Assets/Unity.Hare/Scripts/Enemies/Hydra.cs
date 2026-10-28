@@ -16,6 +16,13 @@ namespace Unity.Hare.Enemies
 
         protected override string BodySprite => "spr_hydra_body";
 
+        /// <summary>obj_hydra Draw: spr_hydra_turret at (x, y) turned to each current_angle[i], i &lt; arms, then draw_self.</summary>
+        protected override void DrawLayers(int bodyOrder)
+        {
+            for (int i = 0; i < MaxArms; i++)
+                DrawLayer("turret" + i, "spr_hydra_turret", bodyOrder, 1, Position, TurretAngle(i), 1f, i < Arms);
+        }
+
         /// <summary>GML arms: turrets left; it dies on the hit that takes this below 0.</summary>
         public int Arms => Rules.Arms;
         /// <summary>GML rot_dir: +1 or -1 degrees/step.</summary>

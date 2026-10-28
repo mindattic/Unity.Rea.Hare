@@ -22,6 +22,14 @@ namespace Unity.Hare.Enemies
         WormEnemy Rules => (WormEnemy)Core;
 
         protected override string BodySprite => "spr_worm_segment";
+        protected override float BodyBlend => Rgb / 255f;
+
+        /// <summary>obj_worm Draw: spr_worm_head at (headX, headY) turned to heading_angle, spr_worm_segment at (x, y) turned to back_angle tinted image_blend, then draw_self.</summary>
+        protected override void DrawLayers(int bodyOrder)
+        {
+            DrawLayer("head", "spr_worm_head", bodyOrder, 2, JawPosition, HeadingAngle);
+            DrawLayer("back", "spr_worm_segment", bodyOrder, 1, Position, BackAngle, Rgb / 255f);
+        }
 
         /// <summary>GML segment_count: the extra segments after the first (5-7).</summary>
         public int SegmentCount => Rules.SegmentCount;

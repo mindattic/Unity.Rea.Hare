@@ -271,12 +271,48 @@ namespace Unity.Hare.Enemies
         /// <summary>The object's GML depth (a lower depth draws on top).</summary>
         protected virtual int BodyDepth => -3;
 
+        /// <summary>The body's image_blend as a grey level in [0, 1] (the worm and meatball dim it with their RGB).</summary>
+        protected virtual float BodyBlend => 1f;
+
+        System.Collections.Generic.Dictionary<string, SpriteRenderer> layers;
+
         protected override void Draw()
         {
             string name = BodySprite;
             if (name == null) return;
             var renderer = Unity.Hare.Effects.HareArt.Show(gameObject, name, BodyDepth, Core.ImageAlpha);
             renderer.sprite = Unity.Hare.Effects.HareArt.Frame(name, BodyFrame);
+            float g = Mathf.Clamp01(BodyBlend);
+            renderer.color = new Color(g, g, g, Core.ImageAlpha);
+            DrawLayers(renderer.sortingOrder);
+        }
+
+        /// <summary>The draw_sprite_ext calls a Draw event makes before its draw_self: a view shows each with <see cref="DrawLayer"/>. <paramref name="bodyOrder"/> is the body's sorting order.</summary>
+        protected virtual void DrawLayers(int bodyOrder) { }
+
+        /// <summary>
+        /// One draw_sprite_ext(sprite, 0, x, y, 1, 1, angle, blend, 1) under the body (drawn before draw_self, so beneath it): a child
+        /// SpriteRenderer, kept by <paramref name="key"/>, at world <paramref name="position"/> turned to <paramref name="angle"/>.
+        /// <paramref name="beneath"/> is how many sorting steps under the body it sits (a later call in the Draw event is a smaller number).
+        /// </summary>
+        protected SpriteRenderer DrawLayer(string key, string sprite, int bodyOrder, int beneath, Vector2 position, float angle, float blend = 1f, bool visible = true)
+        {
+            if (layers == null) layers = new System.Collections.Generic.Dictionary<string, SpriteRenderer>();
+            if (!layers.TryGetValue(key, out var renderer) || renderer == null)
+            {
+                var go = new GameObject("Layer_" + key);
+                go.transform.SetParent(transform, false);
+                renderer = go.AddComponent<SpriteRenderer>();
+                layers[key] = renderer;
+            }
+            var t = renderer.transform;
+            t.SetPositionAndRotation(new Vector3(position.x, position.y, transform.position.z), Quaternion.Euler(0f, 0f, angle));
+            renderer.sprite = Unity.Hare.Effects.HareArt.Frame(sprite);
+            renderer.sortingOrder = bodyOrder - beneath;
+            float g = Mathf.Clamp01(blend);
+            renderer.color = new Color(g, g, g, 1f);
+            renderer.gameObject.SetActive(visible);
+            return renderer;
         }
     }
 

@@ -17,6 +17,15 @@ namespace Unity.Hare.Enemies
 
         protected override string BodySprite => "spr_meatball";
         protected override int BodyDepth => -2;
+        protected override float BodyBlend => Rgb / 255f;
+
+        /// <summary>obj_meatball Draw: spr_meatball_eyes at (x, y), spr_meatball_pupils at (x + eyeX, y + eyeY), then draw_self.</summary>
+        protected override void DrawLayers(int bodyOrder)
+        {
+            DrawLayer("eyes", "spr_meatball_eyes", bodyOrder, 2, Position, 0f);
+            DrawLayer("pupils", "spr_meatball_pupils", bodyOrder, 1,
+                Position + Unity.Hare.Effects.HareArt.GmlOffset(EyeOffset.x, EyeOffset.y), 0f);
+        }
 
         /// <summary>GML RGB: image_blend's grey level.</summary>
         public int Rgb => Rules.Rgb;

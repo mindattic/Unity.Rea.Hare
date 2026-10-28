@@ -105,5 +105,74 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsNotNull(worm.Child);
             AssertDrawn(worm.Child, "spr_worm_segment", -3);
         }
+
+        static SpriteRenderer Layer(Component c, string key)
+        {
+            var child = c.transform.Find("Layer_" + key);
+            Assert.IsNotNull(child, c.name + " has no layer " + key);
+            return child.GetComponent<SpriteRenderer>();
+        }
+
+        [Test]
+        public void TheHydraDrawsATurretPerArmUnderItsBody()
+        {
+            var hydra = (Hydra)EnemySpawner.Spawn(EnemyKind.Hydra, new Vector2(5f, 5f), Gml.Room);
+            int bodyOrder = hydra.GetComponent<SpriteRenderer>().sortingOrder;
+            for (int i = 0; i < Hydra.MaxArms; i++)
+            {
+                var turret = Layer(hydra, "turret" + i);
+                Assert.AreEqual(i < hydra.Arms, turret.gameObject.activeSelf, "turret " + i);
+                if (i >= hydra.Arms) continue;
+                Assert.IsNotNull(turret.sprite);
+                Assert.Less(turret.sortingOrder, bodyOrder);
+                Assert.AreEqual(hydra.TurretAngle(i), Mathf.Repeat(turret.transform.eulerAngles.z, 360f), 0.01f);
+            }
+        }
+
+        [Test]
+        public void TheMeatballDrawsEyesAndPupilsUnderItsBody()
+        {
+            var ball = (Meatball)EnemySpawner.Spawn(EnemyKind.Meatball, new Vector2(5f, 5f), Gml.Room);
+            int bodyOrder = ball.GetComponent<SpriteRenderer>().sortingOrder;
+            var eyes = Layer(ball, "eyes");
+            var pupils = Layer(ball, "pupils");
+            Assert.IsNotNull(eyes.sprite);
+            Assert.IsNotNull(pupils.sprite);
+            Assert.Less(eyes.sortingOrder, pupils.sortingOrder);
+            Assert.Less(pupils.sortingOrder, bodyOrder);
+            var expected = (Vector2)ball.transform.position + Unity.Hare.Effects.HareArt.GmlOffset(ball.EyeOffset.x, ball.EyeOffset.y);
+            Assert.AreEqual(expected.x, pupils.transform.position.x, 0.001f);
+            Assert.AreEqual(expected.y, pupils.transform.position.y, 0.001f);
+        }
+
+        [Test]
+        public void ThePhalanxAndSawbladeDrawABackLayerAtBackAngle()
+        {
+            var phalanx = (Phalanx)EnemySpawner.Spawn(EnemyKind.Phalanx, new Vector2(5f, 5f), Gml.Room);
+            AssertBackLayer(phalanx, phalanx.BackAngle);
+            var saw = (Sawblade)EnemySpawner.Spawn(EnemyKind.Sawblade, new Vector2(7f, 5f), Gml.Room);
+            AssertBackLayer(saw, saw.BackAngle);
+        }
+
+        [Test]
+        public void TheWormDrawsItsHeadAndBackLayersAndSegmentsTheirBack()
+        {
+            var worm = (Worm)EnemySpawner.Spawn(EnemyKind.Worm, new Vector2(5f, 5f), Gml.Room);
+            AssertBackLayer(worm, worm.BackAngle);
+            var head = Layer(worm, "head");
+            Assert.IsNotNull(head.sprite);
+            Assert.Less(head.sortingOrder, Layer(worm, "back").sortingOrder);
+            Assert.AreEqual(worm.JawPosition.x, head.transform.position.x, 0.001f);
+            Assert.AreEqual(worm.JawPosition.y, head.transform.position.y, 0.001f);
+            AssertBackLayer(worm.Child, worm.Child.BackAngle);
+        }
+
+        static void AssertBackLayer(SetPieceEnemy enemy, float backAngle)
+        {
+            var back = Layer(enemy, "back");
+            Assert.IsNotNull(back.sprite);
+            Assert.Less(back.sortingOrder, enemy.GetComponent<SpriteRenderer>().sortingOrder);
+            Assert.AreEqual(backAngle, Mathf.Repeat(back.transform.eulerAngles.z, 360f), 0.01f);
+        }
     }
 }
