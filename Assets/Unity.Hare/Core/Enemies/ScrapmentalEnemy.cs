@@ -431,7 +431,9 @@ namespace Unity.Hare.Enemies
         protected override bool BulletHit(in BulletShot shot)
         {
             TinyExplosionAt(shot.Position);
-            if (!IgnoresRound(shot) && Mode == ShrapnelPieceMode.Attached)
+            // other.owner != ID && other.owner != parent: neither its own nor its boss's slivers damage it (U.HARE-T102).
+            bool ownRound = IgnoresRound(shot) || (shot.FromEnemy && shot.ShooterId == Parent.Id);
+            if (!ownRound && Mode == ShrapnelPieceMode.Attached)
             {
                 if (Rgb > ScrapmentalEnemy.DefeatRgb)
                 {

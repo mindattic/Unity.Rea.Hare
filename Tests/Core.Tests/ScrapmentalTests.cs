@@ -143,6 +143,18 @@ namespace Unity.Hare.Tests.Core
         }
 
         [Test]
+        public void AHullPieceIgnoresItsBossSliversButTakesAnotherEnemysRound()
+        {
+            var rig = new EnemyRig(6811);
+            var boss = Boss(rig);
+            var piece = boss.Pieces[0];
+            rig.Do(new StrikeBullet(piece.Id, new BulletShot(true, false, piece.Position, 0f, 1f, 1, boss.Id)));
+            Assert.AreEqual(255, piece.Rgb, "obj_shrapnel_piece: other.owner != parent, so the boss's own spr_sliver rounds do no damage");
+            rig.Do(new StrikeBullet(piece.Id, new BulletShot(true, false, piece.Position, 0f, 1f, 2, boss.Id + 1000)));
+            Assert.AreEqual(239, piece.Rgb, "another enemy's round still damages it");
+        }
+
+        [Test]
         public void RocketsExplodeOnAPieceAndTakeFortyEight()
         {
             var rig = new EnemyRig(6808);
