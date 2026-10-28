@@ -399,12 +399,15 @@ namespace Unity.Hare.Player
             return true;
         }
 
-        /// <summary>GML: shield key release, leap, reset_player, or energy hitting zero.</summary>
-        public void DropShield()
+        /// <summary>
+        /// GML: shield key release, leap, reset_player, or energy hitting zero. <paramref name="passed"/> for the two that
+        /// play sfx_hologram_pass (<see cref="ShieldDropped.Passed"/>).
+        /// </summary>
+        public void DropShield(bool passed = false)
         {
             if (!IsShielding) return;
             IsShielding = false;
-            sink.Emit(new ShieldDropped());
+            sink.Emit(new ShieldDropped { Passed = passed });
         }
 
         /// <summary>
@@ -531,7 +534,7 @@ namespace Unity.Hare.Player
             TickEnergy(dt);
 
             // GML obj_player Step "Shielding": the wall collapses once the energy bar is empty.
-            if (IsShielding && Energy <= 0f) DropShield();
+            if (IsShielding && Energy <= 0f) DropShield(passed: true); // ... audio_play_sound(sfx_hologram_pass, 1, 0)
 
             if (State == PlayerFlightState.Leaving)
             {

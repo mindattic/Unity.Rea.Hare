@@ -136,7 +136,11 @@ namespace Unity.Hare.Enemies
         {
             if (IsDead) return false;
             var result = Send(new StrikeBullet(Core.Id, ShotOf(bullet)));
-            if (result.Deflection.HasValue && bullet != null) bullet.SetDirection(result.Deflection.Value);
+            if (result.Deflection.HasValue && bullet != null)
+            {
+                bullet.SetDirection(result.Deflection.Value);
+                bullet.PlayShieldBounce(); // obj_bullet's obj_phalanx_shield collision: sfx_bounce (U.HARE-T30)
+            }
             return result.Accepted;
         }
 

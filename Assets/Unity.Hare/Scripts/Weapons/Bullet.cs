@@ -127,10 +127,27 @@ namespace Unity.Hare.Weapons
             return true;
         }
 
-        /// <summary>GML obj_bullet / Collision obj_shieldwall: direction = image_angle = normal.</summary>
+        /// <summary>GML obj_bullet's bounce: <c>audio_play_sound(sfx_bounce, 1, 0)</c>.</summary>
+        public const string BounceSound = "sfx_bounce";
+
+        /// <summary>
+        /// GML obj_bullet / Collision obj_shieldwall: direction = image_angle = normal, then
+        /// <c>audio_play_sound(sfx_bounce, 1, 0)</c> (no in_view or audio_is_playing check on this one).
+        /// </summary>
         public void OnShieldHit(ShieldWall wall, Vector2 normal)
         {
             SetDirection(Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg);
+            Audio.HareAudio.PlayVoice(BounceSound);
+        }
+
+        /// <summary>
+        /// GML obj_bullet / Collision obj_phalanx_shield, after the bounce: <c>if(in_view(x, y)) if(!audio_is_playing(sfx_bounce))
+        /// audio_play_sound(sfx_bounce, 1, 0)</c>.
+        /// </summary>
+        public void PlayShieldBounce()
+        {
+            if (Effects.HareArt.InView(transform.position) && !Audio.HareAudio.IsPlaying(BounceSound))
+                Audio.HareAudio.PlayVoice(BounceSound);
         }
 
         void Despawn()

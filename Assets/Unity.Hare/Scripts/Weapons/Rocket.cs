@@ -190,13 +190,15 @@ namespace Unity.Hare.Weapons
 
         /// <summary>
         /// GML direction = image_angle = normal_detect(...) off <paramref name="surface"/> (a shield
-        /// wall or obj_phalanx_shield), once per surface (last_impact).
+        /// wall or obj_phalanx_shield), once per surface (last_impact), then
+        /// <c>if(in_view(x, y)) audio_play_sound(sfx_bounce, 1, 0)</c> (U.HARE-T30).
         /// </summary>
         public void Deflect(Object surface, Vector2 normal)
         {
             if (exploded || surface == lastImpact) return;
             lastImpact = surface;
             SetDirection(Mathf.Atan2(normal.y, normal.x) * Mathf.Rad2Deg);
+            if (Effects.HareArt.InView(transform.position)) Audio.HareAudio.PlayVoice(Bullet.BounceSound);
         }
 
         /// <summary>GML obj_rocket collision with obj_bullet: the bullet and the rocket both go (no big explosion).</summary>

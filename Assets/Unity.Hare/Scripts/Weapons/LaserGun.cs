@@ -28,18 +28,32 @@ namespace Unity.Hare.Weapons
         public Vector2 BeamEndPosition => MuzzlePosition + Gml.Dir(Player.AimDirection) *
             Gml.Px(GameContent.Current.WeaponPhysicals.Laser.BeamLengthPx - GameContent.Current.WeaponPhysicals.PerchedMuzzle.MuzzleDistancePx);
 
+        /// <summary>shoot_laser's <c>audio_play_sound(sfx_fire_laser, 2, 0)</c>.</summary>
+        public const string FireSound = "sfx_fire_laser";
+        /// <summary>obj_laser's hum: <c>audio_play_sound(sfx_loop_laser, 1, 0)</c> whenever neither laser sound is playing.</summary>
+        public const string LoopSound = "sfx_loop_laser";
+
         protected override void Shoot(Vector2 origin, float aim)
         {
             StopLaser();
             var go = new GameObject("Laser");
             ActiveLaser = go.AddComponent<LaserBeam>();
             ActiveLaser.Init(this);
+            Audio.HareAudio.PlayVoice(FireSound); // shoot_laser (U.HARE-T30)
         }
 
         protected override void OnPlayerEvent(PlayerEvent e)
         {
             base.OnPlayerEvent(e);
-            if (e is GunBeamStopped stopped && stopped.Key == Key) StopLaser();
+            if (e is GunBeamStopped stopped && stopped.Key == Key)
+            {
+                StopLaser();
+                // obj_player's left-button release with the laser up: audio_stop_sound(sfx_fire_laser);
+                // audio_stop_sound(sfx_loop_laser) (U.HARE-T30). The port also puts the beam out on a switch, death or
+                // shield, and its sound goes with it.
+                Audio.HareAudio.Stop(FireSound);
+                Audio.HareAudio.Stop(LoopSound);
+            }
         }
 
         void StopLaser()

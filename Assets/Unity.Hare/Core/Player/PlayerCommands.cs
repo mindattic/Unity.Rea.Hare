@@ -281,7 +281,7 @@ namespace Unity.Hare.Player
             if (ship.Flight.State != PlayerFlightState.Idle) return false;
             ship.Flight.StartEnergyFill(); // KeyRelease 87/83 while state_idle: obj_energybar.mode = "fill"
             ship.Flight.StandUp();
-            ship.Flight.DropShield();
+            ship.Flight.DropShield(passed: true); // with(obj_shieldwall) instance_destroy(); audio_play_sound(sfx_hologram_pass, 1, 0)
             return true;
         }
     }
@@ -292,8 +292,9 @@ namespace Unity.Hare.Player
         public DropShield(PlayerId id) : base(id) { }
         internal override bool Apply(PlayerShip ship)
         {
-            if (ship.Flight.State == PlayerFlightState.Idle) ship.Flight.StartEnergyFill();
-            ship.Flight.DropShield();
+            bool perched = ship.Flight.State == PlayerFlightState.Idle;
+            if (perched) ship.Flight.StartEnergyFill();
+            ship.Flight.DropShield(passed: perched); // the release's sfx_hologram_pass is in its state_idle branch
             return true;
         }
     }

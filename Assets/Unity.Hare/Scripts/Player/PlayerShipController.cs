@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Hare.Audio;
 using Unity.Hare.Content;
 using Unity.Hare.Input;
 using Unity.Hare.Weapons;
@@ -31,6 +32,17 @@ namespace Unity.Hare.Player
         /// scene load, or Enter Play Mode without domain reload) still picks up the loaded file once it does.
         /// </summary>
         static FlightTuning Tuning => GameContent.Current.Flight;
+
+        /// <summary>player_brake's sound, stopped again by a landing (U.HARE-T30).</summary>
+        public const string BrakeSound = "sfx_brake";
+        /// <summary>player_shield's sound as the wall goes up.</summary>
+        public const string ShieldUpSound = "sfx_hologram";
+        /// <summary>The wall coming down on the shield key's release or an empty energy bar.</summary>
+        public const string ShieldPassSound = "sfx_hologram_pass";
+        /// <summary>obj_player's Ctrl press (KeyPress 17).</summary>
+        public const string AlternateDownSound = "sfx_switch";
+        /// <summary>obj_player's Ctrl release (KeyRelease 17).</summary>
+        public const string AlternateUpSound = "sfx_switch_back";
 
         Rigidbody2D body;
         HareControls controls;
@@ -155,6 +167,11 @@ namespace Unity.Hare.Player
             // or, with Ctrl, boosts) and the release is player_leap toward the aim.
             if (player.Leap.WasPressedThisFrame()) Send(new PressLeapKey(Id, LeapKeyAirPress()));
             if (player.Leap.WasReleasedThisFrame()) TryLeap(AimDirection);
+
+            // GML KeyPress 17 / KeyRelease 17 (Ctrl, no paused check): audio_play_sound(sfx_switch, 1, 0) on the press and
+            // sfx_switch_back on the release, the click of the ground secondary coming up and going away (U.HARE-T30).
+            if (player.Alternate.WasPressedThisFrame()) HareAudio.Play(AlternateDownSound);
+            if (player.Alternate.WasReleasedThisFrame()) HareAudio.Play(AlternateUpSound);
 
             // GML KeyPress 66 (B, no paused check): the vulcan's rounds take the next bullet_asset (U.HARE-T93).
             if (player.BulletLook.WasPressedThisFrame()) Send(new CycleBulletSprite(Id));
@@ -400,6 +417,8 @@ namespace Unity.Hare.Player
             switch (e)
             {
                 case ShipLanded landed:
+                    // obj_player's par_structure / par_rock collision: braking = false; audio_stop_sound(sfx_brake).
+                    if (landed.Surface != null) HareAudio.Stop(BrakeSound);
                     if (body != null) body.linearVelocity = Vector2.zero;
                     transform.rotation = Quaternion.Euler(0f, 0f, Facing);
                     if (landed.Surface == null) Perch = null;
@@ -427,9 +446,14 @@ namespace Unity.Hare.Player
                     break;
                 case ShieldRaised raised:
                     RaiseWall();
+                    HareAudio.Play(ShieldUpSound); // player_shield: audio_play_sound(sfx_hologram, 1, 0)
                     break;
-                case ShieldDropped _:
+                case ShieldDropped dropped:
                     RemoveWall();
+                    if (dropped.Passed) HareAudio.Play(ShieldPassSound); // audio_play_sound(sfx_hologram_pass, 1, 0)
+                    break;
+                case BrakeStarted _:
+                    HareAudio.PlayVoice(BrakeSound); // player_brake: audio_play_sound(sfx_brake, 1, 0)
                     break;
                 case PlayerRespawned respawned:
                     Perch = null;

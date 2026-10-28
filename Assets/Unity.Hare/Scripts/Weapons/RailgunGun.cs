@@ -20,10 +20,14 @@ namespace Unity.Hare.Weapons
 
         public float BeamLengthUnits => Gml.Px(GameContent.Current.WeaponPhysicals.Railgun.BeamLengthPx);
 
+        /// <summary>shoot_railgun's <c>audio_play_sound(sfx_fire_railgun, 2, 0)</c>.</summary>
+        public const string FireSound = "sfx_fire_railgun";
+
         protected override void Shoot(Vector2 origin, float aim)
         {
             var go = new GameObject("Railgun");
             go.AddComponent<RailgunShot>().Init(origin, aim, BeamLengthUnits);
+            Audio.HareAudio.Play(FireSound); // U.HARE-T30
         }
     }
 }

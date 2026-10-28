@@ -162,6 +162,47 @@ namespace Unity.Hare.Audio
             source.Play();
         }
 
+        /// <summary>
+        /// GML <c>audio_play_sound(name, priority, false)</c> for a sound the original also asks
+        /// <c>audio_is_playing</c> or <c>audio_stop_sound</c> about (sfx_bounce, sfx_brake, the laser's two, U.HARE-T30):
+        /// a one-shot on the sound's own source, so <see cref="IsPlaying"/> and <see cref="Stop"/> can see it. Instances
+        /// still overlap, as GameMaker's do. Play mode only; an unknown name is silent.
+        /// </summary>
+        public static void PlayVoice(string name)
+        {
+            var source = Voice(name, out var sound);
+            if (source != null) source.PlayOneShot(sound.clip, sound.volume);
+        }
+
+        /// <summary>GML <c>audio_is_playing(name)</c> for a sound played by <see cref="PlayVoice"/> or <see cref="Restart"/>.</summary>
+        public static bool IsPlaying(string name) =>
+            !string.IsNullOrEmpty(name) && restartable.TryGetValue(name, out var source) && source != null && source.isPlaying;
+
+        /// <summary>GML <c>audio_stop_sound(name)</c>: every instance <see cref="PlayVoice"/> or <see cref="Restart"/> started.</summary>
+        public static void Stop(string name)
+        {
+            if (!string.IsNullOrEmpty(name) && restartable.TryGetValue(name, out var source) && source != null) source.Stop();
+        }
+
+        /// <summary>The sound's own source (made on first use), or null outside Play mode or for an unknown sound.</summary>
+        static AudioSource Voice(string name, out GmlSoundAsset sound)
+        {
+            sound = null;
+            if (!Application.isPlaying || string.IsNullOrEmpty(name)) return null;
+            sound = Manifest?.Find(name);
+            if (sound == null || sound.clip == null) return null;
+            if (!restartable.TryGetValue(name, out var source) || source == null)
+            {
+                var host = HareAudioHost.Ensure();
+                source = host.gameObject.AddComponent<AudioSource>();
+                source.playOnAwake = false;
+                source.spatialBlend = 0f;
+                Route(source, sound.channel);
+                restartable[name] = source;
+            }
+            return source;
+        }
+
         static AudioSource music;
 
         /// <summary>

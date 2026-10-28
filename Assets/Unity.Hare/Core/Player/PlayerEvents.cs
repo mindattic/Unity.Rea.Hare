@@ -60,7 +60,14 @@ namespace Unity.Hare.Player
     public sealed class ShieldRaised : PlayerEvent { public float Radius; }
 
     /// <summary>The shield wall came down (key release, leap, death, reset or energy at zero).</summary>
-    public sealed class ShieldDropped : PlayerEvent { }
+    public sealed class ShieldDropped : PlayerEvent
+    {
+        /// <summary>
+        /// The drops obj_player sounds: the shield key's release while perched and the energy bar running dry each play
+        /// <c>audio_play_sound(sfx_hologram_pass, 1, 0)</c>; a leap, fling, death, reset or leave take it down silently.
+        /// </summary>
+        public bool Passed;
+    }
 
     /// <summary>
     /// A hit that left the ship alive; <see cref="Health"/> is the HP remaining. player_hurt plays sfx_hurt<see cref="HurtSound"/>

@@ -63,7 +63,12 @@ namespace Unity.Hare.Weapons
             MuzzleFlash.Spawn(origin, direction);
             // GML: shell = instance_create(player.gunX, player.gunY, obj_cartridge); shell.sprite_index = spr_ammo_shell (U.HARE-T23).
             Pickups.PickupDirector.EjectCasing(Pickups.ScrapKind.Shell, VulcanWeapon.GunPoint(transform));
+            // GML: audio_play_sound(sfx_fire_shotgun, 2, 0), just before the smoke (U.HARE-T30).
+            Audio.HareAudio.Play(FireSound);
             GmlEffects.CreateBelow(GmlEffectKind.Smoke, origin, 1, Color.black);
         }
+
+        /// <summary>shoot_shotgun's blast sound.</summary>
+        public const string FireSound = "sfx_fire_shotgun";
     }
 }

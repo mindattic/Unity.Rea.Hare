@@ -32,6 +32,7 @@ OVERRIDES = {
     "obj_scrapmental": ("in progress, U.HARE-T68", "Scrap Mental boss; level 8's defeat target"),
     "obj_ring": ("not reached", "named only in commented-out code in obj_game (the ring gate); see 'Content the original never reaches'"),
     "obj_ring_back": ("not reached", "only the never-placed obj_ring uses it; see 'Content the original never reaches'"),
+    "sfx_crash": ("not reached", "only in commented-out audio_play_sound lines of obj_title and obj_drop_title; see 'Content the original never reaches' (U.HARE-T30)"),
     "obj_spawnpoint": ("not ported, by design", "only sets angle = 270, draws nothing and nothing reads it (BIBLE V29, U.HARE-T21)"),
 }
 # Extra note appended to a derived row. name -> note

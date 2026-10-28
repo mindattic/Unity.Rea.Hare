@@ -42,6 +42,17 @@ namespace Unity.Hare.Weapons
             if (owner == null) { Destroy(gameObject); return; }
             Tick();
             Glow(Time.deltaTime);
+            Hum();
+        }
+
+        /// <summary>
+        /// obj_laser's Step: <c>if(!audio_is_playing(sfx_fire_laser)) if(!audio_is_playing(sfx_loop_laser))
+        /// audio_play_sound(sfx_loop_laser, 1, 0)</c>, so the hum follows the firing sound and starts over each time it ends.
+        /// </summary>
+        static void Hum()
+        {
+            if (Audio.HareAudio.IsPlaying(LaserGun.FireSound) || Audio.HareAudio.IsPlaying(LaserGun.LoopSound)) return;
+            Audio.HareAudio.PlayVoice(LaserGun.LoopSound);
         }
 
         /// <summary>

@@ -56,6 +56,7 @@ rebuilds them by mistake):
   `room_gamescreen`. `obj_structure1`, `obj_structure1_cover` named in the earlier notes do not exist
   in HARE.gmx; only `par_structure` and `par_structure_cover` do.
 - `obj_ring` / `obj_ring_back` (a ring gate) are only referenced from commented-out code in `obj_game`.
+- `sfx_crash` is only played by commented-out lines (`obj_title`'s two, `obj_drop_title`'s one); nothing plays it.
 - `obj_butterfly_emitter`, `obj_firefly_emitter`, `obj_fly_emitter` and the weather emitters other than
   the cloud emitter are not placed by any room or level script (the weather ones are gated by
   commented-out lines); U.HARE-T18 still ports them because they are real objects (a level can name them in its
@@ -119,7 +120,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Flashbomb | `obj_flashbomb`, `obj_rabbit_schematic` | Built: Core's `Arena/Flashbomb` (`FlashbombField`: obj_player's F making a bomb per press, no ammo or cooldown as in the original; Alarm 0's blink every 6 steps at 0.8, the four circles growing 10/8/6 and 4 a step, burst_alpha fading 0.01 a step to destroy; numbers in `arena.Flashbomb`), obj_rabbit_schematic as `GameHud`'s third schematic (`arena.Hud.RabbitSchematic*`), sfx_flashbomb; Runtime's `FlashbombView` and `FlashbombSweep` (each enemy in view inside the ring to an obj_rocket_explosion, each shot to an obj_tinyexplosion), driven by `ArenaRoom`; BIBLE V48, D26 | done: U.HARE-T67 |
 | Boss: Scrap Mental | `obj_scrapmental`, `obj_shrapnel_*` | Built: Core's `Enemies/ScrapmentalEnemy` (`EnemyKind.Scrapmental`: the eye creeping 1 px a step beyond 100 px, spin, undulate -20..160 px 4 px every 8 steps, 12-16 slivers every 4-8 s, a sawblade or dagger every 3-6 s, RGB 255 darkened 1 a ship bullet and 6 a rocket with the shove, the defeat after 128 for 500 points, 24 pickups, the grenade explosion and death particles, alarm[4]'s 10 s before it goes; `ShrapnelPieceBody` (`BodyPart.Hull`): 36 spr_boss_hull1..8 plates orbiting on the undulate radius, 16 a bullet and 48 a rocket, loose after 0-3 s for 20 points once at 8-12 px a step, re-attaching at RGB 196 when reeled home; `ShrapnelHarpoonBody` (`BodyPart.Harpoon`): 16 arms 20 degrees apart turning 1 a step, firing at 8 px a step after 1-4 s (2-6 s after each reel), reeling at 4 px a step after 2000 px, a rock (`StrikeRock`) or a caught piece (`GrabPiece`); the numbers in `enemies.Scrapmental`), Runtime's `Enemies/Scrapmental` (eye and frame, `ShrapnelBack` fading 0.005 and sinking 1 px a step, `ShrapnelPiece`, `ShrapnelHarpoon` with its c_gray line; registered as level_08's o_defeat target through `LevelTargets`), scores through `EnemyDirector.Scored`/`ArenaRoom.Score`; BIBLE D28-D32 | done: U.HARE-T68 (supersedes UH-T32) |
 | Music and jukebox | `obj_jukebox`, `play_random_music` | Built: Core's `Session/PlayRandomMusic` (`irandom_range(1, 5)` over `session.Tracks`, the original's five tracks in order, into `CurrentTrack`/`TrackName`, raising `MusicTrackChosen`); Runtime's `Audio/Jukebox` (obj_jukebox, made by `ArenaRoom.Begin`, asking whenever no music plays) and `HareAudio.PlayMusic` (once, not looped, on the persistent host's Music source); the original's `audio_is_playing(0)` and commented-out play fixed, BIBLE D33, V51 | done: U.HARE-T29 |
-| Sound effects | 69 `sfx_*` | All imported, none skipped: `tools/import-gml-audio.ps1` + `GmlAudioBuilder` into `Assets/Unity.Hare/Audio` (PCM, decompressed on load, as GameMaker played them), named by `HareAudioManifest`, played by `HareAudio` through the mixer's Sfx group; only the death, grenade, vulcan and reload sounds are wired to their events yet | import done: U.HARE-T47; wiring UH-T30 |
+| Sound effects | 69 `sfx_*` | All imported, none skipped: `tools/import-gml-audio.ps1` + `GmlAudioBuilder` into `Assets/Unity.Hare/Audio` (PCM, decompressed on load, as GameMaker played them), named by `HareAudioManifest`, played by `HareAudio` through the mixer's Sfx group at the moment the original plays each; U.HARE-T30 wired the last ones (sfx_bounce off shield walls and the phalanx shield, sfx_brake and its stop on landing, sfx_hologram / sfx_hologram_pass, Ctrl's sfx_switch / sfx_switch_back, the laser's sfx_fire_laser and sfx_loop_laser hum, sfx_fire_railgun, sfx_fire_shotgun), with `HareAudio.PlayVoice` / `IsPlaying` / `Stop` for GML's audio_is_playing and audio_stop_sound. sfx_crash is only in commented-out code (see 'Content the original never reaches') | done: U.HARE-T47 (import), U.HARE-T30 (wiring) |
 | Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); the jukebox plays them (U.HARE-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47; played: U.HARE-T29 |
 | Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); no screen yet | data: U.HARE-T47; screen UH-T69 |
 | Startup room | `obj_startup` | Core's `Rooms/StartupScreen` (Create's fullscreen and alarm[0..2], each alarm re-rolling its circuit board's speeds to `irandom_range(-2,2)` and re-arming for 1 to 12 s, the backgrounds' scroll, any key and the global left button to `room_title`; startup.room.gmx's five backgrounds and the note as data in `startup`), played by `StartupRoom` in the generated startup scene (tiled imported backgrounds, the red-on-black `fnt_point` note at `room_height - 60`) on the room flow's clock | done: U.HARE-T51 |
@@ -335,7 +336,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `obj_muzzleflash` | game/weapon/vulcan | `shoot_shotgun`, `shoot_vulcan` | ported, by comment reference | `Scripts/Effects/MuzzleFlash.cs`, `Scripts/Weapons/Shotgun.cs` +1 |
 | `obj_oval_explosion` | game/effect | none | not reached | nothing in the original uses it; Unity mentions it only in comments: `Core/Arena/MoonSurface.cs`, `Scripts/Arena/MoonSurfaceView.cs` +1 |
 | `obj_phalanx` | game/enemy/phalanx | `create_wormhole`, `generate_enemy_list`, `setup_level` | ported, by comment reference | `Core/Enemies/PhalanxEnemy.cs`, `Scripts/Enemies/Phalanx.cs` |
-| `obj_phalanx_shield` | game/enemy/phalanx | `obj_bullet`, `obj_phalanx`, `obj_rocket` | ported, by comment reference | `Core/Enemies/EnemyBody.cs`, `Core/Enemies/PhalanxEnemy.cs` +4 |
+| `obj_phalanx_shield` | game/enemy/phalanx | `obj_bullet`, `obj_phalanx`, `obj_rocket` | ported, by comment reference | `Core/Enemies/EnemyBody.cs`, `Core/Enemies/PhalanxEnemy.cs` +6 |
 | `obj_player` | game | `room_boss1`, `room_gamescreen`, `room_shaft`, `room_sidescroll` +13 more | ported | `Scripts/Arena/PlayerArrows.cs` |
 | `obj_rabbit_schematic` | game/gui | `obj_flashbomb` | ported, by comment reference | `Core/Arena/Flashbomb.cs`, `Core/Arena/GameHud.cs` +1 |
 | `obj_rail_swirl` | game/weapon/railgun | `obj_railgun`, `generate_swirl` | ported, by comment reference | `Scripts/Weapons/RailgunShot.cs` |
@@ -358,7 +359,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `obj_scenario_details` | map | `room_map`, `obj_destination` | ported | `Scripts/Map/MapRoom.cs` |
 | `obj_scrapmental` | game/enemy/scrapmental | `level_08` | in progress, U.HARE-T68 | `Core/Arena/ArenaTuning.cs`, `Resources/Hare/Content/GameContent.json` +1; Scrap Mental boss; level 8's defeat target |
 | `obj_scroll_world` | story | `room_story`, `obj_story` | ported | `Scripts/Story/StoryRoom.cs` |
-| `obj_shieldwall` | game | `obj_bullet`, `obj_dagger`, `obj_mimic`, `obj_phalanx` +8 more | ported, by comment reference | `Core/Enemies/DaggerEnemy.cs`, `Core/Enemies/EnemyBody.cs` +11 |
+| `obj_shieldwall` | game | `obj_bullet`, `obj_dagger`, `obj_mimic`, `obj_phalanx` +8 more | ported, by comment reference | `Core/Enemies/DaggerEnemy.cs`, `Core/Enemies/EnemyBody.cs` +12 |
 | `obj_shrapnel_back` | game/enemy/scrapmental | `obj_scrapmental` | ported, by comment reference | `Core/Enemies/ScrapmentalEnemy.cs`, `Scripts/Enemies/Scrapmental.cs` |
 | `obj_shrapnel_harpoon` | game/enemy/scrapmental | `obj_scrapmental` | ported, by comment reference | `Core/Enemies/EnemyBody.cs`, `Core/Enemies/ScrapmentalEnemy.cs` +2 |
 | `obj_shrapnel_piece` | game/enemy/scrapmental | `obj_scrapmental`, `obj_shrapnel_harpoon` | ported, by comment reference | `Core/Enemies/EnemyBody.cs`, `Core/Enemies/ScrapmentalEnemy.cs` +2 |
@@ -429,7 +430,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `generate_swirl` | weapons/ground/railgun | `shoot_railgun` | ported, by comment reference | `Scripts/Weapons/RailgunShot.cs` |
 | `get_state_string` |  | `obj_game` | ported, by comment reference | `Core/Arena/GameHud.cs` |
 | `globals` |  | `obj_title` | ported, by comment reference | `Core/Arena/ArenaTuning.cs`, `Core/Arena/GameHud.cs` +31 |
-| `in_view` | functions | `obj_bullet`, `obj_enemy_mine`, `obj_flame`, `obj_flashbomb` +9 more | ported, by comment reference | `Core/Helper/HelperCommands.cs`, `Core/Helper/HelperEvents.cs` +12 |
+| `in_view` | functions | `obj_bullet`, `obj_enemy_mine`, `obj_flame`, `obj_flashbomb` +9 more | ported, by comment reference | `Core/Helper/HelperCommands.cs`, `Core/Helper/HelperEvents.cs` +14 |
 | `indent` |  | `obj_drop_intro`, `obj_map`, `obj_story` | ported, by comment reference | `Core/Content/DialogueCatalog.cs`, `Core/Popups/PopupTuning.cs` |
 | `level_01` | levels | `globals`, `load_scenario`, `setup_level` | ported | `Core/Arena/ArenaTuning.cs`, `Core/Story/StoryTuning.cs` +1 |
 | `level_02` | levels | `globals`, `load_scenario`, `setup_level` | ported | `Core/Arena/ArenaTuning.cs`, `Core/Story/StoryTuning.cs` +1 |
@@ -680,9 +681,9 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_scanner_beam` | map | `obj_scanner`, `obj_uss_warren` | ported | `Core/Map/MapTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_scenario_box` | map | `obj_alert` | imported, owner ported | drawn by `obj_alert`, which Unity names; no code names this sprite itself |
 | `spr_schrapnel_eye` | game/enemy/boss | `obj_scrapmental` | ported | `Scripts/Enemies/Scrapmental.cs` |
-| `spr_shield_hitbox` |  | `obj_phalanx_shield`, `obj_shieldwall` | ported, by comment reference | `Core/Enemies/PhalanxEnemy.cs`, `Scripts/Enemies/PhalanxShield.cs` |
+| `spr_shield_hitbox` |  | `obj_phalanx_shield`, `obj_shieldwall` | ported, by comment reference | `Core/Enemies/PhalanxEnemy.cs`, `Scripts/Enemies/PhalanxShield.cs` +1 |
 | `spr_shieldwall` | game/rabbit/addon | none | imported, not reached | asset imported; nothing in the original uses it |
-| `spr_shieldwall_anime` | game/rabbit/addon | `obj_phalanx_shield`, `obj_shieldwall` | ported, by comment reference | `Core/Enemies/PhalanxEnemy.cs`, `Scripts/Enemies/PhalanxShield.cs` |
+| `spr_shieldwall_anime` | game/rabbit/addon | `obj_phalanx_shield`, `obj_shieldwall` | ported | `Scripts/Enemies/PhalanxShield.cs`, `Scripts/Player/ShieldWall.cs` |
 | `spr_shrapnel_frame` | game/enemy/boss | `obj_scrapmental` | ported | `Scripts/Enemies/Scrapmental.cs` |
 | `spr_shrapnel_harpoon` | game/enemy/boss | `obj_shrapnel_harpoon` | ported | `Scripts/Enemies/Scrapmental.cs` |
 | `spr_sliver` | game/weapon/projectile | `obj_scrapmental`, `obj_worm` | ported | `Scripts/Enemies/Scrapmental.cs` |
@@ -766,13 +767,13 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_blip` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_blipgun` |  | `obj_hydra`, `shoot_shotgun`, `shoot_vulcan` | ported, by comment reference | `Scripts/Enemies/Hydra.cs` |
 | `sfx_boost` |  | `obj_level_results`, `obj_player`, `player_boost` | ported | `Core/Arena/LevelResults.cs`, `Resources/Hare/Content/GameContent.json` |
-| `sfx_bounce` |  | `obj_bullet`, `obj_rocket` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_bounce` |  | `obj_bullet`, `obj_rocket` | ported | `Scripts/Weapons/Bullet.cs` |
 | `sfx_bounce_grenade` |  | none | imported, not reached | asset imported; nothing in the original uses it |
-| `sfx_brake` |  | `obj_player`, `player_brake` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_brake` |  | `obj_player`, `player_brake` | ported | `Scripts/Player/PlayerShipController.cs` |
 | `sfx_bullet_explosion` |  | `obj_tinyexplosion` | ported, by comment reference | `Scripts/Effects/TinyExplosion.cs` |
 | `sfx_click` |  | `obj_btn_map`, `obj_btn_quickstart`, `obj_btn_shaft`, `obj_btn_upgrade` | ported | `Core/Map/MapTuning.cs`, `Core/Rooms/TitleTuning.cs` +1 |
 | `sfx_coin` |  | none | imported, not reached | asset imported; nothing in the original uses it |
-| `sfx_crash` |  | `obj_drop_title`, `obj_title` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_crash` |  | `obj_drop_title`, `obj_title` | not reached | only in commented-out audio_play_sound lines of obj_title and obj_drop_title; see 'Content the original never reaches' (U.HARE-T30) |
 | `sfx_death` |  | `spawn_death_particles` | ported | `Scripts/Effects/DeathParticle.cs` |
 | `sfx_disabled` |  | `obj_ring`, `player_boost`, `player_brake`, `player_leap` +1 more | ported, by comment reference | `Core/Player/ShipFlight.cs` |
 | `sfx_empty_clip` |  | `fire_primary`, `fire_secondary` | ported | `Scripts/Weapons/VulcanWeapon.cs` |
@@ -781,9 +782,9 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_fire` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_fire_cannon` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_fire_grenade` |  | `obj_trilobyte`, `shoot_flamer`, `shoot_flamethrower`, `shoot_mine` | ported, by comment reference | `Scripts/Weapons/AirWeaponLoadout.cs`, `Scripts/Weapons/GrenadeExplosion.cs` +1 |
-| `sfx_fire_laser` |  | `obj_laser`, `obj_player`, `shoot_laser` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
-| `sfx_fire_railgun` |  | `shoot_railgun` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
-| `sfx_fire_shotgun` |  | `shoot_shotgun` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_fire_laser` |  | `obj_laser`, `obj_player`, `shoot_laser` | ported | `Scripts/Weapons/LaserGun.cs` |
+| `sfx_fire_railgun` |  | `shoot_railgun` | ported | `Scripts/Weapons/RailgunGun.cs` |
+| `sfx_fire_shotgun` |  | `shoot_shotgun` | ported | `Scripts/Weapons/Shotgun.cs` |
 | `sfx_flashbomb` |  | `obj_flashbomb` | ported | `Core/Arena/Flashbomb.cs`, `Resources/Hare/Content/GameContent.json` |
 | `sfx_flick` |  | `obj_conversation`, `obj_map`, `obj_tip`, `next_line` | ported | `Core/Map/MapTuning.cs`, `Core/Popups/PopupTuning.cs` +2 |
 | `sfx_flyover` |  | `obj_rocket`, `reset_player` | ported | `Scripts/Player/PlayerHealth.cs` |
@@ -795,8 +796,8 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_fuse6` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_grenade_beep` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_hawk` |  | `obj_helper` | ported | `Core/Helper/HelperTuning.cs`, `Resources/Hare/Content/GameContent.json` |
-| `sfx_hologram` |  | `player_shield` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
-| `sfx_hologram_pass` |  | `obj_player` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_hologram` |  | `player_shield` | ported | `Scripts/Player/PlayerShipController.cs` |
+| `sfx_hologram_pass` |  | `obj_player` | ported | `Scripts/Player/PlayerShipController.cs` |
 | `sfx_hover` |  | `obj_btn_campaign`, `obj_btn_diff0`, `obj_btn_diff100`, `obj_btn_level01` +18 more | ported | `Core/Map/MapTuning.cs`, `Core/Rooms/TitleTuning.cs` +2 |
 | `sfx_hurt1` | player | `player_hurt` | ported | family `sfx_hurt` + index in `Scripts/Player/PlayerHealth.cs` |
 | `sfx_hurt2` | player | `player_hurt` | ported | family `sfx_hurt` + index in `Scripts/Player/PlayerHealth.cs` |
@@ -807,7 +808,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_hurt7` | player | `player_hurt` | ported | family `sfx_hurt` + index in `Scripts/Player/PlayerHealth.cs` |
 | `sfx_hurt8` | player | `player_hurt` | ported | family `sfx_hurt` + index in `Scripts/Player/PlayerHealth.cs` |
 | `sfx_land` |  | `obj_drop_title`, `obj_player` | ported | `Core/Rooms/DropSceneTuning.cs`, `Resources/Hare/Content/GameContent.json` |
-| `sfx_loop_laser` |  | `obj_laser`, `obj_player` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_loop_laser` |  | `obj_laser`, `obj_player` | ported | `Scripts/Weapons/LaserGun.cs` |
 | `sfx_powerup` |  | `obj_carrot`, `obj_coin`, `obj_ring` | ported | `Scripts/Pickups/PickupDirector.cs` |
 | `sfx_reload_full` |  | `obj_player` | ported | `Scripts/Weapons/PlayerAmmo.cs` |
 | `sfx_reload_half` |  | `obj_player` | ported | `Scripts/Weapons/PlayerAmmo.cs` |
@@ -816,8 +817,8 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_set_rocket` |  | `shoot_rocket` | ported, by comment reference | `Scripts/Weapons/AirWeaponLoadout.cs` |
 | `sfx_shoot_vortex` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_sonar_ping` |  | none | imported, not reached | asset imported; nothing in the original uses it |
-| `sfx_switch` |  | `obj_levelstart`, `obj_player`, `next_air_weapon`, `next_ground_weapon` | ported | `Core/Arena/ArenaTuning.cs`, `Resources/Hare/Content/GameContent.json` |
-| `sfx_switch_back` |  | `obj_player` | not ported, UH-T30 | sound-effect wiring: imported as a clip, no event plays it yet |
+| `sfx_switch` |  | `obj_levelstart`, `obj_player`, `next_air_weapon`, `next_ground_weapon` | ported | `Core/Arena/ArenaTuning.cs`, `Resources/Hare/Content/GameContent.json` +1 |
+| `sfx_switch_back` |  | `obj_player` | ported | `Scripts/Player/PlayerShipController.cs` |
 | `sfx_takeoff` |  | `obj_map`, `obj_player`, `player_leap` | ported | `Core/Map/MapTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `sfx_turn` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_type` |  | `obj_conversation` | ported | `Core/Story/Typewriter.cs`, `Resources/Hare/Content/GameContent.json` |
@@ -952,7 +953,7 @@ Every group in the resource tree below the top level, so an empty folder is reco
 | Objects | 150 | in progress, U.HARE-T68 1, not ported, by design 1, not reached 16, ported 63, ported, by comment reference 69 |
 | Scripts | 88 | not reached 8, ported 22, ported, by comment reference 58 |
 | Rooms | 10 | not reached 2, ported 8 |
-| Sprites | 213 | imported, not reached 35, imported, owner ported 9, not ported, by design (owner `obj_spawnpoint`) 1, not reached (owner `obj_ring_back`) 1, not reached (owner `obj_ring`) 1, ported 162, ported, by comment reference 4 |
+| Sprites | 213 | imported, not reached 35, imported, owner ported 9, not ported, by design (owner `obj_spawnpoint`) 1, not reached (owner `obj_ring_back`) 1, not reached (owner `obj_ring`) 1, ported 163, ported, by comment reference 3 |
 | Backgrounds | 18 | imported, not reached 3, ported 15 |
-| Sounds | 75 | imported, not reached 22, not ported, UH-T30 10, ported 38, ported, by comment reference 5 |
+| Sounds | 75 | imported, not reached 22, not reached 1, ported 47, ported, by comment reference 5 |
 | Fonts | 8 | imported, not reached 4, ported 4 |
