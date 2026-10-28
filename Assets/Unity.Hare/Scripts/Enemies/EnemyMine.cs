@@ -44,6 +44,7 @@ namespace Unity.Hare.Enemies
             if (box == null) box = gameObject.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(Gml.Px(SizePx.x), Gml.Px(SizePx.y));
+            Effects.HareArt.Show(gameObject, Mine.SpriteName, Mine.Depth); // obj_enemy_mine's spr_mine at depth -3 (U.HARE-T95)
         }
 
         public override void OnEnemyEvent(EnemyEvent e)

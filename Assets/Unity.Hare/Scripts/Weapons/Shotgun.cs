@@ -18,9 +18,6 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class Shotgun : PerchedWeapon, IGroundWeapon
     {
-        [Header("Blast (GML shoot_shotgun)")]
-        [SerializeField] Sprite pelletSprite;
-
         static ShotgunPhysicalStats Stats => GameContent.Current.WeaponPhysicals.Shotgun;
 
         readonly List<Bullet> lastBlast = new List<Bullet>();
@@ -55,7 +52,8 @@ namespace Unity.Hare.Weapons
 
                 var go = new GameObject("ShotgunPellet");
                 go.transform.position = new Vector3(start.x, start.y, transform.position.z);
-                if (pelletSprite != null) go.AddComponent<SpriteRenderer>().sprite = pelletSprite;
+                // pellet.sprite_index = spr_pellet at obj_bullet's depth -3 (U.HARE-T95); Bullet.Init turns it to the direction.
+                HareArt.Show(go, "spr_pellet", -3);
                 var pellet = go.AddComponent<Bullet>();
                 pellet.Init(gameObject, direction, Gml.Px(stats.PelletSpeed) * Gml.StepsPerSecond, Core.Table.BulletDamage(GunType.Shotgun), stats.PelletLifetime, stats.PelletRadius);
                 lastBlast.Add(pellet);

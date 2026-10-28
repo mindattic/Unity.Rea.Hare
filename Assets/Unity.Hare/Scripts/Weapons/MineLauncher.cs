@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -16,9 +17,6 @@ namespace Unity.Hare.Weapons
     /// </summary>
     public class MineLauncher : PerchedWeapon
     {
-        [Header("Mine")]
-        [SerializeField] Sprite mineSprite;
-
         /// <summary>The most recent mine dropped (null once it is gone).</summary>
         public Mine LastMine { get; private set; }
 
@@ -30,7 +28,7 @@ namespace Unity.Hare.Weapons
         {
             var go = new GameObject("Mine");
             go.transform.position = new Vector3(origin.x, origin.y, transform.position.z);
-            if (mineSprite != null) go.AddComponent<SpriteRenderer>().sprite = mineSprite;
+            HareArt.Show(go, Mine.SpriteName, Mine.Depth); // obj_mine's spr_mine at depth -3 (U.HARE-T95)
             LastMine = go.AddComponent<Mine>();
             LastMine.Init(gameObject, origin);
         }

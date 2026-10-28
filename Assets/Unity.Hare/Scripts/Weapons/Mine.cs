@@ -28,6 +28,9 @@ namespace Unity.Hare.Weapons
         /// <summary>GML delay = 30: shoot_mine re-arms the launcher after this many steps.</summary>
         public const float RearmSteps = WeaponTable.DefaultMineIntervalSteps; // the launcher's interval is weapon data
         public const float RadiusPx = 9f;
+        /// <summary>obj_mine's sprite_index and depth.</summary>
+        public const string SpriteName = "spr_mine";
+        public const int Depth = -3;
 
         Rigidbody2D body;
         bool gone;

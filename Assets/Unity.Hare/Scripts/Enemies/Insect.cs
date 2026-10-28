@@ -39,8 +39,12 @@ namespace Unity.Hare.Enemies
             Core = result.Insect;
             EnemyDirector.Register(Core.Id, this);
             Show();
+            Effects.HareArt.Show(gameObject, SpriteName, 0); // the object's sprite_index at depth 0 (U.HARE-T95)
             OnShown();
         }
+
+        /// <summary>The GML sprite the object starts with (spr_butterfly, spr_firefly, spr_fly).</summary>
+        protected abstract string SpriteName { get; }
 
         protected virtual void OnShown() { }
 

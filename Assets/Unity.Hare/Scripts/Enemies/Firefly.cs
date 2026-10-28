@@ -12,10 +12,8 @@ namespace Unity.Hare.Enemies
         public const float MaxSpeedYPxPerStep = FireflyBody.MaxSpeedYPxPerStep;
         public const int ThinkMaxStepsValue = FireflyBody.ThinkMaxStepsValue;
 
-        [SerializeField] Sprite litSprite;
-        [SerializeField] Sprite darkSprite;
-
         protected override InsectKind Kind => InsectKind.Firefly;
+        protected override string SpriteName => "spr_firefly";
 
         /// <summary>GML sprite_index == spr_firefly_dark.</summary>
         public bool IsDark => ((FireflyBody)Core).IsDark;
@@ -23,7 +21,7 @@ namespace Unity.Hare.Enemies
         protected override void OnShown()
         {
             var spriteRenderer = GetComponent<SpriteRenderer>();
-            var sprite = IsDark ? darkSprite : litSprite;
+            var sprite = Effects.HareArt.Frame(IsDark ? "spr_firefly_dark" : "spr_firefly");
             if (spriteRenderer != null && sprite != null) spriteRenderer.sprite = sprite;
         }
     }

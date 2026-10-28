@@ -22,6 +22,10 @@ namespace Unity.Hare.Weapons
     [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Bullet : MonoBehaviour, IShieldable
     {
+        /// <summary>obj_bullet's sprite_index and depth.</summary>
+        public const string DefaultSpriteName = "spr_bullet";
+        public const int DefaultDepth = -3;
+
         Rigidbody2D body;
 
         /// <summary>GML: owner. The ship that fired this; its own colliders are never hit.</summary>
@@ -50,6 +54,11 @@ namespace Unity.Hare.Weapons
         /// <summary>Called right after AddComponent (Awake does not run in EditMode).</summary>
         public void Init(GameObject owner, float direction, float speed, int damage, float lifetime, float radius)
         {
+            // obj_bullet's own sprite_index is spr_bullet at depth -3; a shooter that drew its round first (the vulcan's
+            // bullet_asset, the shotgun's spr_pellet) keeps its sprite (U.HARE-T95).
+            var look = GetComponent<SpriteRenderer>();
+            if (look == null || look.sprite == null) Effects.HareArt.Show(gameObject, DefaultSpriteName, DefaultDepth);
+
             Owner = owner;
             Speed = speed;
             Damage = damage;

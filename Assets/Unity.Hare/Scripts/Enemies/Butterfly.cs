@@ -13,6 +13,7 @@ namespace Unity.Hare.Enemies
         public const int ThinkMaxStepsValue = ButterflyBody.ThinkMaxStepsValue;
 
         protected override InsectKind Kind => InsectKind.Butterfly;
+        protected override string SpriteName => "spr_butterfly";
 
         /// <summary>GML image_xscale = 1 (true) or -1.</summary>
         public bool FacingRight => ((ButterflyBody)Core).FacingRight;

@@ -12,5 +12,6 @@ namespace Unity.Hare.Enemies
         public const int ThinkMaxStepsValue = FlyBody.ThinkMaxStepsValue;
 
         protected override InsectKind Kind => InsectKind.Fly;
+        protected override string SpriteName => "spr_fly";
     }
 }

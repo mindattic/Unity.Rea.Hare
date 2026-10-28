@@ -17,7 +17,8 @@ namespace Unity.Hare.Enemies
         public const float GrowPerStep = VortexBody.GrowPerStep;
         public const float Alpha = VortexBody.Alpha;
 
-        [SerializeField] Sprite vortexSprite;
+        /// <summary>obj_wormhole's and the emitters' sprite_index (depth 0), found through HareArt (U.HARE-T95).</summary>
+        public const string SpriteName = "spr_vortex";
 
         SpriteRenderer front, back;
 
@@ -47,7 +48,7 @@ namespace Unity.Hare.Enemies
             Core = vortex;
             if (player != null) Player = player;
             EnemyDirector.Register(vortex.Id, this);
-            if (vortexSprite != null && front == null)
+            if (front == null && Effects.HareArt.Frame(SpriteName) != null)
             {
                 back = Layer("Back", 0);
                 front = Layer("Front", 1);
@@ -60,7 +61,7 @@ namespace Unity.Hare.Enemies
             var go = new GameObject(name);
             go.transform.SetParent(transform, false);
             var r = go.AddComponent<SpriteRenderer>();
-            r.sprite = vortexSprite;
+            r.sprite = Effects.HareArt.Frame(SpriteName);
             r.sortingOrder = order;
             r.color = new Color(1f, 1f, 1f, Alpha);
             return r;

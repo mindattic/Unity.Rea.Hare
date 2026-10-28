@@ -15,6 +15,11 @@ namespace Unity.Hare.Weapons
     [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Flame : MonoBehaviour
     {
+        /// <summary>obj_flame's sprite_index (41 frames at image_speed 0.3, played once) and depth.</summary>
+        public const string SpriteName = "spr_powder_fire";
+        public const int Depth = -4;
+        const int SpriteFrames = 41;
+        const float SpriteSpeed = 0.3f;
         public const float StartScale = 0.5f;                                  // image_xscale = 0.5
         public const float MaxScale = 1f;                                      // grows while < 1
         public const float GrowPerSecond = 0.01f * Gml.StepsPerSecond;  // grow_rate per step
@@ -64,6 +69,8 @@ namespace Unity.Hare.Weapons
             transform.position += (Vector3)(Velocity * dt);
             if (Scale < MaxScale) SetScale(Mathf.Min(MaxScale, Scale + GrowPerSecond * dt));
             Age += dt;
+            var look = GetComponent<SpriteRenderer>();
+            if (look != null) look.sprite = Effects.HareArt.Frame(SpriteName, Mathf.Min(SpriteFrames - 1, Mathf.FloorToInt(Age * Gml.StepsPerSecond * SpriteSpeed)));
             // GML Animation End: instance_destroy(). The tolerance keeps float dust from adding a step.
             if (Age >= Lifetime - 1e-4f)
             {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Hare.Content;
+using Unity.Hare.Effects;
 using Unity.Hare.Player;
 
 namespace Unity.Hare.Weapons
@@ -23,9 +24,6 @@ namespace Unity.Hare.Weapons
     [RequireComponent(typeof(PlayerShipController))]
     public class AirWeaponLoadout : SeatView
     {
-        [Header("Muzzle (GML: gunX/gunY = x + lengthdir(-13, image_angle); origin = gun + lengthdir(34, mouse_angle))")]
-        [SerializeField] Sprite mineSprite;
-
         static PerchedMuzzleGeometry Muzzle => GameContent.Current.WeaponPhysicals.AirMuzzle;
 
         PlayerShipController ship;
@@ -126,7 +124,7 @@ namespace Unity.Hare.Weapons
             {
                 var mineGo = new GameObject("Mine");
                 mineGo.transform.position = new Vector3(MuzzlePosition.x, MuzzlePosition.y, transform.position.z);
-                if (mineSprite != null) mineGo.AddComponent<SpriteRenderer>().sprite = mineSprite;
+                HareArt.Show(mineGo, Mine.SpriteName, Mine.Depth); // obj_mine's spr_mine (U.HARE-T95)
                 LastMine = mineGo.AddComponent<Mine>();
                 LastMine.Init(gameObject, MuzzlePosition);
                 return;

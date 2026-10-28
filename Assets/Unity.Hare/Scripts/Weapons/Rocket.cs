@@ -16,6 +16,11 @@ namespace Unity.Hare.Weapons
     [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
     public class Rocket : MonoBehaviour, IShieldable, IProjectileTarget
     {
+        /// <summary>obj_rocket's sprite_index (4 frames at image_speed 0.5, looping) and depth.</summary>
+        public const string SpriteName = "spr_rocket_anime";
+        public const int Depth = -3;
+        const int SpriteFrames = 4;
+        const float SpriteSpeed = 0.5f;
         public const float IgniteDelaySteps = 50f;
         public const float AccelerateEverySteps = 4f;
         public const float MaxSpeedPxPerStep = 6f;
@@ -59,6 +64,7 @@ namespace Unity.Hare.Weapons
             hitbox.isTrigger = true;
             hitbox.radius = Gml.Px(6f);
 
+            Effects.HareArt.Show(gameObject, SpriteName, Depth); // obj_rocket's spr_rocket_anime (U.HARE-T95)
             launchPosition = position;
             transform.position = position;
             SetDirection(directionDegrees);
@@ -104,6 +110,9 @@ namespace Unity.Hare.Weapons
                     if (SpeedPxPerStep < MaxSpeedPxPerStep) SpeedPxPerStep += 1f;
                 }
             }
+
+            var look = GetComponent<SpriteRenderer>();
+            if (look != null) look.sprite = Effects.HareArt.Frame(SpriteName, Mathf.FloorToInt(Age * Gml.StepsPerSecond * SpriteSpeed) % SpriteFrames);
 
             Home(steps);
 

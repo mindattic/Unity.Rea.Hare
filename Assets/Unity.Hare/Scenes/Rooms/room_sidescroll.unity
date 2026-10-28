@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad4105e555cfb94b8c3a67c7777fb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.AirWeaponLoadout
-  mineSprite: {fileID: 0}
 --- !u!114 &1303910332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.MineLauncher
   slot: 1
-  mineSprite: {fileID: 0}
 --- !u!114 &1303910334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.Shotgun
   slot: 1
-  pelletSprite: {fileID: 0}
 --- !u!114 &1303910335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Weapons.Shotgun
   slot: 0
-  pelletSprite: {fileID: 0}
 --- !u!114 &1303910337
 MonoBehaviour:
   m_ObjectHideFlags: 0

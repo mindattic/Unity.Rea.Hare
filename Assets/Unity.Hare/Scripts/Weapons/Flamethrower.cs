@@ -35,6 +35,7 @@ namespace Unity.Hare.Weapons
             var stats = Stats;
             var go = new GameObject("Flame");
             go.transform.position = origin;
+            Effects.HareArt.Show(go, Flame.SpriteName, Flame.Depth); // obj_flame's spr_powder_fire (U.HARE-T95)
             LastFlame = go.AddComponent<Flame>();
             LastFlame.Init(Player, aim, Gml.Px(stats.FlameSpeed) * Gml.StepsPerSecond, stats.FlameLifetime, stats.FlameRadius);
             // GML: effect_create_below(ef_smokeup, X, Y, 0, c_black) at the muzzle with every flame.
