@@ -163,7 +163,7 @@ powershell -File tools/unity.ps1 -Graphics -Log playmode -Extra "-runTests -test
 # only the online tests (a real host or dedicated server and real clients on a free loopback port)
 powershell -File tools/unity.ps1 -Log online-tests -Extra "-runTests -testPlatform PlayMode -assemblyNames Unity.Hare.Tests.Online -testResults TestResults-Online.xml"
 
-# a bare dev build (no icon/product-settings polish -- U.HARE-T71) to Build/Hare/Hare.exe
+# the H.O.P. High Orbit Patrol Windows player (name, icon, window defaults: U.HARE-T71) to Build/Hare/Hare.exe
 powershell -File tools/run.ps1
 
 # builds (if Build/Hare/Hare.exe is missing or -Build is given) and launches it, muted by default
@@ -284,7 +284,7 @@ tools/
   import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Hare/Audio
   import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Hare/Fonts
   gml-json.ps1         the stable JSON writer the import scripts share
-  run.ps1              a bare dev build (HareBuild.BuildWindows) to Build/Hare/Hare.exe (U.HARE-T80; release polish is U.HARE-T71)
+  run.ps1              the Windows player build (HareBuild.BuildWindows) to Build/Hare/Hare.exe, with the release settings of ProjectSetup.ApplyReleaseSettings (U.HARE-T80, U.HARE-T71)
   play.ps1             builds if needed, then launches Build/Hare/Hare.exe muted by default (-Sound to opt in; U.HARE-T80)
 docs/
   BIBLE.md             design rules, architecture, data, fixed defects and deviations

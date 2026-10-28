@@ -33,6 +33,10 @@ namespace Unity.Hare.EditorTools
         public const string SettingsFolder = "Assets/Unity.Hare/Settings";
         public const string RendererPath = SettingsFolder + "/Renderer2D.asset";
         public const string PipelinePath = SettingsFolder + "/UniversalRP-2D.asset";
+        /// <summary>The product's name: the in-game title (globals.gml, "Welcome to H.O.P"), not the older H.A.R.E.</summary>
+        public const string ProductName = "H.O.P. High Orbit Patrol";
+        /// <summary>The original's title logo (spr_logo), imported by import-gml-art.ps1, used as the app icon.</summary>
+        public const string IconSourcePath = "Assets/Unity.Hare/Art/Sprites/title/spr_logo/spr_logo_0.png";
         /// <summary>The bootstrap scene, first in Build Settings: a launch starts here.</summary>
         public const string ScenePath = "Assets/Unity.Hare/Scenes/Main.unity";
         /// <summary>Where the room scenes live.</summary>
@@ -100,10 +104,11 @@ namespace Unity.Hare.EditorTools
         {
             Physics2D.gravity = Vector2.zero;
             PlayerSettings.companyName = "MindAttic";
-            PlayerSettings.productName = "Unity.Hare";
+            PlayerSettings.productName = ProductName;
             PlayerSettings.colorSpace = ColorSpace.Linear;
             PlayerSettings.defaultScreenWidth = (int)LetterboxCamera.ReferenceWidth;
             PlayerSettings.defaultScreenHeight = (int)LetterboxCamera.ReferenceHeight;
+            ApplyReleaseSettings();
 
             var player = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset")[0]);
             var input = player.FindProperty("activeInputHandler");
@@ -115,6 +120,44 @@ namespace Unity.Hare.EditorTools
 
             SortingLayerSetup.EnsureSortingLayers(HareSortingLayers.Order);
             AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>
+        /// The player's release defaults (U.HARE-T71): the original ran in a 1920x1080 window, not fullscreen
+        /// (HARE.gmx's option_fullscreen False), so the player starts windowed, resizable (the letterbox scales the
+        /// game) and can switch to fullscreen; the game's own pointer replaces the system cursor (SystemCursor);
+        /// v-sync is on at every Quality level; the Unity splash is off where the licence allows it; the icon is the
+        /// original's own title logo, since the original shipped GameMaker's stock runner icon.
+        /// </summary>
+        public static void ApplyReleaseSettings()
+        {
+            PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+            PlayerSettings.allowFullscreenSwitch = true;
+            PlayerSettings.resizableWindow = true;
+            PlayerSettings.defaultIsNativeResolution = false;
+            PlayerSettings.SplashScreen.show = false;
+            PlayerSettings.SplashScreen.showUnityLogo = false;
+
+            int level = QualitySettings.GetQualityLevel();
+            for (int i = 0; i < QualitySettings.names.Length; i++)
+            {
+                QualitySettings.SetQualityLevel(i, false);
+                QualitySettings.vSyncCount = 1;
+            }
+            QualitySettings.SetQualityLevel(level, false);
+
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(IconSourcePath);
+            if (icon != null)
+            {
+                // One entry per icon size the platform asks for, each the same logo (Unity scales it).
+                var target = UnityEditor.Build.NamedBuildTarget.Standalone;
+                var slots = PlayerSettings.GetIcons(target, UnityEditor.IconKind.Application).Length;
+                var icons = new Texture2D[System.Math.Max(slots, 1)];
+                for (int i = 0; i < icons.Length; i++) icons[i] = icon;
+                PlayerSettings.SetIcons(target, icons, UnityEditor.IconKind.Application);
+            }
+            else
+                Debug.LogWarning("[Unity.Hare] Icon source missing: " + IconSourcePath);
         }
 
         /// <summary>
