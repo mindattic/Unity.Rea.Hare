@@ -21,6 +21,8 @@ namespace Unity.Hare.Enemies
 
         DaggerEnemy Rules => (DaggerEnemy)Core;
 
+        protected override string BodySprite => Rules.Variant == 2 ? "spr_dagger2" : "spr_dagger";
+
         public DaggerMode Mode => Rules.Mode;
         /// <summary>1 = spr_dagger, 2 = spr_dagger2.</summary>
         public int Variant => Rules.Variant;

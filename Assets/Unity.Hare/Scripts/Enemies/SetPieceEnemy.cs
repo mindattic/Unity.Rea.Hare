@@ -79,7 +79,11 @@ namespace Unity.Hare.Enemies
             TrackPlayer();
             var result = EnemyDirector.Execute(new TickEnemy(Core.Id, dt));
             if (this != null && result.Body != null && !Core.IsDead) Show(true);
+            if (this != null && !IsDead) OnTicked(dt);
         }
+
+        /// <summary>After each unpaused step: a view animates its sprite here (GML image_index += image_speed).</summary>
+        protected virtual void OnTicked(float dt) { }
 
         /// <summary>Sends the nearest ship's position to the world now (GML's global player), finding the ship when none was
         /// given. For driving a body directly, one step at a time, outside the director's own loop (EditMode tests).</summary>
@@ -104,7 +108,11 @@ namespace Unity.Hare.Enemies
             if (moving && Application.isPlaying && body != null) body.MovePosition(p);
             else transform.position = new Vector3(p.x, p.y, transform.position.z);
             transform.rotation = Quaternion.Euler(0f, 0f, Core.ImageAngle);
+            Draw();
         }
+
+        /// <summary>Draws the body's own sprite (its draw_self); a view with no sprite of its own draws nothing here.</summary>
+        protected virtual void Draw() { }
 
         /// <summary>Runs a command on this body's world and plays its events; shows the body afterwards (a push, a jump).</summary>
         protected EnemyResult Send(EnemyCommand command)
@@ -255,6 +263,21 @@ namespace Unity.Hare.Enemies
         public override void OnEnemyEvent(EnemyEvent e) => WatchKill(e);
 
         protected override void OnKilled(EnemyKill kill) => Killed?.Invoke(this, kill);
+
+        /// <summary>The GML sprite_index this object draws with draw_self, found through HareArt (U.HARE-T98); null when the view draws it another way.</summary>
+        protected virtual string BodySprite => null;
+        /// <summary>The sprite's image_index.</summary>
+        protected virtual int BodyFrame => 0;
+        /// <summary>The object's GML depth (a lower depth draws on top).</summary>
+        protected virtual int BodyDepth => -3;
+
+        protected override void Draw()
+        {
+            string name = BodySprite;
+            if (name == null) return;
+            var renderer = Unity.Hare.Effects.HareArt.Show(gameObject, name, BodyDepth, Core.ImageAlpha);
+            renderer.sprite = Unity.Hare.Effects.HareArt.Frame(name, BodyFrame);
+        }
     }
 
     /// <summary>obj_bullet as the enemies fire it: owner = ID, hurting the ship on contact.</summary>

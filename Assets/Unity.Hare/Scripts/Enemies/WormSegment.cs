@@ -7,6 +7,8 @@ namespace Unity.Hare.Enemies
 
         WormSegmentBody Rules => (WormSegmentBody)Core;
 
+        protected override string BodySprite => "spr_worm_segment";
+
         public Worm Head => EnemyDirector.ViewOf<Worm>(Rules.Head.Id);
         /// <summary>GML parent: the part this one follows.</summary>
         public SetPieceEnemy Parent => EnemyDirector.ViewOf<SetPieceEnemy>(Rules.Parent.Id);

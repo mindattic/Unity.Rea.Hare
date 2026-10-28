@@ -11,6 +11,29 @@ namespace Unity.Hare.Enemies
 
         MimicIllusionBody Rules => (MimicIllusionBody)Core;
 
+        /// <summary>The illusion draws its parent's illusion_asset (spr_rock1..5, spr_asteroid_experiment) at depth 0.</summary>
+        protected override string BodySprite
+        {
+            get
+            {
+                var parent = Parent;
+                int asset = parent != null ? parent.IllusionAsset : 1;
+                return asset >= 6 ? "spr_asteroid_experiment" : "spr_rock" + asset;
+            }
+        }
+        protected override int BodyDepth => 0;
+
+        /// <summary>Drawn at the mimic's illusion_alpha and illusion_angle.</summary>
+        protected override void Draw()
+        {
+            base.Draw();
+            var parent = Parent;
+            var renderer = GetComponent<SpriteRenderer>();
+            if (parent == null || renderer == null) return;
+            renderer.color = new Color(1f, 1f, 1f, parent.IllusionAlpha);
+            transform.rotation = Quaternion.Euler(0f, 0f, parent.IllusionAngle);
+        }
+
         public Mimic Parent => EnemyDirector.ViewOf<Mimic>(Rules.Parent.Id);
 
         protected override void Configure()

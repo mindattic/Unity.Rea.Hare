@@ -13,6 +13,8 @@ namespace Unity.Hare.Enemies
 
         MimicEnemy Rules => (MimicEnemy)Core;
 
+        protected override string BodySprite => "spr_mimic";
+
         /// <summary>GML spin, degrees/step.</summary>
         public float Spin => Rules.Spin;
         public float IllusionAngle => Rules.IllusionAngle;

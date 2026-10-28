@@ -11,6 +11,8 @@ namespace Unity.Hare.Enemies
 
         SawbladeEnemy Rules => (SawbladeEnemy)Core;
 
+        protected override string BodySprite => "spr_sawblade";
+
         /// <summary>GML rot_speed, degrees/step.</summary>
         public float Spin => Rules.Spin;
         public float BackAngle => Rules.BackAngle;

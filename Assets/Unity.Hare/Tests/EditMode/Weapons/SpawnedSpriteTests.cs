@@ -78,5 +78,32 @@ namespace Unity.Hare.Tests.EditMode
             var insect = InsectEmitter.Spawn(kind, new Rect(0f, 0f, 10f, 10f), new Vector2(5f, 5f));
             AssertDrawn(insect, kind.ToString(), 0);
         }
+
+        [TestCase(EnemyKind.Hydra, -3)]
+        [TestCase(EnemyKind.Sawblade, -3)]
+        [TestCase(EnemyKind.Dagger, -3)]
+        [TestCase(EnemyKind.Mimic, -3)]
+        [TestCase(EnemyKind.Wraith, -3)]
+        [TestCase(EnemyKind.Meatball, -2)]
+        [TestCase(EnemyKind.Phalanx, -3)]
+        [TestCase(EnemyKind.Worm, -3)]
+        [TestCase(EnemyKind.Trilobyte, -3)]
+        public void SetPieceEnemiesDrawTheirSprite(EnemyKind kind, int depth)
+        {
+            var enemy = EnemySpawner.Spawn(kind, new Vector2(5f, 5f), Gml.Room);
+            AssertDrawn(enemy, kind.ToString(), depth);
+        }
+
+        [Test]
+        public void TheEnemiesPartsDrawToo()
+        {
+            var phalanx = (Phalanx)EnemySpawner.Spawn(EnemyKind.Phalanx, Vector2.zero, Gml.Room);
+            AssertDrawn(phalanx.Shield, "spr_shieldwall_anime", 0);
+            var mimic = (Mimic)EnemySpawner.Spawn(EnemyKind.Mimic, Vector2.zero, Gml.Room);
+            AssertDrawn(mimic.Illusion, "spr_rock", 0);
+            var worm = (Worm)EnemySpawner.Spawn(EnemyKind.Worm, Vector2.zero, Gml.Room);
+            Assert.IsNotNull(worm.Child);
+            AssertDrawn(worm.Child, "spr_worm_segment", -3);
+        }
     }
 }

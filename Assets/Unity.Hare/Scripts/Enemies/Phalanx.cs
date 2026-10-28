@@ -10,6 +10,8 @@ namespace Unity.Hare.Enemies
 
         PhalanxEnemy Rules => (PhalanxEnemy)Core;
 
+        protected override string BodySprite => "spr_phalanx_body";
+
         /// <summary>GML back_angle: the under-layer's angle.</summary>
         public float BackAngle => Rules.BackAngle;
         /// <summary>GML shield: the obj_phalanx_shield created with it.</summary>

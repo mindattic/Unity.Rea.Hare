@@ -16,6 +16,8 @@ namespace Unity.Hare.Enemies
 
         TrilobyteEnemy Rules => (TrilobyteEnemy)Core;
 
+        protected override string BodySprite => "spr_trilobyte";
+
         public bool CurvesLeft => Rules.CurvesLeft;
 
         /// <summary>Alarm 1's ef_smoke puff.</summary>

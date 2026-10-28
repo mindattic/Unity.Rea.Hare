@@ -15,6 +15,11 @@ namespace Unity.Hare.Enemies
 
         PhalanxShieldBody Rules => (PhalanxShieldBody)Core;
 
+        /// <summary>draw_sprite_ext(spr_shieldwall_anime, current_frame) at depth 0.</summary>
+        protected override string BodySprite => "spr_shieldwall_anime";
+        protected override int BodyFrame => Rules.CurrentFrame;
+        protected override int BodyDepth => 0;
+
         public Phalanx Parent => EnemyDirector.ViewOf<Phalanx>(Rules.Parent.Id);
         /// <summary>spr_shieldwall_anime frame.</summary>
         public int CurrentFrame => Rules.CurrentFrame;

@@ -21,6 +21,8 @@ namespace Unity.Hare.Enemies
 
         WormEnemy Rules => (WormEnemy)Core;
 
+        protected override string BodySprite => "spr_worm_segment";
+
         /// <summary>GML segment_count: the extra segments after the first (5-7).</summary>
         public int SegmentCount => Rules.SegmentCount;
 

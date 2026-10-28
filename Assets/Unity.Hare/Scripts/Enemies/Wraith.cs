@@ -22,6 +22,16 @@ namespace Unity.Hare.Enemies
 
         WraithEnemy Rules => (WraithEnemy)Core;
 
+        protected override string BodySprite => Rules.State == WraithState.Stunned ? "spr_wraith_stunned" : "spr_wraith_float";
+
+        /// <summary>draw_sprite_ext(sprite_index, 0, x, y, facing, 1, ...): a negative facing mirrors it.</summary>
+        protected override void Draw()
+        {
+            base.Draw();
+            var renderer = GetComponent<SpriteRenderer>();
+            if (renderer != null) renderer.flipX = Rules.Facing < 0;
+        }
+
         public WraithState State => Rules.State;
         /// <summary>GML facing / image_xscale: 1 faces right, -1 left.</summary>
         public int Facing => Rules.Facing;

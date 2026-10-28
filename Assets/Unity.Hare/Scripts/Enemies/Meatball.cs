@@ -15,6 +15,9 @@ namespace Unity.Hare.Enemies
 
         MeatballEnemy Rules => (MeatballEnemy)Core;
 
+        protected override string BodySprite => "spr_meatball";
+        protected override int BodyDepth => -2;
+
         /// <summary>GML RGB: image_blend's grey level.</summary>
         public int Rgb => Rules.Rgb;
         /// <summary>GML eyeX/eyeY in px (GML axes).</summary>

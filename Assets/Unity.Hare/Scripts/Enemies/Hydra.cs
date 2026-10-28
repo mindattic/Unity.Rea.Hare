@@ -14,6 +14,8 @@ namespace Unity.Hare.Enemies
 
         HydraEnemy Rules => (HydraEnemy)Core;
 
+        protected override string BodySprite => "spr_hydra_body";
+
         /// <summary>GML arms: turrets left; it dies on the hit that takes this below 0.</summary>
         public int Arms => Rules.Arms;
         /// <summary>GML rot_dir: +1 or -1 degrees/step.</summary>
