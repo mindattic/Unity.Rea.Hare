@@ -400,6 +400,8 @@ namespace Unity.Hare.Arena
         public LevelResultsDefinition Results = new LevelResultsDefinition();
         /// <summary>obj_healthbar, obj_weapon_gui, obj_energybar and obj_speedometer, the gameplay HUD (U.HARE-T25).</summary>
         public HudDefinition Hud = new HudDefinition();
+        /// <summary>obj_flashbomb, obj_player's F (U.HARE-T67).</summary>
+        public FlashbombDefinition Flashbomb = new FlashbombDefinition();
 
         /// <summary>obj_moon_surface's numbers (U.HARE-T58; nothing in the original creates one).</summary>
         public MoonSurfaceDefinition MoonSurface = new MoonSurfaceDefinition();
@@ -630,6 +632,8 @@ namespace Unity.Hare.Arena
             else Results.Validate(errors, path + ".Results");
             if (Hud == null) errors.Add(path + ".Hud: must not be null.");
             else Hud.Validate(errors, path + ".Hud");
+            if (Flashbomb == null) errors.Add(path + ".Flashbomb: must not be null.");
+            else Flashbomb.Validate(errors, path + ".Flashbomb");
             if (StartingStationaryPercent < 0 || StartingStationaryPercent > 100)
                 errors.Add($"{path}.StartingStationaryPercent: must be 0-100 (was {StartingStationaryPercent}).");
             ValidateParts(errors, path + ".SettingParts", SettingParts, (p, e, at) => p.Validate(e, at));

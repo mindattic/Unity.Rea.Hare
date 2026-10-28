@@ -89,6 +89,31 @@ Player-related scripts: `player_boost`, `player_brake`, `player_leap`, `player_s
 - obj_carrot and obj_coin each have a Collision obj_helper event identical to their obj_player one. Nothing else
   names obj_helper; `setup_level` does not clear it. `globals.gml` declares `globalvar helper`.
 
+### The flashbomb (`obj_flashbomb`, `obj_rabbit_schematic`; read for U.HARE-T67)
+
+`obj_player`'s key press F (70): `flashbomb = instance_create(0, 0, obj_flashbomb)`. Nothing else in HARE.gmx reads or
+limits it: no ammo, no cooldown, no `paused`, `level_complete` or death check, so every press is another bomb (and
+another sfx_flashbomb and obj_rabbit_schematic).
+
+`obj_flashbomb` (spr_white, depth -1000, not persistent):
+- Create: `on = true; count = 0`; `image_xscale = view_wview[0]; image_yscale = view_hview[0]; x = view_xview[0];
+  y = view_yview[0]`; `alpha = 0.8; image_alpha = alpha`; `burst_alpha = 1`; `radius = radius2 = radius3 = radius4 = 0`;
+  `flash_count = 12`; `rate = 6; alarm[0] = rate`; `instance_create(0, 0, obj_rabbit_schematic)`;
+  `audio_play_sound(sfx_flashbomb, 1, 0)`.
+- Alarm 0: `if(on) { on = false; image_alpha = alpha } else { on = true; image_alpha = 0; count += 1 }`; a commented-out
+  block swept every enemy and shot in view once `count >= flash_count/2`, and a commented-out
+  `if(count >= flash_count) instance_destroy()`; `if(count < flash_count) alarm[0] = rate`.
+- Step: back to view 0's corner; `radius += 10; radius2 += 8; radius3 += 6; radius4 = 4`; `with(par_enemy)` in view and
+  `collision_circle(player.x, player.y, obj_flashbomb.radius, par_enemy, true, false)` makes an obj_rocket_explosion and
+  destroys it; `with(par_projectile)` the same with obj_tinyexplosion; `if(burst_alpha > 0) burst_alpha -= 0.01; else
+  instance_destroy()`. The circle test names the parent, not `id`, so any enemy in the ring sets off all of them in
+  view (BIBLE D26). The bomb lives about 102 steps: 8 of its 12 dark phases.
+- Draw: `draw_self()`; `draw_set_alpha(burst_alpha)`; four `draw_circle_color(player.x, player.y, radius*, c_white,
+  c_white, true)`; `draw_set_alpha(1)`.
+
+`obj_rabbit_schematic` (spr_rabbit_schematic, depth 0): the same Create, Step and Draw GUI as `obj_booster_schematic`
+(centred at the bottom of the view, alpha 0.7, -0.005 a step to destroy). Only obj_flashbomb makes it.
+
 ## Weapons
 
 Air-to-air loadout: `shoot_vulcan` (spin-up/spin-down + looping fire sound, per `sfx/` assets
@@ -342,7 +367,8 @@ Completion: `set_level_complete`, `obj_level_results`, `obj_levelstart`.
 Drops: `obj_carrot`, `obj_coin`, `obj_chip`, `obj_cartridge`, `obj_drop_cloud`/`obj_drop_emitter`
 /`obj_drop_intro`/`obj_drop_title`, via `random_pickup`/`spawn_chips`. Upgrade/garage screen
 (`room_upgrade`): `obj_upgrade`, `obj_upgrade_vulcan1`, `obj_upgrade_shotgun1`,
-`obj_upgrade_missle`/`obj_upgrade_missle1`, `obj_rabbit_schematic`. (`obj_booster_schematic` and
+`obj_upgrade_missle`/`obj_upgrade_missle1`. (`obj_rabbit_schematic` is not the garage's either: only `obj_flashbomb`
+makes it, U.HARE-T67. `obj_booster_schematic` and
 `obj_brake_schematic` are not the garage's: room_upgrade places neither; `player_boost`/`player_brake` make them, the
 HUD's fading boost and brake flashes, U.HARE-T92.)
 

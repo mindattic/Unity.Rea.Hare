@@ -141,7 +141,12 @@ namespace Unity.Hare.Arena
         public int BrakeSchematicHeight = 350;
         public int BrakeSchematicOriginX = 150;
         public int BrakeSchematicOriginY = 175;
-        /// <summary>Create: <c>image_alpha = 0.7</c>.</summary>
+        /// <summary>obj_rabbit_schematic's sprite (235x448, origin 117,224), made by every obj_flashbomb (U.HARE-T67).</summary>
+        public string RabbitSchematicSprite = "spr_rabbit_schematic";
+        public int RabbitSchematicHeight = 448;
+        public int RabbitSchematicOriginX = 117;
+        public int RabbitSchematicOriginY = 224;
+        /// <summary>Create: <c>image_alpha = 0.7</c> (all three schematics).</summary>
         public float SchematicAlpha = 0.7f;
         /// <summary>Step (not paused-gated): <c>if(image_alpha &gt; 0) image_alpha -= 0.005; else instance_destroy()</c>.</summary>
         public float SchematicFadePerStep = 0.005f;
@@ -169,6 +174,8 @@ namespace Unity.Hare.Arena
             ValidationHelpers.Required(errors, path + ".BrakeSchematicSprite", BrakeSchematicSprite);
             ValidationHelpers.Positive(errors, path + ".BoosterSchematicHeight", BoosterSchematicHeight);
             ValidationHelpers.Positive(errors, path + ".BrakeSchematicHeight", BrakeSchematicHeight);
+            ValidationHelpers.Required(errors, path + ".RabbitSchematicSprite", RabbitSchematicSprite);
+            ValidationHelpers.Positive(errors, path + ".RabbitSchematicHeight", RabbitSchematicHeight);
             ValidationHelpers.Positive(errors, path + ".SchematicFadePerStep", SchematicFadePerStep);
             if (SchematicAlpha <= 0f || SchematicAlpha > 1f) errors.Add($"{path}.SchematicAlpha: must be above 0 and at most 1 (was {SchematicAlpha}).");
             ValidationHelpers.NonNegative(errors, path + ".Outline", Outline);
@@ -377,6 +384,8 @@ namespace Unity.Hare.Arena
         Booster,
         /// <summary>obj_brake_schematic (player_brake).</summary>
         Brake,
+        /// <summary>obj_rabbit_schematic (obj_flashbomb's Create, U.HARE-T67): the same Create, Step and Draw GUI.</summary>
+        Rabbit,
     }
 
     /// <summary>
@@ -562,11 +571,23 @@ namespace Unity.Hare.Arena
             for (int i = 0; i < schematics.Count; i++)
             {
                 var s = schematics[i];
-                bool booster = s.Kind == SchematicKind.Booster;
-                string sprite = booster ? d.BoosterSchematicSprite : d.BrakeSchematicSprite;
-                float height = booster ? d.BoosterSchematicHeight : d.BrakeSchematicHeight;
-                float originX = booster ? d.BoosterSchematicOriginX : d.BrakeSchematicOriginX;
-                float originY = booster ? d.BoosterSchematicOriginY : d.BrakeSchematicOriginY;
+                string sprite;
+                float height, originX, originY;
+                switch (s.Kind)
+                {
+                    case SchematicKind.Booster:
+                        sprite = d.BoosterSchematicSprite; height = d.BoosterSchematicHeight;
+                        originX = d.BoosterSchematicOriginX; originY = d.BoosterSchematicOriginY;
+                        break;
+                    case SchematicKind.Rabbit:
+                        sprite = d.RabbitSchematicSprite; height = d.RabbitSchematicHeight;
+                        originX = d.RabbitSchematicOriginX; originY = d.RabbitSchematicOriginY;
+                        break;
+                    default:
+                        sprite = d.BrakeSchematicSprite; height = d.BrakeSchematicHeight;
+                        originX = d.BrakeSchematicOriginX; originY = d.BrakeSchematicOriginY;
+                        break;
+                }
                 float x = GuiWidth / 2f, y = GuiHeight - height / 2f;
                 frame.Sprites.Add(new HudSprite("schematic-" + i, sprite, x - originX, y - originY, N, N, (float)Math.Max(0.0, s.Alpha)));
             }

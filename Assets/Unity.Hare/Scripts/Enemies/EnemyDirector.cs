@@ -227,6 +227,22 @@ namespace Unity.Hare.Enemies
 
         public static void Forget(int id) => views.Remove(id);
 
+        /// <summary>
+        /// GML <c>instance_destroy()</c> on one enemy from outside it (obj_flashbomb's sweep, U.HARE-T67): no par_enemy has a
+        /// Destroy event, so its body just leaves the world (no death, score, KILLS or drop) and its view goes with it.
+        /// </summary>
+        public static void Remove(EnemyBodyView view)
+        {
+            if (view == null) return;
+            var core = view.Core;
+            if (core != null)
+            {
+                views.Remove(core.Id);
+                if (world != null) world.Execute(new RemoveBody(core.Id));
+            }
+            if (Application.isPlaying) Object.Destroy(view.gameObject); else Object.DestroyImmediate(view.gameObject);
+        }
+
         /// <summary>The live view of a Core id, or null.</summary>
         public static T ViewOf<T>(int id) where T : Object =>
             views.TryGetValue(id, out var v) && v != null ? v as T : null;

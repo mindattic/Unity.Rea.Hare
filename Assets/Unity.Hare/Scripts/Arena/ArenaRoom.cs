@@ -124,6 +124,20 @@ namespace Unity.Hare.Arena
         /// <summary>The floating texts as drawn on <see cref="Hud"/>, beneath the HUD objects.</summary>
         public FloatTextView FloatTextView { get; private set; }
 
+        /// <summary>
+        /// The room's obj_flashbomb (U.HARE-T67): obj_player's F sets one off for the room's ship, each room step steps them
+        /// (their sweep round the ship), and <see cref="FlashbombViews"/> draws them.
+        /// </summary>
+        public FlashbombField Flashbombs { get; private set; }
+
+        readonly Dictionary<int, FlashbombView> flashbombViews = new Dictionary<int, FlashbombView>();
+
+        /// <summary>The flashbombs as drawn, by id.</summary>
+        public IReadOnlyDictionary<int, FlashbombView> FlashbombViews => flashbombViews;
+
+        /// <summary>Every flashbomb event, after it was played.</summary>
+        public event Action<FlashbombEvent> FlashbombPlayed;
+
         /// <summary>The level's par_structure and their covers (U.HARE-T56).</summary>
         public StructureField Structures { get; private set; }
 
@@ -235,6 +249,7 @@ namespace Unity.Hare.Arena
             // R (82), U (85) and F11 (122), and the held keypad + (107) and - (109). Esc and F1 belong to the room flow.
             controls = new HareControls();
             foreach (var action in GameKeys) action.Enable();
+            Flashbombs = new FlashbombField(content.Arena.Flashbomb);
 
             // GML: obj_level_results' key-press event for vk_enter (13), which the numpad's Enter sends too.
             enterKey = new InputAction("Enter", InputActionType.Button);
@@ -640,7 +655,7 @@ namespace Unity.Hare.Arena
         InputAction[] GameKeys => new[]
         {
             controls.Meta.Map, controls.Meta.Debug, controls.Meta.Pause, controls.Meta.Restart, controls.Meta.Units,
-            controls.Meta.AddScore, controls.Meta.VolumeUp, controls.Meta.VolumeDown,
+            controls.Meta.AddScore, controls.Meta.VolumeUp, controls.Meta.VolumeDown, controls.Meta.Flashbomb,
         };
 
         /// <summary>
@@ -664,6 +679,7 @@ namespace Unity.Hare.Arena
             }
             if (meta.AddScore.WasPressedThisFrame()) RunSession(new AddScore(Seat, content.Session.DebugScorePoints));
             if (meta.Restart.WasPressedThisFrame()) RestartLevel();
+            if (meta.Flashbomb.WasPressedThisFrame()) SetOffFlashbomb();
             if (volumeUnsaved && !meta.VolumeUp.IsPressed() && !meta.VolumeDown.IsPressed()) SaveVolume();
         }
 
@@ -685,6 +701,57 @@ namespace Unity.Hare.Arena
         {
             volumeUnsaved = false;
             HareAudio.SaveMasterVolume();
+        }
+
+        /// <summary>
+        /// obj_player's key press F (70): <c>flashbomb = instance_create(0, 0, obj_flashbomb)</c> for the room's ship. The
+        /// original has no ammo, cooldown, paused or dead check on it, so neither does this: every press is another bomb.
+        /// </summary>
+        public void SetOffFlashbomb()
+        {
+            if (Player == null || Flashbombs == null) return; // obj_player's own key event: no ship, no bomb
+            PlayFlashbombs(Flashbombs.Execute(new SetOffFlashbomb(Seat)));
+        }
+
+        /// <summary>
+        /// Plays what the flashbombs did: Create's obj_rabbit_schematic and sfx_flashbomb and the bomb's view; each Step's
+        /// sweep round the ship (<see cref="FlashbombSweep"/>, in view 0); and the bomb's end.
+        /// </summary>
+        void PlayFlashbombs(FlashbombResult result)
+        {
+            foreach (var e in result.Events)
+            {
+                switch (e)
+                {
+                    case FlashbombSetOff setOff:
+                        flashbombViews[setOff.Bomb.Id] = FlashbombView.Create(transform, setOff.Bomb, Flashbombs.Definition);
+                        GameHud?.ShowSchematic(SchematicKind.Rabbit);
+                        HareAudio.Play(setOff.Sound);
+                        break;
+                    case FlashbombSwept swept:
+                        if (Player != null)
+                            FlashbombSweep.Sweep(Player.transform.position, GameClock.Px((float)swept.Radius), InView);
+                        break;
+                    case FlashbombGone gone:
+                        if (flashbombViews.TryGetValue(gone.Bomb.Id, out var view))
+                        {
+                            flashbombViews.Remove(gone.Bomb.Id);
+                            if (view != null) Destroy(view.gameObject);
+                        }
+                        break;
+                }
+                FlashbombPlayed?.Invoke(e);
+            }
+        }
+
+        void DrawFlashbombs()
+        {
+            if (flashbombViews.Count == 0 || State == null) return;
+            var view = State.View;
+            var topLeft = ToWorld(view.X, view.Y);
+            Vector2? centre = Player != null ? (Vector2)Player.transform.position : (Vector2?)null;
+            foreach (var v in flashbombViews.Values)
+                if (v != null) v.Draw(topLeft, view.Width, view.Height, centre);
         }
 
         /// <summary>obj_game's R key press: <c>reset_player(); setup_level();</c>, the level this room is playing, again.</summary>
@@ -767,6 +834,7 @@ namespace Unity.Hare.Arena
             if (Weather != null) Weather.Step();
             FloatTexts?.Step(); // every obj_float_text's Step (U.HARE-T27)
             GameHud?.Step(ReadHud()); // obj_speedometer's Step, obj_energybar's End Step (U.HARE-T25)
+            if (Flashbombs != null) PlayFlashbombs(Flashbombs.Execute(new StepFlashbombs())); // every obj_flashbomb's Alarm 0 and Step (U.HARE-T67)
 
             // obj_game's objective check against level_08's target, then obj_healthbar's one-second alarm and the rest of
             // obj_game's check (U.HARE-T57).
@@ -917,6 +985,7 @@ namespace Unity.Hare.Arena
             PlaceCamera(MinimapCamera, State.Minimap);
             if (MinimapCamera != null) MinimapCamera.enabled = State.Minimap.Visible;
             PlaceLayers();
+            DrawFlashbombs();
             if (ReflectionView != null) ReflectionView.Draw(State.Reflection, Player, ToWorld(State.Reflection.X, State.Reflection.Y));
         }
 

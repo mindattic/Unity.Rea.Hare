@@ -258,8 +258,13 @@
       "DebugNone": "Null", "DebugStates": ["Idle", "Moving", "Dead", "Leaving"],
       "BoosterSchematicSprite": "spr_rocketbooster_schematic", "BoosterSchematicHeight": 349, "BoosterSchematicOriginX": 150,
       "BoosterSchematicOriginY": 174, "BrakeSchematicSprite": "spr_brake_schematic", "BrakeSchematicHeight": 350,
-      "BrakeSchematicOriginX": 150, "BrakeSchematicOriginY": 175, "SchematicAlpha": 0.7, "SchematicFadePerStep": 0.005
+      "BrakeSchematicOriginX": 150, "BrakeSchematicOriginY": 175, "RabbitSchematicSprite": "spr_rabbit_schematic",
+      "RabbitSchematicHeight": 448, "RabbitSchematicOriginX": 117, "RabbitSchematicOriginY": 224,
+      "SchematicAlpha": 0.7, "SchematicFadePerStep": 0.005
     },
+    "Flashbomb": { "Sprite": "spr_white", "Depth": -1000, "FlashAlpha": 0.8, "FlashCount": 12, "FlashRateSteps": 6,
+      "RadiusGrowth": 10, "Radius2Growth": 8, "Radius3Growth": 6, "Radius4": 4, "BurstAlpha": 1, "BurstFadePerStep": 0.01,
+      "Sound": "sfx_flashbomb" },
     "MoonSurface": { "Sprite": "spr_moon_surface", "Depth": 1, "RiseSpeed": 40 },
     "StartingStationaryPercent": 50,
     "Levels": [
