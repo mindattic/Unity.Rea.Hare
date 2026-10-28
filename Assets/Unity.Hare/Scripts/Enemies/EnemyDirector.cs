@@ -81,6 +81,12 @@ namespace Unity.Hare.Enemies
         public static event Action<EnemyKill> Killed;
 
         /// <summary>
+        /// Points scored without a death (<see cref="ScoreAwarded"/>: a Scrap Mental hull piece shot loose, the boss's
+        /// defeat), at a world point; the play room shows the float text and adds them to current_score.
+        /// </summary>
+        public static event Action<Vector2, int> Scored;
+
+        /// <summary>
         /// Starts a fresh world (and optionally a new seed): nothing survives, every view is forgotten.
         /// <paramref name="newSeed"/> pins that seed until the next <c>Reset(null)</c>; with no argument it clears
         /// the pin, so a later play session deals its own enemies again instead of replaying a test's seed.
@@ -315,6 +321,12 @@ namespace Unity.Hare.Enemies
                     new GameObject("RocketExplosion").AddComponent<RocketExplosion>().Init(blast.At.ToVector2());
                     return;
                 case DebrisRaised debris: FadingDebris.Spawn(debris.Spec); return;
+                case ScoreAwarded scored: Scored?.Invoke(scored.At.ToVector2(), scored.Points); break;
+                case EnemyPickupDropped pickup: Pickups.PickupDirector.DropRandom(pickup.At.ToVector2()); return;
+                case DeathParticlesRaised particles: DeathParticle.SpawnDeathParticles(particles.At.ToVector2()); return;
+                case HarpoonGrabbed grabbed:
+                    GmlEffects.CreateAbove(GmlEffectKind.Firework, grabbed.At.ToVector2(), DeathEffects.Small, DeathEffects.Orange);
+                    break;
                 case LevelCompleted _:
                     // set_level_complete: level_complete = true, obj_level_results, paused = true (the results ticket shows the results).
                     Gml.Paused = true;
@@ -353,6 +365,9 @@ namespace Unity.Hare.Enemies
                 case WormSegmentBody _: view = go.AddComponent<WormSegment>(); break;
                 case TrilobyteEnemy _: view = go.AddComponent<Trilobyte>(); break;
                 case EnemyMineBody _: view = go.AddComponent<EnemyMine>(); break;
+                case ScrapmentalEnemy _: view = go.AddComponent<Scrapmental>(); break;
+                case ShrapnelPieceBody _: view = go.AddComponent<ShrapnelPiece>(); break;
+                case ShrapnelHarpoonBody _: view = go.AddComponent<ShrapnelHarpoon>(); break;
                 default: view = go.AddComponent<Hydra>(); break;
             }
             view.Attach(body, null);
@@ -379,6 +394,8 @@ namespace Unity.Hare.Enemies
                 case BodyPart.Illusion: return "MimicIllusion";
                 case BodyPart.Segment: return "WormSegment";
                 case BodyPart.Mine: return "EnemyMine";
+                case BodyPart.Hull: return "ShrapnelPiece";
+                case BodyPart.Harpoon: return "ShrapnelHarpoon";
                 default: return body.Kind.ToString();
             }
         }

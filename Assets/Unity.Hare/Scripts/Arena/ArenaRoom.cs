@@ -257,6 +257,7 @@ namespace Unity.Hare.Arena
             enterKey.AddBinding("<Keyboard>/numpadEnter");
             enterKey.Enable();
             EnemyDirector.Killed += OnEnemyKilled;
+            EnemyDirector.Scored += OnEnemyScored;
             Rock.Removed += OnRockRemoved;
         }
 
@@ -289,6 +290,7 @@ namespace Unity.Hare.Arena
             }
             if (Generator != null) Generator.LevelCompleted -= OnGeneratorCompleted;
             EnemyDirector.Killed -= OnEnemyKilled;
+            EnemyDirector.Scored -= OnEnemyScored;
             Rock.Removed -= OnRockRemoved;
             if (enterKey != null)
             {
@@ -432,7 +434,7 @@ namespace Unity.Hare.Arena
             if (!HasTarget && !warnedTarget)
             {
                 warnedTarget = true;
-                Debug.LogWarning("[Unity.Hare] " + objective.TargetObject + " is not ported yet (U.HARE-T68), so this level's o_defeat objective cannot be met.");
+                Debug.LogWarning("[Unity.Hare] " + objective.TargetObject + " is not ported, so this level's o_defeat objective cannot be met.");
             }
         }
 
@@ -583,6 +585,13 @@ namespace Unity.Hare.Arena
             if (Active != this) return;
             if (kill.AwardsScore && kill.Points > 0) Score(kill.Position.ToVector2(), kill.Points);
             if (kill.CountsAsKill) RunSession(new RecordKill(Seat));
+        }
+
+        /// <summary>Points an enemy scored without dying (a Scrap Mental hull piece shot loose, the boss's defeat; U.HARE-T68).</summary>
+        void OnEnemyScored(Vector2 world, int points)
+        {
+            if (Active != this || points <= 0) return;
+            Score(world, points);
         }
 
         /// <summary>par_rock destroyed by the ship's shot or a rocket: its 10 points and their float text (U.HARE-T27).</summary>

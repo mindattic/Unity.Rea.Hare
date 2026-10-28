@@ -152,6 +152,7 @@ namespace Unity.Hare.Enemies
                 case EnemyKind.Phalanx: body = new PhalanxEnemy(); break;
                 case EnemyKind.Worm: body = new WormEnemy(); break;
                 case EnemyKind.Trilobyte: body = new TrilobyteEnemy(); break;
+                case EnemyKind.Scrapmental: body = new ScrapmentalEnemy(); break;
                 default: body = new HydraEnemy(); break;
             }
             Add(body, position, room ?? Room, options ?? new EnemyOptions());

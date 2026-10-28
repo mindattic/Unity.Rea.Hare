@@ -89,7 +89,8 @@
     "Meatball": { "Points": 50, "PartPoints": 0, "DeathBurstSize": 2, "BBoxHalfWidthPx": 89, "BBoxHalfHeightPx": 83.5, "BBoxOffsetXPx": -0.5, "BBoxOffsetYPx": 34, "PushesAway": true, "DifficultyPoints": 10, "EmitterScale": 0.70, "WormholeScale": 1.0 },
     "Phalanx": { "Points": 20, "PartPoints": 0, "DeathBurstSize": 1, "BBoxHalfWidthPx": 15, "BBoxHalfHeightPx": 15, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 5, "EmitterScale": 0.35, "WormholeScale": 0.35 },
     "Worm": { "Points": 100, "PartPoints": 10, "DeathBurstSize": 2, "BBoxHalfWidthPx": 56.5, "BBoxHalfHeightPx": 56.5, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": 0, "PushesAway": false, "DifficultyPoints": 15, "EmitterScale": 0.50, "WormholeScale": 0.5 },
-    "Trilobyte": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 26, "BBoxHalfHeightPx": 24.5, "BBoxOffsetXPx": -3.5, "BBoxOffsetYPx": 1, "PushesAway": true, "DifficultyPoints": 2, "EmitterScale": 0.25, "WormholeScale": 0.25 }
+    "Trilobyte": { "Points": 10, "PartPoints": 0, "DeathBurstSize": 0, "BBoxHalfWidthPx": 26, "BBoxHalfHeightPx": 24.5, "BBoxOffsetXPx": -3.5, "BBoxOffsetYPx": 1, "PushesAway": true, "DifficultyPoints": 2, "EmitterScale": 0.25, "WormholeScale": 0.25 },
+    "Scrapmental": { "Points": 500, "PartPoints": 20, "DeathBurstSize": 2, "BBoxHalfWidthPx": 21, "BBoxHalfHeightPx": 21, "BBoxOffsetXPx": 0, "BBoxOffsetYPx": -1, "PushesAway": false, "DifficultyPoints": 0, "EmitterScale": 1.0, "WormholeScale": 1.0 }
   },
   "levels": { "Levels": [] },
   "dialogue": {

@@ -376,14 +376,22 @@ namespace Unity.Hare.Enemies
     {
         readonly int id;
         readonly Vec2 at;
-        public StrikeRocket(int id, Vec2 rocketAt) { this.id = id; at = rocketAt; }
+        readonly Vec2 velocity;
+
+        /// <param name="rocketVelocityPxPerStep">The rocket's GML hspeed/vspeed (y up), for the enemies its hit shoves (Scrap Mental).</param>
+        public StrikeRocket(int id, Vec2 rocketAt, Vec2 rocketVelocityPxPerStep = default)
+        {
+            this.id = id;
+            at = rocketAt;
+            velocity = rocketVelocityPxPerStep;
+        }
 
         internal override bool Apply(EnemyWorld world, EnemyResult result)
         {
             var body = world.Get(id);
             if (body == null) return false;
             body.ClearDeflection();
-            bool explodes = body.StrikeRocket(at);
+            bool explodes = body.StrikeRocket(at, velocity);
             result.Body = body;
             result.Deflection = body.Deflection;
             return explodes;
@@ -419,6 +427,21 @@ namespace Unity.Hare.Enemies
             if (body == null) return false;
             result.Body = body;
             return body.Strike(beam);
+        }
+    }
+
+    /// <summary>GML Collision par_rock on an enemy (a firing harpoon reels in). Accepted when the enemy has that event and it acted.</summary>
+    public sealed class StrikeRock : EnemyCommand
+    {
+        readonly int id;
+        public StrikeRock(int id) => this.id = id;
+
+        internal override bool Apply(EnemyWorld world, EnemyResult result)
+        {
+            var body = world.Get(id);
+            if (body == null) return false;
+            result.Body = body;
+            return body.StrikeRock();
         }
     }
 

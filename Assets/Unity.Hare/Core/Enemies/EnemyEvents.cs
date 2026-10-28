@@ -143,6 +143,18 @@ namespace Unity.Hare.Enemies
     /// <summary>obj_rocket_explosion at a point (a mimic's bullet kill, a mine going off).</summary>
     public sealed class RocketExplosionRaised : EnemyEvent { public Vec2 At; }
 
+    /// <summary>
+    /// Points scored without a death (a Scrap Mental hull piece shot loose, the boss's defeat): <c>show_float_text_ext(x, y,
+    /// string(n), true, 0.01, 1); current_score += n</c>.
+    /// </summary>
+    public sealed class ScoreAwarded : EnemyEvent { public Vec2 At; public int Points; }
+
+    /// <summary>GML random_pickup(x, y) on its own (Scrap Mental's 24 at its defeat).</summary>
+    public sealed class EnemyPickupDropped : EnemyEvent { public Vec2 At; }
+
+    /// <summary>GML spawn_death_particles(x, y) (with its sfx_death).</summary>
+    public sealed class DeathParticlesRaised : EnemyEvent { public Vec2 At; }
+
     /// <summary>A gib or afterimage was thrown.</summary>
     public sealed class DebrisRaised : EnemyEvent { public DebrisSpec Spec; }
 

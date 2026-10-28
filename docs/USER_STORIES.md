@@ -83,7 +83,7 @@ _Nothing recorded yet._
 
 
 ## Epic M — Boss Encounters
-- **U.HARE-US-M1 ⬜** As a player, I fight Scrap Mental, the level 8 boss (obj_scrapmental with its obj_shrapnel_back/piece/harpoon parts) in the open arena, and destroying it completes the level
+- **U.HARE-US-M1 ✅** As a player, I fight Scrap Mental, the level 8 boss (obj_scrapmental with its obj_shrapnel_back/piece/harpoon parts) in the open arena, and destroying it completes the level (U.HARE-T68; Core ScrapmentalTests)
 
 
 ## Epic N — Architecture, Standards & Tooling

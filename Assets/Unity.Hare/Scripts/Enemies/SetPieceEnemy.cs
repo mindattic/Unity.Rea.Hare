@@ -132,10 +132,11 @@ namespace Unity.Hare.Enemies
             return result.Accepted;
         }
 
-        public bool OnRocketHit(Rocket rocket)
+        public virtual bool OnRocketHit(Rocket rocket)
         {
             if (IsDead) return false;
-            var result = Send(new StrikeRocket(Core.Id, rocket != null ? rocket.Position.ToVec2() : Core.Position));
+            var velocity = rocket != null ? (Gml.Dir(rocket.Direction) * rocket.SpeedPxPerStep).ToVec2() : default;
+            var result = Send(new StrikeRocket(Core.Id, rocket != null ? rocket.Position.ToVec2() : Core.Position, velocity));
             if (result.Deflection.HasValue && rocket != null) rocket.Deflect(this, GmlMath.Dir(result.Deflection.Value).ToVector2());
             return result.Accepted;
         }
@@ -231,11 +232,16 @@ namespace Unity.Hare.Enemies
 
         void OnTriggerStay2D(Collider2D other)
         {
-            if (IsDead || !Core.PushesAway || other == null) return;
+            if (IsDead || other == null) return;
+            OnTouch(other);
+            if (IsDead || !Core.PushesAway) return;
             var enemy = other.GetComponentInParent<IEnemyTarget>() as Component;
             if (enemy == null || enemy.gameObject == gameObject) return;
             PushAwayFrom(enemy.transform.position, Time.fixedDeltaTime * Gml.StepsPerSecond);
         }
+
+        /// <summary>Something overlaps this enemy this step (its own collision events with other objects, e.g. a harpoon's par_rock).</summary>
+        protected virtual void OnTouch(Collider2D other) { }
 
         /// <summary>GML collision with par_enemy: x/y += lengthdir(2, point_direction(other, self)).</summary>
         public void PushAwayFrom(Vector2 other, float steps = 1f) => Send(new Separate(Core.Id, other.ToVec2(), steps));

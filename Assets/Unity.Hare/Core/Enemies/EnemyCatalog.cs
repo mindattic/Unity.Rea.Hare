@@ -76,6 +76,8 @@ namespace Unity.Hare.Enemies
         public EnemyEntry Phalanx = new EnemyEntry(20, 0, EnemyTable.Medium, 15f, 15f, 0f, 0f, false, 5, 0.35f, 0.35f);
         public EnemyEntry Worm = new EnemyEntry(100, 10, EnemyTable.Large, 56.5f, 56.5f, 0f, 0f, false, 15, 0.50f, 0.5f);
         public EnemyEntry Trilobyte = new EnemyEntry(10, 0, EnemyTable.Small, 26f, 24.5f, -3.5f, 1f, true, 2, 0.25f, 0.25f);
+        /// <summary>obj_scrapmental: 500 for the boss, 20 (PartPoints) for each hull piece shot loose; no emitter or wormhole makes it.</summary>
+        public EnemyEntry Scrapmental = new EnemyEntry(500, 20, EnemyTable.Large, 21f, 21f, 0f, -1f, false, 0, 1f, 1f);
 
         public EnemyStats Get(EnemyKind kind) => EntryFor(kind).ToStats();
 
@@ -91,6 +93,7 @@ namespace Unity.Hare.Enemies
                 case EnemyKind.Phalanx: return Phalanx;
                 case EnemyKind.Worm: return Worm;
                 case EnemyKind.Trilobyte: return Trilobyte;
+                case EnemyKind.Scrapmental: return Scrapmental;
                 default: return Hydra;
             }
         }

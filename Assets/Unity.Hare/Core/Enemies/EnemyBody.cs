@@ -14,7 +14,11 @@ namespace Unity.Hare.Enemies
         /// <summary>obj_worm_segment.</summary>
         Segment,
         /// <summary>obj_enemy_mine (not a par_enemy).</summary>
-        Mine
+        Mine,
+        /// <summary>obj_shrapnel_piece: one of Scrap Mental's hull plates.</summary>
+        Hull,
+        /// <summary>obj_shrapnel_harpoon: one of Scrap Mental's grappling arms.</summary>
+        Harpoon
     }
 
     /// <summary>What destroyed an enemy from the weapon's side (the laser, railgun and flame's with(inst) instance_destroy()).</summary>
@@ -217,7 +221,20 @@ namespace Unity.Hare.Enemies
         internal bool Strike(in BulletShot shot) => !IsDead && BulletHit(shot);
 
         /// <summary>GML Collision obj_rocket. True when the rocket explodes here.</summary>
-        internal bool StrikeRocket(Vec2 rocketAt) => !IsDead && RocketHit(rocketAt);
+        internal bool StrikeRocket(Vec2 rocketAt, Vec2 rocketVelocityPxPerStep = default)
+        {
+            if (IsDead) return false;
+            RocketVelocityPxPerStep = rocketVelocityPxPerStep;
+            return RocketHit(rocketAt);
+        }
+
+        /// <summary>The striking rocket's GML hspeed/vspeed, px/step (y up), for the enemies its hit shoves; zero when unknown.</summary>
+        protected Vec2 RocketVelocityPxPerStep { get; private set; }
+
+        /// <summary>GML Collision par_rock, for the bodies that have one. True when it did something.</summary>
+        internal bool StrikeRock() => !IsDead && RockHit();
+
+        protected virtual bool RockHit() => false;
 
         /// <summary>GML Collision obj_rocket_explosion; most enemies have none.</summary>
         internal void StrikeExplosion()
