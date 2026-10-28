@@ -110,6 +110,21 @@ namespace Unity.Hare.Session
         public bool StartingDebug = false;
         /// <summary>track_name = "Pinball Spring": what the debug overlay's "Current Track" shows until play_random_music runs.</summary>
         public string StartingTrackName = "Pinball Spring";
+        /// <summary>current_track = music_pinballspring: the music sound before play_random_music first chooses one.</summary>
+        public string StartingTrack = "music_pinballspring";
+        /// <summary>
+        /// play_random_music's tracks, in its <c>randomtrack</c> order (U.HARE-T29): <c>irandom_range(1, 5)</c> picks one,
+        /// each equally likely and the last one free to come up again. music_overcast is imported but no script plays it,
+        /// so it is not here.
+        /// </summary>
+        public MusicTrack[] Tracks =
+        {
+            new MusicTrack("music_pinballspring", "Pinball Spring"),
+            new MusicTrack("music_inaheartbeat", "In a Heartbeat"),
+            new MusicTrack("music_latinindustries", "Latin Industries"),
+            new MusicTrack("music_presenterator", "Presenterator"),
+            new MusicTrack("music_wallpaper", "Wallpaper"),
+        };
 
         /// <summary>obj_coin: at COINS &gt;= 100, LIVES += 1 and COINS = 0.</summary>
         public int CoinsPerExtraLife = 100;
@@ -137,6 +152,14 @@ namespace Unity.Hare.Session
                 errors.Add($"{path}.StartingObjective: not an objective kind (was {(int)StartingObjective}).");
             if (StartingLevelName == null) errors.Add(path + ".StartingLevelName: must not be null.");
             if (StartingTrackName == null) errors.Add(path + ".StartingTrackName: must not be null.");
+            if (StartingTrack == null) errors.Add(path + ".StartingTrack: must not be null.");
+            if (Tracks == null || Tracks.Length == 0) errors.Add(path + ".Tracks: play_random_music needs at least one track.");
+            else
+                for (int i = 0; i < Tracks.Length; i++)
+                {
+                    if (Tracks[i] == null) errors.Add($"{path}.Tracks[{i}]: must not be null.");
+                    else Tracks[i].Validate(errors, $"{path}.Tracks[{i}]");
+                }
             ValidationHelpers.Positive(errors, path + ".CoinsPerExtraLife", CoinsPerExtraLife);
             ValidationHelpers.Positive(errors, path + ".MasterVolumeStep", MasterVolumeStep);
             ValidationHelpers.NonNegative(errors, path + ".DebugScorePoints", DebugScorePoints);

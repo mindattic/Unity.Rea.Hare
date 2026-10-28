@@ -118,9 +118,9 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Helper hawk | `obj_helper`, `create_helper` | Built: Core's `Helper/HelperField` (create_helper's one helper, here one per ship; obj_helper's Create, alarms, held arrows, Up/Down speed steps, Page Down's solo mouse follow, the return out of view and Delete's rocket explosion; numbers in `helper`), HareControls' `Helper` map (the arrows, Page Down, Delete; the arrows taken off the ship's `Rotate`, which in the original is A/D only), read by `PlayerShipController`; Runtime's `HelperDirector` and `HelperView` (spr_helper, the ef_ring/ef_smoke/ef_smokeup/ef_spark effects, sfx_hawk, `RocketExplosion`), obj_carrot's and obj_coin's obj_helper collisions through the pickups' `CollectPickup` for the helper's ship; BIBLE V43 | done: U.HARE-T66 |
 | Flashbomb | `obj_flashbomb`, `obj_rabbit_schematic` | Built: Core's `Arena/Flashbomb` (`FlashbombField`: obj_player's F making a bomb per press, no ammo or cooldown as in the original; Alarm 0's blink every 6 steps at 0.8, the four circles growing 10/8/6 and 4 a step, burst_alpha fading 0.01 a step to destroy; numbers in `arena.Flashbomb`), obj_rabbit_schematic as `GameHud`'s third schematic (`arena.Hud.RabbitSchematic*`), sfx_flashbomb; Runtime's `FlashbombView` and `FlashbombSweep` (each enemy in view inside the ring to an obj_rocket_explosion, each shot to an obj_tinyexplosion), driven by `ArenaRoom`; BIBLE V48, D26 | done: U.HARE-T67 |
 | Boss: Scrap Mental | `obj_scrapmental`, `obj_shrapnel_*` | Built: Core's `Enemies/ScrapmentalEnemy` (`EnemyKind.Scrapmental`: the eye creeping 1 px a step beyond 100 px, spin, undulate -20..160 px 4 px every 8 steps, 12-16 slivers every 4-8 s, a sawblade or dagger every 3-6 s, RGB 255 darkened 1 a ship bullet and 6 a rocket with the shove, the defeat after 128 for 500 points, 24 pickups, the grenade explosion and death particles, alarm[4]'s 10 s before it goes; `ShrapnelPieceBody` (`BodyPart.Hull`): 36 spr_boss_hull1..8 plates orbiting on the undulate radius, 16 a bullet and 48 a rocket, loose after 0-3 s for 20 points once at 8-12 px a step, re-attaching at RGB 196 when reeled home; `ShrapnelHarpoonBody` (`BodyPart.Harpoon`): 16 arms 20 degrees apart turning 1 a step, firing at 8 px a step after 1-4 s (2-6 s after each reel), reeling at 4 px a step after 2000 px, a rock (`StrikeRock`) or a caught piece (`GrabPiece`); the numbers in `enemies.Scrapmental`), Runtime's `Enemies/Scrapmental` (eye and frame, `ShrapnelBack` fading 0.005 and sinking 1 px a step, `ShrapnelPiece`, `ShrapnelHarpoon` with its c_gray line; registered as level_08's o_defeat target through `LevelTargets`), scores through `EnemyDirector.Scored`/`ArenaRoom.Score`; BIBLE D28-D32 | done: U.HARE-T68 (supersedes UH-T32) |
-| Music and jukebox | `obj_jukebox`, `play_random_music` | None | UH-T29 |
+| Music and jukebox | `obj_jukebox`, `play_random_music` | Built: Core's `Session/PlayRandomMusic` (`irandom_range(1, 5)` over `session.Tracks`, the original's five tracks in order, into `CurrentTrack`/`TrackName`, raising `MusicTrackChosen`); Runtime's `Audio/Jukebox` (obj_jukebox, made by `ArenaRoom.Begin`, asking whenever no music plays) and `HareAudio.PlayMusic` (once, not looped, on the persistent host's Music source); the original's `audio_is_playing(0)` and commented-out play fixed, BIBLE D33, V51 | done: U.HARE-T29 |
 | Sound effects | 69 `sfx_*` | All imported, none skipped: `tools/import-gml-audio.ps1` + `GmlAudioBuilder` into `Assets/Unity.Hare/Audio` (PCM, decompressed on load, as GameMaker played them), named by `HareAudioManifest`, played by `HareAudio` through the mixer's Sfx group; only the death, grenade, vulcan and reload sounds are wired to their events yet | import done: U.HARE-T47; wiring UH-T30 |
-| Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); nothing plays the music yet (UH-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47 |
+| Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); the jukebox plays them (U.HARE-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47; played: U.HARE-T29 |
 | Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); no screen yet | data: U.HARE-T47; screen UH-T69 |
 | Startup room | `obj_startup` | Core's `Rooms/StartupScreen` (Create's fullscreen and alarm[0..2], each alarm re-rolling its circuit board's speeds to `irandom_range(-2,2)` and re-arming for 1 to 12 s, the backgrounds' scroll, any key and the global left button to `room_title`; startup.room.gmx's five backgrounds and the note as data in `startup`), played by `StartupRoom` in the generated startup scene (tiled imported backgrounds, the red-on-black `fnt_point` note at `room_height - 60`) on the room flow's clock | done: U.HARE-T51 |
 | Room flow and fades | `obj_fade_*`, `next_room` | Core's `Flow/RoomFlow` and `RoomFade` (room_goto, next_room, the fades, Esc to the title, F1 fullscreen, the rooms as data in `rooms`), played by `RoomFlowDirector` from the `Main.unity` bootstrap; one generated scene per room | done: U.HARE-T50 |
@@ -317,7 +317,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `obj_helper` | game | `obj_carrot`, `obj_coin`, `create_helper` | ported | `Scripts/Helper/HelperView.cs` |
 | `obj_hydra` | game/enemy/hydra | `obj_wormhole`, `par_enemy_emitter`, `create_wormhole`, `generate_enemy_list` +1 more | ported, by comment reference | `Core/Enemies/HydraEnemy.cs`, `Scripts/Enemies/Hydra.cs` |
 | `obj_intro` | intro | `room_intro` | ported | `Scripts/Rooms/IntroRoom.cs` |
-| `obj_jukebox` | game | `setup_level` | not ported, UH-T29 | plays play_random_music; the music story (setup_level creates it, obj_game's own call is commented out) |
+| `obj_jukebox` | game | `setup_level` | ported | `Scripts/Audio/Jukebox.cs` |
 | `obj_label` | upgrade | `room_upgrade` | ported | `Scripts/Upgrade/UpgradeRoom.cs` |
 | `obj_laser` | game/weapon/laser | `obj_player`, `shoot_laser` | ported, by comment reference | `Core/Player/PlayerEvents.cs`, `Core/Weapons/GunRack.cs` +3 |
 | `obj_level_results` | game/gui | `set_level_complete`, `setup_level` | ported | `Scripts/Arena/LevelResultsView.cs` |
@@ -459,7 +459,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `next_line` | conversation | `obj_conversation` | ported, by comment reference | `Core/Story/ConversationBox.cs`, `Core/Story/TextDone.cs` +1 |
 | `normal_detect` | functions | `obj_bullet`, `obj_player`, `obj_rocket` | ported, by comment reference | `Core/Enemies/PhalanxEnemy.cs`, `Core/Player/Landing.cs` +7 |
 | `normalize_angle` |  | `obj_destination`, `obj_earthball`, `obj_player`, `obj_scroll_world` +4 more | ported, by comment reference | `Core/Story/StoryScreen.cs`, `Core/Story/StoryTuning.cs` |
-| `play_random_music` |  | `obj_game`, `obj_jukebox`, `setup_level` | ported, by comment reference | `Core/Session/GameSession.cs`, `Core/Session/SessionTuning.cs` |
+| `play_random_music` |  | `obj_game`, `obj_jukebox`, `setup_level` | ported | `Core/Session/SessionTuning.cs` |
 | `player_boost` | player | `obj_player`, `player_leap` | ported, by comment reference | `Core/Arena/GameHud.cs`, `Core/Player/Landing.cs` +5 |
 | `player_brake` | player | `obj_player` | ported, by comment reference | `Core/Arena/GameHud.cs`, `Core/Player/Landing.cs` +5 |
 | `player_hurt` | player | `obj_player`, `player_boost` | ported, by comment reference | `Core/Player/FlightTuning.cs`, `Core/Player/Landing.cs` +13 |
@@ -519,7 +519,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_ammo_shell` | game/weapon | `shoot_shotgun` | ported | `Core/Pickups/Pickup.cs` |
 | `spr_angle_arrow` | game/rabbit/addon | `obj_player` | imported, owner ported | drawn by `obj_player`, which Unity names; no code names this sprite itself |
 | `spr_angle_arrow_red` | game/rabbit/addon | none | imported, not reached | asset imported; nothing in the original uses it |
-| `spr_asteroid_experiment` | game/rock | `obj_mimic`, `par_rock`, `create_new_rock` | ported | `Scripts/Rocks/Rock.cs` |
+| `spr_asteroid_experiment` | game/rock | `obj_mimic`, `par_rock`, `create_new_rock` | ported | `Scripts/Enemies/MimicIllusion.cs`, `Scripts/Rocks/Rock.cs` |
 | `spr_big_arrow` | game/gui | `obj_player` | ported | `Core/Arena/ArenaTuning.cs`, `Resources/Hare/Content/GameContent.json` +1 |
 | `spr_bigexplosion` | game/explosion | `obj_rocket_explosion` | ported | `Scripts/Weapons/RocketExplosion.cs` |
 | `spr_black` |  | `obj_fade_game`, `obj_fade_map`, `obj_fade_story`, `obj_fade_title` +1 more | ported, by comment reference | `Scripts/Flow/RoomFlowDirector.cs`, `Scripts/Rooms/TitleRoom.cs` |
@@ -563,8 +563,8 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_comm_frame_back` | conversation | `obj_conversation` | ported | `Core/Story/ConversationBox.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_conversation_box` | conversation | `obj_conversation` | ported | `Core/Story/ConversationBox.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_cyprid` | game/enemy | none | imported, not reached | asset imported; nothing in the original uses it |
-| `spr_dagger` | game/enemy | `obj_dagger` | ported, by comment reference | `Core/Enemies/DaggerEnemy.cs`, `Scripts/Enemies/Dagger.cs` |
-| `spr_dagger2` | game/enemy | `obj_dagger` | ported, by comment reference | `Core/Enemies/DaggerEnemy.cs`, `Scripts/Enemies/Dagger.cs` |
+| `spr_dagger` | game/enemy | `obj_dagger` | ported | `Scripts/Enemies/Dagger.cs` |
+| `spr_dagger2` | game/enemy | `obj_dagger` | ported | `Scripts/Enemies/Dagger.cs` |
 | `spr_death_particle_large` | game/rabbit/addon | `obj_death_particle`, `spawn_death_particles` | ported | `Scripts/Effects/DeathParticle.cs` |
 | `spr_death_particle_medium` | game/rabbit/addon | `spawn_death_particles` | ported | `Scripts/Effects/DeathParticle.cs` |
 | `spr_death_particle_small` | game/rabbit/addon | `spawn_death_particles` | ported | `Scripts/Effects/DeathParticle.cs` |
@@ -606,8 +606,8 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_healthbar_cover` | game/rabbit/addon | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_healthbar_fill` | game/rabbit/addon | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_helper` |  | `obj_helper` | ported | `Core/Helper/HelperTuning.cs`, `Resources/Hare/Content/GameContent.json` |
-| `spr_hydra_body` | game/enemy | `obj_hydra` | imported, owner ported | drawn by `obj_hydra`, which Unity names; no code names this sprite itself |
-| `spr_hydra_turret` | game/enemy | `obj_hydra` | imported, owner ported | drawn by `obj_hydra`, which Unity names; no code names this sprite itself |
+| `spr_hydra_body` | game/enemy | `obj_hydra` | ported | `Scripts/Enemies/Hydra.cs` |
+| `spr_hydra_turret` | game/enemy | `obj_hydra` | ported | `Scripts/Enemies/Hydra.cs` |
 | `spr_icon_flamer` | game/gui/weapons | `next_ground_weapon` | ported | `Core/Arena/GameHud.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_icon_laser` | game/gui/weapons | `next_ground_weapon` | ported | `Core/Arena/GameHud.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_icon_mine` | game/gui/weapons | `obj_weapon_gui`, `next_air_weapon` | ported | `Core/Arena/GameHud.cs`, `Resources/Hare/Content/GameContent.json` |
@@ -621,22 +621,22 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_leaf2` | weather | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_logo` | title | `obj_logo` | ported | `Core/Rooms/TitleTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_lost_health` | game/gui/healthbar | `obj_losthealth` | ported | `Core/Player/LostHealthPip.cs` |
-| `spr_meatball` | game/enemy | `obj_meatball` | ported, by comment reference | `Scripts/Enemies/Meatball.cs` |
-| `spr_meatball_eyes` | game/enemy | `obj_meatball` | imported, owner ported | drawn by `obj_meatball`, which Unity names; no code names this sprite itself |
+| `spr_meatball` | game/enemy | `obj_meatball` | ported | `Scripts/Enemies/Meatball.cs` |
+| `spr_meatball_eyes` | game/enemy | `obj_meatball` | ported | `Scripts/Enemies/Meatball.cs` |
 | `spr_meatball_gib1` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_meatball_gib2` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_meatball_gib3` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_meatball_gib4` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_meatball_gib5` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_meatball_gib6` | game/gibs/meatball | `obj_meatball_gib` | ported | family `spr_meatball_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
-| `spr_meatball_pupils` | game/enemy | `obj_meatball` | imported, owner ported | drawn by `obj_meatball`, which Unity names; no code names this sprite itself |
-| `spr_mimic` | game/enemy | `obj_mimic` | imported, owner ported | drawn by `obj_mimic`, which Unity names; no code names this sprite itself |
+| `spr_meatball_pupils` | game/enemy | `obj_meatball` | ported | `Scripts/Enemies/Meatball.cs` |
+| `spr_mimic` | game/enemy | `obj_mimic` | ported | `Scripts/Enemies/Mimic.cs` |
 | `spr_mine` | game/weapon/projectile | `obj_enemy_mine`, `obj_mine` | ported | `Scripts/Weapons/Mine.cs` |
 | `spr_moon_surface` | title | `obj_moon_surface`, `obj_stand_title` | ported | `Core/Arena/MoonSurface.cs`, `Core/Rooms/TitleTuning.cs` +2 |
 | `spr_muzzleflash` | game/weapon/projectile | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_muzzleflash_new` | game/weapon/projectile | `obj_muzzleflash` | ported | `Scripts/Effects/MuzzleFlash.cs` |
 | `spr_pellet` | game/weapon/projectile | `shoot_shotgun` | ported | `Scripts/Weapons/Shotgun.cs` |
-| `spr_phalanx_body` | game/enemy | `obj_phalanx` | imported, owner ported | drawn by `obj_phalanx`, which Unity names; no code names this sprite itself |
+| `spr_phalanx_body` | game/enemy | `obj_phalanx` | ported | `Scripts/Enemies/Phalanx.cs` |
 | `spr_phalanx_shield` | game/enemy | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_pickup_health` | game/pickup | `obj_carrot` | ported | `Core/Pickups/Pickup.cs` |
 | `spr_playerexplosion` | game/explosion | none | imported, not reached | asset imported; nothing in the original uses it |
@@ -675,7 +675,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_room_loop` |  | `obj_game`, `obj_intro`, `obj_map`, `obj_startup` +3 more | imported, owner ported | drawn by `obj_startup`, which Unity names; no code names this sprite itself |
 | `spr_sand1` | weather | `obj_sand`, `obj_sand_emitter` | ported | `Core/Weather/WeatherTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_sand2` | weather | `obj_sand` | ported | `Core/Weather/WeatherTuning.cs`, `Resources/Hare/Content/GameContent.json` |
-| `spr_sawblade` | game/enemy | `obj_sawblade` | imported, owner ported | drawn by `obj_sawblade`, which Unity names; no code names this sprite itself |
+| `spr_sawblade` | game/enemy | `obj_sawblade` | ported | `Scripts/Enemies/Sawblade.cs` |
 | `spr_scanner` | map | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_scanner_beam` | map | `obj_scanner`, `obj_uss_warren` | ported | `Core/Map/MapTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_scenario_box` | map | `obj_alert` | imported, owner ported | drawn by `obj_alert`, which Unity names; no code names this sprite itself |
@@ -697,7 +697,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_teleporter` | game/weapon/projectile | none | imported, not reached | asset imported; nothing in the original uses it |
 | `spr_textdone` |  | `obj_textdone` | ported | `Core/Story/TextDone.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_tip_box` |  | `obj_YesNo`, `obj_drop_intro`, `obj_scenario_details`, `obj_tip` +1 more | ported | `Core/Map/MapTuning.cs`, `Core/Popups/PopupTuning.cs` +3 |
-| `spr_trilobyte` | game/enemy | `obj_trilobyte` | ported, by comment reference | `Scripts/Enemies/Trilobyte.cs` |
+| `spr_trilobyte` | game/enemy | `obj_trilobyte` | ported | `Scripts/Enemies/Trilobyte.cs` |
 | `spr_upgrade_circle_empty` | upgrade | `obj_upgrade_missle1`, `obj_upgrade_shotgun1`, `obj_upgrade_vulcan1` | ported | `Core/Upgrade/UpgradeScreen.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_upgrade_circle_filled` | upgrade | `obj_upgrade_missle1`, `obj_upgrade_shotgun1`, `obj_upgrade_vulcan1` | ported | `Core/Upgrade/UpgradeScreen.cs`, `Resources/Hare/Content/GameContent.json` |
 | `spr_upgrade_frame` | upgrade | `obj_btn_upgrade_shotgun`, `obj_btn_upgrade_vulcan`, `obj_upgrade_missle` | imported, owner ported | drawn by `obj_btn_upgrade_vulcan`, which Unity names; no code names this sprite itself |
@@ -722,10 +722,10 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `spr_worm_gib6` | game/gibs/worm | `obj_worm_gib` | ported | family `spr_worm_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_worm_gib7` | game/gibs/worm | `obj_worm_gib` | ported | family `spr_worm_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
 | `spr_worm_gib8` | game/gibs/worm | `obj_worm_gib` | ported | family `spr_worm_gib` + index in `Scripts/Enemies/FadingDebris.cs` |
-| `spr_worm_head` | game/enemy | `obj_worm`, `obj_worm_head_gib` | ported | `Scripts/Enemies/FadingDebris.cs` |
-| `spr_worm_segment` | game/enemy | `obj_worm`, `obj_worm_segment` | imported, owner ported | drawn by `obj_worm`, which Unity names; no code names this sprite itself |
-| `spr_wraith_float` | game/enemy | `obj_wraith`, `obj_wraith_blur` | imported, owner ported | drawn by `obj_wraith`, which Unity names; no code names this sprite itself |
-| `spr_wraith_stunned` | game/enemy | `obj_wraith` | imported, owner ported | drawn by `obj_wraith`, which Unity names; no code names this sprite itself |
+| `spr_worm_head` | game/enemy | `obj_worm`, `obj_worm_head_gib` | ported | `Scripts/Enemies/FadingDebris.cs`, `Scripts/Enemies/Worm.cs` |
+| `spr_worm_segment` | game/enemy | `obj_worm`, `obj_worm_segment` | ported | `Scripts/Enemies/Worm.cs`, `Scripts/Enemies/WormSegment.cs` |
+| `spr_wraith_float` | game/enemy | `obj_wraith`, `obj_wraith_blur` | ported | `Scripts/Enemies/Wraith.cs` |
+| `spr_wraith_stunned` | game/enemy | `obj_wraith` | ported | `Scripts/Enemies/Wraith.cs` |
 | `spr_yesno_button` |  | `obj_btn_no`, `obj_btn_yes` | ported | `Core/Rooms/TitleTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 
 ### Backgrounds (18)
@@ -755,12 +755,12 @@ the original builds from a prefix at run time shows as unused there; the family 
 
 | Name | Group | Used by | Status | Unity / notes |
 |---|---|---|---|---|
-| `music_inaheartbeat` | music | `play_random_music` | not ported, UH-T29 | music story: nothing plays the track yet (imported as a streamed clip) |
-| `music_latinindustries` | music | `play_random_music` | not ported, UH-T29 | music story: nothing plays the track yet (imported as a streamed clip) |
-| `music_overcast` | music | none | imported, not reached | asset imported; nothing in the original uses it |
-| `music_pinballspring` | music | `globals`, `play_random_music` | not ported, UH-T29 | music story: nothing plays the track yet (imported as a streamed clip) |
-| `music_presenterator` | music | `play_random_music` | not ported, UH-T29 | music story: nothing plays the track yet (imported as a streamed clip) |
-| `music_wallpaper` | music | `play_random_music` | not ported, UH-T29 | music story: nothing plays the track yet (imported as a streamed clip) |
+| `music_inaheartbeat` | music | `play_random_music` | ported | `Core/Session/SessionTuning.cs` |
+| `music_latinindustries` | music | `play_random_music` | ported | `Core/Session/SessionTuning.cs` |
+| `music_overcast` | music | none | imported, not reached | asset imported; nothing in the original uses it; Unity mentions it only in comments: `Core/Session/SessionTuning.cs` |
+| `music_pinballspring` | music | `globals`, `play_random_music` | ported | `Core/Session/SessionTuning.cs` |
+| `music_presenterator` | music | `play_random_music` | ported | `Core/Session/SessionTuning.cs` |
+| `music_wallpaper` | music | `play_random_music` | ported | `Core/Session/SessionTuning.cs` |
 | `sfx_beep` |  | `obj_enemy_mine`, `obj_game`, `obj_mine` | ported | `Core/Arena/ArenaTuning.cs`, `Resources/Hare/Content/GameContent.json` |
 | `sfx_bend` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 | `sfx_blip` |  | none | imported, not reached | asset imported; nothing in the original uses it |
@@ -827,7 +827,7 @@ the original builds from a prefix at run time shows as unused there; the family 
 | `sfx_vulcan_loop` | vulcan | `shoot_vulcan`, `stop_vulcan_sfx` | ported | `Scripts/Weapons/VulcanWeapon.cs` |
 | `sfx_vulcan_spindown` | vulcan | `stop_vulcan_sfx` | ported | `Scripts/Weapons/VulcanWeapon.cs` |
 | `sfx_vulcan_spinup` | vulcan | `fire_primary` | ported | `Scripts/Weapons/VulcanWeapon.cs` |
-| `sfx_whoosh` |  | none | imported, not reached | asset imported; nothing in the original uses it |
+| `sfx_whoosh` |  | none | imported, not reached | asset imported; nothing in the original uses it; Unity mentions it only in comments: `Scripts/Audio/Jukebox.cs` |
 | `sfx_woof` |  | `next_line` | ported | `Core/Story/ConversationBox.cs`, `Resources/Hare/Content/GameContent.json` |
 | `sfx_zoom` |  | none | imported, not reached | asset imported; nothing in the original uses it |
 
@@ -949,10 +949,10 @@ Every group in the resource tree below the top level, so an empty folder is reco
 
 | Kind | Count | Status counts |
 |---|---|---|
-| Objects | 150 | in progress, U.HARE-T68 1, not ported, UH-T29 1, not ported, by design 1, not reached 16, ported 62, ported, by comment reference 69 |
-| Scripts | 88 | not reached 8, ported 21, ported, by comment reference 59 |
+| Objects | 150 | in progress, U.HARE-T68 1, not ported, by design 1, not reached 16, ported 63, ported, by comment reference 69 |
+| Scripts | 88 | not reached 8, ported 22, ported, by comment reference 58 |
 | Rooms | 10 | not reached 2, ported 8 |
-| Sprites | 213 | imported, not reached 35, imported, owner ported 19, not ported, by design (owner `obj_spawnpoint`) 1, not reached (owner `obj_ring_back`) 1, not reached (owner `obj_ring`) 1, ported 148, ported, by comment reference 8 |
+| Sprites | 213 | imported, not reached 35, imported, owner ported 9, not ported, by design (owner `obj_spawnpoint`) 1, not reached (owner `obj_ring_back`) 1, not reached (owner `obj_ring`) 1, ported 162, ported, by comment reference 4 |
 | Backgrounds | 18 | imported, not reached 3, ported 15 |
-| Sounds | 75 | imported, not reached 22, not ported, UH-T29 5, not ported, UH-T30 10, ported 33, ported, by comment reference 5 |
+| Sounds | 75 | imported, not reached 22, not ported, UH-T30 10, ported 38, ported, by comment reference 5 |
 | Fonts | 8 | imported, not reached 4, ported 4 |

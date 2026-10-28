@@ -85,6 +85,9 @@ namespace Unity.Hare.Session
     /// <summary>debug changed (obj_game's F12 overlay shown or hidden).</summary>
     public sealed class DebugChanged : SessionEvent { public bool Debug; }
 
+    /// <summary>play_random_music chose current_track (<see cref="Sound"/>) and track_name (<see cref="Title"/>); play it once.</summary>
+    public sealed class MusicTrackChosen : SessionEvent { public string Sound; public string Title; }
+
     /// <summary>What a session command did: whether it took effect, and the events it raised in order.</summary>
     public readonly struct SessionResult
     {

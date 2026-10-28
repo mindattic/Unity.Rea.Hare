@@ -89,6 +89,8 @@ namespace Unity.Hare.Session
         public bool Debug { get; private set; }
         /// <summary>GML: track_name, the music play_random_music last chose.</summary>
         public string TrackName { get; private set; }
+        /// <summary>GML: current_track, the music sound play_random_music last chose (U.HARE-T29).</summary>
+        public string CurrentTrack { get; private set; }
 
         /// <summary>obj_player's death wait: reset_player when true, game_restart when false.</summary>
         public bool HasLivesLeft => Lives > 0;
@@ -141,6 +143,7 @@ namespace Unity.Hare.Session
             StationaryPercent = StartingStationaryPercent;
             Debug = Tuning.StartingDebug;
             TrackName = Tuning.StartingTrackName;
+            CurrentTrack = Tuning.StartingTrack;
             secondTimer = 0f;
             lastWarnedSecond = 0;
         }
@@ -374,6 +377,20 @@ namespace Unity.Hare.Session
             if (clamped == MasterVolume) return;
             MasterVolume = clamped;
             Emit(new MasterVolumeChanged { Volume = MasterVolume });
+        }
+
+        /// <summary>
+        /// play_random_music's choice (U.HARE-T29): <c>randomtrack = irandom_range(1, 5)</c> into current_track and
+        /// track_name, raising <see cref="MusicTrackChosen"/> for the presentation to play.
+        /// </summary>
+        internal MusicTrack PlayRandomMusic(IRandomSource random)
+        {
+            var tracks = Tuning.Tracks;
+            var track = tracks[random.IRandom(1, tracks.Length) - 1];
+            CurrentTrack = track.Sound;
+            TrackName = track.Title;
+            Emit(new MusicTrackChosen { Sound = track.Sound, Title = track.Title });
+            return track;
         }
 
         internal void SetDebug(bool debug)

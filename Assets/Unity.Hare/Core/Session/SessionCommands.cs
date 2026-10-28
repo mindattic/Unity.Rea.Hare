@@ -315,6 +315,18 @@ namespace Unity.Hare.Session
         internal override bool Apply(GameSession session) { session.SetUseMetric(useMetric); return true; }
     }
 
+    /// <summary>
+    /// obj_jukebox's Step, play_random_music (U.HARE-T29): sent while no music is playing, it picks the next track with
+    /// <c>irandom_range(1, 5)</c> (<see cref="SessionTuning.Tracks"/>) and raises <see cref="MusicTrackChosen"/>.
+    /// </summary>
+    public sealed class PlayRandomMusic : SessionCommand
+    {
+        readonly IRandomSource random;
+        public PlayRandomMusic(PlayerId id, IRandomSource random) : base(id) =>
+            this.random = random ?? throw new ArgumentNullException(nameof(random));
+        internal override bool Apply(GameSession session) { session.PlayRandomMusic(random); return true; }
+    }
+
     /// <summary>obj_game's F12 key press: <c>debug = !debug</c> (U.HARE-T59).</summary>
     public sealed class ToggleDebug : SessionCommand
     {

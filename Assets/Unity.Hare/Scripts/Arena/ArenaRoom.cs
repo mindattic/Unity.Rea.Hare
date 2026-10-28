@@ -351,8 +351,10 @@ namespace Unity.Hare.Arena
             // player = instance_create(0,0, obj_player); reset_player(); (the scene's ship, once attached)
             SetUpPlayer();
 
-            // level_complete = false; paused = false; then the level script's Meta Data and Objective blocks.
+            // level_complete = false; paused = false; jukebox = instance_create(0,0,obj_jukebox) (U.HARE-T29, BIBLE D33/V51);
+            // then the level script's Meta Data and Objective blocks.
             Gml.Paused = false;
+            EnsureJukebox();
             RunSession(new BeginLevel(Seat, setting.Objective.ToObjective(), setting.Name, setting.StationaryPercent));
             Gml.Paused = Session.IsPaused;
             Banner.SetText(Session.LevelName, Session.ObjectiveText);
@@ -511,11 +513,31 @@ namespace Unity.Hare.Arena
             return result;
         }
 
+        /// <summary>The room's obj_jukebox (U.HARE-T29): made by the first setup_level, then kept for the room's later levels.</summary>
+        public Jukebox Jukebox { get; private set; }
+        IRandomSource jukeboxRandom;
+
+        /// <summary>setup_level's obj_jukebox: its Step's play_random_music runs through the session, which picks the track.</summary>
+        void EnsureJukebox()
+        {
+            if (Jukebox != null) return;
+            jukeboxRandom = new SeededRandom(unchecked((int)DateTime.UtcNow.Ticks) ^ 0x7D2B);
+            Jukebox = Jukebox.Ensure(transform);
+            Jukebox.TrackWanted = () =>
+            {
+                RunSession(new PlayRandomMusic(Seat, jukeboxRandom)); // its MusicTrackChosen plays the track
+                return HareAudio.IsMusicPlaying;
+            };
+        }
+
         /// <summary>What the session raised that obj_game and set_level_complete play.</summary>
         void OnSessionEvent(SessionEvent e)
         {
             switch (e)
             {
+                case MusicTrackChosen track:
+                    HareAudio.PlayMusic(track.Sound); // play_random_music: audio_play_sound(current_track, 1, 0)
+                    break;
                 case TimeLimitWarning _:
                     HareAudio.Play(content.Arena.TimeLimitBeepSound); // obj_game's Step: audio_play_sound(sfx_beep, 1, 0)
                     break;

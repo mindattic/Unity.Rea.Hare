@@ -162,6 +162,52 @@ namespace Unity.Hare.Audio
             source.Play();
         }
 
+        static AudioSource music;
+
+        /// <summary>
+        /// Whether a music track is playing (U.HARE-T29): what obj_jukebox's play_random_music asks before it picks the
+        /// next one. The track plays on the persistent audio host, so it carries on across rooms as GameMaker's did.
+        /// </summary>
+        public static bool IsMusicPlaying => music != null && music.isPlaying;
+
+        /// <summary>The music sound now playing (or last played), or null.</summary>
+        public static string CurrentMusic { get; private set; }
+
+        /// <summary>
+        /// GML <c>audio_play_sound(current_track, 1, false)</c>: plays music sound <paramref name="name"/> once through the
+        /// Music group at its sound.gmx volume, replacing any track still playing. Play mode only; false (and silent)
+        /// when the sound or its clip is missing, so the jukebox can stop asking.
+        /// </summary>
+        public static bool PlayMusic(string name)
+        {
+            if (!Application.isPlaying || string.IsNullOrEmpty(name)) return false;
+            var sound = Manifest?.Find(name);
+            if (sound == null || sound.clip == null) return false;
+            if (music == null)
+            {
+                var host = HareAudioHost.Ensure();
+                music = host.gameObject.AddComponent<AudioSource>();
+                music.playOnAwake = false;
+                music.spatialBlend = 0f;
+                music.loop = false; // the third argument, loop, is 0: when it ends the jukebox picks again
+                music.priority = 0; // never stolen by a burst of sfx voices
+                Route(music, SoundChannel.Music);
+            }
+            music.Stop();
+            music.clip = sound.clip;
+            music.volume = sound.volume;
+            music.panStereo = sound.pan;
+            music.Play();
+            CurrentMusic = name;
+            return true;
+        }
+
+        /// <summary>GML <c>audio_stop_sound(current_track)</c>: stops the music track, if one is playing.</summary>
+        public static void StopMusic()
+        {
+            if (music != null) music.Stop();
+        }
+
         static AudioSource OneShots(SoundChannel channel)
         {
             ref AudioSource source = ref channel == SoundChannel.Music ? ref musicOneShots : ref sfxOneShots;

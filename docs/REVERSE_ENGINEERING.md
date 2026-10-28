@@ -501,6 +501,18 @@ under `sound/`; Rabbit ships 102 (the `sfx/` folder alongside `HARE.gmx`'s loose
 `vulcan_spinup/loop/spindown.wav`, `sfx_shotgunblast.wav`, `reload_full/half.wav`,
 `empty_clip*.wav`, `whirl1-6.wav`, `sfx_switch_back.wav`).
 
+The jukebox (U.HARE-T29): `setup_level` runs `jukebox = instance_create(0,0,obj_jukebox)` (its own
+`play_random_music()` and `audio_stop_music()` lines are commented out, as are obj_game's, obj_title's and
+obj_startup's). obj_jukebox (no sprite, not persistent) has a Create of two commented lines (`check_rate = room_speed * 5`,
+`alarm[0] = 1`) and a Step that calls `play_random_music()`. That script: `if(!audio_is_playing(0))`, then
+`randomtrack = irandom_range(1,5)` picks `current_track`/`track_name`: 1 music_pinballspring "Pinball Spring",
+2 music_inaheartbeat "In a Heartbeat", 3 music_latinindustries "Latin Industries", 4 music_presenterator
+"Presenterator", 5 music_wallpaper "Wallpaper" (an else falls back to Pinball Spring); its
+`audio_play_sound(current_track, 1, 0)` is commented out. Sound index 0 is `sfx_whoosh`, the first sound in
+HARE.project.gmx, which nothing plays, so the check is always true and the track is rerolled every step and never
+heard (BIBLE D33). music_overcast is in no branch. globals.gml starts `current_track = music_pinballspring;
+track_name = "Pinball Spring"`; only obj_game's F12 debug overlay reads track_name.
+
 ## Boss
 
 `room_boss1`, `obj_structure1`/`obj_structure1_cover`, `obj_uss_warren` (a named structure,

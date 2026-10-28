@@ -397,6 +397,37 @@ namespace Unity.Hare.Tests.Core
             Assert.IsFalse(session.Debug);
         }
 
+        /// <summary>A random that answers <see cref="Roll"/> and remembers the range it was asked for.</summary>
+        sealed class FixedRoll : IRandomSource
+        {
+            public int Roll, Min, Max;
+            public int IRandom(int min, int max) { Min = min; Max = max; return Roll; }
+            public float Range(float min, float max) => min;
+        }
+
+        [Test]
+        public void PlayRandomMusicRollsOneToFiveOverTheOriginalsTracks()
+        {
+            Assert.AreEqual("music_pinballspring", session.CurrentTrack, "globals.gml: current_track = music_pinballspring");
+            var expected = new[]
+            {
+                ("music_pinballspring", "Pinball Spring"), ("music_inaheartbeat", "In a Heartbeat"),
+                ("music_latinindustries", "Latin Industries"), ("music_presenterator", "Presenterator"),
+                ("music_wallpaper", "Wallpaper"),
+            };
+            for (int roll = 1; roll <= 5; roll++)
+            {
+                var random = new FixedRoll { Roll = roll };
+                var chosen = Do(new PlayRandomMusic(P1, random)).Find<MusicTrackChosen>();
+                Assert.AreEqual(1, random.Min, "randomtrack = irandom_range(1,5)");
+                Assert.AreEqual(5, random.Max, "randomtrack = irandom_range(1,5)");
+                Assert.AreEqual(expected[roll - 1].Item1, chosen.Sound);
+                Assert.AreEqual(expected[roll - 1].Item2, chosen.Title);
+                Assert.AreEqual(expected[roll - 1].Item1, session.CurrentTrack);
+                Assert.AreEqual(expected[roll - 1].Item2, session.TrackName, "the F12 overlay's Current Track");
+            }
+        }
+
         // ---- game_restart ----
 
         [Test]

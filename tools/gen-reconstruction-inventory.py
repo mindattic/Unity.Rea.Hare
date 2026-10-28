@@ -33,7 +33,6 @@ OVERRIDES = {
     "obj_ring": ("not reached", "named only in commented-out code in obj_game (the ring gate); see 'Content the original never reaches'"),
     "obj_ring_back": ("not reached", "only the never-placed obj_ring uses it; see 'Content the original never reaches'"),
     "obj_spawnpoint": ("not ported, by design", "only sets angle = 270, draws nothing and nothing reads it (BIBLE V29, U.HARE-T21)"),
-    "obj_jukebox": ("not ported, UH-T29", "plays play_random_music; the music story (setup_level creates it, obj_game's own call is commented out)"),
 }
 # Extra note appended to a derived row. name -> note
 NOTES = {
@@ -190,7 +189,7 @@ def main():
             return "ported, by comment reference", fmt_files(unity_c[name])
         if kind == "sound":
             if name.startswith("music_"):
-                return "not ported, UH-T29", "music story: nothing plays the track yet (imported as a streamed clip)"
+                return "not ported, music", "imported as a streamed clip; no jukebox track list names it"
             return "not ported, UH-T30", "sound-effect wiring: imported as a clip, no event plays it yet"
         owners = [k.split(":", 1)[1] for k in used if k.startswith("obj:")]
         if kind in imported and name in imported[kind]:
