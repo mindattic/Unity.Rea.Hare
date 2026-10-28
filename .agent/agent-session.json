@@ -1,0 +1,21 @@
+﻿{
+    "protocolVersion":  "1.2",
+    "code":  "giddy-salmon",
+    "updatedAt":  "2026-10-24T22:45:03.1590490Z",
+    "savedBy":  "ryandebraal@mindattic.com",
+    "repo":  {
+                 "name":  "Unity.Hare",
+                 "path":  "D:\\Projects\\MindAttic\\Unity.Hare",
+                 "worktree":  false,
+                 "mainRepo":  "D:\\Projects\\MindAttic\\Unity.Hare",
+                 "branch":  "main"
+             },
+    "task":  "Allocate was run on Unity.Hare to auto-work open UH/U.HARE tickets via orchestrator next --repos \"Unity.Hare\" --claim, one subagent per ticket in its own worktree, landing on main. /allocate is now off for this CLI.",
+    "decisions":  "Recoded the Unity.Hare project ticket/story/epic prefix from UH to U.HARE via `tickets repos recode Unity.Hare U.HARE` (owner request); former UH IDs still resolve. Tickets land via: build+touched tests, /commit (no push), orchestrator review \u003cid\u003e (Opus review if the diff is large/risky), fix review findings, then git fetch/rebase origin/main/push origin HEAD:main, then tickets ticket close \u003cid\u003e --ref \u003ccommit\u003e.",
+    "state":  "Landed and closed this session: U.HARE-T41 (ContentRegistry/tuning data, ref af62a27), U.HARE-T42 (InputActionAsset HareControls, ref 94f0912), U.HARE-T43 (Unity.Shared package + ActiveProfile/HareSettings, ref 62b8fcd), U.HARE-T44 (URP seam, sorting layers, letterbox camera rig, screen overlay layer, ref 5bc8dfc), U.HARE-T45 (UI Toolkit foundation: HarePanel, HareUiFit, HareFonts, HareUi widget kit incl. draw_text_outline repro, ref 1a73412). All on main, pushed. /allocate was switched off after T45 finished; no subagents are running.",
+    "next":  "1. User can run /allocate on again to resume working the remaining ~37 open U.HARE tickets (orchestrator next --repos \"Unity.Hare\" --claim shows what is next-workable; T46-T78 and others still open, several blocked on prerequisites). 2. Consider offering a /bughunt pass on Unity.Hare once the backlog runs dry per the allocate skill step 5 (only on explicit yes). 3. No open blockers or pending user decisions right now.",
+    "queued":  [
+
+               ],
+    "universe":  ""
+}
