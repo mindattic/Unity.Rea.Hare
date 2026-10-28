@@ -15,6 +15,10 @@ namespace Unity.Hare.Enemies
         protected override InsectKind Kind => InsectKind.Butterfly;
         protected override string SpriteName => "spr_butterfly";
 
+        /// <summary>spr_butterfly's 6 frames, image_speed = 1 once a step runs unpaused (U.HARE-T99).</summary>
+        protected override int AnimationFrames => 6;
+        protected override float AnimationSpeed => 1f;
+
         /// <summary>GML image_xscale = 1 (true) or -1.</summary>
         public bool FacingRight => ((ButterflyBody)Core).FacingRight;
 

@@ -38,6 +38,20 @@ namespace Unity.Hare.Effects
             return imageIndex >= frames - 1e-4f;
         }
 
+        /// <summary>Advances <paramref name="steps"/> steps for an object that loops (image_index wraps at the last frame).</summary>
+        public void AdvanceLooping(float steps)
+        {
+            imageIndex = (imageIndex + imageSpeed * steps) % frames;
+            if (renderer != null) renderer.sprite = HareArt.Frame(sprite, Frame);
+        }
+
+        /// <summary>Back to frame 0 (GML image_index = 0).</summary>
+        public void Rewind()
+        {
+            imageIndex = 0f;
+            if (renderer != null) renderer.sprite = HareArt.Frame(sprite, 0);
+        }
+
         /// <summary>Seconds per GML step, for callers counting real time.</summary>
         public static float StepsIn(float seconds) => seconds * Gml.StepsPerSecond;
     }

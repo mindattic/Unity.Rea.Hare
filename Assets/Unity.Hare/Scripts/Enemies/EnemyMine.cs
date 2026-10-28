@@ -44,7 +44,21 @@ namespace Unity.Hare.Enemies
             if (box == null) box = gameObject.AddComponent<BoxCollider2D>();
             box.isTrigger = true;
             box.size = new Vector2(Gml.Px(SizePx.x), Gml.Px(SizePx.y));
-            Effects.HareArt.Show(gameObject, Mine.SpriteName, Mine.Depth); // obj_enemy_mine's spr_mine at depth -3 (U.HARE-T95)
+            var renderer = Effects.HareArt.Show(gameObject, Mine.SpriteName, Mine.Depth); // obj_enemy_mine's spr_mine at depth -3 (U.HARE-T95)
+            anim = new Effects.SpriteAnimation(Mine.SpriteName, SpriteFrames, ImageSpeed, renderer);
+        }
+
+        /// <summary>spr_mine's 6 frames at obj_enemy_mine's image_speed = 0.07 (U.HARE-T99).</summary>
+        public const int SpriteFrames = 6;
+        public const float ImageSpeed = 0.07f;
+        Effects.SpriteAnimation anim;
+
+        /// <summary>Step: while armed the blink runs on; inactive it holds image_index = 0 ("don't blink").</summary>
+        protected override void OnTicked(float dt)
+        {
+            if (anim == null) return;
+            if (IsActive) anim.AdvanceLooping(Effects.SpriteAnimation.StepsIn(dt));
+            else anim.Rewind();
         }
 
         public override void OnEnemyEvent(EnemyEvent e)

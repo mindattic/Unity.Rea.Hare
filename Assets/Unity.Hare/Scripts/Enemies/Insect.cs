@@ -39,7 +39,8 @@ namespace Unity.Hare.Enemies
             Core = result.Insect;
             EnemyDirector.Register(Core.Id, this);
             Show();
-            Effects.HareArt.Show(gameObject, SpriteName, 0); // the object's sprite_index at depth 0 (U.HARE-T95)
+            var renderer = Effects.HareArt.Show(gameObject, SpriteName, 0); // the object's sprite_index at depth 0 (U.HARE-T95)
+            if (AnimationFrames > 1) anim = new Effects.SpriteAnimation(SpriteName, AnimationFrames, AnimationSpeed, renderer);
             OnShown();
         }
 
@@ -47,6 +48,12 @@ namespace Unity.Hare.Enemies
         protected abstract string SpriteName { get; }
 
         protected virtual void OnShown() { }
+
+        /// <summary>Frames to loop while unpaused (0 or 1: the sprite stays on frame 0).</summary>
+        protected virtual int AnimationFrames => 0;
+        /// <summary>GML image_speed while unpaused.</summary>
+        protected virtual float AnimationSpeed => 1f;
+        Effects.SpriteAnimation anim;
 
         void OnDestroy() => EnemyDirector.Dispose(Core, this);
 
@@ -60,6 +67,7 @@ namespace Unity.Hare.Enemies
         public void Tick(float dt)
         {
             EnemyDirector.Execute(new TickInsect(Core.Id, dt));
+            anim?.AdvanceLooping(Effects.SpriteAnimation.StepsIn(dt));
             Show();
             OnShown();
         }
