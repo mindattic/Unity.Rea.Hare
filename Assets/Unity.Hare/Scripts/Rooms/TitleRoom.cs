@@ -60,6 +60,7 @@ namespace Unity.Hare.Rooms
         DropSceneView sceneView;
         SpriteRenderer moon, eye, pupil, stand, logo;
         Vector2 lastMouse;
+        VisualElement creditsLink, creditsView;
 
         sealed class ButtonView
         {
@@ -182,6 +183,24 @@ namespace Unity.Hare.Rooms
             if (!State.Created) return;
             var seat = RoomFlowDirector.Seat;
 
+            // The credits screen (U.HARE-T69, BIBLE V50), a deviation: the original has no credits room. While it is
+            // open it takes every click and Esc, and the title underneath hears nothing.
+            if (creditsView != null)
+            {
+                if (escapeKey.WasPressedThisFrame() || leftButton.WasPressedThisFrame()) CloseCredits();
+                return;
+            }
+            if (creditsLink != null && State.Dialog == null && TryReadMouse(out var creditsMouse))
+            {
+                bool over = creditsMouse.x >= room.Width - CreditsLinkWidth && creditsMouse.y >= room.Height - CreditsLinkHeight;
+                SetCreditsLinkHover(over);
+                if (over && leftButton.WasPressedThisFrame())
+                {
+                    OpenCredits();
+                    return;
+                }
+            }
+
             // obj_yesno_dialog's key presses: Esc closes it, Enter ends the game.
             if (State.Dialog != null)
             {
@@ -241,6 +260,7 @@ namespace Unity.Hare.Rooms
                         break;
                     case MenuShown _:
                         BuildMenu();
+                        BuildCreditsLink();
                         if (Pointer != null) Pointer.State.SetVisible(true); // obj_logo: obj_mouse.visible = true
                         break;
                     case TitleHoverChanged hover:
@@ -399,6 +419,39 @@ namespace Unity.Hare.Rooms
             message.style.display = button.Hovered ? DisplayStyle.Flex : DisplayStyle.None;
 
             views[button] = new ButtonView { Caption = caption, Text = TopLabel(caption), Message = message, MessageText = TopLabel(message) };
+        }
+
+        const float CreditsLinkWidth = 260f, CreditsLinkHeight = 70f;
+
+        /// <summary>The title's Credits link, bottom right (U.HARE-T69).</summary>
+        void BuildCreditsLink()
+        {
+            if (creditsLink != null) return;
+            creditsLink = HareUi.OutlineText("Credits", 2, HareTextStyles.MenuText.UssClass, menuLayer);
+            creditsLink.name = "credits-link";
+            creditsLink.style.position = Position.Absolute;
+            creditsLink.style.right = 30;
+            creditsLink.style.bottom = 20;
+        }
+
+        void SetCreditsLinkHover(bool hover)
+        {
+            var text = TopLabel(creditsLink);
+            if (text != null) text.style.color = hover ? hoverColor : normalColor;
+        }
+
+        void OpenCredits()
+        {
+            if (creditsView != null) return;
+            HareAudio.Play("sfx_click");
+            creditsView = CreditsView.Build(guiLayer, room.Width, room.Height);
+        }
+
+        void CloseCredits()
+        {
+            if (creditsView == null) return;
+            creditsView.RemoveFromHierarchy();
+            creditsView = null;
         }
 
         /// <summary>The outline stack's last label, the text drawn over the outline.</summary>
