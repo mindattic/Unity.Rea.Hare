@@ -46,10 +46,12 @@ namespace Unity.Hare.Weapons
             var stats = Stats;
             lastBlast.Clear();
             float direction = aim;
+            // The garage's "Spread" pips narrow the whole-degree pick (U.HARE-T24, BIBLE V49); 1 with none bought.
+            float spreadScale = Core.Guns.Upgrades.ShotgunSpreadScale;
             for (int i = 0; i < stats.PelletCount; i++)
             {
                 Vector2 start = origin + Gml.Dir(aim) * Random.Range(0f, stats.Grouping);
-                direction = aim + Random.Range(-stats.SpreadDegrees, stats.SpreadDegrees + 1);
+                direction = aim + Random.Range(-stats.SpreadDegrees, stats.SpreadDegrees + 1) * spreadScale;
 
                 var go = new GameObject("ShotgunPellet");
                 go.transform.position = new Vector3(start.x, start.y, transform.position.z);

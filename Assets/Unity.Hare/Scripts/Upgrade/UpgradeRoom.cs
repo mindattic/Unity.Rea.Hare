@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -9,6 +10,7 @@ using Unity.Hare.Flow;
 using Unity.Hare.Input;
 using Unity.Hare.Rendering;
 using Unity.Hare.Rooms;
+using Unity.Hare.Session;
 using Unity.Hare.UI;
 
 namespace Unity.Hare.Upgrade
@@ -19,8 +21,10 @@ namespace Unity.Hare.Upgrade
     /// (tiled, sliding left a pixel a step), obj_btn_map (depth -5: spr_button_area_small, "Observation Deck" white or
     /// cornflower blue, its message under the mouse, dimmed with the Draw event by obj_fade_upgrade) and obj_mouse's
     /// spr_pointer over everything. It sends the mouse and the left button as commands and plays what comes back: the
-    /// button's sounds and the fade back to room_map. What the garage sells (obj_upgrade_*, the schematics and its
-    /// "Skill Points x" line) is U.HARE-T24's. It decides no rule itself.
+    /// button's sounds and the fade back to room_map. U.HARE-T24 adds what the garage sells: the weapon icons, the row
+    /// labels, the pips (spr_upgrade_circle_empty, filled once bought), the icons' and pips' hover messages and
+    /// obj_upgrade's Draw GUI "Skill Points x" line; a pip bought is saved to the campaign at once. It decides no rule
+    /// itself.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class UpgradeRoom : MonoBehaviour
@@ -38,6 +42,10 @@ namespace Unity.Hare.Upgrade
         Color normalColor, hoverColor;
         VisualElement drawLayer, pointer, buttonSprite;
         Label buttonText, messageText;
+        Sprite pipEmpty, pipFilled;
+        readonly Dictionary<string, VisualElement> pips = new Dictionary<string, VisualElement>();
+        readonly List<VisualElement> dimmedImages = new List<VisualElement>();
+        readonly List<Label> dimmedTexts = new List<Label>();
 
         /// <summary>The room's rules and state.</summary>
         public UpgradeScreen State { get; private set; }
@@ -51,6 +59,15 @@ namespace Unity.Hare.Upgrade
         /// <summary>obj_btn_map's caption and its hover message.</summary>
         public VisualElement MapCaption { get; private set; }
         public VisualElement MapMessage { get; private set; }
+
+        /// <summary>The message of the icon or pip under the mouse (hidden while none is).</summary>
+        public VisualElement ItemMessage { get; private set; }
+
+        /// <summary>obj_upgrade's Draw GUI "Skill Points x" line.</summary>
+        public VisualElement SkillPointsText { get; private set; }
+
+        /// <summary>The pips, by upgrade id.</summary>
+        public IReadOnlyDictionary<string, VisualElement> Pips => pips;
 
         /// <summary>obj_mouse, which obj_upgrade's Create makes.</summary>
         public MouseView Pointer { get; private set; }
@@ -66,7 +83,12 @@ namespace Unity.Hare.Upgrade
             var screen = content.Upgrades.Screen;
             normalColor = ParseColor(screen.MapButton.Color, Color.white);
             hoverColor = ParseColor(screen.MapButton.HoverColor, new Color(100f / 255f, 149f / 255f, 237f / 255f));
-            State = new UpgradeScreen(screen);
+            // The garage sells into the running campaign (the director's, saved in campaign.json); with no room flow
+            // (a scene opened on its own) it sells into a scratch one.
+            var flow = RoomFlowDirector.Active;
+            var progress = flow != null && flow.Campaign != null ? flow.Campaign : new CampaignProgress();
+            int starting = flow != null && flow.Session != null ? flow.Session.Tuning.StartingSkillPoints : content.Session.StartingSkillPoints;
+            State = new UpgradeScreen(content.Upgrades, progress, starting);
 
             BuildBackground(screen);
             BuildPanel(screen);
@@ -164,6 +186,16 @@ namespace Unity.Hare.Upgrade
                     case UpgradeHoverChanged hover:
                         MapMessage.style.display = hover.Hovered ? DisplayStyle.Flex : DisplayStyle.None;
                         break;
+                    case UpgradeMessageChanged message:
+                        if (!string.IsNullOrEmpty(message.Message)) HareUi.SetOutlineText(ItemMessage, message.Message);
+                        ItemMessage.style.display = string.IsNullOrEmpty(message.Message) ? DisplayStyle.None : DisplayStyle.Flex;
+                        break;
+                    case UpgradeBought _:
+                        // What obj_upgrade_*'s "//Write to Ini here" meant: the purchase is kept at once.
+                        if (director != null) director.SaveCampaign();
+                        else CampaignStore.Save(State.Progress);
+                        RefreshGarage();
+                        break;
                     case UpgradeFadeRequested fade:
                         if (director != null) director.Execute(new FadeToRoom(seat, fade.Room));
                         break;
@@ -195,6 +227,95 @@ namespace Unity.Hare.Upgrade
             if (buttonText != null) buttonText.style.color = new Color(color.r * dim, color.g * dim, color.b * dim, 1f);
             if (buttonSprite != null) buttonSprite.style.unityBackgroundImageTintColor = new Color(dim, dim, dim, 1f);
             if (messageText != null) messageText.style.color = new Color(dim, dim, dim, 1f);
+            // The icons, pips, labels and their message are Draw-event objects too; the Skill Points line is Draw GUI,
+            // over the fade.
+            var tint = new Color(dim, dim, dim, 1f);
+            foreach (var image in dimmedImages) image.style.unityBackgroundImageTintColor = tint;
+            foreach (var text in dimmedTexts) text.style.color = tint;
+        }
+
+        /// <summary>Each pip's sprite (filled once bought) and the Skill Points line, from the state.</summary>
+        public void RefreshGarage()
+        {
+            foreach (var pair in pips)
+            {
+                var frame = State.Owns(pair.Key) ? pipFilled : pipEmpty;
+                if (frame != null) pair.Value.style.backgroundImage = new StyleBackground(frame);
+            }
+            if (SkillPointsText != null)
+                HareUi.SetOutlineText(SkillPointsText, State.Tuning.SkillPointsText + State.SkillPoints);
+        }
+
+        /// <summary>A Draw-event sprite at its top-left origin, darkened with the fade.</summary>
+        VisualElement AddSprite(string name, string sprite, int x, int y, int width, int height)
+        {
+            var element = new VisualElement { name = name, pickingMode = PickingMode.Ignore };
+            element.style.position = Position.Absolute;
+            element.style.left = x;
+            element.style.top = y;
+            element.style.width = width;
+            element.style.height = height;
+            var frame = manifest != null && !string.IsNullOrEmpty(sprite) ? manifest.Frame(sprite) : null;
+            if (frame != null) element.style.backgroundImage = new StyleBackground(frame);
+            else if (!string.IsNullOrEmpty(sprite)) Debug.LogWarning("[Unity.Hare] " + sprite + " is not imported.");
+            drawLayer.Add(element);
+            dimmedImages.Add(element);
+            return element;
+        }
+
+        /// <summary>
+        /// What the garage sells: obj_btn_upgrade_vulcan/shotgun and obj_upgrade_missle (draw_self), the obj_label row
+        /// captions (fa_left, fnt_point, at (x, y-10)), the pips, and the icons' and pips' shared message line.
+        /// </summary>
+        void BuildGarage(UpgradeScreenTuning screen)
+        {
+            pipEmpty = manifest != null ? manifest.Frame(screen.PipEmptySprite) : null;
+            pipFilled = manifest != null ? manifest.Frame(screen.PipFilledSprite) : null;
+            if (pipEmpty == null) Debug.LogWarning("[Unity.Hare] " + screen.PipEmptySprite + " is not imported.");
+            if (pipFilled == null) Debug.LogWarning("[Unity.Hare] " + screen.PipFilledSprite + " is not imported.");
+
+            foreach (var icon in screen.Icons)
+                if (icon != null) AddSprite(icon.Object, icon.Sprite, icon.X, icon.Y, screen.SpriteWidth, screen.SpriteHeight);
+
+            foreach (var label in screen.Labels)
+            {
+                if (label == null) continue;
+                var text = HareUi.OutlineText(label.Text, screen.Outline, HareTextStyles.MenuText.UssClass, drawLayer);
+                text.name = "obj_label-" + label.Text;
+                text.style.position = Position.Absolute;
+                text.style.left = label.X;
+                text.style.top = label.Y + screen.LabelOffset;
+                text.style.unityTextAlign = TextAnchor.UpperLeft;
+                dimmedTexts.Add(TopLabel(text));
+            }
+
+            foreach (var pip in State.Catalog.Upgrades)
+            {
+                if (pip == null || pips.ContainsKey(pip.Id)) continue;
+                pips[pip.Id] = AddSprite(pip.Object + "-" + pip.Id, null, pip.X, pip.Y, screen.SpriteWidth, screen.SpriteHeight);
+            }
+
+            ItemMessage = HareUi.OutlineText(" ", screen.Outline, HareTextStyles.MenuText.UssClass, drawLayer);
+            ItemMessage.name = "upgrade-message";
+            ItemMessage.style.position = Position.Absolute;
+            ItemMessage.style.left = 0;
+            ItemMessage.style.width = room.Width;
+            ItemMessage.style.top = room.Height - screen.MessageBottomMargin;
+            ItemMessage.style.unityTextAlign = TextAnchor.UpperCenter;
+            ItemMessage.style.display = DisplayStyle.None;
+            dimmedTexts.Add(TopLabel(ItemMessage));
+        }
+
+        /// <summary>obj_upgrade's Draw GUI: "Skill Points x" + SKILLPOINTS at (room_width - 200, room_height - 60), fa_center, fnt_score.</summary>
+        void BuildSkillPoints(UpgradeScreenTuning screen)
+        {
+            SkillPointsText = HareUi.OutlineText(screen.SkillPointsText + State.SkillPoints, screen.Outline, HareTextStyles.MenuTitle.UssClass, Stage);
+            SkillPointsText.name = "skill-points";
+            SkillPointsText.style.position = Position.Absolute;
+            SkillPointsText.style.left = room.Width - screen.SkillPointsRightMargin;
+            SkillPointsText.style.top = room.Height - screen.SkillPointsBottomMargin;
+            SkillPointsText.style.translate = new Translate(Length.Percent(-50), 0);
+            SkillPointsText.style.unityTextAlign = TextAnchor.UpperCenter;
         }
 
         void BuildBackground(UpgradeScreenTuning screen)
@@ -231,6 +352,9 @@ namespace Unity.Hare.Upgrade
             drawLayer.style.height = room.Height;
             Stage.Add(drawLayer);
 
+            // The garage's depth-0 objects under obj_btn_map's depth -5.
+            BuildGarage(screen);
+
             // obj_btn_map's Draw: draw_self (spr_button_area_small at its origin), "Observation Deck" at (x, y-10),
             // fa_center, fnt_point, size-2 outline; its message at (room_width / 2, room_height - 30) while hovered.
             var b = screen.MapButton;
@@ -264,7 +388,10 @@ namespace Unity.Hare.Upgrade
             MapMessage.style.display = DisplayStyle.None;
             messageText = TopLabel(MapMessage);
 
-            pointer = new VisualElement { name = MouseView.ObjectName, pickingMode = PickingMode.Ignore };
+            BuildSkillPoints(screen);
+            RefreshGarage();
+
+            pointer =new VisualElement { name = MouseView.ObjectName, pickingMode = PickingMode.Ignore };
             pointer.style.position = Position.Absolute;
             pointer.style.display = DisplayStyle.None;
             Stage.Add(pointer);

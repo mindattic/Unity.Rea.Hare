@@ -34,6 +34,9 @@ namespace Unity.Hare.Player
         public GroundLoadout Ground { get; }
         public AirLoadout Air { get; }
 
+        /// <summary>The garage's bought pips on this ship (<see cref="FitUpgrades"/>, U.HARE-T24).</summary>
+        public ShipUpgrades Upgrades => Guns.Upgrades;
+
         /// <summary>What obj_player draws (held weapon, scale) and the trails it leaves (<see cref="ShipLook"/>).</summary>
         public ShipLook Look { get; }
 

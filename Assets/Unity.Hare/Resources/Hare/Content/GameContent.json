@@ -126,7 +126,27 @@
     ]
   },
   "upgrades": {
-    "Upgrades": [],
+    "Upgrades": [
+      { "Id": "vulcan.rate.1", "Cost": 1, "Object": "obj_upgrade_vulcan1", "Track": "VulcanRateOfFire", "X": 528, "Y": 352, "Message": "Increase Vulcan Cannon's fire rate by 5%" },
+      { "Id": "vulcan.rate.2", "Cost": 1, "Object": "obj_upgrade_vulcan1", "Track": "VulcanRateOfFire", "X": 576, "Y": 352, "Message": "Increase Vulcan Cannon's fire rate by 5%" },
+      { "Id": "vulcan.rate.3", "Cost": 1, "Object": "obj_upgrade_vulcan1", "Track": "VulcanRateOfFire", "X": 624, "Y": 352, "Message": "Increase Vulcan Cannon's fire rate by 5%" },
+      { "Id": "shotgun.reload.1", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunReload", "X": 528, "Y": 480, "Message": "Decrease Shotgun's reload time by 5%" },
+      { "Id": "shotgun.reload.2", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunReload", "X": 576, "Y": 480, "Message": "Decrease Shotgun's reload time by 5%" },
+      { "Id": "shotgun.reload.3", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunReload", "X": 624, "Y": 480, "Message": "Decrease Shotgun's reload time by 5%" },
+      { "Id": "shotgun.spread.1", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunSpread", "X": 720, "Y": 480, "Message": "Decrease Shotgun's spread by 5%" },
+      { "Id": "shotgun.spread.2", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunSpread", "X": 768, "Y": 480, "Message": "Decrease Shotgun's spread by 5%" },
+      { "Id": "shotgun.spread.3", "Cost": 1, "Object": "obj_upgrade_shotgun1", "Track": "ShotgunSpread", "X": 816, "Y": 480, "Message": "Decrease Shotgun's spread by 5%" },
+      { "Id": "missile.power.1", "Cost": 1, "Object": "obj_upgrade_missle1", "Track": "MissilePower", "X": 528, "Y": 608, "Message": "Increase missles explosive radius" },
+      { "Id": "missile.power.2", "Cost": 1, "Object": "obj_upgrade_missle1", "Track": "MissilePower", "X": 576, "Y": 608, "Message": "Increase missles explosive radius" },
+      { "Id": "missile.power.3", "Cost": 1, "Object": "obj_upgrade_missle1", "Track": "MissilePower", "X": 624, "Y": 608, "Message": "Increase missles explosive radius" }
+    ],
+    "Effects": [
+      { "Track": "VulcanRateOfFire", "PercentPerUpgrade": 5 },
+      { "Track": "ShotgunReload", "PercentPerUpgrade": 5 },
+      { "Track": "ShotgunSpread", "PercentPerUpgrade": 5 },
+      { "Track": "MissilePower", "PercentPerUpgrade": 10 }
+    ],
+    "SkillPointsPerMissionWon": 1,
     "Screen": {
       "Background": "bg_metal", "BackgroundHSpeed": -1,
       "MapButton": {
@@ -134,7 +154,25 @@
         "XOrigin": 105, "YOrigin": 17, "Label": "Observation Deck", "LabelOffset": -10, "Outline": 2,
         "Message": "Upgrade H.A.R.E. Unit's systems", "MessageBottomMargin": 30, "Color": "#FFFFFF", "HoverColor": "#6495ED",
         "HoverSound": "sfx_hover", "ClickSound": "sfx_click", "Room": "Map"
-      }
+      },
+      "Icons": [
+        { "Object": "obj_btn_upgrade_vulcan", "Sprite": "spr_icon_vulcan", "X": 464, "Y": 352, "Message": "A high powered gatling gun which cycles up to maximum firing rate" },
+        { "Object": "obj_btn_upgrade_shotgun", "Sprite": "spr_icon_shotgun", "X": 464, "Y": 480, "Message": "A shotgun that shoots a burst of pellets in a spread" },
+        { "Object": "obj_upgrade_missle", "Sprite": "spr_icon_missle", "X": 464, "Y": 608, "Message": "A fire-and-forget explosive projectile" }
+      ],
+      "Labels": [
+        { "Text": "Rate of Fire", "X": 592, "Y": 336 },
+        { "Text": "Reload", "X": 592, "Y": 464 },
+        { "Text": "Spread", "X": 784, "Y": 464 },
+        { "Text": "Power", "X": 592, "Y": 592 }
+      ],
+      "LabelOffset": -10, "Outline": 2,
+      "PipEmptySprite": "spr_upgrade_circle_empty", "PipFilledSprite": "spr_upgrade_circle_filled",
+      "SpriteWidth": 52, "SpriteHeight": 57,
+      "PipMask": { "Left": 5, "Top": 8, "Right": 46, "Bottom": 49 },
+      "IconMask": { "Left": 0, "Top": 0, "Right": 51, "Bottom": 56 },
+      "PipHoverSound": "sfx_hover", "MessageBottomMargin": 30,
+      "SkillPointsText": "Skill Points x", "SkillPointsRightMargin": 200, "SkillPointsBottomMargin": 60
     }
   },
   "online": { "MaxPlayers": 4, "SpawnSpacing": 1.5, "AimResendDegrees": 0.5 },

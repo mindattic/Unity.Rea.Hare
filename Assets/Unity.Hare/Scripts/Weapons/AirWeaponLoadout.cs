@@ -133,7 +133,7 @@ namespace Unity.Hare.Weapons
             }
 
             var rocketGo = new GameObject("Rocket");
-            rocketGo.AddComponent<Rocket>().Init(MuzzlePosition, Ship.AimDirection);
+            rocketGo.AddComponent<Rocket>().Init(MuzzlePosition, Ship.AimDirection, Core.Guns.Upgrades.MissileRadiusScale);
         }
     }
 }

@@ -603,15 +603,17 @@ namespace Unity.Hare.Tests.Core
             Assert.Throws<ArgumentOutOfRangeException>(() => progress.RecordWin(0));
 
             string json = progress.ToJson();
-            StringAssert.Contains("\"Version\": 1", json);
+            StringAssert.Contains("\"Version\": 2", json);
             var back = CampaignProgress.FromJson(json);
             CollectionAssert.AreEqual(new[] { 1, 3 }, back.Won.ToArray());
             Assert.AreEqual(0, CampaignProgress.FromJson("{\"Version\": 1}").Won.Count);
+            CollectionAssert.AreEqual(new[] { 2 }, CampaignProgress.FromJson("{\"Version\": 1, \"Won\": [2]}").Won.ToArray(), "version 1 still reads");
 
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson(""));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("not json"));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Won\": [1]}"), "no version");
-            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 2, \"Won\": [1]}"), "a later format");
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"Won\": [1]}"), "a later format");
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 2, \"Upgrades\": [1]}"), "an id is a string");
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 1, \"Won\": [0]}"));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 1, \"Won\": [1.5]}"));
         }

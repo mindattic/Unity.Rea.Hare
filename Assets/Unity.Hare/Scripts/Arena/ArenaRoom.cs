@@ -397,6 +397,20 @@ namespace Unity.Hare.Arena
         public Rect RoomRect() =>
             new Rect(GameClock.Px(-State.Width / 2f), GameClock.Px(-State.Height / 2f), GameClock.Px(State.Width), GameClock.Px(State.Height));
 
+        /// <summary>
+        /// The garage's bought pips on the ship this room follows (U.HARE-T24, docs/BIBLE.md V49): the vulcan's rate, the
+        /// shotgun's reload and spread and the rockets' blast, from the campaign save. Nothing bought (or no room flow):
+        /// the original's ship.
+        /// </summary>
+        void FitGarageUpgrades()
+        {
+            if (Player == null) return;
+            var flow = director != null ? director : RoomFlowDirector.Active;
+            var upgrades = flow != null && flow.Campaign != null ? flow.ShipUpgrades : ShipUpgrades.None;
+            var seat = PlayerSeat.Of(Player.gameObject);
+            seat.Send(new FitUpgrades(seat.Id, upgrades));
+        }
+
         /// <summary>setup_level's new obj_player and reset_player, on the ship this room follows (no ship, nothing).</summary>
         void SetUpPlayer()
         {
@@ -405,6 +419,7 @@ namespace Unity.Hare.Arena
             if (ship == null) return;
             ship.RespawnPoint = SpawnPoint;
             ship.SetUp();
+            FitGarageUpgrades();
         }
 
         /// <summary>level_08's Spawn Boss block: instance_create(room_width/2, room_height/2, target), and target_id = it.</summary>

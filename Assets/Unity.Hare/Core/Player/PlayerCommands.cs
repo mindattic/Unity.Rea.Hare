@@ -688,4 +688,19 @@ namespace Unity.Hare.Player
         public FireAir(PlayerId id) : base(id) { }
         internal override bool Apply(PlayerShip ship) => ship.Air.TryFire();
     }
+
+    /// <summary>
+    /// The garage's bought pips fitted to the ship as it enters the arena (U.HARE-T24): its guns and rockets use
+    /// them from now on (null: nothing bought).
+    /// </summary>
+    public sealed class FitUpgrades : PlayerCommand
+    {
+        readonly ShipUpgrades upgrades;
+        public FitUpgrades(PlayerId id, ShipUpgrades upgrades) : base(id) => this.upgrades = upgrades ?? ShipUpgrades.None;
+        internal override bool Apply(PlayerShip ship)
+        {
+            ship.Guns.Upgrades = upgrades;
+            return true;
+        }
+    }
 }

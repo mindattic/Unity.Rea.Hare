@@ -157,6 +157,18 @@ namespace Unity.Hare.Flow
         public void UseCampaign(CampaignProgress progress) => Campaign = progress ?? new CampaignProgress();
 
         /// <summary>
+        /// The garage's SKILLPOINTS left (U.HARE-T24, docs/BIBLE.md V49, D27): globals.gml's starting 5, plus a point for
+        /// each map mission's first win, less the pips bought, all read from <see cref="Campaign"/>.
+        /// </summary>
+        public int SkillPoints => Campaign.SkillPoints(Session.Tuning.StartingSkillPoints, GameContent.Current.Upgrades);
+
+        /// <summary>What the garage's bought pips do to the local ship's weapons (fitted as it enters a play room).</summary>
+        public Weapons.ShipUpgrades ShipUpgrades => GameContent.Current.Upgrades.EffectsOf(Campaign.Upgrades);
+
+        /// <summary>Writes <see cref="Campaign"/> to <c>campaign.json</c> (a pip bought); false when it could not be written.</summary>
+        public bool SaveCampaign() => CampaignStore.Save(Campaign);
+
+        /// <summary>
         /// GML game_restart: the game starts over as if just launched. globals.gml runs again (a new
         /// <see cref="GameSession"/>, every global back at its start) and the game goes to the table's first room.
         /// </summary>

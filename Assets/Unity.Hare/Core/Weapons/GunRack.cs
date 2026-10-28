@@ -76,6 +76,9 @@ namespace Unity.Hare.Weapons
 
         public WeaponTable Table => table;
 
+        /// <summary>The garage's bought pips on this ship's guns (U.HARE-T24); <see cref="ShipUpgrades.None"/> by default.</summary>
+        public ShipUpgrades Upgrades { get; internal set; } = ShipUpgrades.None;
+
         /// <summary>Raised after a gun is installed, re-seated or removed (the ground loadout follows it).</summary>
         internal Action GunsChanged;
 
@@ -199,7 +202,7 @@ namespace Unity.Hare.Weapons
             }
             else
             {
-                gun.Cooldown = GameClock.Seconds(table.GunIntervalSteps(gun.Type));
+                gun.Cooldown = GameClock.Seconds(table.GunIntervalSteps(gun.Type)) * Upgrades.IntervalScale(gun.Type);
             }
             sink.Emit(new GunFired { Key = gun.Key, Type = gun.Type });
             return true;
@@ -252,7 +255,7 @@ namespace Unity.Hare.Weapons
                 Cue(gun, VulcanSound.LoopStart);
             }
 
-            gun.Cooldown = GameClock.Seconds(gun.FireRateSteps);
+            gun.Cooldown = GameClock.Seconds(gun.FireRateSteps) * Upgrades.VulcanIntervalScale;
             gun.FireRateSteps = Math.Max(table.VulcanMinRateSteps, gun.FireRateSteps - table.VulcanSpinUpDecrementSteps);
 
             sink.Emit(new GunFired { Key = gun.Key, Type = gun.Type });

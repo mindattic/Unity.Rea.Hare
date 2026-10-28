@@ -36,9 +36,14 @@ namespace Unity.Hare.Weapons
         public float Remaining => remaining;
         public float ImageIndex => anim != null ? anim.ImageIndex : 0f;
 
-        public void Init(Vector2 position)
+        /// <summary>
+        /// GML Create at <paramref name="position"/>. <paramref name="scale"/> grows the explosion (sprite and hit circle
+        /// together) for a ship's rocket under the garage's "Power" pips (U.HARE-T24, BIBLE V49); 1 everywhere else.
+        /// </summary>
+        public void Init(Vector2 position, float scale = 1f)
         {
             transform.position = position;
+            if (scale > 0f && scale != 1f) transform.localScale = new Vector3(scale, scale, 1f);
             anim = new SpriteAnimation(SpriteName, Frames, ImageSpeed, HareArt.Show(gameObject, SpriteName, Depth));
             var hitbox = GetComponent<CircleCollider2D>();
             hitbox.isTrigger = true;

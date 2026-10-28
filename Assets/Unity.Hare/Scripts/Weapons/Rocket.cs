@@ -46,8 +46,12 @@ namespace Unity.Hare.Weapons
         public IEnemyTarget Target => target;
         public Vector2 Position => transform.position;
 
-        public void Init(Vector2 position, float directionDegrees)
+        /// <summary>Times obj_rocket_explosion's size and reach when this rocket goes off (the garage's "Power" pips, U.HARE-T24).</summary>
+        public float BlastScale { get; private set; } = 1f;
+
+        public void Init(Vector2 position, float directionDegrees, float blastScale = 1f)
         {
+            BlastScale = blastScale > 0f ? blastScale : 1f;
             body = GetComponent<Rigidbody2D>();
             body.bodyType = RigidbodyType2D.Kinematic;
             body.gravityScale = 0f;
@@ -201,7 +205,7 @@ namespace Unity.Hare.Weapons
             exploded = true;
             var go = new GameObject("RocketExplosion");
             var explosion = go.AddComponent<RocketExplosion>();
-            explosion.Init(transform.position);
+            explosion.Init(transform.position, BlastScale);
             Remove();
             return explosion;
         }
