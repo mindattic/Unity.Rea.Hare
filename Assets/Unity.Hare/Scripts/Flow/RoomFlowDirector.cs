@@ -51,9 +51,10 @@ namespace Unity.Hare.Flow
         public GameSession Session { get; private set; }
 
         /// <summary>
-        /// The map missions won so far (U.HARE-T19, owner-directed, docs/BIBLE.md V42), read from the profile's
-        /// <c>campaign.json</c> (<see cref="CampaignStore"/>) and saved each time the session raises
-        /// <see cref="MissionWon"/>. It outlives game_restart, as a save does.
+        /// The campaign save (U.HARE-T65, docs/BIBLE.md V50): the map missions won (V42), the garage's pips (V49), the
+        /// COINS carried, the level the campaign run reached and the best scores, read from the profile's
+        /// <c>campaign.json</c> (<see cref="CampaignStore"/>) at start and again whenever the campaign is chosen, and
+        /// saved at its checkpoints (<see cref="PlaySession"/>). It outlives game_restart, as a save does.
         /// </summary>
         public CampaignProgress Campaign { get; private set; }
 
@@ -142,19 +143,65 @@ namespace Unity.Hare.Flow
             return result;
         }
 
-        /// <summary>Plays what a session command run elsewhere (a ship spending a life) raised.</summary>
+        /// <summary>
+        /// Plays what a session command run elsewhere (a ship spending a life) raised, and keeps the campaign save
+        /// (U.HARE-T65, docs/BIBLE.md V50) in step: a campaign chosen reads the save again and puts it on the session
+        /// (<see cref="RestoreCampaign"/>); a mission won, a campaign level finished (its best score, the COINS carried)
+        /// and a campaign run moving on (the scenario and level reached) each write it once, never on every coin.
+        /// </summary>
         public void PlaySession(SessionResult result)
         {
             if (result.Events == null) return;
+            bool changed = false, restore = false;
             foreach (var e in result.Events)
             {
-                if (e is MissionWon won && Campaign != null && Campaign.RecordWin(won.Scenario)) CampaignStore.Save(Campaign);
+                if (Campaign != null) changed |= RecordCampaign(e, ref restore);
                 SessionEventPlayed?.Invoke(e);
+            }
+            if (changed) CampaignStore.Save(Campaign);
+            if (restore) ExecuteSession(new RestoreCampaign(LocalSeat, Campaign));
+        }
+
+        /// <summary>What <paramref name="e"/> changes in <see cref="Campaign"/>; true when the save needs writing.</summary>
+        bool RecordCampaign(SessionEvent e, ref bool restore)
+        {
+            switch (e)
+            {
+                case GameModeChosen chosen when chosen.Mode == GameMode.Campaign:
+                    if (!campaignInjected) Campaign = CampaignStore.Load();
+                    restore = true;
+                    return false;
+                case MissionWon won:
+                    return Campaign.RecordWin(won.Scenario);
+                case LevelCompleted done when Session.Mode == GameMode.Campaign:
+                    bool best = Campaign.RecordScore(Math.Max(1, done.Level), Session.Score);
+                    return Campaign.RecordCoins(Session.Coins) | best | RecordReached();
+                case LevelAdvanced _ when Session.Mode == GameMode.Campaign:
+                case ScenarioChanged _ when Session.Mode == GameMode.Campaign:
+                    return Campaign.RecordCoins(Session.Coins) | RecordReached();
+                default:
+                    return false;
             }
         }
 
-        /// <summary>Puts <paramref name="progress"/> in place of the loaded campaign (tests, and U.HARE-T65's save).</summary>
-        public void UseCampaign(CampaignProgress progress) => Campaign = progress ?? new CampaignProgress();
+        /// <summary>The campaign run's scenario and level (a map mission's are its own, not the run's).</summary>
+        bool RecordReached()
+        {
+            if (Session.MissionLevel > 0 || Session.Level < 1 || Session.Scenario == 0 || Session.Scenario < CampaignProgress.NoScenario) return false;
+            return Campaign.RecordReached(Session.Scenario, Session.Level);
+        }
+
+        /// <summary>
+        /// Puts <paramref name="progress"/> in place of the loaded campaign (tests): it stays in use, rather than the save
+        /// being read again, when the campaign is chosen.
+        /// </summary>
+        public void UseCampaign(CampaignProgress progress)
+        {
+            Campaign = progress ?? new CampaignProgress();
+            campaignInjected = true;
+        }
+
+        bool campaignInjected;
 
         /// <summary>
         /// The garage's SKILLPOINTS left (U.HARE-T24, docs/BIBLE.md V49, D27): globals.gml's starting 5, plus a point for

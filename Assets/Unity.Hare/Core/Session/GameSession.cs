@@ -251,6 +251,29 @@ namespace Unity.Hare.Session
             Emit(new GameModeChosen { Mode = mode, Scenario = scenario, Level = level, Difficulty = difficulty });
         }
 
+        /// <summary>
+        /// The campaign save on a campaign just chosen (U.HARE-T65, docs/BIBLE.md V50): COINS (held below the hundred that
+        /// makes an extra life), and for a campaign run from the story the scenario and level reached. False outside the
+        /// campaign.
+        /// </summary>
+        internal bool RestoreCampaign(int coins, int scenario, int level)
+        {
+            if (Mode != GameMode.Campaign) return false;
+            int carried = Math.Max(0, Math.Min(coins, Tuning.CoinsPerExtraLife - 1));
+            if (carried != Coins)
+            {
+                Coins = carried;
+                Emit(new CoinsChanged { Coins = Coins });
+            }
+            if (MissionLevel == 0 && level >= 1 && (scenario == -1 || scenario >= 1))
+            {
+                Scenario = scenario;
+                Level = level;
+            }
+            Emit(new CampaignRestored { Coins = Coins, Scenario = Scenario, Level = Level });
+            return true;
+        }
+
         internal void SelectScenario(int scenario)
         {
             Scenario = scenario;

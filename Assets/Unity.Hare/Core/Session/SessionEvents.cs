@@ -52,6 +52,12 @@ namespace Unity.Hare.Session
     /// </summary>
     public sealed class MissionWon : SessionEvent { public int Scenario; public int Level; }
 
+    /// <summary>
+    /// The campaign save was put on the session as the campaign was chosen (U.HARE-T65, docs/BIBLE.md V50): COINS, and for
+    /// a campaign run from the story the scenario and level it had reached.
+    /// </summary>
+    public sealed class CampaignRestored : SessionEvent { public int Coins; public int Scenario; public int Level; }
+
     /// <summary>A level script set its objective; <see cref="Text"/> is set_objective_string's strObjective.</summary>
     public sealed class ObjectiveSet : SessionEvent { public ObjectiveKind Kind; public string Text; public string LevelName; }
 

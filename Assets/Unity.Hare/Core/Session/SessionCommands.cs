@@ -81,6 +81,26 @@ namespace Unity.Hare.Session
     }
 
     /// <summary>
+    /// The campaign save put on the session once the campaign is chosen (U.HARE-T65, a deliberate addition,
+    /// docs/BIBLE.md V50): the saved COINS, and for a campaign run from the story (not a map mission, whose scenario and
+    /// level are its own) the scenario and level it had reached. Refused outside the campaign.
+    /// </summary>
+    public sealed class RestoreCampaign : SessionCommand
+    {
+        readonly int coins, scenario, level;
+
+        public RestoreCampaign(PlayerId id, CampaignProgress progress) : base(id)
+        {
+            if (progress == null) throw new ArgumentNullException(nameof(progress));
+            coins = progress.Coins;
+            scenario = progress.Scenario;
+            level = progress.Level;
+        }
+
+        internal override bool Apply(GameSession session) => session.RestoreCampaign(coins, scenario, level);
+    }
+
+    /// <summary>
     /// obj_btn_diff0 and obj_btn_diff100 (and obj_btn_level09): the enemy generator at <c>difficulty</c>. The
     /// buttons set only gamemode and difficulty, so the scenario and level stay where they were.
     /// </summary>

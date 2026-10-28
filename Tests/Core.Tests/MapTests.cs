@@ -603,7 +603,7 @@ namespace Unity.Hare.Tests.Core
             Assert.Throws<ArgumentOutOfRangeException>(() => progress.RecordWin(0));
 
             string json = progress.ToJson();
-            StringAssert.Contains("\"Version\": 2", json);
+            StringAssert.Contains("\"Version\": 3", json);
             var back = CampaignProgress.FromJson(json);
             CollectionAssert.AreEqual(new[] { 1, 3 }, back.Won.ToArray());
             Assert.AreEqual(0, CampaignProgress.FromJson("{\"Version\": 1}").Won.Count);
@@ -612,10 +612,74 @@ namespace Unity.Hare.Tests.Core
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson(""));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("not json"));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Won\": [1]}"), "no version");
-            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"Won\": [1]}"), "a later format");
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 4, \"Won\": [1]}"), "a later format");
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 2, \"Upgrades\": [1]}"), "an id is a string");
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 1, \"Won\": [0]}"));
             Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 1, \"Won\": [1.5]}"));
+        }
+
+        [Test]
+        public void CampaignProgressVersion3KeepsCoinsTheLevelReachedAndBestScores()
+        {
+            var progress = new CampaignProgress();
+            Assert.AreEqual(0, progress.Coins);
+            Assert.AreEqual(CampaignProgress.NoScenario, progress.Scenario);
+            Assert.AreEqual(1, progress.Level);
+            Assert.IsTrue(progress.RecordCoins(42));
+            Assert.IsFalse(progress.RecordCoins(42), "unchanged");
+            Assert.IsTrue(progress.RecordReached(2, 7));
+            Assert.IsFalse(progress.RecordReached(2, 7), "unchanged");
+            Assert.IsTrue(progress.RecordScore(3, 1200));
+            Assert.IsFalse(progress.RecordScore(3, 900), "not a better score");
+            Assert.IsTrue(progress.RecordScore(3, 1500));
+            Assert.IsTrue(progress.RecordScore(1, 0), "a first finish counts");
+            Assert.Throws<ArgumentOutOfRangeException>(() => progress.RecordReached(0, 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => progress.RecordScore(0, 10));
+
+            var back = CampaignProgress.FromJson(progress.ToJson());
+            Assert.AreEqual(42, back.Coins);
+            Assert.AreEqual(2, back.Scenario);
+            Assert.AreEqual(7, back.Level);
+            Assert.AreEqual(1500, back.BestScore(3));
+            Assert.AreEqual(0, back.BestScore(1));
+            CollectionAssert.AreEqual(new[] { 1, 3 }, back.BestScores.Keys.ToArray());
+
+            var v2 = CampaignProgress.FromJson("{\"Version\": 2, \"Won\": [1], \"Coins\": 50, \"Level\": 9}");
+            Assert.AreEqual(0, v2.Coins, "version 2 has no coins");
+            Assert.AreEqual(1, v2.Level, "version 2 starts the campaign over");
+            Assert.AreEqual(0, v2.BestScores.Count);
+
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"Coins\": -1}"));
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"Scenario\": 0}"));
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"Level\": 0}"));
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"BestScores\": {\"x\": 1}}"));
+            Assert.Throws<FormatException>(() => CampaignProgress.FromJson("{\"Version\": 3, \"BestScores\": {\"1\": 1.5}}"));
+        }
+
+        [Test]
+        public void RestoreCampaignPutsTheSavedCoinsAndTheLevelReachedOnTheCampaign()
+        {
+            var saved = new CampaignProgress();
+            saved.RecordCoins(42);
+            saved.RecordReached(2, 4);
+            var id = new PlayerId(1);
+
+            var session = new GameSession();
+            Assert.IsFalse(session.Execute(new RestoreCampaign(id, saved)).Accepted, "not in the campaign");
+            Assert.AreEqual(0, session.Coins);
+
+            session.Execute(new ChooseCampaign(id));
+            Assert.IsTrue(session.Execute(new RestoreCampaign(id, saved)).Accepted);
+            Assert.AreEqual(42, session.Coins);
+            Assert.AreEqual(2, session.Scenario);
+            Assert.AreEqual(4, session.Level);
+
+            var mission = new GameSession();
+            mission.Execute(new ChooseMission(id, 3, 3));
+            Assert.IsTrue(mission.Execute(new RestoreCampaign(id, saved)).Accepted);
+            Assert.AreEqual(42, mission.Coins);
+            Assert.AreEqual(3, mission.Scenario, "a map mission keeps its own scenario");
+            Assert.AreEqual(3, mission.Level, "and its own level");
         }
 
         [Test]

@@ -8,20 +8,74 @@ using Unity.Hare.Popups;
 namespace Unity.Hare.Session
 {
     /// <summary>
-    /// The map missions the player has won (U.HARE-T19, owner-directed, docs/BIBLE.md V42), kept across runs so the
-    /// boss's mission unlocks once every other is won, and the garage's bought pips (U.HARE-T24, BIBLE V49): what
-    /// obj_upgrade_*'s <c>//Write to Ini here</c> never wrote. The original keeps nothing (it has no boss lock either).
-    /// A small versioned JSON document, <c>{"Version": 2, "Won": [1, 2, 3], "Upgrades": ["vulcan.rate.1"]}</c>, which
-    /// the runtime writes to <c>campaign.json</c> in the profile's Saves folder; version 1 (no upgrades) still reads.
-    /// U.HARE-T65 folds it into the full campaign save.
+    /// The campaign save (U.HARE-T65, a deliberate addition, docs/BIBLE.md V50): the map missions the player has won
+    /// (U.HARE-T19, BIBLE V42), so the boss's mission unlocks once every other is won; the garage's bought pips
+    /// (U.HARE-T24, BIBLE V49), what obj_upgrade_*'s <c>//Write to Ini here</c> never wrote, and with the wins the
+    /// SKILLPOINTS left (<see cref="SkillPoints"/>); the COINS carried, the scenario and level the campaign run reached,
+    /// and the best score finished on each campaign level. The original keeps all of this in globals only and loses it
+    /// on restart. A small versioned JSON document,
+    /// <c>{"Version": 3, "Won": [1, 2], "Upgrades": ["vulcan.rate.1"], "Coins": 42, "Scenario": -1, "Level": 3,
+    /// "BestScores": {"1": 1200}}</c>, which the runtime writes to <c>campaign.json</c> in the profile's Saves folder;
+    /// versions 1 (wins only) and 2 (wins and upgrades) still read, with no coins, the campaign at its start and no scores.
     /// </summary>
     public sealed class CampaignProgress
     {
-        /// <summary>The format this build writes; it reads 1 (wins only) and 2 (wins and upgrades).</summary>
-        public const int CurrentVersion = 2;
+        /// <summary>The format this build writes; it reads 1 (wins only), 2 (wins and upgrades) and 3 (the full campaign).</summary>
+        public const int CurrentVersion = 3;
+
+        /// <summary>globals.gml's current_scenario for "none chosen", and the campaign's start.</summary>
+        public const int NoScenario = -1;
 
         readonly SortedSet<int> won = new SortedSet<int>();
         readonly SortedSet<string> upgrades = new SortedSet<string>(StringComparer.Ordinal);
+        readonly SortedDictionary<int, int> bestScores = new SortedDictionary<int, int>();
+
+        /// <summary>The COINS carried when the campaign was last saved (below the hundred that makes an extra life).</summary>
+        public int Coins { get; private set; }
+
+        /// <summary>current_scenario where the campaign run (from the story, not a map mission) last stood; -1 for none.</summary>
+        public int Scenario { get; private set; } = NoScenario;
+
+        /// <summary>current_level the campaign run (from the story, not a map mission) has reached; 1 at its start.</summary>
+        public int Level { get; private set; } = 1;
+
+        /// <summary>The best current_score finished on each campaign level, by level, in order.</summary>
+        public IReadOnlyDictionary<int, int> BestScores => bestScores;
+
+        /// <summary>The best score finished on <paramref name="level"/>, or 0 when it never was.</summary>
+        public int BestScore(int level) => bestScores.TryGetValue(level, out int best) ? best : 0;
+
+        /// <summary>
+        /// Records <paramref name="score"/> finished on campaign <paramref name="level"/>; true when it beats the best
+        /// kept (a first finish counts, even at 0).
+        /// </summary>
+        public bool RecordScore(int level, int score)
+        {
+            if (level < 1) throw new ArgumentOutOfRangeException(nameof(level), level, "Levels start at 1.");
+            if (bestScores.TryGetValue(level, out int best) && best >= score) return false;
+            bestScores[level] = score;
+            return true;
+        }
+
+        /// <summary>Records the COINS carried; true when they changed. Never below zero.</summary>
+        public bool RecordCoins(int coins)
+        {
+            coins = Math.Max(0, coins);
+            if (coins == Coins) return false;
+            Coins = coins;
+            return true;
+        }
+
+        /// <summary>Records where the campaign run stands (current_scenario, current_level); true when it moved.</summary>
+        public bool RecordReached(int scenario, int level)
+        {
+            if (scenario < NoScenario || scenario == 0) throw new ArgumentOutOfRangeException(nameof(scenario), scenario, "-1 (none) or a scenario.");
+            if (level < 1) throw new ArgumentOutOfRangeException(nameof(level), level, "Levels start at 1.");
+            if (scenario == Scenario && level == Level) return false;
+            Scenario = scenario;
+            Level = level;
+            return true;
+        }
 
         /// <summary>The won missions' scenarios, in order.</summary>
         public IReadOnlyCollection<int> Won => won;
@@ -88,14 +142,27 @@ namespace Unity.Hare.Session
                 builder.Append('"').Append(id.Replace("\\", "\\\\").Replace("\"", "\\\"")).Append('"');
                 first = false;
             }
-            builder.Append("]\n}\n");
+            builder.Append("],\n  \"Coins\": ").Append(Coins.ToString(CultureInfo.InvariantCulture));
+            builder.Append(",\n  \"Scenario\": ").Append(Scenario.ToString(CultureInfo.InvariantCulture));
+            builder.Append(",\n  \"Level\": ").Append(Level.ToString(CultureInfo.InvariantCulture));
+            builder.Append(",\n  \"BestScores\": {");
+            first = true;
+            foreach (var pair in bestScores)
+            {
+                if (!first) builder.Append(", ");
+                builder.Append('"').Append(pair.Key.ToString(CultureInfo.InvariantCulture)).Append("\": ")
+                       .Append(pair.Value.ToString(CultureInfo.InvariantCulture));
+                first = false;
+            }
+            builder.Append("}\n}\n");
             return builder.ToString();
         }
 
         /// <summary>
         /// Reads a document. Throws <see cref="FormatException"/> when it is not one: not JSON, not an object, a version
-        /// this build does not know, a won list that is not whole scenarios of 1 or more, or an upgrade list that is not
-        /// ids. A version 1 document has no upgrades.
+        /// this build does not know, a won list that is not whole scenarios of 1 or more, an upgrade list that is not
+        /// ids, or (version 3) coins, a scenario, a level or best scores that are not whole numbers in range. A version 1
+        /// document has no upgrades; versions 1 and 2 have no coins, the campaign at its start and no best scores.
         /// </summary>
         public static CampaignProgress FromJson(string json)
         {
@@ -125,7 +192,35 @@ namespace Unity.Hare.Session
                     progress.upgrades.Add(s);
                 }
             }
+            if (v >= 3)
+            {
+                progress.Coins = WholeNumber(root, "Coins", 0, 0, int.MaxValue);
+                progress.Scenario = WholeNumber(root, "Scenario", NoScenario, NoScenario, int.MaxValue);
+                if (progress.Scenario == 0) throw new FormatException("campaign: Scenario must be -1 (none) or a scenario.");
+                progress.Level = WholeNumber(root, "Level", 1, 1, int.MaxValue);
+                if (root.TryGetValue("BestScores", out object scores) && scores != null)
+                {
+                    if (!(scores is Dictionary<string, object> table)) throw new FormatException("campaign: BestScores must be an object.");
+                    foreach (var pair in table)
+                    {
+                        if (!int.TryParse(pair.Key, NumberStyles.None, CultureInfo.InvariantCulture, out int level) || level < 1)
+                            throw new FormatException($"campaign: BestScores names {pair.Key}, not a level.");
+                        if (!(pair.Value is double d) || d != Math.Floor(d) || d < int.MinValue || d > int.MaxValue)
+                            throw new FormatException($"campaign: BestScores holds {pair.Value ?? "null"} for level {level}, not a score.");
+                        progress.bestScores[level] = (int)d;
+                    }
+                }
+            }
             return progress;
+        }
+
+        /// <summary><paramref name="key"/>'s whole number within <paramref name="min"/>..<paramref name="max"/>, or <paramref name="fallback"/> when absent.</summary>
+        static int WholeNumber(Dictionary<string, object> root, string key, int fallback, int min, int max)
+        {
+            if (!root.TryGetValue(key, out object value) || value == null) return fallback;
+            if (!(value is double d) || d != Math.Floor(d) || d < min || d > max)
+                throw new FormatException($"campaign: {key} holds {value}, not a whole number from {min}.");
+            return (int)d;
         }
     }
 }

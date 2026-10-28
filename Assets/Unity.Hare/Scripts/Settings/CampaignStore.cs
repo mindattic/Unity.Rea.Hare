@@ -6,11 +6,11 @@ using Unity.Hare.Session;
 namespace Unity.Hare
 {
     /// <summary>
-    /// Where the map's won missions are kept (U.HARE-T19, owner-directed, docs/BIBLE.md V42): <c>campaign.json</c> in
-    /// the current profile's Saves folder (<see cref="ActiveProfile.SavesFolder"/>), Core's
-    /// <see cref="CampaignProgress"/> document. Writes go to a temporary file first and replace the old one, so a crash
-    /// mid-write never leaves half a file; a file that cannot be read is moved aside (<c>campaign.json.bad</c>) and the
-    /// campaign starts with nothing won. U.HARE-T65 folds this into the full campaign save.
+    /// Where the campaign save is kept (U.HARE-T65, a deliberate addition, docs/BIBLE.md V50; the map's won missions
+    /// since U.HARE-T19, V42, and the garage's pips since U.HARE-T24, V49): <c>campaign.json</c> in the current
+    /// profile's Saves folder (<see cref="ActiveProfile.SavesFolder"/>), Core's versioned <see cref="CampaignProgress"/>
+    /// document. Writes go to a temporary file first and replace the old one, so a crash mid-write never leaves half a
+    /// file; a file that cannot be read is moved aside (<c>campaign.json.bad</c>) and the campaign starts afresh.
     /// </summary>
     public static class CampaignStore
     {
@@ -34,7 +34,7 @@ namespace Unity.Hare
             }
             catch (Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The campaign's won missions were not read, starting with none: " + e.Message);
+                Debug.LogWarning("[Unity.Hare] The campaign save was not read, starting a new one:" + e.Message);
                 if (path != null && e is FormatException) SetAside(path);
                 return new CampaignProgress();
             }
@@ -57,7 +57,7 @@ namespace Unity.Hare
             }
             catch (Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The campaign's won missions were not saved: " + e.Message);
+                Debug.LogWarning("[Unity.Hare] The campaign save was not written:" + e.Message);
                 return false;
             }
         }
