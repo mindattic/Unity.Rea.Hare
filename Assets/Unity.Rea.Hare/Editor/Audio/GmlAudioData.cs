@@ -14,7 +14,7 @@ namespace Unity.Hare.EditorTools
     [Serializable]
     public sealed class GmlAudioData
     {
-        public const string AudioFolder = "Assets/Unity.Hare/Audio";
+        public const string AudioFolder = "Assets/Unity.Rea.Hare/Audio";
         public const string DataPath = AudioFolder + "/gml-audio.json";
         public const string SoundsFolder = AudioFolder + "/Sounds/";
         public const string MixerPath = AudioFolder + "/HareMixer.mixer";

@@ -36,8 +36,8 @@ namespace Unity.Hare.UI
             new CreditEntry("Music", "Pinball Spring", "unverified (file carries no tag)", "file name music_pinballspring.mp3", Unverified),
             new CreditEntry("Music", "Presenterator", "Kevin MacLeod", "ID3 tag of music_presenterator.mp3", "unverified (tag: \"Royalty Free\")"),
             new CreditEntry("Music", "Wallpaper", "Kevin MacLeod", "ID3 tag of music_wallpaper.mp3", "unverified (tag: \"Royalty Free\")"),
-            new CreditEntry("Font", "Arial (rasterised glyphs only)", "Monotype", "Assets/Unity.Hare/Fonts/gml-fonts.json", "proprietary; no font file shipped"),
-            new CreditEntry("Font", "Berlin Sans FB (rasterised glyphs only)", "The Font Bureau", "Assets/Unity.Hare/Fonts/gml-fonts.json", "proprietary; no font file shipped"),
+            new CreditEntry("Font", "Arial (rasterised glyphs only)", "Monotype", "Assets/Unity.Rea.Hare/Fonts/gml-fonts.json", "proprietary; no font file shipped"),
+            new CreditEntry("Font", "Berlin Sans FB (rasterised glyphs only)", "The Font Bureau", "Assets/Unity.Rea.Hare/Fonts/gml-fonts.json", "proprietary; no font file shipped"),
             new CreditEntry("Sound", "All other sound effects", "unverified", "HARE.gmx sound\audio (no credit recorded)", Unverified),
             new CreditEntry("Sprites", "All sprites and backgrounds", "unverified", "HARE.gmx (no credit recorded)", Unverified),
         };

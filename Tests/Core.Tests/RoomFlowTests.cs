@@ -96,7 +96,7 @@ namespace Unity.Hare.Tests.Core
         public void TheShippedDataFileMatchesTheCompiledInDefaults()
         {
             var path = System.IO.Path.Combine(TestContext.CurrentContext.TestDirectory,
-                "../../../../../Assets/Unity.Hare/Resources/Hare/Content/GameContent.json");
+                "../../../../../Assets/Unity.Rea.Hare/Resources/Hare/Content/GameContent.json");
             var loaded = ContentRegistry.FromJson(System.IO.File.ReadAllText(path)).Rooms;
             var defaults = ContentRegistry.Default.Rooms;
             foreach (var room in RoomList.All)

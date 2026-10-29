@@ -294,7 +294,7 @@ namespace Unity.Hare.Tests.Core
         public void TheShippedDataFileMatchesTheCompiledInDefaults()
         {
             var path = System.IO.Path.Combine(TestContext.CurrentContext.TestDirectory,
-                "../../../../../Assets/Unity.Hare/Resources/Hare/Content/GameContent.json");
+                "../../../../../Assets/Unity.Rea.Hare/Resources/Hare/Content/GameContent.json");
             var loaded = ContentRegistry.FromJson(System.IO.File.ReadAllText(path));
             var defaults = ContentRegistry.Default;
             object Scene(DropSceneTuning s) => (s.DropSprite, s.DropX, s.DropY, s.DropScale, s.FallSpeed, s.Jitter, s.HangFraction, s.HangSteps,

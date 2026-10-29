@@ -117,7 +117,7 @@ namespace Unity.Hare.Tests.EditMode.Audio
         {
             // Main.unity's vulcan and ammo components reference these clips by GUID from before the import moved them.
             Assert.That(AssetDatabase.GUIDToAssetPath("af0278de46f4ae645b7e9c1c8ee80df1"),
-                Is.EqualTo("Assets/Unity.Hare/Audio/Sounds/vulcan/sfx_vulcan_loop.wav"));
+                Is.EqualTo("Assets/Unity.Rea.Hare/Audio/Sounds/vulcan/sfx_vulcan_loop.wav"));
             foreach (var name in new[] { "sfx_vulcan_spinup", "sfx_vulcan_spindown", "sfx_empty_clip", "sfx_reload_half", "sfx_reload_full" })
                 Assert.That(manifest.Clip(name), Is.Not.Null, name);
         }
@@ -171,9 +171,9 @@ namespace Unity.Hare.Tests.EditMode.Audio
         [Test]
         public void TheCreditsDataTravelsWithTheClips()
         {
-            Assert.That(data.datafiles.Select(d => d.asset), Is.EquivalentTo(new[] { "Assets/Unity.Hare/Audio/credits.txt" }));
+            Assert.That(data.datafiles.Select(d => d.asset), Is.EquivalentTo(new[] { "Assets/Unity.Rea.Hare/Audio/credits.txt" }));
             Assert.That(manifest.Credits, Is.Not.Null);
-            Assert.That(AssetDatabase.GetAssetPath(manifest.Credits), Is.EqualTo("Assets/Unity.Hare/Audio/credits.txt"));
+            Assert.That(AssetDatabase.GetAssetPath(manifest.Credits), Is.EqualTo("Assets/Unity.Rea.Hare/Audio/credits.txt"));
             Assert.That(manifest.Credits.text, Does.Contain("Jim Rogers - Mingun sound effect"));
             Assert.That(manifest.Credits.text, Does.Contain("http://soundbible.com/1920-Minigun.html"));
         }

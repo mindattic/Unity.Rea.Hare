@@ -15,7 +15,7 @@ namespace Unity.Hare.EditorTools
     [Serializable]
     public sealed class GmlFontData
     {
-        public const string FontsFolder = "Assets/Unity.Hare/Fonts";
+        public const string FontsFolder = "Assets/Unity.Rea.Hare/Fonts";
         public const string DataPath = FontsFolder + "/gml-fonts.json";
         public const string AtlasFolder = FontsFolder + "/Atlases/";
 

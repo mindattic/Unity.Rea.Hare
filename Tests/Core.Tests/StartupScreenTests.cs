@@ -71,7 +71,7 @@ namespace Unity.Hare.Tests.Core
         public void TheShippedDataFileMatchesTheCompiledInDefaults()
         {
             var path = System.IO.Path.Combine(TestContext.CurrentContext.TestDirectory,
-                "../../../../../Assets/Unity.Hare/Resources/Hare/Content/GameContent.json");
+                "../../../../../Assets/Unity.Rea.Hare/Resources/Hare/Content/GameContent.json");
             var loaded = ContentRegistry.FromJson(System.IO.File.ReadAllText(path)).Startup;
             var defaults = ContentRegistry.Default.Startup;
             CollectionAssert.AreEqual(defaults.Backgrounds.Select(b => (b.Name, b.HSpeed, b.VSpeed, b.Drifts)),

@@ -17,7 +17,7 @@ namespace Unity.Hare.Player
     /// physics step and draws the shield wall on the events.
     /// GML's per-step deltas (room_gamescreen runs at 120 steps/sec) are per-second rates in <see cref="FlightTuning"/>.
     /// Input comes from <see cref="Controls"/> (U.HARE-T42: the generated <see cref="HareControls"/> wrapper over
-    /// Assets/Unity.Hare/Scripts/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling
+    /// Assets/Unity.Rea.Hare/Scripts/Input/HareControls.inputactions), not raw Keyboard.current/Mouse.current polling
     /// (the one exception is the <see cref="Mouse"/>.current null check in <see cref="UpdateAim"/>, which only
     /// gates whether a pointer is present to read screen-space aim from, not a value read); this ship's sibling
     /// weapon views (<see cref="Weapons.AirWeaponLoadout"/>, <see cref="Weapons.GroundWeaponLoadout"/>,

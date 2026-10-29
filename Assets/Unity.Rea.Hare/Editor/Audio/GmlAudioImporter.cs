@@ -5,7 +5,7 @@ using Unity.Hare.Audio;
 namespace Unity.Hare.EditorTools
 {
     /// <summary>
-    /// Import settings for the sounds tools/import-gml-audio.ps1 mirrors into Assets/Unity.Hare/Audio/Sounds, read from
+    /// Import settings for the sounds tools/import-gml-audio.ps1 mirrors into Assets/Unity.Rea.Hare/Audio/Sounds, read from
     /// Audio/gml-audio.json so nothing is set by hand in the Inspector and every .meta is generated. Core's
     /// <see cref="GmlSoundSettings"/> decides each clip's load type and format from its sound.gmx fields (the music
     /// streams as Vorbis; the uncompressed sfx are PCM decompressed on load, as GameMaker played them); the sample rate

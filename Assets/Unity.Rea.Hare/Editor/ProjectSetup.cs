@@ -30,17 +30,17 @@ namespace Unity.Hare.EditorTools
     /// </summary>
     public static class ProjectSetup
     {
-        public const string SettingsFolder = "Assets/Unity.Hare/Settings";
+        public const string SettingsFolder = "Assets/Unity.Rea.Hare/Settings";
         public const string RendererPath = SettingsFolder + "/Renderer2D.asset";
         public const string PipelinePath = SettingsFolder + "/UniversalRP-2D.asset";
         /// <summary>The product's name: the in-game title (globals.gml, "Welcome to H.O.P"), not the older H.A.R.E.</summary>
         public const string ProductName = "H.O.P. High Orbit Patrol";
         /// <summary>The original's title logo (spr_logo), imported by import-gml-art.ps1, used as the app icon.</summary>
-        public const string IconSourcePath = "Assets/Unity.Hare/Art/Sprites/title/spr_logo/spr_logo_0.png";
+        public const string IconSourcePath = "Assets/Unity.Rea.Hare/Art/Sprites/title/spr_logo/spr_logo_0.png";
         /// <summary>The bootstrap scene, first in Build Settings: a launch starts here.</summary>
-        public const string ScenePath = "Assets/Unity.Hare/Scenes/Main.unity";
+        public const string ScenePath = "Assets/Unity.Rea.Hare/Scenes/Main.unity";
         /// <summary>Where the room scenes live.</summary>
-        public const string RoomsFolder = "Assets/Unity.Hare/Scenes/Rooms";
+        public const string RoomsFolder = "Assets/Unity.Rea.Hare/Scenes/Rooms";
 
         /// <summary>The night-sky backdrop of the play rooms (room_gamescreen, room_sidescroll, room_shaft).</summary>
         static readonly Color Backdrop = new Color(0.02f, 0.02f, 0.06f, 1f);

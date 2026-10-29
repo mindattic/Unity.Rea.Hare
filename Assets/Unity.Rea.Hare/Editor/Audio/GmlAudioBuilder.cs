@@ -27,7 +27,7 @@ namespace Unity.Hare.EditorTools
     /// </summary>
     public static class GmlAudioBuilder
     {
-        public const string ManifestPath = "Assets/Unity.Hare/Resources/" + HareAudioManifest.ResourcePath + ".asset";
+        public const string ManifestPath = "Assets/Unity.Rea.Hare/Resources/" + HareAudioManifest.ResourcePath + ".asset";
         const string CreditsName = "credits.txt";
 
         [MenuItem("Unity.Hare/Build Audio From gml-audio.json")]

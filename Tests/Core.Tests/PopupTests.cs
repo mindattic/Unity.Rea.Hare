@@ -170,7 +170,7 @@ namespace Unity.Hare.Tests.Core
             string path = null;
             for (var d = new DirectoryInfo(dir); d != null; d = d.Parent)
             {
-                var candidate = Path.Combine(d.FullName, "Assets", "Unity.Hare", "Resources", "Hare", "Content", "GameContent.json");
+                var candidate = Path.Combine(d.FullName, "Assets", "Unity.Rea.Hare", "Resources", "Hare", "Content", "GameContent.json");
                 if (File.Exists(candidate)) { path = candidate; break; }
             }
             Assert.That(path, Is.Not.Null);

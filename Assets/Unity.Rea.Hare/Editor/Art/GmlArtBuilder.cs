@@ -22,7 +22,7 @@ namespace Unity.Hare.EditorTools
     /// </summary>
     public static class GmlArtBuilder
     {
-        public const string ManifestPath = "Assets/Unity.Hare/Resources/" + HareArtManifest.ResourcePath + ".asset";
+        public const string ManifestPath = "Assets/Unity.Rea.Hare/Resources/" + HareArtManifest.ResourcePath + ".asset";
 
         /// <summary>Atlas pages are at most this big; a sprite over gml-art.json's atlasMaxSide is never packed.</summary>
         public const int AtlasMaxTextureSize = 4096;

@@ -25,7 +25,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_whoosh.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_whoosh.mp3",
       "notes": ["sfx_whoosh.wav is really MP3 audio under a .wav name; imported as sfx_whoosh.mp3 so Unity can decode it"]
     },
     {
@@ -51,7 +51,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.417,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_bend.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_bend.wav",
       "notes": []
     },
     {
@@ -77,7 +77,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.509,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_crash.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_crash.wav",
       "notes": []
     },
     {
@@ -103,7 +103,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.124,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_disabled.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_disabled.wav",
       "notes": []
     },
     {
@@ -129,7 +129,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.069,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_flick.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_flick.wav",
       "notes": []
     },
     {
@@ -155,7 +155,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 2.042,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_flyover.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_flyover.wav",
       "notes": []
     },
     {
@@ -181,7 +181,7 @@
       "sourceSampleRate": 11025,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.098,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_sonar_ping.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_sonar_ping.wav",
       "notes": []
     },
     {
@@ -207,7 +207,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.337,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_zoom.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_zoom.wav",
       "notes": []
     },
     {
@@ -233,7 +233,7 @@
       "sourceSampleRate": 48000,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.266,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire_laser.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire_laser.wav",
       "notes": []
     },
     {
@@ -259,7 +259,7 @@
       "sourceSampleRate": 48000,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.445,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire_railgun.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire_railgun.wav",
       "notes": []
     },
     {
@@ -285,7 +285,7 @@
       "sourceSampleRate": 22050,
       "sourceBitsPerSample": 8,
       "sourceSeconds": 1.671,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire_shotgun.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire_shotgun.wav",
       "notes": []
     },
     {
@@ -311,7 +311,7 @@
       "sourceSampleRate": 48000,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 3.602,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_loop_laser.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_loop_laser.wav",
       "notes": []
     },
     {
@@ -337,7 +337,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.129,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_bounce_grenade.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_bounce_grenade.wav",
       "notes": []
     },
     {
@@ -363,7 +363,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.436,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire_grenade.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire_grenade.wav",
       "notes": []
     },
     {
@@ -389,7 +389,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse1.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse1.wav",
       "notes": []
     },
     {
@@ -415,7 +415,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse2.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse2.wav",
       "notes": []
     },
     {
@@ -441,7 +441,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse3.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse3.wav",
       "notes": []
     },
     {
@@ -467,7 +467,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse4.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse4.wav",
       "notes": []
     },
     {
@@ -493,7 +493,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse5.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse5.wav",
       "notes": []
     },
     {
@@ -519,7 +519,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.097,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fuse6.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fuse6.wav",
       "notes": []
     },
     {
@@ -545,7 +545,7 @@
       "sourceSampleRate": 22050,
       "sourceBitsPerSample": 8,
       "sourceSeconds": 0.669,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_shoot_vortex.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_shoot_vortex.wav",
       "notes": []
     },
     {
@@ -571,7 +571,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.957,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_vortex_blow.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_vortex_blow.wav",
       "notes": []
     },
     {
@@ -597,7 +597,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 5.006,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_vortex_suck.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_vortex_suck.wav",
       "notes": []
     },
     {
@@ -623,7 +623,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.459,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_explode.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_explode.wav",
       "notes": []
     },
     {
@@ -649,7 +649,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.12,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire.wav",
       "notes": []
     },
     {
@@ -675,7 +675,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.044,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_fire_cannon.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_fire_cannon.wav",
       "notes": []
     },
     {
@@ -701,7 +701,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.801,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_grenade_beep.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_grenade_beep.wav",
       "notes": []
     },
     {
@@ -727,7 +727,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.161,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_blip.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_blip.wav",
       "notes": []
     },
     {
@@ -753,7 +753,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.095,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_type.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_type.wav",
       "notes": []
     },
     {
@@ -779,7 +779,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.091,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_beep.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_beep.wav",
       "notes": []
     },
     {
@@ -805,7 +805,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.132,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_bounce.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_bounce.wav",
       "notes": []
     },
     {
@@ -831,7 +831,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.082,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_click.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_click.wav",
       "notes": []
     },
     {
@@ -857,7 +857,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.413,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_powerup.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_powerup.wav",
       "notes": []
     },
     {
@@ -883,7 +883,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.124,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_select.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_select.wav",
       "notes": []
     },
     {
@@ -909,7 +909,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.18,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_switch.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_switch.wav",
       "notes": []
     },
     {
@@ -935,7 +935,7 @@
       "sourceSampleRate": 11025,
       "sourceBitsPerSample": 8,
       "sourceSeconds": 0.925,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_turn.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_turn.wav",
       "notes": []
     },
     {
@@ -961,7 +961,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_pinballspring.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_pinballspring.mp3",
       "notes": []
     },
     {
@@ -987,7 +987,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_inaheartbeat.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_inaheartbeat.mp3",
       "notes": []
     },
     {
@@ -1013,7 +1013,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_latinindustries.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_latinindustries.mp3",
       "notes": []
     },
     {
@@ -1039,7 +1039,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_overcast.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_overcast.mp3",
       "notes": []
     },
     {
@@ -1065,7 +1065,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_presenterator.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_presenterator.mp3",
       "notes": []
     },
     {
@@ -1091,7 +1091,7 @@
       "sourceSampleRate": 0,
       "sourceBitsPerSample": 0,
       "sourceSeconds": 0,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/music/music_wallpaper.mp3",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/music/music_wallpaper.mp3",
       "notes": []
     },
     {
@@ -1117,7 +1117,7 @@
       "sourceSampleRate": 48000,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.092,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_blipgun.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_blipgun.wav",
       "notes": []
     },
     {
@@ -1143,7 +1143,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.03,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_set_rocket.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_set_rocket.wav",
       "notes": []
     },
     {
@@ -1169,7 +1169,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.305,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_land.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_land.wav",
       "notes": []
     },
     {
@@ -1195,7 +1195,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.459,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_takeoff.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_takeoff.wav",
       "notes": []
     },
     {
@@ -1221,7 +1221,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.031,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_hologram.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_hologram.wav",
       "notes": []
     },
     {
@@ -1247,7 +1247,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.975,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_hologram_pass.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_hologram_pass.wav",
       "notes": []
     },
     {
@@ -1273,7 +1273,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.226,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt1.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt1.wav",
       "notes": []
     },
     {
@@ -1299,7 +1299,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.135,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt2.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt2.wav",
       "notes": []
     },
     {
@@ -1325,7 +1325,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.246,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt3.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt3.wav",
       "notes": []
     },
     {
@@ -1351,7 +1351,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.16,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt4.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt4.wav",
       "notes": []
     },
     {
@@ -1377,7 +1377,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.248,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt5.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt5.wav",
       "notes": []
     },
     {
@@ -1403,7 +1403,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.142,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt6.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt6.wav",
       "notes": []
     },
     {
@@ -1429,7 +1429,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.215,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt7.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt7.wav",
       "notes": []
     },
     {
@@ -1455,7 +1455,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.278,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/player/sfx_hurt8.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/player/sfx_hurt8.wav",
       "notes": []
     },
     {
@@ -1481,7 +1481,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.403,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_extralife.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_extralife.wav",
       "notes": []
     },
     {
@@ -1507,7 +1507,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.314,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_coin.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_coin.wav",
       "notes": []
     },
     {
@@ -1533,7 +1533,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.882,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_death.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_death.wav",
       "notes": []
     },
     {
@@ -1559,7 +1559,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.26,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_roit.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_roit.wav",
       "notes": []
     },
     {
@@ -1585,7 +1585,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.364,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_flashbomb.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_flashbomb.wav",
       "notes": []
     },
     {
@@ -1611,7 +1611,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.067,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_hover.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_hover.wav",
       "notes": []
     },
     {
@@ -1637,7 +1637,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 2.222,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_boost.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_boost.wav",
       "notes": []
     },
     {
@@ -1663,7 +1663,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.381,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_brake.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_brake.wav",
       "notes": []
     },
     {
@@ -1689,7 +1689,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.453,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_woof.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_woof.wav",
       "notes": []
     },
     {
@@ -1715,7 +1715,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.25,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_bullet_explosion.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_bullet_explosion.wav",
       "notes": []
     },
     {
@@ -1741,7 +1741,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.726,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_hawk.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_hawk.wav",
       "notes": []
     },
     {
@@ -1767,7 +1767,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.06,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_type2.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_type2.wav",
       "notes": []
     },
     {
@@ -1793,7 +1793,7 @@
       "sourceSampleRate": 22050,
       "sourceBitsPerSample": 8,
       "sourceSeconds": 0.261,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_empty_clip.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_empty_clip.wav",
       "notes": []
     },
     {
@@ -1819,7 +1819,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 1.125,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/vulcan/sfx_vulcan_spinup.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/vulcan/sfx_vulcan_spinup.wav",
       "notes": []
     },
     {
@@ -1845,7 +1845,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.891,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/vulcan/sfx_vulcan_spindown.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/vulcan/sfx_vulcan_spindown.wav",
       "notes": []
     },
     {
@@ -1871,7 +1871,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 2.445,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/vulcan/sfx_vulcan_loop.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/vulcan/sfx_vulcan_loop.wav",
       "notes": []
     },
     {
@@ -1897,7 +1897,7 @@
       "sourceSampleRate": 96000,
       "sourceBitsPerSample": 24,
       "sourceSeconds": 0.739,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_reload_full.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_reload_full.wav",
       "notes": []
     },
     {
@@ -1923,7 +1923,7 @@
       "sourceSampleRate": 96000,
       "sourceBitsPerSample": 24,
       "sourceSeconds": 0.117,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_reload_half.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_reload_half.wav",
       "notes": []
     },
     {
@@ -1949,7 +1949,7 @@
       "sourceSampleRate": 44100,
       "sourceBitsPerSample": 16,
       "sourceSeconds": 0.18,
-      "clip": "Assets/Unity.Hare/Audio/Sounds/sfx_switch_back.wav",
+      "clip": "Assets/Unity.Rea.Hare/Audio/Sounds/sfx_switch_back.wav",
       "notes": []
     }
   ],
@@ -1957,7 +1957,7 @@
     {
       "name": "credits.txt",
       "file": "credits.txt",
-      "asset": "Assets/Unity.Hare/Audio/credits.txt"
+      "asset": "Assets/Unity.Rea.Hare/Audio/credits.txt"
     }
   ],
   "skipped": [

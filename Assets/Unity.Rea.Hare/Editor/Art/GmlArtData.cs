@@ -13,7 +13,7 @@ namespace Unity.Hare.EditorTools
     [Serializable]
     public sealed class GmlArtData
     {
-        public const string ArtFolder = "Assets/Unity.Hare/Art";
+        public const string ArtFolder = "Assets/Unity.Rea.Hare/Art";
         public const string DataPath = ArtFolder + "/gml-art.json";
         public const string SpritesFolder = ArtFolder + "/Sprites/";
         public const string BackgroundsFolder = ArtFolder + "/Backgrounds/";

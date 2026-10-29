@@ -24,9 +24,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_tip_box/spr_tip_box_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_tip_box/spr_tip_box_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -49,9 +49,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_white/spr_white_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_white/spr_white_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -74,9 +74,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_black/spr_black_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_black/spr_black_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -99,9 +99,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_room_loop/spr_room_loop_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_room_loop/spr_room_loop_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -124,9 +124,9 @@
       "imageSpeed": 0.2,
       "imageSpeedSource": "obj_alert Create",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_0.png", "Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_1.png", "Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_2.png", "Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_3.png", "Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_4.png", "Assets/Unity.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_5.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/map/spr_alertmarker.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_alertmarker/spr_alertmarker_5.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/map/spr_alertmarker.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -149,9 +149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_scanner_beam/spr_scanner_beam_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_scanner_beam/spr_scanner_beam_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -174,9 +174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_scanner/spr_scanner_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_scanner/spr_scanner_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -199,7 +199,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_earthball_simple/spr_earthball_simple_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_earthball_simple/spr_earthball_simple_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1920x1920 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -224,9 +224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_white_dot/spr_white_dot_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_white_dot/spr_white_dot_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -249,9 +249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_uss_warren/spr_uss_warren_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_uss_warren/spr_uss_warren_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -274,7 +274,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_earthball/spr_earthball_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_earthball/spr_earthball_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1066x1062 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -299,9 +299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_destination/spr_destination_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_destination/spr_destination_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -324,9 +324,9 @@
       "imageSpeed": 0.1,
       "imageSpeedSource": "obj_white_dot Create",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_0.png", "Assets/Unity.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_1.png", "Assets/Unity.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_2.png", "Assets/Unity.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_3.png", "Assets/Unity.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_4.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/map/spr_dropdot.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/map/spr_dropdot/spr_dropdot_4.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/map/spr_dropdot.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -349,9 +349,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/map/spr_scenario_box/spr_scenario_box_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/map/spr_scenario_box/spr_scenario_box_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_map.spriteatlasv2",
       "notes": []
     },
     {
@@ -374,9 +374,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_logo/spr_logo_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_logo/spr_logo_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -399,7 +399,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_drop/spr_drop_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_drop/spr_drop_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["462x1154 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -424,7 +424,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_stand/spr_stand_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_stand/spr_stand_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["493x1154 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -449,7 +449,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_moon_surface/spr_moon_surface_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_moon_surface/spr_moon_surface_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1920x398 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -474,9 +474,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_button_back/spr_button_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_button_back/spr_button_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -499,9 +499,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_button/spr_button_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_button/spr_button_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -524,9 +524,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_button_over/spr_button_over_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_button_over/spr_button_over_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -549,9 +549,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_button_area/spr_button_area_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_button_area/spr_button_area_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -574,9 +574,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_button_area_small/spr_button_area_small_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_button_area_small/spr_button_area_small_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -599,9 +599,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_eyeback/spr_eyeback_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_eyeback/spr_eyeback_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -624,9 +624,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/title/spr_pupil/spr_pupil_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/title/spr_pupil/spr_pupil_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_title.spriteatlasv2",
       "notes": []
     },
     {
@@ -649,9 +649,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_meatball/spr_meatball_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_meatball/spr_meatball_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -674,9 +674,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_meatball_eyes/spr_meatball_eyes_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_meatball_eyes/spr_meatball_eyes_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -699,9 +699,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_meatball_pupils/spr_meatball_pupils_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_meatball_pupils/spr_meatball_pupils_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -724,9 +724,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_ghost/spr_ghost_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_ghost/spr_ghost_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -749,9 +749,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_wraith_float/spr_wraith_float_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_wraith_float/spr_wraith_float_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -774,9 +774,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_wraith_stunned/spr_wraith_stunned_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_wraith_stunned/spr_wraith_stunned_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -799,9 +799,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_sawblade/spr_sawblade_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_sawblade/spr_sawblade_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -824,9 +824,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/emitter/spr_enemy_emitter_large/spr_enemy_emitter_large_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/emitter/spr_enemy_emitter_large/spr_enemy_emitter_large_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -849,9 +849,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/emitter/spr_enemy_emitter/spr_enemy_emitter_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/emitter/spr_enemy_emitter/spr_enemy_emitter_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -874,9 +874,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_cyprid/spr_cyprid_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_cyprid/spr_cyprid_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -899,9 +899,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_hydra_turret/spr_hydra_turret_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_hydra_turret/spr_hydra_turret_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -924,9 +924,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_hydra_body/spr_hydra_body_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_hydra_body/spr_hydra_body_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -949,9 +949,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_body/spr_phalanx_body_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_body/spr_phalanx_body_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -974,9 +974,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_0.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_1.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_2.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_3.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_4.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_5.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_6.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_7.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/enemy/spr_phalanx_shield.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_phalanx_shield/spr_phalanx_shield_7.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/enemy/spr_phalanx_shield.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -999,9 +999,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_vortex/spr_vortex_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_vortex/spr_vortex_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1024,9 +1024,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_mimic/spr_mimic_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_mimic/spr_mimic_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1049,9 +1049,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_worm_segment/spr_worm_segment_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_worm_segment/spr_worm_segment_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1074,9 +1074,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_worm_head/spr_worm_head_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_worm_head/spr_worm_head_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1099,9 +1099,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_stem/spr_stem_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_stem/spr_stem_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1124,9 +1124,9 @@
       "imageSpeed": 0.1,
       "imageSpeedSource": "obj_trilobyte Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_0.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_1.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_2.png", "Assets/Unity.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/enemy/spr_trilobyte.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_trilobyte/spr_trilobyte_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/enemy/spr_trilobyte.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1149,9 +1149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_dagger/spr_dagger_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_dagger/spr_dagger_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1174,9 +1174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/spr_dagger2/spr_dagger2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/spr_dagger2/spr_dagger2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1199,9 +1199,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull1/spr_boss_hull1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull1/spr_boss_hull1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1224,9 +1224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull2/spr_boss_hull2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull2/spr_boss_hull2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1249,9 +1249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull3/spr_boss_hull3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull3/spr_boss_hull3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1274,9 +1274,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull4/spr_boss_hull4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull4/spr_boss_hull4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1299,9 +1299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull5/spr_boss_hull5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull5/spr_boss_hull5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1324,9 +1324,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull6/spr_boss_hull6_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull6/spr_boss_hull6_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1349,9 +1349,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull7/spr_boss_hull7_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull7/spr_boss_hull7_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1374,9 +1374,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull8/spr_boss_hull8_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_boss_hull8/spr_boss_hull8_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1399,9 +1399,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_schrapnel_eye/spr_schrapnel_eye_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_schrapnel_eye/spr_schrapnel_eye_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1424,9 +1424,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_shrapnel_frame/spr_shrapnel_frame_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_shrapnel_frame/spr_shrapnel_frame_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1449,9 +1449,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_shrapnel_harpoon/spr_shrapnel_harpoon_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_shrapnel_harpoon/spr_shrapnel_harpoon_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1474,9 +1474,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/enemy/boss/spr_brain/spr_brain_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/enemy/boss/spr_brain/spr_brain_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2",
       "notes": []
     },
     {
@@ -1499,9 +1499,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_coin/spr_coin_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_coin/spr_coin_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1524,9 +1524,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_coin_small/spr_coin_small_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_coin_small/spr_coin_small_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1549,9 +1549,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_carrot/spr_carrot_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_carrot/spr_carrot_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1574,9 +1574,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_pickup_health/spr_pickup_health_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_pickup_health/spr_pickup_health_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1599,9 +1599,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_coin_gold/spr_coin_gold_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_coin_gold/spr_coin_gold_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1624,9 +1624,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_coin_silver/spr_coin_silver_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_coin_silver/spr_coin_silver_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1649,9 +1649,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/pickup/spr_coin_blue/spr_coin_blue_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/pickup/spr_coin_blue/spr_coin_blue_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2",
       "notes": []
     },
     {
@@ -1674,9 +1674,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_7.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_playerexplosion.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_playerexplosion/spr_playerexplosion_7.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_playerexplosion.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": []
     },
     {
@@ -1699,9 +1699,9 @@
       "imageSpeed": 0.5,
       "imageSpeedSource": "obj_rocket_explosion Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_7.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_8.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_9.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_10.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_11.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_12.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_13.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_14.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_15.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_16.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_17.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_18.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_19.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_bigexplosion.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_8.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_9.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_10.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_11.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_12.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_13.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_14.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_15.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_16.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_17.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_18.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_bigexplosion/spr_bigexplosion_19.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_bigexplosion.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": ["reachable from rooms of more than one speed (60, 120); the clip uses 120"]
     },
     {
@@ -1724,9 +1724,9 @@
       "imageSpeed": 0.3,
       "imageSpeedSource": "obj_oval_explosion Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_7.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_8.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_9.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_10.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_11.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_explosion_oval.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_8.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_9.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_10.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion_oval/spr_explosion_oval_11.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_explosion_oval.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": []
     },
     {
@@ -1749,9 +1749,9 @@
       "imageSpeed": 0.2,
       "imageSpeedSource": "obj_tinyexplosion Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_6.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_explosion.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explosion/spr_explosion_6.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_explosion.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": ["reachable from rooms of more than one speed (60, 120); the clip uses 120"]
     },
     {
@@ -1774,9 +1774,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_7.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_8.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_explode3.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode3/spr_explode3_8.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_explode3.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": []
     },
     {
@@ -1799,9 +1799,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_7.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_8.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_9.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_10.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_11.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_12.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_13.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_14.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_15.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_16.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_17.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_18.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_19.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_20.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_21.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_22.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_23.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_24.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_explode2.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_8.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_9.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_10.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_11.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_12.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_13.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_14.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_15.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_16.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_17.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_18.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_19.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_20.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_21.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_22.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_23.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_explode2/spr_explode2_24.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_explode2.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": []
     },
     {
@@ -1824,9 +1824,9 @@
       "imageSpeed": 0.2,
       "imageSpeedSource": "obj_grenade_explosion Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_0.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_1.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_2.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_3.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_4.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_5.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_6.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_7.png", "Assets/Unity.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_8.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/explosion/spr_grenade_explode.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/explosion/spr_grenade_explode/spr_grenade_explode_8.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/explosion/spr_grenade_explode.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2",
       "notes": ["reachable from rooms of more than one speed (60, 120); the clip uses 120"]
     },
     {
@@ -1849,9 +1849,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_0.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_1.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_2.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/rabbit/spr_rabbit_idle.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle/spr_rabbit_idle_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/rabbit/spr_rabbit_idle.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1874,9 +1874,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle_hurt/spr_rabbit_idle_hurt_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_idle_hurt/spr_rabbit_idle_hurt_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1899,9 +1899,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap/spr_rabbit_leap_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap/spr_rabbit_leap_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1924,9 +1924,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap_hurt/spr_rabbit_leap_hurt_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap_hurt/spr_rabbit_leap_hurt_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1949,9 +1949,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_crouch/spr_rabbit_crouch_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_crouch/spr_rabbit_crouch_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1974,9 +1974,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_crouch_hurt/spr_rabbit_crouch_hurt_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_crouch_hurt/spr_rabbit_crouch_hurt_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -1999,9 +1999,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_small/spr_death_particle_small_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_small/spr_death_particle_small_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2024,9 +2024,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_medium/spr_death_particle_medium_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_medium/spr_death_particle_medium_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2049,9 +2049,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_large/spr_death_particle_large_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_death_particle_large/spr_death_particle_large_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2074,9 +2074,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall/spr_shieldwall_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall/spr_shieldwall_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2099,9 +2099,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_0.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_1.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_2.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_3.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_4.png", "Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_5.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/rabbit/addon/spr_shieldwall_anime.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_shieldwall_anime/spr_shieldwall_anime_5.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/rabbit/addon/spr_shieldwall_anime.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2124,9 +2124,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_angle_arrow/spr_angle_arrow_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_angle_arrow/spr_angle_arrow_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2149,9 +2149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_blue/spr_reticle_blue_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_blue/spr_reticle_blue_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2174,9 +2174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_red/spr_reticle_red_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_red/spr_reticle_red_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2199,9 +2199,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_green/spr_reticle_green_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_reticle_green/spr_reticle_green_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2224,9 +2224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_angle_arrow_red/spr_angle_arrow_red_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_angle_arrow_red/spr_angle_arrow_red_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2249,9 +2249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_direction_arrow/spr_direction_arrow_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_direction_arrow/spr_direction_arrow_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2274,9 +2274,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_back/spr_healthbar_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_back/spr_healthbar_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2299,9 +2299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_cover/spr_healthbar_cover_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_cover/spr_healthbar_cover_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2324,9 +2324,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_fill/spr_healthbar_fill_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/addon/spr_healthbar_fill/spr_healthbar_fill_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2",
       "notes": []
     },
     {
@@ -2349,7 +2349,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_stand_large/spr_rabbit_stand_large_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_stand_large/spr_rabbit_stand_large_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1154x1154 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -2374,7 +2374,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap_large/spr_rabbit_leap_large_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rabbit/spr_rabbit_leap_large/spr_rabbit_leap_large_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1154x1154 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -2399,9 +2399,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_rock1/spr_rock1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_rock1/spr_rock1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2424,9 +2424,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_rock2/spr_rock2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_rock2/spr_rock2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2449,9 +2449,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_rock3/spr_rock3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_rock3/spr_rock3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2474,9 +2474,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_rock4/spr_rock4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_rock4/spr_rock4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2499,9 +2499,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_rock5/spr_rock5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_rock5/spr_rock5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2524,9 +2524,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/rock/spr_asteroid_experiment/spr_asteroid_experiment_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/rock/spr_asteroid_experiment/spr_asteroid_experiment_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2",
       "notes": []
     },
     {
@@ -2549,9 +2549,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/structure/spr_structure1/spr_structure1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/structure/spr_structure1/spr_structure1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2",
       "notes": []
     },
     {
@@ -2574,9 +2574,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/structure/spr_structure1_cover/spr_structure1_cover_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/structure/spr_structure1_cover/spr_structure1_cover_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2",
       "notes": []
     },
     {
@@ -2599,9 +2599,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_missle/spr_icon_missle_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_missle/spr_icon_missle_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2624,9 +2624,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_mine/spr_icon_mine_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_mine/spr_icon_mine_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2649,9 +2649,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_shotgun/spr_icon_shotgun_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_shotgun/spr_icon_shotgun_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2674,9 +2674,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_rocket/spr_icon_rocket_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_rocket/spr_icon_rocket_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2699,9 +2699,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_laser/spr_icon_laser_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_laser/spr_icon_laser_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2724,9 +2724,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_flamer/spr_icon_flamer_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_flamer/spr_icon_flamer_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2749,9 +2749,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_vulcan/spr_icon_vulcan_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_vulcan/spr_icon_vulcan_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2774,9 +2774,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/weapons/spr_icon_railgun/spr_icon_railgun_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/weapons/spr_icon_railgun/spr_icon_railgun_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2799,9 +2799,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip/spr_health_pip_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip/spr_health_pip_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2824,9 +2824,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip_back/spr_health_pip_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip_back/spr_health_pip_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2849,9 +2849,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/healthbar/spr_lost_health/spr_lost_health_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/healthbar/spr_lost_health/spr_lost_health_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2874,9 +2874,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip_empty/spr_health_pip_empty_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/healthbar/spr_health_pip_empty/spr_health_pip_empty_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2899,9 +2899,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/energybar/spr_energybar_back/spr_energybar_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/energybar/spr_energybar_back/spr_energybar_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2924,9 +2924,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/energybar/spr_energybar_fill/spr_energybar_fill_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/energybar/spr_energybar_fill/spr_energybar_fill_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2949,9 +2949,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/energybar/spr_energybar_cover/spr_energybar_cover_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/energybar/spr_energybar_cover/spr_energybar_cover_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2974,9 +2974,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/spr_extralives/spr_extralives_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/spr_extralives/spr_extralives_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -2999,9 +2999,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/spr_spawn_point/spr_spawn_point_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/spr_spawn_point/spr_spawn_point_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -3024,9 +3024,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/spr_pointer/spr_pointer_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/spr_pointer/spr_pointer_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -3049,9 +3049,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gui/spr_big_arrow/spr_big_arrow_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gui/spr_big_arrow/spr_big_arrow_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2",
       "notes": []
     },
     {
@@ -3074,9 +3074,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_vulcan/spr_weapon_vulcan_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_vulcan/spr_weapon_vulcan_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3099,9 +3099,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_flamer/spr_weapon_flamer_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_flamer/spr_weapon_flamer_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3124,9 +3124,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_railgun/spr_weapon_railgun_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_railgun/spr_weapon_railgun_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3149,9 +3149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_laser/spr_weapon_laser_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_laser/spr_weapon_laser_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3174,9 +3174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_rocket/spr_weapon_rocket_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_rocket/spr_weapon_rocket_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3199,9 +3199,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_weapon_shotgun/spr_weapon_shotgun_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_weapon_shotgun/spr_weapon_shotgun_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3224,9 +3224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_ammo_cartridge/spr_ammo_cartridge_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_ammo_cartridge/spr_ammo_cartridge_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3249,9 +3249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/spr_ammo_shell/spr_ammo_shell_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/spr_ammo_shell/spr_ammo_shell_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3274,9 +3274,9 @@
       "imageSpeed": 0.1,
       "imageSpeedSource": "obj_bullet Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet/spr_bullet_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet/spr_bullet_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3299,9 +3299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_rocket/spr_rocket_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_rocket/spr_rocket_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3324,9 +3324,9 @@
       "imageSpeed": 0.5,
       "imageSpeedSource": "obj_rocket Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_rocket_anime.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_rocket_anime/spr_rocket_anime_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_rocket_anime.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3349,9 +3349,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_muzzleflash.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash/spr_muzzleflash_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_muzzleflash.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3374,9 +3374,9 @@
       "imageSpeed": 0.3,
       "imageSpeedSource": "obj_muzzleflash Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_muzzleflash_new.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_muzzleflash_new/spr_muzzleflash_new_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_muzzleflash_new.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3399,9 +3399,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_vulcan/spr_bullet_vulcan_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_vulcan/spr_bullet_vulcan_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3424,9 +3424,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_laser_pulse.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_laser_pulse/spr_laser_pulse_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_laser_pulse.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3449,9 +3449,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_railgun_swirl/spr_railgun_swirl_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_railgun_swirl/spr_railgun_swirl_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3474,9 +3474,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_raingun_ring/spr_raingun_ring_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_raingun_ring/spr_raingun_ring_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3499,9 +3499,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_pellet/spr_pellet_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_pellet/spr_pellet_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3524,9 +3524,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_3.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_4.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_5.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_teleporter.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_teleporter/spr_teleporter_5.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_teleporter.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3549,9 +3549,9 @@
       "imageSpeed": 0.07,
       "imageSpeedSource": "obj_enemy_mine Create, obj_mine Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_3.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_4.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_5.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_mine.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_mine/spr_mine_5.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_mine.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3574,9 +3574,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_grenade/spr_grenade_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_grenade/spr_grenade_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3599,9 +3599,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_sliver/spr_sliver_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_sliver/spr_sliver_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3624,9 +3624,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_1.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_2.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_fireball.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_fireball/spr_fireball_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_fireball.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3649,9 +3649,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_blue/spr_bullet_blue_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_blue/spr_bullet_blue_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3674,9 +3674,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_orange/spr_bullet_orange_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_orange/spr_bullet_orange_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3699,9 +3699,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_flash/spr_bullet_flash_0.png", "Assets/Unity.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_flash/spr_bullet_flash_1.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/game/weapon/projectile/spr_bullet_flash.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_flash/spr_bullet_flash_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/game/weapon/projectile/spr_bullet_flash/spr_bullet_flash_1.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/game/weapon/projectile/spr_bullet_flash.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2",
       "notes": []
     },
     {
@@ -3724,9 +3724,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/environment/spr_cloud4/spr_cloud4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/environment/spr_cloud4/spr_cloud4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
       "notes": []
     },
     {
@@ -3749,9 +3749,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/environment/spr_cloud3/spr_cloud3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/environment/spr_cloud3/spr_cloud3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
       "notes": []
     },
     {
@@ -3774,9 +3774,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/environment/spr_cloud2/spr_cloud2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/environment/spr_cloud2/spr_cloud2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
       "notes": []
     },
     {
@@ -3799,9 +3799,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/environment/spr_cloud1/spr_cloud1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/environment/spr_cloud1/spr_cloud1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2",
       "notes": []
     },
     {
@@ -3824,9 +3824,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib1/spr_meatball_gib1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib1/spr_meatball_gib1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3849,9 +3849,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib2/spr_meatball_gib2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib2/spr_meatball_gib2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3874,9 +3874,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib3/spr_meatball_gib3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib3/spr_meatball_gib3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3899,9 +3899,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib4/spr_meatball_gib4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib4/spr_meatball_gib4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3924,9 +3924,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib5/spr_meatball_gib5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib5/spr_meatball_gib5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3949,9 +3949,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib6/spr_meatball_gib6_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/meatball/spr_meatball_gib6/spr_meatball_gib6_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3974,9 +3974,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib1/spr_worm_gib1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib1/spr_worm_gib1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -3999,9 +3999,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib2/spr_worm_gib2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib2/spr_worm_gib2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4024,9 +4024,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib3/spr_worm_gib3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib3/spr_worm_gib3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4049,9 +4049,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib4/spr_worm_gib4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib4/spr_worm_gib4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4074,9 +4074,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib5/spr_worm_gib5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib5/spr_worm_gib5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4099,9 +4099,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib6/spr_worm_gib6_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib6/spr_worm_gib6_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4124,9 +4124,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib7/spr_worm_gib7_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib7/spr_worm_gib7_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4149,9 +4149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib8/spr_worm_gib8_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/worm/spr_worm_gib8/spr_worm_gib8_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4174,9 +4174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/chips/spr_chip1/spr_chip1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/chips/spr_chip1/spr_chip1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4199,9 +4199,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/chips/spr_chip2/spr_chip2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/chips/spr_chip2/spr_chip2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4224,9 +4224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/chips/spr_chip3/spr_chip3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/chips/spr_chip3/spr_chip3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4249,9 +4249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/chips/spr_chip4/spr_chip4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/chips/spr_chip4/spr_chip4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4274,9 +4274,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/chips/spr_chip5/spr_chip5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/chips/spr_chip5/spr_chip5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4299,9 +4299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum1/spr_flotsum1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum1/spr_flotsum1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4324,9 +4324,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum2/spr_flotsum2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum2/spr_flotsum2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4349,9 +4349,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum3/spr_flotsum3_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum3/spr_flotsum3_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4374,9 +4374,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum4/spr_flotsum4_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum4/spr_flotsum4_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4399,9 +4399,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum5/spr_flotsum5_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/gibs/asteroid/spr_flotsum5/spr_flotsum5_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2",
       "notes": []
     },
     {
@@ -4424,9 +4424,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/game/spr_results/spr_results_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/game/spr_results/spr_results_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_game.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_game.spriteatlasv2",
       "notes": []
     },
     {
@@ -4449,9 +4449,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/upgrade/spr_upgrade_frame/spr_upgrade_frame_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/upgrade/spr_upgrade_frame/spr_upgrade_frame_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
       "notes": []
     },
     {
@@ -4474,9 +4474,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/upgrade/spr_upgrade_circle_empty/spr_upgrade_circle_empty_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/upgrade/spr_upgrade_circle_empty/spr_upgrade_circle_empty_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
       "notes": []
     },
     {
@@ -4499,9 +4499,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/upgrade/spr_upgrade_circle_filled/spr_upgrade_circle_filled_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/upgrade/spr_upgrade_circle_filled/spr_upgrade_circle_filled_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2",
       "notes": []
     },
     {
@@ -4524,9 +4524,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/conversation/spr_portrait_general_zee/spr_portrait_general_zee_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/conversation/spr_portrait_general_zee/spr_portrait_general_zee_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
       "notes": []
     },
     {
@@ -4549,9 +4549,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/conversation/spr_comm_frame_back/spr_comm_frame_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/conversation/spr_comm_frame_back/spr_comm_frame_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
       "notes": []
     },
     {
@@ -4574,9 +4574,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/conversation/spr_comm_frame/spr_comm_frame_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/conversation/spr_comm_frame/spr_comm_frame_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2",
       "notes": []
     },
     {
@@ -4599,7 +4599,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/conversation/spr_conversation_box/spr_conversation_box_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/conversation/spr_conversation_box/spr_conversation_box_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1920x256 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -4624,7 +4624,7 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_tech_schematic/spr_tech_schematic_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_tech_schematic/spr_tech_schematic_0.png"],
       "clip": "",
       "atlas": "",
       "notes": ["1920x1080 is larger than 1024 px on a side, so it keeps its own texture instead of joining a sprite atlas"]
@@ -4649,9 +4649,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_rocketbooster_schematic/spr_rocketbooster_schematic_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_rocketbooster_schematic/spr_rocketbooster_schematic_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4674,9 +4674,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_brake_schematic/spr_brake_schematic_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_brake_schematic/spr_brake_schematic_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4699,9 +4699,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_rabbit_schematic/spr_rabbit_schematic_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_rabbit_schematic/spr_rabbit_schematic_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4724,9 +4724,9 @@
       "imageSpeed": 0.1,
       "imageSpeedSource": "obj_textdone Create",
       "roomSpeed": 60,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_textdone/spr_textdone_0.png", "Assets/Unity.Hare/Art/Sprites/spr_textdone/spr_textdone_1.png", "Assets/Unity.Hare/Art/Sprites/spr_textdone/spr_textdone_2.png", "Assets/Unity.Hare/Art/Sprites/spr_textdone/spr_textdone_3.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/spr_textdone.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_textdone/spr_textdone_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_textdone/spr_textdone_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_textdone/spr_textdone_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_textdone/spr_textdone_3.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/spr_textdone.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4749,9 +4749,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_weapon_pickup/spr_weapon_pickup_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_weapon_pickup/spr_weapon_pickup_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4774,9 +4774,9 @@
       "imageSpeed": 0.3,
       "imageSpeedSource": "obj_shieldwall Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_shield_hitbox/spr_shield_hitbox_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_shield_hitbox/spr_shield_hitbox_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4799,9 +4799,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_helper/spr_helper_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_helper/spr_helper_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4824,9 +4824,9 @@
       "imageSpeed": 0.3,
       "imageSpeedSource": "obj_flame Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_0.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_1.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_2.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_3.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_4.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_5.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_6.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_7.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_8.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_9.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_10.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_11.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_12.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_13.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_14.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_15.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_16.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_17.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_18.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_19.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_20.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_21.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_22.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_23.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_24.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_25.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_26.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_27.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_28.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_29.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_30.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_31.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_32.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_33.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_34.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_35.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_36.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_37.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_38.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_39.png", "Assets/Unity.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_40.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/spr_powder_fire.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_5.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_6.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_7.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_8.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_9.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_10.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_11.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_12.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_13.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_14.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_15.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_16.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_17.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_18.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_19.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_20.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_21.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_22.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_23.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_24.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_25.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_26.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_27.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_28.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_29.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_30.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_31.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_32.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_33.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_34.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_35.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_36.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_37.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_38.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_39.png", "Assets/Unity.Rea.Hare/Art/Sprites/spr_powder_fire/spr_powder_fire_40.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/spr_powder_fire.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4849,9 +4849,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_yesno_button/spr_yesno_button_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_yesno_button/spr_yesno_button_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4874,9 +4874,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_ring_front/spr_ring_front_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_ring_front/spr_ring_front_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4899,9 +4899,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_ring_back/spr_ring_back_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_ring_back/spr_ring_back_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -4924,9 +4924,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_snow2/spr_snow2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_snow2/spr_snow2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -4949,9 +4949,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_snow1/spr_snow1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_snow1/spr_snow1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -4974,9 +4974,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_sand2/spr_sand2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_sand2/spr_sand2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -4999,9 +4999,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_sand1/spr_sand1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_sand1/spr_sand1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5024,9 +5024,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_rainemitter/spr_rainemitter_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_rainemitter/spr_rainemitter_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5049,9 +5049,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_raindrop/spr_raindrop_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_raindrop/spr_raindrop_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5074,9 +5074,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_rain/spr_rain_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_rain/spr_rain_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5099,9 +5099,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_leaf2/spr_leaf2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_leaf2/spr_leaf2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5124,9 +5124,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_leaf1/spr_leaf1_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_leaf1/spr_leaf1_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5149,9 +5149,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_fly2/spr_fly2_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_fly2/spr_fly2_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5174,9 +5174,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_fly/spr_fly_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_fly/spr_fly_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5199,9 +5199,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_firefly_strip/spr_firefly_strip_0.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_firefly_strip/spr_firefly_strip_1.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/weather/spr_firefly_strip.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_firefly_strip/spr_firefly_strip_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_firefly_strip/spr_firefly_strip_1.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/weather/spr_firefly_strip.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5224,9 +5224,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_firefly_dark/spr_firefly_dark_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_firefly_dark/spr_firefly_dark_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5249,9 +5249,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_firefly/spr_firefly_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_firefly/spr_firefly_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5274,9 +5274,9 @@
       "imageSpeed": 0.1,
       "imageSpeedSource": "obj_butterfly Create",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_0.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_1.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_2.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_3.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_4.png", "Assets/Unity.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_5.png"],
-      "clip": "Assets/Unity.Hare/Art/Animations/weather/spr_butterfly.anim",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_0.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_1.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_2.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_3.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_4.png", "Assets/Unity.Rea.Hare/Art/Sprites/weather/spr_butterfly/spr_butterfly_5.png"],
+      "clip": "Assets/Unity.Rea.Hare/Art/Animations/weather/spr_butterfly.anim",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_weather.spriteatlasv2",
       "notes": []
     },
     {
@@ -5299,9 +5299,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_weapon_select/spr_weapon_select_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_weapon_select/spr_weapon_select_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     },
     {
@@ -5324,9 +5324,9 @@
       "imageSpeed": 1,
       "imageSpeedSource": "GameMaker default (no object showing it sets image_speed in Create)",
       "roomSpeed": 120,
-      "frames": ["Assets/Unity.Hare/Art/Sprites/spr_weapon_select_light/spr_weapon_select_light_0.png"],
+      "frames": ["Assets/Unity.Rea.Hare/Art/Sprites/spr_weapon_select_light/spr_weapon_select_light_0.png"],
       "clip": "",
-      "atlas": "Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
+      "atlas": "Assets/Unity.Rea.Hare/Art/Atlases/Sprites_root.spriteatlasv2",
       "notes": []
     }
   ],
@@ -5341,7 +5341,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_black.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_black.png"
     },
     {
       "name": "bg_gradient2",
@@ -5353,7 +5353,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_gradient2.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_gradient2.png"
     },
     {
       "name": "bg_gradient3",
@@ -5365,7 +5365,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_gradient3.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_gradient3.png"
     },
     {
       "name": "bg_uphigh",
@@ -5377,7 +5377,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/backdrops/bg_uphigh.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/backdrops/bg_uphigh.png"
     },
     {
       "name": "bg_worldcurve",
@@ -5389,7 +5389,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/backdrops/bg_worldcurve.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/backdrops/bg_worldcurve.png"
     },
     {
       "name": "bg_atmosphere",
@@ -5401,7 +5401,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/backdrops/bg_atmosphere.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/backdrops/bg_atmosphere.png"
     },
     {
       "name": "bg_moonview",
@@ -5413,7 +5413,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/backdrops/bg_moonview.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/backdrops/bg_moonview.png"
     },
     {
       "name": "bg_orange",
@@ -5425,7 +5425,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/backdrops/bg_orange.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/backdrops/bg_orange.png"
     },
     {
       "name": "bg_nightsky",
@@ -5437,7 +5437,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_nightsky.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_nightsky.png"
     },
     {
       "name": "bg_stormclouds",
@@ -5449,7 +5449,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_stormclouds.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_stormclouds.png"
     },
     {
       "name": "bg_tropicalocean",
@@ -5461,7 +5461,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_tropicalocean.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_tropicalocean.png"
     },
     {
       "name": "bg_metal",
@@ -5473,7 +5473,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_metal.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_metal.png"
     },
     {
       "name": "bg_rabbit_schematic",
@@ -5485,7 +5485,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_rabbit_schematic.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_rabbit_schematic.png"
     },
     {
       "name": "bg_rabbit_schematic_transparent",
@@ -5497,7 +5497,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_rabbit_schematic_transparent.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_rabbit_schematic_transparent.png"
     },
     {
       "name": "bg_circuitboard",
@@ -5509,7 +5509,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_circuitboard.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_circuitboard.png"
     },
     {
       "name": "bg_circuitboard2",
@@ -5521,7 +5521,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_circuitboard2.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_circuitboard2.png"
     },
     {
       "name": "bg_circuitboard3",
@@ -5533,7 +5533,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_circuitboard3.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_circuitboard3.png"
     },
     {
       "name": "bg_semiopaque80",
@@ -5545,7 +5545,7 @@
       "tileset": false,
       "tileWidth": 16,
       "tileHeight": 16,
-      "texture": "Assets/Unity.Hare/Art/Backgrounds/bg_semiopaque80.png"
+      "texture": "Assets/Unity.Rea.Hare/Art/Backgrounds/bg_semiopaque80.png"
     }
   ],
   "skipped": []

@@ -248,7 +248,7 @@ namespace Unity.Hare.Tests.Core
         {
             // here = .../Tests/Core.Tests/ContentRegistryTests.cs
             string repoRoot = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(here), "..", ".."));
-            return Path.Combine(repoRoot, "Assets", "Unity.Hare", "Resources", "Hare", "Content", "GameContent.json");
+            return Path.Combine(repoRoot, "Assets", "Unity.Rea.Hare", "Resources", "Hare", "Content", "GameContent.json");
         }
     }
 }

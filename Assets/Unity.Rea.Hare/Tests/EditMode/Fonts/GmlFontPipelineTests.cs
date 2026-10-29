@@ -20,7 +20,7 @@ namespace Unity.Hare.Tests.EditMode.Fonts
     /// </summary>
     public class GmlFontPipelineTests
     {
-        const string ThemePath = "Assets/Unity.Hare/Resources/Hare/UI/Theme.uss";
+        const string ThemePath = "Assets/Unity.Rea.Hare/Resources/Hare/UI/Theme.uss";
         GmlFontData data;
 
         [SetUp]

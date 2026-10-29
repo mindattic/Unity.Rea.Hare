@@ -108,7 +108,7 @@ namespace Unity.Hare.Tests.EditMode
         [Test]
         public void RoomGamescreenCarriesTheArmedShip()
         {
-            var scene = EditorSceneManager.OpenScene("Assets/Unity.Hare/Scenes/Rooms/room_gamescreen.unity", OpenSceneMode.Additive);
+            var scene = EditorSceneManager.OpenScene("Assets/Unity.Rea.Hare/Scenes/Rooms/room_gamescreen.unity", OpenSceneMode.Additive);
             try
             {
                 var ships = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<PlayerShipController>(true)).ToList();

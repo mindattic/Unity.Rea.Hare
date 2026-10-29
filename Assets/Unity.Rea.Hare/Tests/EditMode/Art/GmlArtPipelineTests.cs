@@ -202,7 +202,7 @@ namespace Unity.Hare.Tests.EditMode.Art
         {
             Assert.Throws<InvalidDataException>(() => GmlArtData.Parse("{\"pixelsPerUnit\":0,\"defaultRoomSpeed\":120}"));
             Assert.Throws<InvalidDataException>(() => GmlArtData.Parse(
-                "{\"pixelsPerUnit\":100,\"defaultRoomSpeed\":120,\"sprites\":[{\"name\":\"a\",\"width\":1,\"height\":1,\"roomSpeed\":120,\"colkind\":7,\"frames\":[\"Assets/Unity.Hare/Art/Sprites/a_0.png\"]}]}"));
+                "{\"pixelsPerUnit\":100,\"defaultRoomSpeed\":120,\"sprites\":[{\"name\":\"a\",\"width\":1,\"height\":1,\"roomSpeed\":120,\"colkind\":7,\"frames\":[\"Assets/Unity.Rea.Hare/Art/Sprites/a_0.png\"]}]}"));
             Assert.Throws<InvalidDataException>(() => GmlArtData.Parse(
                 "{\"pixelsPerUnit\":100,\"defaultRoomSpeed\":120,\"sprites\":[{\"name\":\"a\",\"width\":1,\"height\":1,\"roomSpeed\":120,\"frames\":[\"Assets/Elsewhere/a_0.png\"]}]}"));
         }

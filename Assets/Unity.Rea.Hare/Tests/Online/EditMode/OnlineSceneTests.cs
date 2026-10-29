@@ -66,7 +66,7 @@ namespace Unity.Hare.Tests.Online.EditMode
         [Test]
         public void EveryNetworkPrefabPassesTheKitsValidator()
         {
-            NetPrefabValidationReport report = NetPrefabValidator.ValidateProject(new[] { "Assets/Unity.Hare" });
+            NetPrefabValidationReport report = NetPrefabValidator.ValidateProject(new[] { "Assets/Unity.Rea.Hare" });
             report.Log();
             Assert.That(report.HasErrors, Is.False, "see the validator's messages in the log");
         }

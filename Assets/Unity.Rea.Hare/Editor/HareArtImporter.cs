@@ -15,8 +15,8 @@ namespace Unity.Hare.EditorTools
     /// </summary>
     public class HareArtImporter : AssetPostprocessor
     {
-        public const string SpritesFolder = "Assets/Unity.Hare/Resources/Hare/Sprites/";
-        public const string ParticlesFolder = "Assets/Unity.Hare/Resources/Hare/Particles/";
+        public const string SpritesFolder = "Assets/Unity.Rea.Hare/Resources/Hare/Sprites/";
+        public const string ParticlesFolder = "Assets/Unity.Rea.Hare/Resources/Hare/Particles/";
         public const string OriginsFile = SpritesFolder + "sprites.txt";
 
         void OnPreprocessTexture()

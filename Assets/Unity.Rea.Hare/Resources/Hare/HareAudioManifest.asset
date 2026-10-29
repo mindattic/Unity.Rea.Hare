@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a7ddb9d4a4a1bf4482de2dc6222709a, type: 3}
   m_Name: HareAudioManifest
-  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Audio.HareAudioManifest
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Audio.HareAudioManifest
   sounds:
   - name: sfx_whoosh
     group: 

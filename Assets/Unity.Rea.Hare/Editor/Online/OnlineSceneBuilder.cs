@@ -23,9 +23,9 @@ namespace Unity.Hare.EditorTools.Online
     /// </summary>
     public static class OnlineSceneBuilder
     {
-        public const string ScenePath = "Assets/Unity.Hare/Scenes/Online.unity";
-        public const string PrefabPath = "Assets/Unity.Hare/Resources/" + HareNetPlayer.PrefabResource + ".prefab";
-        public const string PrefabListPath = "Assets/Unity.Hare/Online/HareNetPrefabs.asset";
+        public const string ScenePath = "Assets/Unity.Rea.Hare/Scenes/Online.unity";
+        public const string PrefabPath = "Assets/Unity.Rea.Hare/Resources/" + HareNetPlayer.PrefabResource + ".prefab";
+        public const string PrefabListPath = "Assets/Unity.Rea.Hare/Online/HareNetPrefabs.asset";
         public const string MpHostPath = "mp-host.json";
 
         /// <summary>mp-host's defaults: the server and the smoke test's bots run the online scene; Hare has no scenarios online yet.</summary>

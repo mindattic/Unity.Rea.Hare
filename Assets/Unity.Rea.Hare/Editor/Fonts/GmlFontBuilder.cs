@@ -36,7 +36,7 @@ namespace Unity.Hare.EditorTools
     /// </summary>
     public static class GmlFontBuilder
     {
-        public const string OutputFolder = "Assets/Unity.Hare/Resources/" + HareFonts.ResourceFolder;
+        public const string OutputFolder = "Assets/Unity.Rea.Hare/Resources/" + HareFonts.ResourceFolder;
 
         /// <summary>The render mode every GML font is built with: anti-aliased bitmap glyphs (GameMaker's <c>aa</c>).</summary>
         public const GlyphRenderMode RenderMode = GlyphRenderMode.SMOOTH;

@@ -17,7 +17,7 @@ namespace Unity.Hare.Tests.PlayMode
     /// </summary>
     public class CameraRigPlayTests
     {
-        const string MainScene = "Assets/Unity.Hare/Scenes/Rooms/room_gamescreen.unity"; // the arena room (U.HARE-T50: Main.unity is the bootstrap only)
+        const string MainScene = "Assets/Unity.Rea.Hare/Scenes/Rooms/room_gamescreen.unity"; // the arena room (U.HARE-T50: Main.unity is the bootstrap only)
 
         [UnityTest]
         public IEnumerator MainCameraIsLetterboxedToTheReferenceResolution()

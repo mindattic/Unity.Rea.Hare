@@ -5,7 +5,7 @@ using Unity.Hare.Art;
 namespace Unity.Hare.EditorTools
 {
     /// <summary>
-    /// Import settings for the art tools/import-gml-art.ps1 mirrors into Assets/Unity.Hare/Art, read from
+    /// Import settings for the art tools/import-gml-art.ps1 mirrors into Assets/Unity.Rea.Hare/Art, read from
     /// Art/gml-art.json so nothing is set by hand in the Inspector and every .meta is generated:
     ///
     /// Sprite frames (Art/Sprites): single sprites at the manifest's pixels per unit (GameClock.PixelsPerUnit), the

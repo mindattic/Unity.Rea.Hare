@@ -97,7 +97,7 @@ namespace Unity.Hare.Tests.Core
         public void TheShippedDataFileMatchesTheCompiledInDefaults()
         {
             var path = System.IO.Path.Combine(TestContext.CurrentContext.TestDirectory,
-                "../../../../../Assets/Unity.Hare/Resources/Hare/Content/GameContent.json");
+                "../../../../../Assets/Unity.Rea.Hare/Resources/Hare/Content/GameContent.json");
             var loaded = ContentRegistry.FromJson(System.IO.File.ReadAllText(path)).Title;
             var defaults = ContentRegistry.Default.Title;
             object Shape(TitleButtonDefinition b) => (b.Object, b.Label, b.LargeLabel, b.LabelOffset, b.Message, b.X, b.Y, b.Placed, b.MaskSprite,

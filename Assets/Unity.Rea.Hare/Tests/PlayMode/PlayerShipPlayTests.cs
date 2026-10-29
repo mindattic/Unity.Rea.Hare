@@ -12,7 +12,7 @@ namespace Unity.Hare.Tests.PlayMode
     /// <summary>UH-T77: the main scene's ship wakes up armed under Unity's own loop and its weapons fire.</summary>
     public class PlayerShipPlayTests
     {
-        const string MainScene = "Assets/Unity.Hare/Scenes/Rooms/room_gamescreen.unity"; // the arena room (U.HARE-T50: Main.unity is the bootstrap only)
+        const string MainScene = "Assets/Unity.Rea.Hare/Scenes/Rooms/room_gamescreen.unity"; // the arena room (U.HARE-T50: Main.unity is the bootstrap only)
 
         [UnityTest]
         public IEnumerator TheMainScenesShipWakesArmedAndFires()
