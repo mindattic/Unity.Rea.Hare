@@ -1,11 +1,11 @@
-# Unity.Hare
+# Unity.Rea.Hare
 
 A robotic rabbit flies, perches and fights in low orbit over a drifting asteroid field. A Unity 6 rebuild of
 *HARE*, a GameMaker 8.1 arcade shoot-'em-up (in-game title *H.O.P., High Orbit Patrol*) that was functionally
 complete but had hit the limits of GML.
 
 [![Unity](https://img.shields.io/badge/Unity-6000.4.3f1-222222)](ProjectSettings/ProjectVersion.txt)
-[![C#](https://img.shields.io/badge/language-C%23-512BD4)](Assets/Unity.Hare)
+[![C#](https://img.shields.io/badge/language-C%23-512BD4)](Assets/Unity.Rea.Hare)
 [![Status](https://img.shields.io/badge/status-in%20development-orange)](docs/BIBLE.md)
 
 There is no public build yet. Build it from source with the steps below.

@@ -1,0 +1,20 @@
+{
+    "name": "Unity.Rea.Hare.Runtime",
+    "rootNamespace": "Unity.Hare",
+    "references": [
+        "Unity.Rea.Hare.Core",
+        "MindAttic.Capture.Unity",
+        "Unity.InputSystem",
+        "Unity.Shared",
+        "Unity.Shared.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

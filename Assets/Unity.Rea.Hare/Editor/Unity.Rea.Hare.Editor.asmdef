@@ -1,0 +1,20 @@
+{
+    "name": "Unity.Rea.Hare.Editor",
+    "rootNamespace": "Unity.Hare.EditorTools",
+    "references": [
+        "Unity.Rea.Hare.Core",
+        "Unity.Rea.Hare.Runtime",
+        "Unity.Rea.Hare.Editor.Rendering"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,6 +1,6 @@
 # Credits and third-party assets (U.HARE-T69)
 
-Everything here is third-party material that ships in, or is rasterised into, the Unity.Hare rebuild of the GameMaker
+Everything here is third-party material that ships in, or is rasterised into, the Unity.Rea.Hare rebuild of the GameMaker
 game HARE (`gmlHARE\HARE.gmx`). The same list is shown in game: the title's **Credits** link (bottom right, once the
 menu is up) opens it (`Assets/Unity.Hare/Scripts/UI/CreditsView.cs`). Keep the two in step.
 

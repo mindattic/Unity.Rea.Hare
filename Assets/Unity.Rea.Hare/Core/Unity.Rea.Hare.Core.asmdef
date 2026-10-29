@@ -1,0 +1,14 @@
+{
+    "name": "Unity.Rea.Hare.Core",
+    "rootNamespace": "Unity.Hare",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

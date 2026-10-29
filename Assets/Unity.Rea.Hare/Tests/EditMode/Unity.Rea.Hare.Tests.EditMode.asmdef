@@ -1,0 +1,28 @@
+{
+    "name": "Unity.Rea.Hare.Tests.EditMode",
+    "rootNamespace": "Unity.Hare.Tests.EditMode",
+    "references": [
+        "Unity.Rea.Hare.Core",
+        "Unity.Rea.Hare.Runtime",
+        "Unity.Rea.Hare.Editor",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
+        "Unity.Shared",
+        "Unity.Shared.Core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

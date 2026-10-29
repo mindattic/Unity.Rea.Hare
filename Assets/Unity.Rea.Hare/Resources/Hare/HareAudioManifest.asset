@@ -1,0 +1,469 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7ddb9d4a4a1bf4482de2dc6222709a, type: 3}
+  m_Name: HareAudioManifest
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Audio.HareAudioManifest
+  sounds:
+  - name: sfx_whoosh
+    group: 
+    clip: {fileID: 8300000, guid: 5cad207fbbac55d4c9114a781207954c, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_bend
+    group: 
+    clip: {fileID: 8300000, guid: 301d8842e6738414582ff8f0710aaa70, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_crash
+    group: 
+    clip: {fileID: 8300000, guid: 2d9e2d9c3057cfc409d605fd18782169, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_disabled
+    group: 
+    clip: {fileID: 8300000, guid: 1b247a0615cb2054480e5ea0fa3c5441, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_flick
+    group: 
+    clip: {fileID: 8300000, guid: 5d6874238a8b2f84380553950324d9fd, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_flyover
+    group: 
+    clip: {fileID: 8300000, guid: 300a47e5091640949a5daf0b1b9476d4, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_sonar_ping
+    group: 
+    clip: {fileID: 8300000, guid: 8009439a46e083242b4c1b3ec97f0918, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_zoom
+    group: 
+    clip: {fileID: 8300000, guid: 37f0a7baf44c7554aa2a2736b2d2d640, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire_laser
+    group: 
+    clip: {fileID: 8300000, guid: 88e32ad489756634599b8615ffb0f50f, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire_railgun
+    group: 
+    clip: {fileID: 8300000, guid: c66db0a72a69cea429886dabab839744, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire_shotgun
+    group: 
+    clip: {fileID: 8300000, guid: 77f20d0ef40c2bf4daa33e7705d1061f, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_loop_laser
+    group: 
+    clip: {fileID: 8300000, guid: 3a374d76b9171c141ad125fe5d8ad736, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_bounce_grenade
+    group: 
+    clip: {fileID: 8300000, guid: 3d07e22661f1c284ba5dfe7c472f9869, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire_grenade
+    group: 
+    clip: {fileID: 8300000, guid: f22f406e1d08b724e8ea495df25e516c, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse1
+    group: 
+    clip: {fileID: 8300000, guid: 1798b72968de4fb408d1ca952d9aa4b9, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse2
+    group: 
+    clip: {fileID: 8300000, guid: 1f9c2f657c16b54499a3f2c53c849a04, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse3
+    group: 
+    clip: {fileID: 8300000, guid: b73bcb59652c82243b33c2a2ae8d52e8, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse4
+    group: 
+    clip: {fileID: 8300000, guid: 55712ac14e9ade24b9da56a9062c16b6, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse5
+    group: 
+    clip: {fileID: 8300000, guid: a5ccfb5996e3e614b9cb0d79e4b87e93, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fuse6
+    group: 
+    clip: {fileID: 8300000, guid: 356a0f3b60798d0489f9d9bcaab46d5f, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_shoot_vortex
+    group: 
+    clip: {fileID: 8300000, guid: 5f23af62c1b1838468dc884f092dffe5, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_vortex_blow
+    group: 
+    clip: {fileID: 8300000, guid: 3ec9c27ab71f82146a6f13cadcb5b7fc, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_vortex_suck
+    group: 
+    clip: {fileID: 8300000, guid: 7fb73d5d14c18e74baab694ef66345d7, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_explode
+    group: 
+    clip: {fileID: 8300000, guid: 7f14397db23181142b59b29fac6d97d6, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire
+    group: 
+    clip: {fileID: 8300000, guid: 68e18b3243ab2ce4296b5f0b184d053d, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_fire_cannon
+    group: 
+    clip: {fileID: 8300000, guid: edb0523815df3a84b8e384b50004e010, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_grenade_beep
+    group: 
+    clip: {fileID: 8300000, guid: e653096f9ae096d4994f8e88d175d8e2, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_blip
+    group: 
+    clip: {fileID: 8300000, guid: a1c4baba587cfb44782f9225a6aff7cf, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_type
+    group: 
+    clip: {fileID: 8300000, guid: b5765e512ad77b547b3f55f6a7c86fb5, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_beep
+    group: 
+    clip: {fileID: 8300000, guid: baf8db3deb738c3408ffc41b771ee792, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_bounce
+    group: 
+    clip: {fileID: 8300000, guid: 4a2e604c86559224b85cc5ae23e3affa, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_click
+    group: 
+    clip: {fileID: 8300000, guid: fa9ca05f4326dae4fb1533be4cb06881, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_powerup
+    group: 
+    clip: {fileID: 8300000, guid: 13b929a03448e8d42981b671d23a7450, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_select
+    group: 
+    clip: {fileID: 8300000, guid: f881f3b3510744a4fb66408ee69fb9ac, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_switch
+    group: 
+    clip: {fileID: 8300000, guid: a5d396176b4441e4780f947d3dc36d45, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_turn
+    group: 
+    clip: {fileID: 8300000, guid: 5b679596868f9d446bbf98f55b68aea4, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: music_pinballspring
+    group: music
+    clip: {fileID: 8300000, guid: 111f7a04bef31904ca925c1b395472b0, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: music_inaheartbeat
+    group: music
+    clip: {fileID: 8300000, guid: 4d0d46b70e697664eacc1629fe3b0a2c, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: music_latinindustries
+    group: music
+    clip: {fileID: 8300000, guid: 2f6550b9e5abe3e43a139d6e4f89261c, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: music_overcast
+    group: music
+    clip: {fileID: 8300000, guid: d7e42197ca69ad644b98a5970ca9246f, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: music_presenterator
+    group: music
+    clip: {fileID: 8300000, guid: d5c4392e40ccd3645a57de6669bd68a1, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: music_wallpaper
+    group: music
+    clip: {fileID: 8300000, guid: 49f7a9f7e9a169b46812772682a7685f, type: 3}
+    channel: 1
+    volume: 1
+    pan: 0
+  - name: sfx_blipgun
+    group: 
+    clip: {fileID: 8300000, guid: 5e74ec43cfcfcd2499b0d3cd3361a370, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_set_rocket
+    group: 
+    clip: {fileID: 8300000, guid: 48fea61a6e5fc3746b62ca2605a0b8c3, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_land
+    group: 
+    clip: {fileID: 8300000, guid: 122cd7aa94722324d8be2e7ec545f9ba, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_takeoff
+    group: 
+    clip: {fileID: 8300000, guid: cf895ed9851e73a4fa4ce7f3b2061693, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hologram
+    group: 
+    clip: {fileID: 8300000, guid: 04cea6319813f954b8878ab0737599fc, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hologram_pass
+    group: 
+    clip: {fileID: 8300000, guid: 95d7d4744e9ef144d853fda0468120b0, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt1
+    group: player
+    clip: {fileID: 8300000, guid: d20407e22f1cf224790c4c2077127ed8, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt2
+    group: player
+    clip: {fileID: 8300000, guid: c6cef60326a2e0a4f9df3a6cc10587c0, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt3
+    group: player
+    clip: {fileID: 8300000, guid: bbcf20dd8fd51ff45a29a85e4a16b516, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt4
+    group: player
+    clip: {fileID: 8300000, guid: 2126d19b937400c43a9e79c0edee80af, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt5
+    group: player
+    clip: {fileID: 8300000, guid: 98bf7bf60942c0145bda098dd3ab4209, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt6
+    group: player
+    clip: {fileID: 8300000, guid: c47c4ae5aa52b9f429ee3e036f938104, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt7
+    group: player
+    clip: {fileID: 8300000, guid: 06c2a152251a6b14eb68e93d02405510, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hurt8
+    group: player
+    clip: {fileID: 8300000, guid: e18c16546353fda4fb221f3a71e3b742, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_extralife
+    group: 
+    clip: {fileID: 8300000, guid: 905f12b4ee703d14ca3232c86a42c2df, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_coin
+    group: 
+    clip: {fileID: 8300000, guid: 2ca3fcd90de100142bcf07b1a01c0e88, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_death
+    group: 
+    clip: {fileID: 8300000, guid: c089105287c57d64ba08f4b292b05315, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_roit
+    group: 
+    clip: {fileID: 8300000, guid: 1de749f21c765994cb2f1373c8d45d6f, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_flashbomb
+    group: 
+    clip: {fileID: 8300000, guid: 5f8139f9cc1f8924ba9b1ab173a24e01, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hover
+    group: 
+    clip: {fileID: 8300000, guid: 45a5e0a5384c6764cafa29dab4661b40, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_boost
+    group: 
+    clip: {fileID: 8300000, guid: 9e0d8070ac55e704e8a2e9689745dfe0, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_brake
+    group: 
+    clip: {fileID: 8300000, guid: 0d8d1ce750a20994b807791105a3d27c, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_woof
+    group: 
+    clip: {fileID: 8300000, guid: 6a19388ef045863428bf5fed017c4d72, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_bullet_explosion
+    group: 
+    clip: {fileID: 8300000, guid: 2f1f27a08b46a30429f6354bab5250dc, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_hawk
+    group: 
+    clip: {fileID: 8300000, guid: 76a98a23c1a386e40a59f0a7dc9ac012, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_type2
+    group: 
+    clip: {fileID: 8300000, guid: b1360b223640d604b9b7e374ccde07ea, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_empty_clip
+    group: 
+    clip: {fileID: 8300000, guid: 518b9a9ce41a46d4797315be5e08a389, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_vulcan_spinup
+    group: vulcan
+    clip: {fileID: 8300000, guid: c400192197660b248b26c7bd58559efd, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_vulcan_spindown
+    group: vulcan
+    clip: {fileID: 8300000, guid: 2d1b8ff0f2133af438653d46d73e4b96, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_vulcan_loop
+    group: vulcan
+    clip: {fileID: 8300000, guid: af0278de46f4ae645b7e9c1c8ee80df1, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_reload_full
+    group: 
+    clip: {fileID: 8300000, guid: 10c0e13ae69756a48b6b28ccd92e713d, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_reload_half
+    group: 
+    clip: {fileID: 8300000, guid: 7487a87e58f54ff4d9274add0955b53f, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  - name: sfx_switch_back
+    group: 
+    clip: {fileID: 8300000, guid: 8df09a863745f0b43ab6928771206acd, type: 3}
+    channel: 0
+    volume: 1
+    pan: 0
+  mixer: {fileID: 24100000, guid: d40b4aaf46b4a1f4faf487f844d1c95c, type: 2}
+  musicGroup: {fileID: 6511564474138739392, guid: d40b4aaf46b4a1f4faf487f844d1c95c, type: 2}
+  sfxGroup: {fileID: -8337029061042766321, guid: d40b4aaf46b4a1f4faf487f844d1c95c, type: 2}
+  credits: {fileID: 4900000, guid: aae4ff4307091ca4b9a03d09fc09e74d, type: 3}

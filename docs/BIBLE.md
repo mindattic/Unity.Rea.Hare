@@ -1,15 +1,15 @@
 ---
 codex: 1
-project: Unity.Hare
+project: Unity.Rea.Hare
 code: UH
 layer: bible
 status: living
 updated: 2026-10-23
 ---
 
-# Unity.Hare: Project Bible
+# Unity.Rea.Hare: Project Bible
 
-> The single source of truth for what Unity.Hare is, the rules that keep the rebuild faithful, how the code is
+> The single source of truth for what Unity.Rea.Hare is, the rules that keep the rebuild faithful, how the code is
 > organised, and every place it does not play exactly like the original, with the reason. `README.md` says how to
 > build, run and test it; [`RECONSTRUCTION.md`](RECONSTRUCTION.md) is the inventory of the original, the parity
 > matrix, the standards audit and the build order; [`REVERSE_ENGINEERING.md`](REVERSE_ENGINEERING.md) holds the

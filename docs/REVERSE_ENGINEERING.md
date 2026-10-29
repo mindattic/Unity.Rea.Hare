@@ -1,6 +1,6 @@
 # HARE / Rabbit — GML source notes
 
-Unity.Hare is a full Unity rebuild of a GameMaker 8.1 (`.gmx`) arcade shoot-'em-up about a
+Unity.Rea.Hare is a full Unity rebuild of a GameMaker 8.1 (`.gmx`) arcade shoot-'em-up about a
 robotic rabbit that fights enemies in low orbit. GML hit a ceiling the original author couldn't
 get past, even though the game was functionally complete. These notes capture what the GML
 source actually contains, so the rebuild has a durable reference even if the source drives

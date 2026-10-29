@@ -1,0 +1,4161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c03f3f47bf4252946b9098436fcf96c5, type: 3}
+  m_Name: HareArtManifest
+  m_EditorClassIdentifier: Unity.Hare.Runtime::Unity.Hare.Art.HareArtManifest
+  sprites:
+  - name: spr_tip_box
+    group: 
+    width: 548
+    height: 250
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 547
+    bboxBottom: 249
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 18dee60a10f3a1a4d9cae087742e7dbc, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_white
+    group: 
+    width: 32
+    height: 32
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 4fd0dca370e6c504f840d68c8eb12190, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_black
+    group: 
+    width: 32
+    height: 32
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 045a9eb12061e2d45a71ef686d3f91ef, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_room_loop
+    group: 
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 95
+    bboxBottom: 95
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 313c239bdc7751d4aa41cba117e0dcc1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_alertmarker
+    group: map
+    width: 32
+    height: 64
+    xorig: 16
+    yorig: 32
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 0
+    bboxTop: 23
+    bboxRight: 31
+    bboxBottom: 40
+    imageSpeed: 0.2
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: f4905d2c16c0bae4db3293ba4c357d4f, type: 3}
+    - {fileID: 21300000, guid: 6935164a93ebd814eb83cda0aeda7e7f, type: 3}
+    - {fileID: 21300000, guid: fce4c9334e5404c47ac6f485495ac0ae, type: 3}
+    - {fileID: 21300000, guid: a9d443568d10ad74bac7e6a09bc34642, type: 3}
+    - {fileID: 21300000, guid: e19afe57edd8e8842aac17a9519aa71d, type: 3}
+    - {fileID: 21300000, guid: 533ce292125f74042933e25063c8ae2a, type: 3}
+    clip: {fileID: 7400000, guid: 6ba0effb9d8fc09438b671828a4b5000, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_scanner_beam
+    group: map
+    width: 210
+    height: 211
+    xorig: 210
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 208
+    bboxBottom: 209
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 02663445b5a592641a913720451d6d35, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_scanner
+    group: map
+    width: 380
+    height: 226
+    xorig: 190
+    yorig: 113
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 2
+    bboxRight: 377
+    bboxBottom: 223
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 60b63dcac423bb44e836025e10607572, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_earthball_simple
+    group: map
+    width: 1920
+    height: 1920
+    xorig: 960
+    yorig: 960
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 4
+    bboxTop: 4
+    bboxRight: 1915
+    bboxBottom: 1915
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b4b28bdd9f096224d9ac8891b2d5fa31, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_white_dot
+    group: map
+    width: 8
+    height: 8
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 6
+    bboxBottom: 6
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 84ca58c6093647e4c8f964f6e2e79bb9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_uss_warren
+    group: map
+    width: 238
+    height: 66
+    xorig: 119
+    yorig: 33
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 9
+    bboxRight: 231
+    bboxBottom: 60
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 3e4e6db744701ac4590ed268264a53ad, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_earthball
+    group: map
+    width: 1066
+    height: 1062
+    xorig: 533
+    yorig: 531
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 1064
+    bboxBottom: 1060
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: ee43656b483c1eb4a96368ba3158a9ec, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_destination
+    group: map
+    width: 64
+    height: 130
+    xorig: 32
+    yorig: 130
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 25
+    bboxTop: 0
+    bboxRight: 35
+    bboxBottom: 129
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: ef388d7ce3cd33341bcf61008b3f6d0d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_dropdot
+    group: map
+    width: 9
+    height: 9
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 3
+    bboxRight: 8
+    bboxBottom: 5
+    imageSpeed: 0.1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 9ae89896301ba6e42af857e8816bd66d, type: 3}
+    - {fileID: 21300000, guid: 448659d630ec5cd469497fb3aa62a89e, type: 3}
+    - {fileID: 21300000, guid: a08bfb9468a93c74bb96edb54aec44e0, type: 3}
+    - {fileID: 21300000, guid: e0a53cba8e918e04f9b30e3b8ccbe8ba, type: 3}
+    - {fileID: 21300000, guid: 95e93082d7140f34e8ee560d204d0579, type: 3}
+    clip: {fileID: 7400000, guid: 248230a4eb51cbf4d978ae95bc655b7b, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_scenario_box
+    group: map
+    width: 128
+    height: 64
+    xorig: 64
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 127
+    bboxBottom: 63
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e98b837e868b12941a75457b1feaec3f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_map.spriteatlasv2
+  - name: spr_logo
+    group: title
+    width: 551
+    height: 510
+    xorig: 275
+    yorig: 255
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 3
+    bboxRight: 544
+    bboxBottom: 471
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 493ae23897375734c8b03a85c8ef4681, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_drop
+    group: title
+    width: 462
+    height: 1154
+    xorig: 231
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 6
+    bboxTop: 12
+    bboxRight: 451
+    bboxBottom: 1138
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: b6f1bcc45ea934e4993b3bcd3d10d74a, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_stand
+    group: title
+    width: 493
+    height: 1154
+    xorig: 246
+    yorig: 1154
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 35
+    bboxTop: 99
+    bboxRight: 461
+    bboxBottom: 1134
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 6caeac5e39691c54a8d911742a47c968, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_moon_surface
+    group: title
+    width: 1920
+    height: 398
+    xorig: 0
+    yorig: 398
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 6
+    bboxRight: 1919
+    bboxBottom: 397
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 4214ae3f1fdb4f84cb3ccd627837cb17, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_button_back
+    group: title
+    width: 226
+    height: 64
+    xorig: 113
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 225
+    bboxBottom: 63
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9d9e119a74c393c469ee6ea74636e89a, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_button
+    group: title
+    width: 226
+    height: 64
+    xorig: 113
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 225
+    bboxBottom: 63
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 1f1e7453df2c81c40bcbb9c2f831c2e4, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_button_over
+    group: title
+    width: 226
+    height: 64
+    xorig: 113
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 225
+    bboxBottom: 63
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 19207725ed325e642b2255795c73bfe9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_button_area
+    group: title
+    width: 493
+    height: 69
+    xorig: 246
+    yorig: 34
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 492
+    bboxBottom: 68
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: c7cbe7ce81d6d5c40af8ebe59dba0276, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_button_area_small
+    group: title
+    width: 210
+    height: 35
+    xorig: 105
+    yorig: 17
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 209
+    bboxBottom: 34
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: a9a957490738fb64dbc33bdf0ed80528, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_eyeback
+    group: title
+    width: 85
+    height: 101
+    xorig: 42
+    yorig: 50
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 84
+    bboxBottom: 100
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6390084bc93389c4f97104c45cc6505a, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_pupil
+    group: title
+    width: 85
+    height: 101
+    xorig: 42
+    yorig: 50
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 13
+    bboxTop: 22
+    bboxRight: 69
+    bboxBottom: 75
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c8b8f0c44824a3b4e869abfa754574cd, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_title.spriteatlasv2
+  - name: spr_meatball
+    group: game/enemy
+    width: 181
+    height: 172
+    xorig: 90
+    yorig: 120
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 3
+    bboxRight: 178
+    bboxBottom: 169
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 826aae9f75a6d714d969de1eddf79e1f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_meatball_eyes
+    group: game/enemy
+    width: 181
+    height: 172
+    xorig: 90
+    yorig: 120
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 30
+    bboxTop: 48
+    bboxRight: 146
+    bboxBottom: 89
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6337db850bc772445bdb02962470bf01, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_meatball_pupils
+    group: game/enemy
+    width: 181
+    height: 172
+    xorig: 90
+    yorig: 120
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 52
+    bboxTop: 64
+    bboxRight: 121
+    bboxBottom: 77
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 80607f9058acc9f43bda45907bbdd87f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_ghost
+    group: game/enemy
+    width: 30
+    height: 32
+    xorig: 15
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 2
+    bboxRight: 27
+    bboxBottom: 28
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e73b8f9e66b6d1d4e9e26df955f6b255, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_wraith_float
+    group: game/enemy
+    width: 145
+    height: 115
+    xorig: 72
+    yorig: 57
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 22
+    bboxTop: 1
+    bboxRight: 122
+    bboxBottom: 113
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 668ef9133e619a24c936f8dedfbd5d9a, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_wraith_stunned
+    group: game/enemy
+    width: 145
+    height: 115
+    xorig: 72
+    yorig: 57
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 22
+    bboxTop: 0
+    bboxRight: 122
+    bboxBottom: 114
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 543f4b9043773614bb9f034b8a84479b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_sawblade
+    group: game/enemy
+    width: 31
+    height: 31
+    xorig: 15
+    yorig: 15
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 30
+    bboxBottom: 30
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c1119b59e3be3d04b95fb5b76a6e4a07, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_enemy_emitter_large
+    group: game/enemy/emitter
+    width: 181
+    height: 172
+    xorig: 90
+    yorig: 86
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 180
+    bboxBottom: 171
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3cf2e1e6c40eaf247a394c17d3f968b9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_enemy_emitter
+    group: game/enemy/emitter
+    width: 30
+    height: 32
+    xorig: 15
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 29
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e3b03f08b412c2046bc37145b32a49a7, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_cyprid
+    group: game/enemy
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 9
+    bboxTop: 4
+    bboxRight: 21
+    bboxBottom: 27
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 45a7041854ac80845a9805cd947b78c5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_hydra_turret
+    group: game/enemy
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 43
+    bboxTop: 42
+    bboxRight: 78
+    bboxBottom: 54
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: de1cdbd6de3c8eb4cbec1ecba69addb5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_hydra_body
+    group: game/enemy
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 30
+    bboxBottom: 30
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 2052a2bad077e44419853e8c8479c29f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_phalanx_body
+    group: game/enemy
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 30
+    bboxBottom: 30
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5092e730484a4b1468b4c46c4154d9ba, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_phalanx_shield
+    group: game/enemy
+    width: 19
+    height: 128
+    xorig: 9
+    yorig: 64
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 18
+    bboxBottom: 127
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f0174c27e4d7ccf41a781a6056412676, type: 3}
+    - {fileID: 21300000, guid: 8a085220c7657ba4ea147f8698801952, type: 3}
+    - {fileID: 21300000, guid: f93ac63dfd247974f95fa82f6c96baf2, type: 3}
+    - {fileID: 21300000, guid: 3bbd335c09fb2684184a1c220646f854, type: 3}
+    - {fileID: 21300000, guid: 4c71f014dfc678145a8746126a89f4f6, type: 3}
+    - {fileID: 21300000, guid: e7b9a3d7241c6b14b99184bce55e6c4a, type: 3}
+    - {fileID: 21300000, guid: 1f24085178a20274bb9d86c53f87a8b7, type: 3}
+    - {fileID: 21300000, guid: a8cf6291467fae04fbfa550b6afdba39, type: 3}
+    clip: {fileID: 7400000, guid: c7b7812794cdc564c986db2887a2f42c, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_vortex
+    group: game/enemy
+    width: 550
+    height: 550
+    xorig: 275
+    yorig: 275
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 549
+    bboxBottom: 549
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3de574fa47b616b4aaa58affaf502d3c, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_mimic
+    group: game/enemy
+    width: 109
+    height: 109
+    xorig: 54
+    yorig: 54
+    mask: 2
+    separateMasks: 1
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 107
+    bboxBottom: 107
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 1185606f02fd05c4398d494ab55da3be, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_worm_segment
+    group: game/enemy
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 7
+    bboxTop: 7
+    bboxRight: 120
+    bboxBottom: 120
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ffb6c8b60c839174d9ae2749f7f7068f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_worm_head
+    group: game/enemy
+    width: 128
+    height: 128
+    xorig: 32
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 22
+    bboxTop: 35
+    bboxRight: 126
+    bboxBottom: 88
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 7acfad6f210770640a809ee72cdc4c41, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_stem
+    group: game/enemy
+    width: 51
+    height: 43
+    xorig: 25
+    yorig: 21
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 6
+    bboxRight: 50
+    bboxBottom: 36
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c80c2ed1fe94b4e44b2a47078c1599c8, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_trilobyte
+    group: game/enemy
+    width: 64
+    height: 64
+    xorig: 32
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 7
+    bboxRight: 54
+    bboxBottom: 55
+    imageSpeed: 0.1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ffdb5af9d52db9d499736d70d8945dff, type: 3}
+    - {fileID: 21300000, guid: d6af78f3fea1adc47b9d7a1ee1d891ed, type: 3}
+    - {fileID: 21300000, guid: fe3956916ba214641bb7694108924467, type: 3}
+    - {fileID: 21300000, guid: 151016590b2895446806c1f0aea8f786, type: 3}
+    clip: {fileID: 7400000, guid: 8c2af9c58caee734598d5155a7d35163, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_dagger
+    group: game/enemy
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 18
+    bboxTop: 26
+    bboxRight: 94
+    bboxBottom: 69
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b5e85920d7cf11442808817ad4fe9a8f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_dagger2
+    group: game/enemy
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 10
+    bboxTop: 26
+    bboxRight: 94
+    bboxBottom: 69
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 04ff56903303991478d64bddb47ba120, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull1
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 55
+    bboxTop: 0
+    bboxRight: 199
+    bboxBottom: 124
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5e365562b18b22949a027dc6ed63f676, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull2
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 84
+    bboxTop: 18
+    bboxRight: 199
+    bboxBottom: 111
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d36119796441d7943a211f38c760bfce, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull3
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 105
+    bboxTop: 23
+    bboxRight: 199
+    bboxBottom: 109
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: adc873f06fe0bea4ea04e64c49d4fdbe, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull4
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 62
+    bboxTop: 8
+    bboxRight: 199
+    bboxBottom: 110
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 40ec744b344e8044eaa0a65ba412cbdf, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull5
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 83
+    bboxTop: 21
+    bboxRight: 199
+    bboxBottom: 112
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3d2bc8c5fadce394c859194f5963bac1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull6
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 71
+    bboxTop: 21
+    bboxRight: 199
+    bboxBottom: 112
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9a1693e9164702c4299471dd6ad2cdd0, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull7
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 96
+    bboxTop: 12
+    bboxRight: 199
+    bboxBottom: 103
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5b2be6f9d17fac4489b3fcec2f5c3673, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_boss_hull8
+    group: game/enemy/boss
+    width: 200
+    height: 128
+    xorig: 0
+    yorig: 64
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 111
+    bboxTop: 18
+    bboxRight: 199
+    bboxBottom: 97
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 836fd79dc2dffab4090b9428d2fbe46b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_schrapnel_eye
+    group: game/enemy/boss
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 43
+    bboxTop: 44
+    bboxRight: 84
+    bboxBottom: 85
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 261dfe0a672795141a541cf44b858791, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_shrapnel_frame
+    group: game/enemy/boss
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 31
+    bboxTop: 30
+    bboxRight: 97
+    bboxBottom: 96
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: eea3c582cfee50e4f99e400d0617d3d1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_shrapnel_harpoon
+    group: game/enemy/boss
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 63
+    bboxTop: 52
+    bboxRight: 127
+    bboxBottom: 75
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d18fb2b9068bf614d916f62be7ce2f41, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_brain
+    group: game/enemy/boss
+    width: 175
+    height: 226
+    xorig: 87
+    yorig: 150
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 1
+    bboxRight: 174
+    bboxBottom: 224
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 722111d096b28284ba45db584b8b9c47, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_enemy.spriteatlasv2
+  - name: spr_coin
+    group: game/pickup
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 28947ffd4d759e1458e3d4a1685daae5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_coin_small
+    group: game/pickup
+    width: 16
+    height: 16
+    xorig: 0
+    yorig: 0
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 15
+    bboxBottom: 15
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 80f2e658ebde1ca4db35baa436964f0e, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_carrot
+    group: game/pickup
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 2
+    bboxRight: 29
+    bboxBottom: 29
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 7c375ca63e9a7424faa5d879eab3f855, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_pickup_health
+    group: game/pickup
+    width: 14
+    height: 24
+    xorig: 7
+    yorig: 12
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 13
+    bboxBottom: 23
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d574d2cb19f3ca04c80d3469d961b7df, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_coin_gold
+    group: game/pickup
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 384c4c36f2f4e0a4eaf39c6e7a6ef3e8, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_coin_silver
+    group: game/pickup
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 03a1c83b6bd968c49bb1ad37aa4878c4, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_coin_blue
+    group: game/pickup
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: cc9a9a125a2eac1499db5f78872208ac, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_pickup.spriteatlasv2
+  - name: spr_playerexplosion
+    group: game/explosion
+    width: 65
+    height: 65
+    xorig: 32
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 6
+    bboxTop: 7
+    bboxRight: 57
+    bboxBottom: 58
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 31d4c5d49a95b254a829fecc2afcb19c, type: 3}
+    - {fileID: 21300000, guid: 5f4737e0cdca6074f8ecfbe48266aa7f, type: 3}
+    - {fileID: 21300000, guid: 523fe150dc5911a459dc96564b6779f8, type: 3}
+    - {fileID: 21300000, guid: 14128e3be3d31244088eaf656162e613, type: 3}
+    - {fileID: 21300000, guid: 20c0812188d92744dacaa68a432d3c93, type: 3}
+    - {fileID: 21300000, guid: 351dfe2c9db2a2740ab2cc1c64d8f80a, type: 3}
+    - {fileID: 21300000, guid: a0d50c6f9a4cb3d49ade6a45624e95b9, type: 3}
+    - {fileID: 21300000, guid: 498629028c1a84f4d9bb2aa684e40c8c, type: 3}
+    clip: {fileID: 7400000, guid: 180d3ca0100f8744687c23d0dbcdb25e, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_bigexplosion
+    group: game/explosion
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 1
+    bboxRight: 95
+    bboxBottom: 95
+    imageSpeed: 0.5
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f06196fc41e24a744a2ce08574d99f1d, type: 3}
+    - {fileID: 21300000, guid: 719a32ab1a218f04aac26458783dba73, type: 3}
+    - {fileID: 21300000, guid: 9dd7473bdddb0f74ba96f4993d3ac30a, type: 3}
+    - {fileID: 21300000, guid: 0aa6b6536d498d847afe702f42e7f18e, type: 3}
+    - {fileID: 21300000, guid: 85f17d97a26f71246b6c5c5b06145801, type: 3}
+    - {fileID: 21300000, guid: 1c879d59fd6468649b97411c57581373, type: 3}
+    - {fileID: 21300000, guid: 54c991681445e8f4294951ef2f6327fb, type: 3}
+    - {fileID: 21300000, guid: 75bff075df8032b41bdb0bca3921569d, type: 3}
+    - {fileID: 21300000, guid: a73999fb398f1b84d8d068aa632b59e0, type: 3}
+    - {fileID: 21300000, guid: 87faa66f0160a4c4899b92b14de99be7, type: 3}
+    - {fileID: 21300000, guid: 0fbb27b96cc679f4aa92e51f9eabeb11, type: 3}
+    - {fileID: 21300000, guid: 20a7876bbd3a8ca4dab05a4ae56f5314, type: 3}
+    - {fileID: 21300000, guid: dcf24f02027d7ca4e9ed4c54fca0c16e, type: 3}
+    - {fileID: 21300000, guid: 09d06970081222946ba3efd766b1ddc3, type: 3}
+    - {fileID: 21300000, guid: 97029c72f474fd944b288886f610b3a3, type: 3}
+    - {fileID: 21300000, guid: edcb6665fd98b7c43994bcb93506d52b, type: 3}
+    - {fileID: 21300000, guid: 9a287efe9ae000649878d8ff69dbe270, type: 3}
+    - {fileID: 21300000, guid: 848ccd073d56a5d45b72a41ea646fe20, type: 3}
+    - {fileID: 21300000, guid: 74c463e6a2847124cb894b89511cba23, type: 3}
+    - {fileID: 21300000, guid: c84f3eb1f714eae468308a0864b7d68b, type: 3}
+    clip: {fileID: 7400000, guid: 7ec65a49d61d5c344b9b2a9a03e6c80d, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_explosion_oval
+    group: game/explosion
+    width: 256
+    height: 128
+    xorig: 128
+    yorig: 64
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 32
+    bboxTop: 16
+    bboxRight: 220
+    bboxBottom: 110
+    imageSpeed: 0.3
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 426e2dd0fe6e53e45a81ffaaab599970, type: 3}
+    - {fileID: 21300000, guid: 3c6f294d0efb45847acfad5a86868f44, type: 3}
+    - {fileID: 21300000, guid: fad6a0f21b5e8234bb610d96364934d5, type: 3}
+    - {fileID: 21300000, guid: 99ac8b284b72d19448f255811a74a111, type: 3}
+    - {fileID: 21300000, guid: 929087a9aa429ce44ab065f58828c4ea, type: 3}
+    - {fileID: 21300000, guid: f216d047be5838c4d9c4316c41bc8e09, type: 3}
+    - {fileID: 21300000, guid: a162670f491f02c428500c06f4bf2641, type: 3}
+    - {fileID: 21300000, guid: 4d34e8ff360f54848894da0d3d78d690, type: 3}
+    - {fileID: 21300000, guid: c936d85717d2c534f8bb5f94ed2c327c, type: 3}
+    - {fileID: 21300000, guid: 98906c6a69793664b981d0041a29ef51, type: 3}
+    - {fileID: 21300000, guid: 8e3a8724674184246be8e27aaa04b7d8, type: 3}
+    - {fileID: 21300000, guid: 94be6f34d6fd5d544b0cdf193dc536b3, type: 3}
+    clip: {fileID: 7400000, guid: 34fa10e9da8884a48abac5f621dbe9fb, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_explosion
+    group: game/explosion
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 3
+    bboxRight: 29
+    bboxBottom: 29
+    imageSpeed: 0.2
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: a129026b108276d47b03b64b090b895e, type: 3}
+    - {fileID: 21300000, guid: 2c22711ef372d4b4ea9689ae113d442e, type: 3}
+    - {fileID: 21300000, guid: 1da3bee78133e72488cf784a762e92c5, type: 3}
+    - {fileID: 21300000, guid: 2490e205955502f4db57871c77552c91, type: 3}
+    - {fileID: 21300000, guid: 4a02e97c15481df4eb463dedfb9f0649, type: 3}
+    - {fileID: 21300000, guid: a97a52b1f8ba24740bb92e0cd60ad085, type: 3}
+    - {fileID: 21300000, guid: 9947457390159fd4caf7433562984d9d, type: 3}
+    clip: {fileID: 7400000, guid: 67bf9bfb01435f64b9f5474d712abd2b, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_explode3
+    group: game/explosion
+    width: 200
+    height: 182
+    xorig: 100
+    yorig: 91
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 8
+    bboxTop: 6
+    bboxRight: 193
+    bboxBottom: 172
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 0d2b4dc4adb56254c8de23f0b2c281fb, type: 3}
+    - {fileID: 21300000, guid: 05e9ee6ca90909441b937f830c5a0826, type: 3}
+    - {fileID: 21300000, guid: 0264851d0e78a884caf4977ec1812943, type: 3}
+    - {fileID: 21300000, guid: f6880569f74b4c549af7c863a3a94030, type: 3}
+    - {fileID: 21300000, guid: 0e583144c2aaf9e47a3ef4fc9be13d9a, type: 3}
+    - {fileID: 21300000, guid: 41f24a4ddbcc7e34ba55aa583f8dfbc9, type: 3}
+    - {fileID: 21300000, guid: 2a9129dd228eb694192a7633e91d299c, type: 3}
+    - {fileID: 21300000, guid: 41da3228e07ca9e499be00cd734888a8, type: 3}
+    - {fileID: 21300000, guid: f086b6d26c62475418ec59c61f45431c, type: 3}
+    clip: {fileID: 7400000, guid: 54db96c03d624cc49b966f3e0adea81e, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_explode2
+    group: game/explosion
+    width: 66
+    height: 81
+    xorig: 33
+    yorig: 40
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 12
+    bboxRight: 61
+    bboxBottom: 75
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 830ec95a8c888a04d87094f8b9dcb1cc, type: 3}
+    - {fileID: 21300000, guid: 9bce8cd687d3cde449085e1b4d6d7895, type: 3}
+    - {fileID: 21300000, guid: d3d0a1c9c80010d4a98980cca9abbe8a, type: 3}
+    - {fileID: 21300000, guid: 10f792aff9edc91419681d67ed1afc24, type: 3}
+    - {fileID: 21300000, guid: 641f280300ab01444afc906c0b3badbf, type: 3}
+    - {fileID: 21300000, guid: fa83a17f47d1ae14e9d44ac1cdfad5da, type: 3}
+    - {fileID: 21300000, guid: 8c5721885c2660243ac8d6ff6deeefb3, type: 3}
+    - {fileID: 21300000, guid: e5947d9559a3cca4a8fb13703469f828, type: 3}
+    - {fileID: 21300000, guid: c7aececa5bbd0204abe64e46c69466c4, type: 3}
+    - {fileID: 21300000, guid: ab611b9aa5e5cb94a8b6735318fb6c23, type: 3}
+    - {fileID: 21300000, guid: 6416e95e030017a499b2aceba70f89d6, type: 3}
+    - {fileID: 21300000, guid: ee48a12ba3741294587d911b590f71fc, type: 3}
+    - {fileID: 21300000, guid: 732b48d3e31100641b9174511f2f4b5a, type: 3}
+    - {fileID: 21300000, guid: 150f4049093ab6245b3990bad02067c4, type: 3}
+    - {fileID: 21300000, guid: cbec1c786ee049f4ca6ffc70994969a9, type: 3}
+    - {fileID: 21300000, guid: eb6bbf0dcffe9864d90189a76db6da2c, type: 3}
+    - {fileID: 21300000, guid: ea65c69acdb2d054f8ed076d95bc9427, type: 3}
+    - {fileID: 21300000, guid: d24f38ea5bfe6a543901863c8788001d, type: 3}
+    - {fileID: 21300000, guid: 587bdefa77109ac448ace73abafea553, type: 3}
+    - {fileID: 21300000, guid: 9431aa17b1bf1b9448d649d27e6f414c, type: 3}
+    - {fileID: 21300000, guid: af96a19bfe70d6b40b662379c65f04b3, type: 3}
+    - {fileID: 21300000, guid: 4149b99ea25b9654ca0437eb2a9c8258, type: 3}
+    - {fileID: 21300000, guid: 865ebcf4ae03cb343a2e3b4f0945c01d, type: 3}
+    - {fileID: 21300000, guid: 328883f34aa6de947a9e35e4be4b6444, type: 3}
+    - {fileID: 21300000, guid: 1fdeb63bd3b074848a242b632ee413b4, type: 3}
+    clip: {fileID: 7400000, guid: 918da5dc05c3c2b4a93b3c3756016ca6, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_grenade_explode
+    group: game/explosion
+    width: 200
+    height: 182
+    xorig: 100
+    yorig: 91
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 8
+    bboxTop: 6
+    bboxRight: 193
+    bboxBottom: 172
+    imageSpeed: 0.2
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 068e3ca3559fe474ebdc3b4a62c94af7, type: 3}
+    - {fileID: 21300000, guid: 73cdd367a29f5024d9495f418b49a018, type: 3}
+    - {fileID: 21300000, guid: f601302dfdc5e0142870d89413233aa3, type: 3}
+    - {fileID: 21300000, guid: c7af2c8a281ed4b458dc41114fbf213f, type: 3}
+    - {fileID: 21300000, guid: cd36eb84a071f0046b1a3e772938c8d3, type: 3}
+    - {fileID: 21300000, guid: 95c502e5b88646340b480431a3d8fde3, type: 3}
+    - {fileID: 21300000, guid: 869ed3953246a724aa44aadfe5f3c548, type: 3}
+    - {fileID: 21300000, guid: c7c629a6363798e4ba7888b85df17894, type: 3}
+    - {fileID: 21300000, guid: ed0606598a27e5d49be4c226655834df, type: 3}
+    clip: {fileID: 7400000, guid: 7f7b2112fc2fe45499da7ed881d51d1d, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_explosion.spriteatlasv2
+  - name: spr_rabbit_idle
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 36
+    bboxRight: 78
+    bboxBottom: 68
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 01628aee2abb2b8429bd33da7385446a, type: 3}
+    - {fileID: 21300000, guid: 91f6de4f5750f524c80cdb7833d61090, type: 3}
+    - {fileID: 21300000, guid: f4752324ed966f1419d8f41ac4396eee, type: 3}
+    - {fileID: 21300000, guid: 1c56c3da89b9ec14ab12f7f1d7f2fc66, type: 3}
+    clip: {fileID: 7400000, guid: 3724c631c9b85654f9246781c3805b8c, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_idle_hurt
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 36
+    bboxRight: 78
+    bboxBottom: 68
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 680727d8a45701b4597c6d235b553d85, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_leap
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 31
+    bboxRight: 85
+    bboxBottom: 62
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c33bc75f1ab3f174c9074d0bcff812c2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_leap_hurt
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 31
+    bboxRight: 85
+    bboxBottom: 62
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b3d1f61d387495744bc2403fab13dfb3, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_crouch
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 35
+    bboxRight: 74
+    bboxBottom: 68
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: dc9c76449b11e0648b19c3c07f70aad7, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_crouch_hurt
+    group: game/rabbit
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 35
+    bboxRight: 74
+    bboxBottom: 68
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5d89bc0b08aa7cd43b59c1f040f7f82d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_death_particle_small
+    group: game/rabbit/addon
+    width: 7
+    height: 7
+    xorig: 3
+    yorig: 3
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 6
+    bboxBottom: 6
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e89e0fae13294594cbf892300cae13f9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_death_particle_medium
+    group: game/rabbit/addon
+    width: 18
+    height: 18
+    xorig: 9
+    yorig: 9
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 17
+    bboxBottom: 17
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f3793f36f14dd3f4ea4af38cb800637f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_death_particle_large
+    group: game/rabbit/addon
+    width: 36
+    height: 36
+    xorig: 18
+    yorig: 18
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 35
+    bboxBottom: 35
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 1fac35bfc9584c4418235c607448221f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_shieldwall
+    group: game/rabbit/addon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 63
+    bboxTop: 2
+    bboxRight: 95
+    bboxBottom: 92
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 4cf311024982df84a850133a39a0c2fe, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_shieldwall_anime
+    group: game/rabbit/addon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 60
+    bboxTop: 2
+    bboxRight: 95
+    bboxBottom: 92
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 88c195a25ba5b134aa79ef64e9da8f79, type: 3}
+    - {fileID: 21300000, guid: 4d88589f457d8af45a5c79f8348de594, type: 3}
+    - {fileID: 21300000, guid: fa0b22597e8d4cc4f8a5eb63446b4b67, type: 3}
+    - {fileID: 21300000, guid: 26b6cf45991e27c4ca0b6146be405b1d, type: 3}
+    - {fileID: 21300000, guid: 1fbcf0b09e1daa94eb88a7f2856304f7, type: 3}
+    - {fileID: 21300000, guid: 19086ffdcc88fc443a34b633cd576daa, type: 3}
+    clip: {fileID: 7400000, guid: 2b3ddb03ad0180e4fbbf46c1c06ca445, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_angle_arrow
+    group: game/rabbit/addon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 69
+    bboxTop: 39
+    bboxRight: 94
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: da3da9e7ed4a02143b6aa391af9c4403, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_reticle_blue
+    group: game/rabbit/addon
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6ecd3b7653ea54e41a6903e429fde125, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_reticle_red
+    group: game/rabbit/addon
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 1e30d3ea72c465b4db96aa4bb6c15cb8, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_reticle_green
+    group: game/rabbit/addon
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: a21d0f00de73cd04184b30e642d1837d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_angle_arrow_red
+    group: game/rabbit/addon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 69
+    bboxTop: 39
+    bboxRight: 94
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 28ebabda3539e7445b05b8674a76caa0, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_direction_arrow
+    group: game/rabbit/addon
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 101
+    bboxTop: 55
+    bboxRight: 126
+    bboxBottom: 72
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9b60aecd54130534797649d1a352f202, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_healthbar_back
+    group: game/rabbit/addon
+    width: 192
+    height: 19
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 3
+    bboxRight: 188
+    bboxBottom: 15
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 0372a3778c5cb384a914baf94a698e7b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_healthbar_cover
+    group: game/rabbit/addon
+    width: 192
+    height: 19
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 191
+    bboxBottom: 18
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 592c4c94b018bde42a4982e26b5370c2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_healthbar_fill
+    group: game/rabbit/addon
+    width: 192
+    height: 19
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 3
+    bboxRight: 188
+    bboxBottom: 15
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3568382f72ae7a949bab04c48bf5ba24, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rabbit.spriteatlasv2
+  - name: spr_rabbit_stand_large
+    group: game/rabbit
+    width: 1154
+    height: 1154
+    xorig: 577
+    yorig: 577
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 371
+    bboxTop: 105
+    bboxRight: 797
+    bboxBottom: 1140
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 773ccc4ad1209834c8e8c1598c422381, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_rabbit_leap_large
+    group: game/rabbit
+    width: 1154
+    height: 1154
+    xorig: 577
+    yorig: 577
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 284
+    bboxTop: 15
+    bboxRight: 729
+    bboxBottom: 1141
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 88de5a09b538aa0408f82fc3e551c4ad, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_rock1
+    group: game/rock
+    width: 242
+    height: 171
+    xorig: 121
+    yorig: 85
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 4
+    bboxTop: 4
+    bboxRight: 238
+    bboxBottom: 163
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 693854fae3c5b6a4182eb288c59dcfb5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_rock2
+    group: game/rock
+    width: 186
+    height: 144
+    xorig: 93
+    yorig: 72
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 2
+    bboxTop: 1
+    bboxRight: 184
+    bboxBottom: 141
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9b4dc0ddff3bb2948af5d9f76cae13ff, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_rock3
+    group: game/rock
+    width: 273
+    height: 204
+    xorig: 136
+    yorig: 102
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 271
+    bboxBottom: 202
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 8627cbf2f66cc38439bb48e3de058aeb, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_rock4
+    group: game/rock
+    width: 232
+    height: 189
+    xorig: 116
+    yorig: 94
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 230
+    bboxBottom: 187
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 8759cb4a46eed2d44b8150a382a071c7, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_rock5
+    group: game/rock
+    width: 197
+    height: 122
+    xorig: 98
+    yorig: 61
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 194
+    bboxBottom: 120
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: fb9c83994e1662c4e987b2602ee7b8d5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_asteroid_experiment
+    group: game/rock
+    width: 262
+    height: 212
+    xorig: 131
+    yorig: 106
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 0
+    bboxRight: 259
+    bboxBottom: 210
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 48d0bdc367e7b634d8b1ad158ee7b4cd, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_rock.spriteatlasv2
+  - name: spr_structure1
+    group: game/structure
+    width: 397
+    height: 377
+    xorig: 198
+    yorig: 188
+    mask: 0
+    separateMasks: 1
+    bboxLeft: 33
+    bboxTop: 33
+    bboxRight: 355
+    bboxBottom: 338
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 65c4aae9429fba14e884539b271a6a0d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2
+  - name: spr_structure1_cover
+    group: game/structure
+    width: 397
+    height: 377
+    xorig: 198
+    yorig: 188
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 26
+    bboxTop: 23
+    bboxRight: 357
+    bboxBottom: 357
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: df56c750aeeedc44bbca695ce42caeea, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_structure.spriteatlasv2
+  - name: spr_icon_missle
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: d63c8fe573271a64491d7b0def9d5c9e, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_mine
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 35637eecb6791ae4eb41ce87e8078141, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_shotgun
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: d24fb5cb6c2f4ee478dab69d79a52664, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_rocket
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6f506c1febbbe0946acb3b1ed0989c9b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_laser
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9c0bafe00e1c3064abee0177e921552c, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_flamer
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ab51fc2eb95a9aa4bab0b320076271b3, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_vulcan
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 1b8b1ecad6f6a3a45afa5daf4ee3aca2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_icon_railgun
+    group: game/gui/weapons
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 2c2b4d5e2284e5b4e85bc3d2b34f27d0, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_health_pip
+    group: game/gui/healthbar
+    width: 44
+    height: 64
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 6
+    bboxRight: 38
+    bboxBottom: 57
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6ca6890a9f022974eb7e09de25520691, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_health_pip_back
+    group: game/gui/healthbar
+    width: 44
+    height: 64
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 9
+    bboxTop: 10
+    bboxRight: 34
+    bboxBottom: 53
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 576826abac05dfe47865f999b3fce4ab, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_lost_health
+    group: game/gui/healthbar
+    width: 44
+    height: 64
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 8
+    bboxTop: 9
+    bboxRight: 35
+    bboxBottom: 54
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 657bb4b4e6f05714b9d84cabd1212f47, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_health_pip_empty
+    group: game/gui/healthbar
+    width: 44
+    height: 64
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 6
+    bboxRight: 38
+    bboxBottom: 57
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 8d346ca78324f254a8f01a784cf4df9c, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_energybar_back
+    group: game/gui/energybar
+    width: 254
+    height: 30
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 253
+    bboxBottom: 29
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c289520b338384f4b93f46ef91f7375c, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_energybar_fill
+    group: game/gui/energybar
+    width: 254
+    height: 30
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 253
+    bboxBottom: 29
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 005d4b766083c9047a32c34b7334af12, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_energybar_cover
+    group: game/gui/energybar
+    width: 254
+    height: 30
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 253
+    bboxBottom: 29
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ab0a5b6b7f4387847861c74bbb3c72f2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_extralives
+    group: game/gui
+    width: 64
+    height: 102
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 4
+    bboxTop: 5
+    bboxRight: 57
+    bboxBottom: 97
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 709751abbd8aed546ada0bb78d991419, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_spawn_point
+    group: game/gui
+    width: 50
+    height: 43
+    xorig: 25
+    yorig: 43
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 49
+    bboxBottom: 42
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e6e937435e8d9954cb65d5291753904b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_pointer
+    group: game/gui
+    width: 18
+    height: 25
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 17
+    bboxBottom: 24
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 34dc91c192f1dc347b900c463754ffa5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_big_arrow
+    group: game/gui
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 13
+    bboxTop: 28
+    bboxRight: 116
+    bboxBottom: 99
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 96f2b37b05578954cb676f43161f7b44, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gui.spriteatlasv2
+  - name: spr_weapon_vulcan
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 41
+    bboxTop: 43
+    bboxRight: 83
+    bboxBottom: 61
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d17a05f09c6a2464997cb2191b7d8b26, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_weapon_flamer
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 42
+    bboxTop: 44
+    bboxRight: 88
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c52d666132737fa4c9b092afd754c000, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_weapon_railgun
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 42
+    bboxTop: 44
+    bboxRight: 87
+    bboxBottom: 54
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d81cffd78b627e044b7650a64fc8d50b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_weapon_laser
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 41
+    bboxTop: 44
+    bboxRight: 87
+    bboxBottom: 58
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ab356075978dd7d4da630d1e3d9affe6, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_weapon_rocket
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 42
+    bboxTop: 42
+    bboxRight: 87
+    bboxBottom: 54
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e2dcd582ffc3b4641984ac669b5c266f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_weapon_shotgun
+    group: game/weapon
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 42
+    bboxTop: 42
+    bboxRight: 86
+    bboxBottom: 54
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e371e0aee9c47d6409bc5fd0b19e949f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_ammo_cartridge
+    group: game/weapon
+    width: 4
+    height: 2
+    xorig: 2
+    yorig: 1
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 3
+    bboxBottom: 1
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 110422e2c27ba0f48bf2988e8283fa35, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_ammo_shell
+    group: game/weapon
+    width: 7
+    height: 4
+    xorig: 3
+    yorig: 2
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 6
+    bboxBottom: 3
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: df6650a229166954781191359ca134a5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_bullet
+    group: game/weapon/projectile
+    width: 9
+    height: 9
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 7
+    bboxBottom: 7
+    imageSpeed: 0.1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 547a9e7aa879a3a4ab197c20ac19ded4, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_rocket
+    group: game/weapon/projectile
+    width: 16
+    height: 16
+    xorig: 8
+    yorig: 8
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 4
+    bboxRight: 14
+    bboxBottom: 11
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d86853d5e1c8a5d4a925cc17016785e5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_rocket_anime
+    group: game/weapon/projectile
+    width: 16
+    height: 16
+    xorig: 8
+    yorig: 8
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 4
+    bboxRight: 14
+    bboxBottom: 11
+    imageSpeed: 0.5
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: fc89c693304eaef42a77365ff75b44d7, type: 3}
+    - {fileID: 21300000, guid: 0ef3ce46e6f2f724baa95992a64ddb45, type: 3}
+    - {fileID: 21300000, guid: 4135fae08eb0337459d5e9344e887be8, type: 3}
+    - {fileID: 21300000, guid: b6b61623a1ac71841b701f226ed9f03f, type: 3}
+    clip: {fileID: 7400000, guid: 6cd967d472fc7d0499022772709f55f1, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_muzzleflash
+    group: game/weapon/projectile
+    width: 64
+    height: 64
+    xorig: 32
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 33
+    bboxTop: 25
+    bboxRight: 61
+    bboxBottom: 37
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f55e2127b35785e4b8d1c9ee2d81e852, type: 3}
+    - {fileID: 21300000, guid: 03bb31c1de4a8f44fa2e40b2d1550f5a, type: 3}
+    - {fileID: 21300000, guid: 8280f24b4e1e22a47be6ff4a202bf6cd, type: 3}
+    - {fileID: 21300000, guid: 680c5330cf4a7454c9d480680fdad9c0, type: 3}
+    clip: {fileID: 7400000, guid: 5937858a528160844b794867adf4a9b7, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_muzzleflash_new
+    group: game/weapon/projectile
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 49
+    bboxTop: 42
+    bboxRight: 77
+    bboxBottom: 54
+    imageSpeed: 0.3
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 586d93ba212f94e4b83b8fc56d734d0c, type: 3}
+    - {fileID: 21300000, guid: 93cf03d3b66af0546826001281d546dc, type: 3}
+    - {fileID: 21300000, guid: cac8af1cfe404fd4f93601a889120129, type: 3}
+    - {fileID: 21300000, guid: 38eacdbc66143e345b37d89306a39a91, type: 3}
+    clip: {fileID: 7400000, guid: 6457bcdac5002804396f58a7cf6ccba5, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_bullet_vulcan
+    group: game/weapon/projectile
+    width: 10
+    height: 10
+    xorig: 5
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 3
+    bboxRight: 8
+    bboxBottom: 7
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: dc802fee8ab53b44f9204571501f3df3, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_laser_pulse
+    group: game/weapon/projectile
+    width: 7
+    height: 18
+    xorig: 3
+    yorig: 9
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 6
+    bboxRight: 7
+    bboxBottom: 12
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b9041e180c7d9de42b05f56a1b07164b, type: 3}
+    - {fileID: 21300000, guid: 866ffcb16b2d9344892a6ae77c5b7652, type: 3}
+    - {fileID: 21300000, guid: 95804e178f549e04d91f67150a6e1b6d, type: 3}
+    - {fileID: 21300000, guid: 496292be3c00686418947ddce3affafa, type: 3}
+    clip: {fileID: 7400000, guid: dedf9eb3fb2656d48a57c0f5a30e4840, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_railgun_swirl
+    group: game/weapon/projectile
+    width: 56
+    height: 12
+    xorig: 28
+    yorig: 6
+    mask: 2
+    separateMasks: 1
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 55
+    bboxBottom: 11
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 1211cd8f6278c0742b9841c1791ef486, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_raingun_ring
+    group: game/weapon/projectile
+    width: 7
+    height: 18
+    xorig: 3
+    yorig: 9
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 5
+    bboxRight: 6
+    bboxBottom: 11
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 234006f1fe6730940a8cdd150ebe5c61, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_pellet
+    group: game/weapon/projectile
+    width: 6
+    height: 6
+    xorig: 3
+    yorig: 3
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 5
+    bboxBottom: 5
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 20ebab9ab80395f41aea9d4f747f0ad1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_teleporter
+    group: game/weapon/projectile
+    width: 18
+    height: 11
+    xorig: 9
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 17
+    bboxBottom: 10
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f1dbe9dc1da00f3439559d72181f69d4, type: 3}
+    - {fileID: 21300000, guid: 94afad79f0cf9d84f8a5e9b7c96059d1, type: 3}
+    - {fileID: 21300000, guid: be8d35c1372086d40a9b15049daa56f5, type: 3}
+    - {fileID: 21300000, guid: 2a5110248f3dbf041bcd4a6d57660190, type: 3}
+    - {fileID: 21300000, guid: 5aaea9c82f35a2c46a93768bd5351e51, type: 3}
+    - {fileID: 21300000, guid: 37e7fba22ccc6ba418cfe8d928ebe350, type: 3}
+    clip: {fileID: 7400000, guid: 96c61f76b31539a4eb480aff2f9808b0, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_mine
+    group: game/weapon/projectile
+    width: 18
+    height: 11
+    xorig: 9
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 17
+    bboxBottom: 10
+    imageSpeed: 0.07
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f3683c91551e3124381fdc5c8f0104cc, type: 3}
+    - {fileID: 21300000, guid: 10b5e1fd784f4cd4fa798dad737c1f5d, type: 3}
+    - {fileID: 21300000, guid: ff5a6a1cd768b5e46aefc5b9ae4d5ad6, type: 3}
+    - {fileID: 21300000, guid: 0cba5ccc49fc80547873bd813319e754, type: 3}
+    - {fileID: 21300000, guid: 38d274da37c97c44c947eab97667c6f8, type: 3}
+    - {fileID: 21300000, guid: a1c77ea8ba7db7549a0e2d5bd7522c5a, type: 3}
+    clip: {fileID: 7400000, guid: 8b0d16ac06b92334ca66e609546b3953, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_grenade
+    group: game/weapon/projectile
+    width: 13
+    height: 13
+    xorig: 6
+    yorig: 6
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 3
+    bboxRight: 10
+    bboxBottom: 10
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 24bf60f879daf584ebc4555da138ecd9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_sliver
+    group: game/weapon/projectile
+    width: 18
+    height: 18
+    xorig: 9
+    yorig: 9
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 6
+    bboxRight: 17
+    bboxBottom: 10
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6affcfe0fc5883147b16d21a8c8760e7, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_fireball
+    group: game/weapon/projectile
+    width: 24
+    height: 12
+    xorig: 12
+    yorig: 6
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 23
+    bboxBottom: 11
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c6ff71f6c942c1b4482f6fb06084f2da, type: 3}
+    - {fileID: 21300000, guid: 86d07b35bae5bc74d938cd3d4a7e9ad9, type: 3}
+    - {fileID: 21300000, guid: f348266d087ef3f4195fd59b332d456a, type: 3}
+    - {fileID: 21300000, guid: c3ae7c4579e920749a4d76beb4d98254, type: 3}
+    clip: {fileID: 7400000, guid: d40346245695cf548ad9f5781eca75ac, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_bullet_blue
+    group: game/weapon/projectile
+    width: 10
+    height: 10
+    xorig: 5
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 3
+    bboxRight: 8
+    bboxBottom: 7
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ea6cb2a4385f68145845995c52ea94c6, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_bullet_orange
+    group: game/weapon/projectile
+    width: 10
+    height: 10
+    xorig: 5
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 3
+    bboxRight: 8
+    bboxBottom: 7
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5144be88256af214eb69a3b1ddccc272, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_bullet_flash
+    group: game/weapon/projectile
+    width: 10
+    height: 10
+    xorig: 5
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 3
+    bboxRight: 8
+    bboxBottom: 7
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f1c5d2649d0a2294f9a0021ff5905c1d, type: 3}
+    - {fileID: 21300000, guid: 7279eb866d734ba4b867c32e2c0e9141, type: 3}
+    clip: {fileID: 7400000, guid: 32519693291d96e4a8450fb6871acc54, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_weapon.spriteatlasv2
+  - name: spr_cloud4
+    group: game/environment
+    width: 851
+    height: 313
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 48
+    bboxTop: 0
+    bboxRight: 809
+    bboxBottom: 307
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: dd010b3f4988c30409e8de394b755ab2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2
+  - name: spr_cloud3
+    group: game/environment
+    width: 851
+    height: 313
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 11
+    bboxTop: 10
+    bboxRight: 836
+    bboxBottom: 305
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f69fed75dafb25143a1ea693ad6610ce, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2
+  - name: spr_cloud2
+    group: game/environment
+    width: 851
+    height: 313
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 19
+    bboxTop: 13
+    bboxRight: 847
+    bboxBottom: 312
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 546cf13ded989a44f898f20f7eb28494, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2
+  - name: spr_cloud1
+    group: game/environment
+    width: 851
+    height: 313
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 850
+    bboxBottom: 303
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9d235bd1e8cd5fa4d9c4f55a169c6046, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_environment.spriteatlasv2
+  - name: spr_meatball_gib1
+    group: game/gibs/meatball
+    width: 65
+    height: 63
+    xorig: 32
+    yorig: 31
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 11
+    bboxTop: 5
+    bboxRight: 62
+    bboxBottom: 59
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 559245667a27fb54e975d9d1d7d01d99, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_meatball_gib2
+    group: game/gibs/meatball
+    width: 85
+    height: 65
+    xorig: 42
+    yorig: 32
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 4
+    bboxRight: 82
+    bboxBottom: 62
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 31194fcf43d2ded48925b1b34d185c49, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_meatball_gib3
+    group: game/gibs/meatball
+    width: 77
+    height: 61
+    xorig: 38
+    yorig: 30
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 2
+    bboxRight: 75
+    bboxBottom: 58
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 60f969b8a27b51f46a175d40eb721317, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_meatball_gib4
+    group: game/gibs/meatball
+    width: 84
+    height: 45
+    xorig: 42
+    yorig: 22
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 4
+    bboxTop: 1
+    bboxRight: 81
+    bboxBottom: 43
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: fe5a7141356bbbe42a0aefc28b4e1902, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_meatball_gib5
+    group: game/gibs/meatball
+    width: 75
+    height: 82
+    xorig: 37
+    yorig: 41
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 73
+    bboxBottom: 80
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 0d0138ac9d82ea84fa056bcbb05f1952, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_meatball_gib6
+    group: game/gibs/meatball
+    width: 55
+    height: 75
+    xorig: 27
+    yorig: 37
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 53
+    bboxBottom: 72
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e469f2d536bfa7d4585f57815631dddc, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib1
+    group: game/gibs/worm
+    width: 42
+    height: 43
+    xorig: 21
+    yorig: 21
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 7
+    bboxTop: 7
+    bboxRight: 40
+    bboxBottom: 41
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 75458e2cf025b0045a5135ac8526056d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib2
+    group: game/gibs/worm
+    width: 51
+    height: 47
+    xorig: 25
+    yorig: 23
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 6
+    bboxTop: 2
+    bboxRight: 47
+    bboxBottom: 45
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 439221825e2df4e46a0069f5b62149cf, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib3
+    group: game/gibs/worm
+    width: 44
+    height: 40
+    xorig: 22
+    yorig: 20
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 1
+    bboxRight: 42
+    bboxBottom: 38
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ed9a5ff8d3386cb4db94dfc9570fec28, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib4
+    group: game/gibs/worm
+    width: 62
+    height: 49
+    xorig: 31
+    yorig: 24
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 6
+    bboxRight: 59
+    bboxBottom: 46
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6b0484544064c2345946da996c7698b6, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib5
+    group: game/gibs/worm
+    width: 69
+    height: 49
+    xorig: 34
+    yorig: 24
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 1
+    bboxRight: 68
+    bboxBottom: 47
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 6c44bbbc41d2a4949b23d602f3a2dbcf, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib6
+    group: game/gibs/worm
+    width: 56
+    height: 51
+    xorig: 28
+    yorig: 25
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 54
+    bboxBottom: 49
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: a5fc33a2e42bbc843be8df90ce23999a, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib7
+    group: game/gibs/worm
+    width: 53
+    height: 55
+    xorig: 26
+    yorig: 27
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 51
+    bboxBottom: 52
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d4693127d2691a447a2749f98290faaf, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_worm_gib8
+    group: game/gibs/worm
+    width: 57
+    height: 55
+    xorig: 28
+    yorig: 27
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 55
+    bboxBottom: 53
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 7ffa466d96a0fb946b142bd02f0c69aa, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_chip1
+    group: game/gibs/chips
+    width: 9
+    height: 8
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 7
+    bboxBottom: 6
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d09aee9f83bf619428f2241a8dea60c9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_chip2
+    group: game/gibs/chips
+    width: 11
+    height: 10
+    xorig: 5
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 9
+    bboxBottom: 8
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 881b7fbfa9cfe7d45a844b82cfac5bdb, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_chip3
+    group: game/gibs/chips
+    width: 13
+    height: 10
+    xorig: 6
+    yorig: 5
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 11
+    bboxBottom: 8
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 15a8e12b5afa98e4cb97b974f7cf7b4c, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_chip4
+    group: game/gibs/chips
+    width: 10
+    height: 12
+    xorig: 5
+    yorig: 6
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 8
+    bboxBottom: 10
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 056c2ece95942644b9af6cb0b93b55cb, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_chip5
+    group: game/gibs/chips
+    width: 10
+    height: 12
+    xorig: 5
+    yorig: 6
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 8
+    bboxBottom: 10
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 8949ec1ccac0cf649a7f3f7b44f595c2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_flotsum1
+    group: game/gibs/asteroid
+    width: 53
+    height: 49
+    xorig: 26
+    yorig: 24
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 51
+    bboxBottom: 47
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: db7dddfde8fbc084bbf7155d97fab24b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_flotsum2
+    group: game/gibs/asteroid
+    width: 37
+    height: 33
+    xorig: 18
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 35
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: ffe182f5e707c394dab732bb0b475690, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_flotsum3
+    group: game/gibs/asteroid
+    width: 61
+    height: 60
+    xorig: 30
+    yorig: 30
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 59
+    bboxBottom: 58
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: baab613e2d319384998bc865ac403671, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_flotsum4
+    group: game/gibs/asteroid
+    width: 30
+    height: 33
+    xorig: 15
+    yorig: 16
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 28
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: db1d17940b0e48a4aaa0fad944c80441, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_flotsum5
+    group: game/gibs/asteroid
+    width: 74
+    height: 67
+    xorig: 37
+    yorig: 33
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 1
+    bboxRight: 72
+    bboxBottom: 65
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: d075ed55595ca0d4387622310470d979, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game_gibs.spriteatlasv2
+  - name: spr_results
+    group: game
+    width: 712
+    height: 712
+    xorig: 356
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 710
+    bboxBottom: 710
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c4eec6497c3f88a43a51017a525f4b73, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_game.spriteatlasv2
+  - name: spr_upgrade_frame
+    group: upgrade
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c4b192283fb152842a95c325670594af, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2
+  - name: spr_upgrade_circle_empty
+    group: upgrade
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 8
+    bboxRight: 46
+    bboxBottom: 49
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: da9895a91dc0bf245bcf3dcda6d4eaa7, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2
+  - name: spr_upgrade_circle_filled
+    group: upgrade
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 5
+    bboxTop: 8
+    bboxRight: 46
+    bboxBottom: 49
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 08027937904a045479bafe6921a85430, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_upgrade.spriteatlasv2
+  - name: spr_portrait_general_zee
+    group: conversation
+    width: 195
+    height: 195
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 8
+    bboxTop: 9
+    bboxRight: 185
+    bboxBottom: 184
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c030e1ba518ce2f49a7d33f722b3b9f9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2
+  - name: spr_comm_frame_back
+    group: conversation
+    width: 195
+    height: 195
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 9
+    bboxTop: 9
+    bboxRight: 185
+    bboxBottom: 184
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: e531da221e0c41243909f3679584a8a5, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2
+  - name: spr_comm_frame
+    group: conversation
+    width: 195
+    height: 195
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 194
+    bboxBottom: 194
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 7a65b166a5560264ca4cabbf77a93252, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_conversation.spriteatlasv2
+  - name: spr_conversation_box
+    group: conversation
+    width: 1920
+    height: 256
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 1919
+    bboxBottom: 255
+    imageSpeed: 1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: 0042698200d22424fbbf344ee35deffa, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_tech_schematic
+    group: 
+    width: 1920
+    height: 1080
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 1919
+    bboxBottom: 1079
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 105129c08e042e04a82ea2e17818efd1, type: 3}
+    clip: {fileID: 0}
+    atlas: 
+  - name: spr_rocketbooster_schematic
+    group: 
+    width: 300
+    height: 349
+    xorig: 150
+    yorig: 174
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 55
+    bboxTop: 0
+    bboxRight: 224
+    bboxBottom: 324
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 579b7ab30f85ba744a46ee183a1af3c4, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_brake_schematic
+    group: 
+    width: 300
+    height: 350
+    xorig: 150
+    yorig: 175
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 73
+    bboxTop: 1
+    bboxRight: 262
+    bboxBottom: 302
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 0e3f79a31511c8c47ac42d77d4d5af02, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_rabbit_schematic
+    group: 
+    width: 235
+    height: 448
+    xorig: 117
+    yorig: 224
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 28
+    bboxTop: 18
+    bboxRight: 198
+    bboxBottom: 419
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5b737b74e403de040814f723d28a7db1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_textdone
+    group: 
+    width: 11
+    height: 13
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 9
+    bboxBottom: 10
+    imageSpeed: 0.1
+    roomSpeed: 60
+    frames:
+    - {fileID: 21300000, guid: bcbf7b840e1fab349a0401414ff50765, type: 3}
+    - {fileID: 21300000, guid: 88533a6f49374ca46889f6226c91bc50, type: 3}
+    - {fileID: 21300000, guid: 1a9a99b57ab00ac4890289127f6e423b, type: 3}
+    - {fileID: 21300000, guid: 2aab98cb87f64484e828282dd17884bf, type: 3}
+    clip: {fileID: 7400000, guid: d71ae7c7c20157c47a1f5fe42b5cc023, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_weapon_pickup
+    group: 
+    width: 81
+    height: 21
+    xorig: 40
+    yorig: 10
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 80
+    bboxBottom: 20
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 7df0f54414b207f40b124d42cd50ebc1, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_shield_hitbox
+    group: 
+    width: 96
+    height: 96
+    xorig: 48
+    yorig: 48
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 48
+    bboxTop: 2
+    bboxRight: 95
+    bboxBottom: 92
+    imageSpeed: 0.3
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b82a32b916771ef4dbe1d851b6d5c3df, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_helper
+    group: 
+    width: 32
+    height: 32
+    xorig: 16
+    yorig: 16
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 31
+    bboxBottom: 31
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: fcd0aecf3fba3364a8beda7e6b50d4b9, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_powder_fire
+    group: 
+    width: 128
+    height: 128
+    xorig: 64
+    yorig: 64
+    mask: 2
+    separateMasks: 0
+    bboxLeft: 15
+    bboxTop: 11
+    bboxRight: 115
+    bboxBottom: 111
+    imageSpeed: 0.3
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f3d9516a3b2b6424a9d1b4553f990f56, type: 3}
+    - {fileID: 21300000, guid: 1611a469977f28542a4dc31ee916027c, type: 3}
+    - {fileID: 21300000, guid: 86625beaa51cb7d40856cc1efb04540b, type: 3}
+    - {fileID: 21300000, guid: 8bf4212b47721fd4bad83fdd79c10611, type: 3}
+    - {fileID: 21300000, guid: 26dc2445b3c47114991f28ac7b119cc7, type: 3}
+    - {fileID: 21300000, guid: ab320058b291dad4f871df36ac664f62, type: 3}
+    - {fileID: 21300000, guid: cc9c5ffdc76c0194585f9acc7e65c755, type: 3}
+    - {fileID: 21300000, guid: 2ab7b22ed4fa8cb498a006b5ec246360, type: 3}
+    - {fileID: 21300000, guid: 1fdc860aef250ab4796d0c6b2deefe6c, type: 3}
+    - {fileID: 21300000, guid: 84119f435956000439f6f021993e86dc, type: 3}
+    - {fileID: 21300000, guid: 88de82ef7e4b1d846bab8e0fa3694721, type: 3}
+    - {fileID: 21300000, guid: 6aa1de68443faf44dbda4964dd7f9fbd, type: 3}
+    - {fileID: 21300000, guid: 877bf4cffb4098045bf862689fa53a15, type: 3}
+    - {fileID: 21300000, guid: 66c3eaae9842332478e272f81516e7c7, type: 3}
+    - {fileID: 21300000, guid: 8f5fcecaace85bb4c98e00ed816b1dac, type: 3}
+    - {fileID: 21300000, guid: 3ea34d96bfc0ece46a444223eccf6bdc, type: 3}
+    - {fileID: 21300000, guid: 1100aaec05974a74997a8bd1a22740d8, type: 3}
+    - {fileID: 21300000, guid: 2bb0e9f396bb8c6429a2273fb9a5b5f4, type: 3}
+    - {fileID: 21300000, guid: 374a981069620564a9a2173b458bf2bd, type: 3}
+    - {fileID: 21300000, guid: da3f5b5ff98164146a47ddba00df7d3e, type: 3}
+    - {fileID: 21300000, guid: 83f04e6646493d449835a616fbf2456a, type: 3}
+    - {fileID: 21300000, guid: f30469b53e6c68540a54bbb06cf10418, type: 3}
+    - {fileID: 21300000, guid: 06f35680ea7505241a939fea7d470b73, type: 3}
+    - {fileID: 21300000, guid: 7e5282a24dbe9d6448abe2d725e3f6d3, type: 3}
+    - {fileID: 21300000, guid: 6d49b027e29e7b344a8e94f8b5696031, type: 3}
+    - {fileID: 21300000, guid: 112ef0d1b7951594ca7e5fb21a0dd382, type: 3}
+    - {fileID: 21300000, guid: 21c3956684e71654bb578aceeaa36114, type: 3}
+    - {fileID: 21300000, guid: 5e54876e6574b6743aa149ec3cbcc975, type: 3}
+    - {fileID: 21300000, guid: f1b59f859fe94954fa76e8c586f9a3f8, type: 3}
+    - {fileID: 21300000, guid: 29b1be9255751bd4582836a15eb086eb, type: 3}
+    - {fileID: 21300000, guid: 56a0dea84a63e7442b64e67604d25f7c, type: 3}
+    - {fileID: 21300000, guid: 0c9e0d750a72cbf49846a524cf4aa1f5, type: 3}
+    - {fileID: 21300000, guid: d69b0dd627d51564a8bd22c0dbc9299d, type: 3}
+    - {fileID: 21300000, guid: c29993585ccbc1749bfd9c3d7d662bea, type: 3}
+    - {fileID: 21300000, guid: 70a434f1cc1faa944a0227dd9f6526bb, type: 3}
+    - {fileID: 21300000, guid: e7e79699134f7df478e3ef669ae89215, type: 3}
+    - {fileID: 21300000, guid: 2026805e43b323642a3b1ce0d385ff87, type: 3}
+    - {fileID: 21300000, guid: 78a24e2309d1bf047a500d1a463da1f5, type: 3}
+    - {fileID: 21300000, guid: 199a3d248c5fcca43a779f4507ab4434, type: 3}
+    - {fileID: 21300000, guid: 8cfb7846d8b0c7d41a4d8e423e83dd49, type: 3}
+    - {fileID: 21300000, guid: 80c4cbb290769a746a59ed94a087bdcd, type: 3}
+    clip: {fileID: 7400000, guid: 0b9afb2e33a244b4b964834e58d63014, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_yesno_button
+    group: 
+    width: 145
+    height: 78
+    xorig: 72
+    yorig: 39
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 144
+    bboxBottom: 77
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f48019910c85074478ae4f4089899a03, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_ring_front
+    group: 
+    width: 161
+    height: 161
+    xorig: 80
+    yorig: 80
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 98
+    bboxBottom: 160
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 74818616524af7c4197b16673e2c7ff4, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_ring_back
+    group: 
+    width: 161
+    height: 161
+    xorig: 80
+    yorig: 80
+    mask: 0
+    separateMasks: 0
+    bboxLeft: 81
+    bboxTop: 3
+    bboxRight: 160
+    bboxBottom: 157
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 2cfe01ace0df81e4eaaa7c9ed0f6406f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_snow2
+    group: weather
+    width: 9
+    height: 9
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 7
+    bboxBottom: 7
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 9e64eb92907fa5f4199906d69f1d95b0, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_snow1
+    group: weather
+    width: 9
+    height: 9
+    xorig: 4
+    yorig: 4
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 8
+    bboxBottom: 8
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 8e26108312daf0a478cdfff984ef8f8d, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_sand2
+    group: weather
+    width: 4
+    height: 4
+    xorig: 2
+    yorig: 2
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 3
+    bboxBottom: 3
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: f354ddfd7f6ee264ca13eef2c17102e2, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_sand1
+    group: weather
+    width: 4
+    height: 4
+    xorig: 2
+    yorig: 2
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 2
+    bboxBottom: 2
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 617e25239387ef94fb5d9aa3c5a66481, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_rainemitter
+    group: weather
+    width: 64
+    height: 64
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 63
+    bboxBottom: 63
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 21181f0c80ee194449666cefd71e1f69, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_raindrop
+    group: weather
+    width: 4
+    height: 4
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 3
+    bboxBottom: 3
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: a1022786a1ff45540bd8797104d67216, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_rain
+    group: weather
+    width: 1
+    height: 4
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 3
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: c8b9868403123a343bfb51f7ece0a888, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_leaf2
+    group: weather
+    width: 16
+    height: 16
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 2
+    bboxTop: 3
+    bboxRight: 12
+    bboxBottom: 12
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: bf580472d7d6e9a4cb17ad38b722662e, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_leaf1
+    group: weather
+    width: 16
+    height: 16
+    xorig: 8
+    yorig: 8
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 3
+    bboxTop: 3
+    bboxRight: 13
+    bboxBottom: 12
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b15d9986db192d949a924812db9bc548, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_fly2
+    group: weather
+    width: 1
+    height: 1
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 0
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 5e4d8f01bf885bf499edf72a1f7e0b4f, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_fly
+    group: weather
+    width: 1
+    height: 1
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 0
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 4b65d2b5461f75d4e974476d06f983fe, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_firefly_strip
+    group: weather
+    width: 1
+    height: 1
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 0
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: b15d25627c6378d4a848739578cabc0a, type: 3}
+    - {fileID: 21300000, guid: b9defb972336fc94eaf66182464bd74e, type: 3}
+    clip: {fileID: 7400000, guid: 8a1b8b517a101494fa9c2b33a5b35d10, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_firefly_dark
+    group: weather
+    width: 1
+    height: 1
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 0
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 54024cb707832154cae52e35dca570e8, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_firefly
+    group: weather
+    width: 1
+    height: 1
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 0
+    bboxBottom: 0
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3108236d6b77fe242be3c2b22a65f79e, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_butterfly
+    group: weather
+    width: 16
+    height: 16
+    xorig: 8
+    yorig: 8
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 1
+    bboxTop: 1
+    bboxRight: 14
+    bboxBottom: 14
+    imageSpeed: 0.1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 3be665aaab0f23b4ea6180ddd649af09, type: 3}
+    - {fileID: 21300000, guid: 57e1d008215505d42a20ec21f388a406, type: 3}
+    - {fileID: 21300000, guid: ee30de63764c3334d968167356c8381b, type: 3}
+    - {fileID: 21300000, guid: 2aaab74a0a45bef499a05182b1bac830, type: 3}
+    - {fileID: 21300000, guid: 7c30a555b09c4404087df88f053a75e8, type: 3}
+    - {fileID: 21300000, guid: 929addc37da2a2548907bd41e651fe44, type: 3}
+    clip: {fileID: 7400000, guid: 76e4dcc746c1acb46a189d3f27d04ca2, type: 2}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_weather.spriteatlasv2
+  - name: spr_weapon_select
+    group: 
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: 427ecfdbf42bc19499344c16b38e467b, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  - name: spr_weapon_select_light
+    group: 
+    width: 52
+    height: 57
+    xorig: 0
+    yorig: 0
+    mask: 1
+    separateMasks: 0
+    bboxLeft: 0
+    bboxTop: 0
+    bboxRight: 51
+    bboxBottom: 56
+    imageSpeed: 1
+    roomSpeed: 120
+    frames:
+    - {fileID: 21300000, guid: aa233f5143d46ff4594ef6ca53ee9890, type: 3}
+    clip: {fileID: 0}
+    atlas: Assets/Unity.Hare/Art/Atlases/Sprites_root.spriteatlasv2
+  backgrounds:
+  - name: bg_black
+    group: 
+    width: 32
+    height: 32
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: fd30cbfa6323f6b4fa2d9f00867e712f, type: 3}
+  - name: bg_gradient2
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 2cbb613a23fa2ac46bcf45c0c7a9b4e9, type: 3}
+  - name: bg_gradient3
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 685765c868309bc4c86c799347502062, type: 3}
+  - name: bg_uphigh
+    group: backdrops
+    width: 1920
+    height: 1440
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 1dd30ba7e8fe9a74ab6e2a90e7986e26, type: 3}
+  - name: bg_worldcurve
+    group: backdrops
+    width: 1920
+    height: 1280
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: a0c9eb8e580a5d6468ae118598ea9d34, type: 3}
+  - name: bg_atmosphere
+    group: backdrops
+    width: 1920
+    height: 1275
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: eaa804411831bd047a93b6f3b95a8803, type: 3}
+  - name: bg_moonview
+    group: backdrops
+    width: 1920
+    height: 1280
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 3116909ad2053974199009f034d95e53, type: 3}
+  - name: bg_orange
+    group: backdrops
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 1fe3dcd918a4e334290b4d7231b6c38a, type: 3}
+  - name: bg_nightsky
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 12023cc51439d93449bbd260347d4fc4, type: 3}
+  - name: bg_stormclouds
+    group: 
+    width: 1920
+    height: 1200
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 63da2280711e9bc44a77d715506dbbc3, type: 3}
+  - name: bg_tropicalocean
+    group: 
+    width: 1920
+    height: 1200
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: d29ebc71b99e4be439d312ddd0cb654a, type: 3}
+  - name: bg_metal
+    group: 
+    width: 1920
+    height: 1200
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 632ddaaf12f696541ad8c2080f6023b7, type: 3}
+  - name: bg_rabbit_schematic
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 67cc7d8bfedfe214b977dd6256d7cd13, type: 3}
+  - name: bg_rabbit_schematic_transparent
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 83955386cee5f3d4eb5b846025e943c0, type: 3}
+  - name: bg_circuitboard
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 0783dde21479ec64083fd9635e44b2c5, type: 3}
+  - name: bg_circuitboard2
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 49b9089b1d2f5b144a6ff089f3595e9e, type: 3}
+  - name: bg_circuitboard3
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 2da43e0aa87187a49a317830f5b601cf, type: 3}
+  - name: bg_semiopaque80
+    group: 
+    width: 1920
+    height: 1080
+    tileHorizontal: 1
+    tileVertical: 1
+    sprite: {fileID: 21300000, guid: 98a8a8221520cce4285795bbbce646fb, type: 3}

@@ -1,4 +1,4 @@
-# Unity.Hare reconstruction: parity and standards audit
+# Unity.Rea.Hare reconstruction: parity and standards audit
 
 Audit of UH-T34 (owner 2026-10-23). It compares the original prototype with the rebuild as it stands on
 main, and the project with Unity best practice and the shared MindAttic Unity standards. Every gap has
