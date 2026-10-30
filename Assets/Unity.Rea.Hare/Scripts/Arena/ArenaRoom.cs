@@ -460,11 +460,16 @@ namespace Unity.Hare.Arena
         /// level here, or the level script's room_goto when it plays in another room. Like the original it goes straight
         /// on to the next level (docs/BIBLE.md V31), except that a map mission's level, once won, goes back to room_map
         /// instead (U.HARE-T64, owner-directed, V42: otherwise winning level_07 would run straight into the locked boss).
+        /// The score reset still runs first either way (U.HARE-T111 fix): otherwise a mission won without going on to
+        /// setup_level never zeroed current_score, and the next mission chosen from the map (ChooseMission does not zero
+        /// it either) started with the previous one's score.
         /// </summary>
         void AdvanceLevel(bool resetScore)
         {
             var flow = Flow;
             var back = LevelSetup.RoomAfterLevel(Session);
+            RunSession(new AdvanceLevel(Seat, resetScore));
+            var session = Session;
             if (back.HasValue && flow != null)
             {
                 RunSession(new Unity.Hare.Session.SetPaused(Seat, false));
@@ -472,8 +477,6 @@ namespace Unity.Hare.Arena
                 return;
             }
 
-            RunSession(new AdvanceLevel(Seat, resetScore));
-            var session = Session;
             var elsewhere = LevelSetup.RoomGoto(content.Arena, content.Story, session, session.Level, Room);
             if (elsewhere.HasValue && flow != null)
             {

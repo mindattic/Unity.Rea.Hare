@@ -118,5 +118,48 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(ship.GetComponent<PlayerHealth>().IsInvulnerable, Is.False);
             Assert.That(Gml.Paused, Is.False);
         }
+
+        /// <summary>
+        /// U.HARE-T111: a map mission's own level, won, goes back to room_map instead of on to the next level
+        /// (U.HARE-T64), but the leaving ship's exit must still zero current_score and level_complete first (V31) before
+        /// that redirect, not after it never runs setup_level's own AdvanceLevel. Otherwise the next mission chosen from
+        /// the map (ChooseMission does not zero the score either) started at the previous mission's score.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator WinningAMapMissionZeroesTheScoreBeforeGoingBackToTheMap()
+        {
+            director = RoomFlowDirector.Create(enterFirstRoom: false);
+            director.GetFullscreen = () => false;
+            director.SetFullscreen = _ => { };
+            director.ExecuteSession(new ChooseMission(RoomFlowDirector.Seat, 3, 3));
+            director.Execute(new GoToRoom(RoomFlowDirector.Seat, RoomId.GameScreen));
+            string name = RoomList.GmlName(RoomId.GameScreen);
+            yield return WaitFor(() => SceneManager.GetActiveScene().name == name && Arena() != null && Arena().State != null && Arena().State.Created && Arena().Player != null,
+                name + " and obj_game's Create");
+            var arena = Arena();
+            var session = director.Session;
+            Assert.That(session.EndsMission, Is.True, "level 3 is mission 3's own level");
+
+            director.ExecuteSession(new AddScore(RoomFlowDirector.Seat, 4200));
+            director.ExecuteSession(new CompleteLevel(RoomFlowDirector.Seat));
+            Assert.That(arena.Results, Is.Not.Null);
+
+            var ship = arena.Player;
+            var body = ship.GetComponent<Rigidbody2D>();
+            var middle = arena.ToWorld(arena.State.Width / 2f, arena.State.Height / 2f);
+            ship.transform.position = new Vector3(middle.x, middle.y, ship.transform.position.z);
+            body.position = middle;
+            Assert.That(arena.ContinueFromResults(), Is.True);
+
+            string map = RoomList.GmlName(RoomId.Map);
+            yield return WaitFor(() => SceneManager.GetActiveScene().name == map, "the won mission's exit off the top: room_goto(room_map)", 15f);
+            Assert.That(session.Score, Is.EqualTo(0), "current_score = 0 before the map, not carried into the next mission (U.HARE-T111)");
+            Assert.That(session.IsLevelComplete, Is.False);
+
+            // level_10 (ResetScore false, a high points goal) must not inherit a previous mission's score: ChooseMission
+            // does not zero it, so the exit above already must have.
+            director.ExecuteSession(new ChooseMission(RoomFlowDirector.Seat, 10, 10));
+            Assert.That(session.Score, Is.EqualTo(0), "the next mission chosen from the map does not start with the previous mission's score");
+        }
     }
 }
