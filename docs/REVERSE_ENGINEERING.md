@@ -25,6 +25,15 @@ decisions — those live in the ticket backlog (`UH-*` in the MindAttic ticket d
   `Assets/Resources` layout (Actors/Rabbit, Audio/Music, Audio/SoundEffects, Environment,
   Prefabs/Rock, Prefabs/Weapon, Props, GUI) is a reasonable starting folder shape.
 
+A second copy, `R:\Projects\_PRE_2022\_PRE_2021\_PRE_2020\GameMaker\gmlHARE\HARE.gmx` (compared file by file by
+U.HARE-T33), is the same project re-saved by a later GameMaker: Studio (every sprite, sound and font file gains
+format fields such as `<type>` and `<audioGroup>`, and an empty, unused 32x32 `sprite213` is added). Its only
+code differences: `obj_game` calls `play_random_music()`, but that script's whole body is commented out (so music
+is still never heard; the rebuild plays it, BIBLE D33); `obj_game`'s commented-out ring creation is deleted and
+`obj_ring`'s code is uncommented (still created by nothing); and `obj_drop_intro`'s key press no longer sets
+`phase = "exit"`, which would leave `room_intro` with no way into play but Esc. The rebuild follows the `_PRE_2017`
+copy, whose intro exit works (a broken thing fixed, AGENTS.md rule 1).
+
 `.gmx` is GameMaker 8.1's XML project format: each object is one `objects/obj_*.object.gmx`
 file (events encoded as `eventtype`/`enumb` pairs — 0 Create, 2 Alarm, 3 Step, 4 Collision,
 5 Keyboard(held), 6 Mouse, 8 Draw, 9 Key Press, 10 Key Release), each script is one
@@ -359,7 +368,8 @@ Ambient/weather layers: `obj_cloud`/`obj_cloud1-4`/
 `level_01`..`level_10` (HARE.gmx) are individual level-definition scripts, layered on
 `level_default`, `level_composition_00`/`level_composition_01`, `level_objective_00`/`_01`,
 `level_setting_00`/`_01`, and `load_level`/`setup_level`/`load_scenario`. Level selection
-happens from `room_map` via `obj_destination` and `obj_btn_level01`..`obj_btn_level09`.
+happens from `room_map` via `obj_destination` (the campaign's missions) and from the title via the
+`obj_btn_level01`..`obj_btn_level07` buttons `obj_logo` places (`obj_btn_level09` is never placed; BIBLE V47).
 Completion: `set_level_complete`, `obj_level_results`, `obj_levelstart`.
 
 ## Pickups & upgrades
@@ -385,7 +395,8 @@ transitions), `obj_logo`, `obj_mouse`.
 - `room_title` / `room_intro` (1920x1080, 60 steps, view 0 = the room): backgrounds `bg_nightsky` (slot 0, tiled,
   `vspeed -5`) and `bg_gradient3` (slot 1, tiled, still). Title instances in order: `obj_drop_emitter` (-928,128),
   `obj_drop_title` (960,-608, scale 0.5), `obj_stand_title` (928,2592, scale 0.5), `obj_title`. Intro: `obj_drop_intro`
-  (960,-608, scale 0.5), `obj_drop_emitter`, `obj_intro`. Nothing in the project goes to `room_intro`.
+  (960,-608, scale 0.5), `obj_drop_emitter`, `obj_intro`. Only `obj_white_dot` goes to `room_intro`
+  (`room_goto(room_intro)` on reaching the map's destination; corrected by U.HARE-T33).
 - `obj_drop_emitter` (depth 0): Create `rate = 20; alarm[0] = 1`; Alarm 0 `repeat(irandom_range(4,8))
   instance_create(0,0,obj_drop_cloud)`, `alarm[0] = rate`.
 - `obj_drop_cloud` (spr_cloud1, depth 0): Create `x = irandom_range(-sprite_width/2, room_width - sprite_width/2)`,
@@ -527,7 +538,7 @@ behaviour from. Worth mirroring as Unity base `MonoBehaviour`/interfaces per cat
 
 ## Sprites and backgrounds (U.HARE-T46)
 
-Read in full by `tools/import-gml-art.ps1`; its output, `Assets/Unity.Hare/Art/gml-art.json`, is the per-sprite
+Read in full by `tools/import-gml-art.ps1`; its output, `Assets/Unity.Rea.Hare/Art/gml-art.json`, is the per-sprite
 record (origin, bounding box, mask, frames, image_speed and where it came from).
 
 - `HARE.project.gmx` lists **213 sprites** (398 frames) and **18 backgrounds**, in a resource tree of groups
@@ -555,7 +566,7 @@ record (origin, bounding box, mask, frames, image_speed and where it came from).
 
 ## Sounds and the credits data file (U.HARE-T47)
 
-Read in full by `tools/import-gml-audio.ps1`; its output, `Assets/Unity.Hare/Audio/gml-audio.json`, is the per-sound
+Read in full by `tools/import-gml-audio.ps1`; its output, `Assets/Unity.Rea.Hare/Audio/gml-audio.json`, is the per-sound
 record (every sound.gmx field, the source file's real format, channels, rate and length, and the clip it becomes).
 
 - `HARE.project.gmx` lists **75 sounds**: 69 `sfx_*` and 6 `music_*`, in a resource tree of groups: `music` (the six
@@ -577,7 +588,8 @@ record (every sound.gmx field, the source file's real format, channels, rate and
   Music is chosen by `play_random_music` into `current_track` (U.HARE-T29).
 - **`datafiles/credits.txt`** (the project's only data file, `exportAction` 2): two lines, "Jim Rogers - Mingun
   sound effect" and `http://soundbible.com/1920-Minigun.html`, the source of the vulcan's minigun sound. It is
-  mirrored byte for byte to `Assets/Unity.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69).
+  mirrored byte for byte to `Assets/Unity.Rea.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69; the
+  screen does not read it yet, U.HARE-T112).
 
 ## Fonts (U.HARE-T48)
 
