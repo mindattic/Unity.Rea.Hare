@@ -155,6 +155,7 @@ namespace Unity.Hare.Weapons
                     Fired?.Invoke();
                     break;
                 case GunDryFired dry when dry.Key == key:
+                    Audio.HareAudio.Play("sfx_empty_clip"); // fire_primary/fire_secondary's else branch (U.HARE-T109)
                     OutOfAmmo?.Invoke();
                     break;
             }

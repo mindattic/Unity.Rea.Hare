@@ -105,6 +105,7 @@ namespace Unity.Hare.Weapons
             else if (e is GroundWeaponSwitched switched)
             {
                 Apply();
+                Audio.HareAudio.Play("sfx_switch"); // next_ground_weapon (U.HARE-T109)
                 Switched?.Invoke(switched.Weapon);
             }
         }

@@ -31,6 +31,7 @@ namespace Unity.Hare.Weapons
             HareArt.Show(go, Mine.SpriteName, Mine.Depth); // obj_mine's spr_mine at depth -3 (U.HARE-T95)
             LastMine = go.AddComponent<Mine>();
             LastMine.Init(gameObject, origin);
+            Audio.HareAudio.Play("sfx_fire_grenade"); // shoot_mine (U.HARE-T109)
         }
     }
 }

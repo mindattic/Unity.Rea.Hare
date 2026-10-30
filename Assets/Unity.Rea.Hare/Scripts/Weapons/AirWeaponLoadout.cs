@@ -107,12 +107,16 @@ namespace Unity.Hare.Weapons
             {
                 case AirWeaponFired fired:
                     Spawn(fired.Weapon);
+                    // shoot_mine plays sfx_fire_grenade, shoot_rocket plays sfx_set_rocket (U.HARE-T109).
+                    Audio.HareAudio.Play(fired.Weapon == AirWeapon.Mine ? "sfx_fire_grenade" : "sfx_set_rocket");
                     Fired?.Invoke(fired.Weapon);
                     break;
                 case AirWeaponDryFired dry:
+                    Audio.HareAudio.Play("sfx_empty_clip"); // fire_primary's else branch (U.HARE-T109)
                     DryFired?.Invoke(dry.Weapon);
                     break;
                 case AirWeaponSwitched switched:
+                    Audio.HareAudio.Play("sfx_switch"); // next_air_weapon (U.HARE-T109)
                     Switched?.Invoke(switched.Weapon);
                     break;
             }
