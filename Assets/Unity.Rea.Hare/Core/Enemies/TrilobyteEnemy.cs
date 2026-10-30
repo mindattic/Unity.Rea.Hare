@@ -50,7 +50,7 @@ namespace Unity.Hare.Enemies
             if (Ring(ref curveAlarm, steps))
             {
                 Direction += curveLeft ? Rng.IRandom(1, 6) : -Rng.IRandom(1, 6);
-                Emit(new TrilobyteSmoked());
+                Emit(new TrilobyteSmoked { At = Position });
                 curveAlarm = CurveEverySteps;
             }
             if (Ring(ref mineAlarm, steps))
@@ -153,7 +153,7 @@ namespace Unity.Hare.Enemies
         {
             if (Ring(ref pingAlarm, steps))
             {
-                Emit(new MinePinged());
+                Emit(new MinePinged { At = Position });
                 pingAlarm = PingEverySteps;
             }
             if (Ring(ref fuseAlarm, steps))
@@ -164,7 +164,7 @@ namespace Unity.Hare.Enemies
             if (Ring(ref armAlarm, steps))
             {
                 IsActive = true;
-                Emit(new MineArmed());
+                Emit(new MineArmed { At = Position });
             }
         }
 

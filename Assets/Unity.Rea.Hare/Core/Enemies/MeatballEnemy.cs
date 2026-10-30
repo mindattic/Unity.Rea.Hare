@@ -53,7 +53,7 @@ namespace Unity.Hare.Enemies
             {
                 int count = Rng.IRandom(4, 6);
                 for (int i = 0; i < count; i++) Fire(Position, Rng.IRandom(0, 359), SprayBulletSpeedPxPerStep);
-                Emit(new MeatballSprayed { Bullets = count });
+                Emit(new MeatballSprayed { At = Position, Bullets = count });
                 sprayAlarm = Rng.IRandom(80, 200);
             }
             if (Ring(ref regenAlarm, steps))

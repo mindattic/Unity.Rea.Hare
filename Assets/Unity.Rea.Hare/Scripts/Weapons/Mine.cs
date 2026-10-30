@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Unity.Hare.Audio;
+using Unity.Hare.Effects;
 
 namespace Unity.Hare.Weapons
 {
@@ -106,10 +108,12 @@ namespace Unity.Hare.Weapons
                 return;
             }
 
-            // Alarm 0: arm.
+            // Alarm 0: arm. GML: active = true; effect_create_below(ef_ring, x, y, 0, c_white); if(in_view(x,y)) sfx_beep.
             if (!IsActive && AgeSteps >= ActivateSteps - 0.5f)
             {
                 IsActive = true;
+                GmlEffects.CreateBelow(GmlEffectKind.Ring, transform.position, 0, Color.white);
+                if (HareArt.InView(transform.position)) HareAudio.Play("sfx_beep");
                 Activated?.Invoke(this);
             }
 

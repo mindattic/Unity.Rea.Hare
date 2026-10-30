@@ -159,13 +159,13 @@ namespace Unity.Hare.Enemies
     public sealed class DebrisRaised : EnemyEvent { public DebrisSpec Spec; }
 
     /// <summary>A dagger lined up and launched (ef_ring).</summary>
-    public sealed class DaggerLaunched : EnemyEvent { }
+    public sealed class DaggerLaunched : EnemyEvent { public Vec2 At; }
 
     /// <summary>A dagger's smoke trail puff (ef_smokeup, below).</summary>
     public sealed class SmokePuffRaised : EnemyEvent { public Vec2 At; }
 
     /// <summary>A meatball's pulse (ef_ring, ef_smokeup) after spraying <see cref="Bullets"/> rounds.</summary>
-    public sealed class MeatballSprayed : EnemyEvent { public int Bullets; }
+    public sealed class MeatballSprayed : EnemyEvent { public Vec2 At; public int Bullets; }
 
     /// <summary>A worm's volley of <see cref="Slivers"/> slivers.</summary>
     public sealed class WormSpat : EnemyEvent { public int Slivers; }
@@ -174,13 +174,13 @@ namespace Unity.Hare.Enemies
     public sealed class WraithReappeared : EnemyEvent { }
 
     /// <summary>A trilobyte's ef_smoke puff.</summary>
-    public sealed class TrilobyteSmoked : EnemyEvent { }
+    public sealed class TrilobyteSmoked : EnemyEvent { public Vec2 At; }
 
     /// <summary>A mine armed (ef_ring, sfx_beep).</summary>
-    public sealed class MineArmed : EnemyEvent { }
+    public sealed class MineArmed : EnemyEvent { public Vec2 At; }
 
     /// <summary>A mine pinged (ef_ring).</summary>
-    public sealed class MinePinged : EnemyEvent { }
+    public sealed class MinePinged : EnemyEvent { public Vec2 At; }
 
     /// <summary>An emitter or wormhole joined the world.</summary>
     public sealed class VortexSpawned : EnemyEvent { public VortexBody Vortex; }

@@ -124,7 +124,7 @@ namespace Unity.Hare.Enemies
                     else
                     {
                         Mode = DaggerMode.Fly;
-                        Emit(new DaggerLaunched());
+                        Emit(new DaggerLaunched { At = Position });
                         stopAlarm = Rng.IRandom(MinFlySteps, MaxFlySteps);
                         smokeAlarm = SmokeEverySteps;
                     }

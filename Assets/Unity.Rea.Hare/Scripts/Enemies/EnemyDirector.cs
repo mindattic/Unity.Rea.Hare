@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Hare.Audio;
 using Unity.Hare.Effects;
 using Unity.Hare.Player;
 using Unity.Hare.Weapons;
@@ -326,6 +327,32 @@ namespace Unity.Hare.Enemies
                 case DeathParticlesRaised particles: DeathParticle.SpawnDeathParticles(particles.At.ToVector2()); return;
                 case HarpoonGrabbed grabbed:
                     GmlEffects.CreateAbove(GmlEffectKind.Firework, grabbed.At.ToVector2(), DeathEffects.Small, DeathEffects.Orange);
+                    break;
+                case DaggerLaunched launched:
+                    // obj_dagger Alarm 2 (rotate -> fly): effect_create_above(ef_ring, x, y, 0, c_white).
+                    GmlEffects.CreateAbove(GmlEffectKind.Ring, launched.At.ToVector2(), 0, Color.white);
+                    break;
+                case SmokePuffRaised puff:
+                    // obj_dagger Alarm 2 while flying: effect_create_below(ef_smokeup, x - hspeed, y - vspeed, 0, c_white).
+                    GmlEffects.CreateBelow(GmlEffectKind.SmokeUp, puff.At.ToVector2(), 0, Color.white);
+                    break;
+                case MeatballSprayed sprayed:
+                    // obj_meatball Alarm 0: effect_create_above(ef_ring, x, y, 0, c_yellow) and ef_smokeup, c_black.
+                    GmlEffects.CreateAbove(GmlEffectKind.Ring, sprayed.At.ToVector2(), 0, Color.yellow);
+                    GmlEffects.CreateAbove(GmlEffectKind.SmokeUp, sprayed.At.ToVector2(), 0, Color.black);
+                    break;
+                case TrilobyteSmoked smoked:
+                    // obj_trilobyte Alarm 1: effect_create_below(ef_smoke, x, y, 0, c_red).
+                    GmlEffects.CreateBelow(GmlEffectKind.Smoke, smoked.At.ToVector2(), 0, Color.red);
+                    break;
+                case MineArmed armed:
+                    // obj_enemy_mine Alarm 0: effect_create_below(ef_ring, x, y, 0, c_white); if(in_view) sfx_beep.
+                    GmlEffects.CreateBelow(GmlEffectKind.Ring, armed.At.ToVector2(), 0, Color.white);
+                    if (HareArt.InView(armed.At.ToVector2())) HareAudio.Play("sfx_beep");
+                    break;
+                case MinePinged pinged:
+                    // obj_enemy_mine Alarm 2 (ping_rate): effect_create_below(ef_ring, x, y, 0, c_white).
+                    GmlEffects.CreateBelow(GmlEffectKind.Ring, pinged.At.ToVector2(), 0, Color.white);
                     break;
                 case LevelCompleted _:
                     // set_level_complete: level_complete = true, obj_level_results, paused = true (the results ticket shows the results).
