@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity.Hare.Audio;
 
 namespace Unity.Hare.UI
 {
@@ -15,9 +17,11 @@ namespace Unity.Hare.UI
     }
 
     /// <summary>
-    /// The credits screen (U.HARE-T69): third-party assets the game ships, from datafiles/credits.txt (the original's
-    /// only credit, the Jim Rogers minigun sound), the music tracks' ID3 tags and the font pipeline's licence notes.
-    /// The original had no credits room; this one is a deviation (docs/BIBLE.md V50), reached from the title.
+    /// The credits screen (U.HARE-T69): third-party assets the game ships. The minigun sound's credit comes from the
+    /// imported <c>Audio/credits.txt</c> (<see cref="HareAudioManifest.Credits"/>, mirrored byte for byte from the
+    /// original's only credit file, U.HARE-T112); the rest is from the music tracks' ID3 tags and the font pipeline's
+    /// licence notes, which no file in the repo mirrors as a list.
+    /// The original had no credits room; this one is a deviation (docs/BIBLE.md V52), reached from the title.
     /// Licences not stated by a file in the repo or the original project are "unverified" with the source named.
     /// docs/CREDITS.md carries the same list in full; keep the two in step.
     /// </summary>
@@ -26,10 +30,33 @@ namespace Unity.Hare.UI
         public const string Unverified = "unverified";
         public const string ElementName = "credits";
 
-        public static readonly IReadOnlyList<CreditEntry> Entries = new[]
+        /// <summary>
+        /// The minigun credit, parsed from the imported <c>Audio/credits.txt</c>
+        /// (<see cref="HareAudioManifest.Credits"/>): its first line is "author - asset", its second the source URL.
+        /// Falls back to "unverified" fields if the audio has not been imported or the file is empty.
+        /// </summary>
+        static CreditEntry MinigunCredit()
         {
-            new CreditEntry("Sound", "Minigun sound effect", "Jim Rogers", "http://soundbible.com/1920-Minigun.html",
-                "unverified (named only in the original's datafiles/credits.txt)"),
+            var text = HareAudio.Manifest?.Credits?.text;
+            var lines = string.IsNullOrEmpty(text)
+                ? Array.Empty<string>()
+                : text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            string author = Unverified, asset = "Minigun sound effect", source = Unverified;
+            if (lines.Length > 0)
+            {
+                var parts = lines[0].Trim().Split(new[] { " - " }, 2, StringSplitOptions.None);
+                if (parts.Length == 2) { author = parts[0].Trim(); asset = parts[1].Trim(); }
+            }
+            if (lines.Length > 1) source = lines[1].Trim();
+
+            return new CreditEntry("Sound", asset, author, source,
+                "unverified (named only in the original's datafiles/credits.txt)");
+        }
+
+        public static IReadOnlyList<CreditEntry> Entries => new[]
+        {
+            MinigunCredit(),
             new CreditEntry("Music", "In a Heartbeat", "Kevin MacLeod", "ID3 tag of music_inaheartbeat.mp3", "unverified (tag says nothing; album \"Royalty Free\")"),
             new CreditEntry("Music", "Latin Industries", "Kevin MacLeod", "ID3 tag of music_latinindustries.mp3", "unverified (tag: \"Royalty Free\")"),
             new CreditEntry("Music", "Overcast", "Kevin MacLeod", "ID3 tag of music_overcast.mp3", "unverified (tag: \"Royalty Free\")"),

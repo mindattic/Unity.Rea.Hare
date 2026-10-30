@@ -183,7 +183,7 @@ namespace Unity.Hare.Rooms
             if (!State.Created) return;
             var seat = RoomFlowDirector.Seat;
 
-            // The credits screen (U.HARE-T69, BIBLE V50), a deviation: the original has no credits room. While it is
+            // The credits screen (U.HARE-T69, BIBLE V52), a deviation: the original has no credits room. While it is
             // open it takes every click and Esc, and the title underneath hears nothing.
             if (creditsView != null)
             {

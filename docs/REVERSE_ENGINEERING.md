@@ -588,8 +588,8 @@ record (every sound.gmx field, the source file's real format, channels, rate and
   Music is chosen by `play_random_music` into `current_track` (U.HARE-T29).
 - **`datafiles/credits.txt`** (the project's only data file, `exportAction` 2): two lines, "Jim Rogers - Mingun
   sound effect" and `http://soundbible.com/1920-Minigun.html`, the source of the vulcan's minigun sound. It is
-  mirrored byte for byte to `Assets/Unity.Rea.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69; the
-  screen does not read it yet, U.HARE-T112).
+  mirrored byte for byte to `Assets/Unity.Rea.Hare/Audio/credits.txt` for the credits screen (U.HARE-T69), which
+  builds its minigun entry from that imported file (U.HARE-T112).
 
 ## Fonts (U.HARE-T48)
 
