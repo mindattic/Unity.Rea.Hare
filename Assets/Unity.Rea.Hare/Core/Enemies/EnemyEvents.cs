@@ -176,6 +176,9 @@ namespace Unity.Hare.Enemies
     /// <summary>A trilobyte's ef_smoke puff.</summary>
     public sealed class TrilobyteSmoked : EnemyEvent { public Vec2 At; }
 
+    /// <summary>A phalanx's per-step ef_spark, below (c_gold).</summary>
+    public sealed class PhalanxSparked : EnemyEvent { public Vec2 At; }
+
     /// <summary>A mine armed (ef_ring, sfx_beep).</summary>
     public sealed class MineArmed : EnemyEvent { public Vec2 At; }
 

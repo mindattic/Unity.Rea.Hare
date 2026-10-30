@@ -40,6 +40,7 @@ namespace Unity.Hare.Enemies
             var target = Target;
             if (target != null && DistanceToPlayerPx() > EngageRangePx) MoveTowardsPoint(target.Position, ChaseSpeedPxPerStep);
             else SpeedPxPerStep = 0f;
+            Emit(new PhalanxSparked { At = Position });
         }
 
         protected override bool RocketHit(Vec2 rocketAt)

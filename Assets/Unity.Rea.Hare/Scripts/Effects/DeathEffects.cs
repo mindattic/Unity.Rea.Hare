@@ -21,6 +21,9 @@ namespace Unity.Hare.Effects
         /// <summary>GML c_orange: 4235519, $40A0FF in GameMaker's BGR, so RGB 255, 160, 64.</summary>
         public static readonly Color Orange = new Color32(255, 160, 64, 255);
 
+        /// <summary>globals.gml's c_gold: make_color_rgb(255, 223, 0).</summary>
+        public static readonly Color Gold = new Color32(255, 223, 0, 255);
+
         /// <summary>The ef_smokeup + ef_firework pair at <paramref name="at"/>.</summary>
         public static void Burst(Vector2 at, int size)
         {

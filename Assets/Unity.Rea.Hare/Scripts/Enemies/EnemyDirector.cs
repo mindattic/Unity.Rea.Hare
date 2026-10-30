@@ -345,6 +345,10 @@ namespace Unity.Hare.Enemies
                     // obj_trilobyte Alarm 1: effect_create_below(ef_smoke, x, y, 0, c_red).
                     GmlEffects.CreateBelow(GmlEffectKind.Smoke, smoked.At.ToVector2(), 0, Color.red);
                     break;
+                case PhalanxSparked sparked:
+                    // obj_phalanx Step (if(!paused)): effect_create_below(ef_spark, x, y, 0, c_gold).
+                    GmlEffects.CreateBelow(GmlEffectKind.Spark, sparked.At.ToVector2(), 0, DeathEffects.Gold);
+                    break;
                 case MineArmed armed:
                     // obj_enemy_mine Alarm 0: effect_create_below(ef_ring, x, y, 0, c_white); if(in_view) sfx_beep.
                     GmlEffects.CreateBelow(GmlEffectKind.Ring, armed.At.ToVector2(), 0, Color.white);
