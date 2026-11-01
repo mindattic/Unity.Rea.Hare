@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// Composes obj_player in code: the flight controller, health and the shared ammo, one gun component per

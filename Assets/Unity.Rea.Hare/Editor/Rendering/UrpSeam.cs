@@ -3,17 +3,17 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace Unity.Hare.EditorTools.Rendering
+namespace Unity.Rea.Hare.EditorTools.Rendering
 {
     /// <summary>
-    /// The only code in Unity.Hare that references <c>UnityEngine.Rendering.Universal</c> (U.HARE-T44), kept in
-    /// its own assembly (<c>Unity.Hare.Editor.Rendering.asmdef</c>) so the restriction is enforced by the
-    /// compiler, not just by convention: <c>Unity.Hare.Editor</c> and <c>Unity.Hare.Runtime</c> no longer
+    /// The only code in Unity.Rea.Hare that references <c>UnityEngine.Rendering.Universal</c> (U.HARE-T44), kept in
+    /// its own assembly (<c>Unity.Rea.Hare.Editor.Rendering.asmdef</c>) so the restriction is enforced by the
+    /// compiler, not just by convention: <c>Unity.Rea.Hare.Editor</c> and <c>Unity.Rea.Hare.Runtime</c> no longer
     /// reference the URP packages at all, so a stray <c>using UnityEngine.Rendering.Universal;</c> anywhere
     /// else in the project fails to compile. Everything outside this file reaches rendering through the
-    /// pipeline-agnostic pieces in <c>Unity.Hare.Rendering</c> (<see cref="Unity.Hare.Rendering.CameraRig"/>,
-    /// <see cref="Unity.Hare.Rendering.LetterboxCamera"/>, <see cref="Unity.Hare.Rendering.HareSortingLayers"/>,
-    /// <see cref="Unity.Hare.Rendering.ScreenOverlayLayer"/>) or through this seam's plain-typed methods, so a
+    /// pipeline-agnostic pieces in <c>Unity.Rea.Hare.Rendering</c> (<see cref="Unity.Rea.Hare.Rendering.CameraRig"/>,
+    /// <see cref="Unity.Rea.Hare.Rendering.LetterboxCamera"/>, <see cref="Unity.Rea.Hare.Rendering.HareSortingLayers"/>,
+    /// <see cref="Unity.Rea.Hare.Rendering.ScreenOverlayLayer"/>) or through this seam's plain-typed methods, so a
     /// future pipeline change touches only this one file and its asmdef.
     /// </summary>
     public static class UrpSeam

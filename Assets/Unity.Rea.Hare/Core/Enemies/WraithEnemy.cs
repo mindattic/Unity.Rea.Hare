@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>obj_wraith's GML state string.</summary>
     public enum WraithState

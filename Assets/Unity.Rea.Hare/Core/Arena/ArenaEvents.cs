@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>Something that happened in the arena, returned by every <see cref="ArenaCommand"/>.</summary>
     public abstract class ArenaEvent

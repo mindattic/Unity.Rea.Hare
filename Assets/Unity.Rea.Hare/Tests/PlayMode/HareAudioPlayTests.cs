@@ -4,11 +4,11 @@ using System.IO;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 using Unity.Shared.Core;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T47: the mixer actually takes the profile's volumes once Unity's audio is running (an AudioMixer only

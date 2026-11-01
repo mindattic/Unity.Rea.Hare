@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// Every obj_float_text drawn (U.HARE-T27): Core's <see cref="FloatTextField"/> as outlined fnt_point text

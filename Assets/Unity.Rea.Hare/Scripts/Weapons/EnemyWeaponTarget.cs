@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// A drop-in par_enemy hitbox: put it beside a collider to make an object something the laser

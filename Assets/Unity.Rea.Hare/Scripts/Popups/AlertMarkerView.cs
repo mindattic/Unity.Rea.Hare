@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// obj_alert drawn and played (U.HARE-T27): Core's <see cref="AlertMarker"/> as spr_alertmarker (its draw_self,
@@ -54,7 +54,7 @@ namespace Unity.Hare.Popups
         }
 
         /// <summary>
-        /// The draw-only path room_map uses (U.HARE-T19): its <see cref="Unity.Hare.Map.MapScreen"/> steps the marker in
+        /// The draw-only path room_map uses (U.HARE-T19): its <see cref="Unity.Rea.Hare.Map.MapScreen"/> steps the marker in
         /// GameMaker's order and this draws it where it stands, in <paramref name="blend"/> (draw_self's image_blend; the
         /// locked boss's grey).
         /// </summary>

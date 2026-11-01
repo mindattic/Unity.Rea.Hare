@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Helper;
-using Unity.Hare.Pickups;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Helper;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T66: the helper hawk in Unity: create_helper at the ship with sfx_hawk, spr_helper drawn where Core has it

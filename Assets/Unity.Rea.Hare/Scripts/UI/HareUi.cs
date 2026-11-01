@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// The reusable widget kit every screen (HUD, menus, results, upgrade, story) composes in code: a plain

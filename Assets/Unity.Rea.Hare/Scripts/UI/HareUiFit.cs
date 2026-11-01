@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// Keeps a <see cref="HarePanel.BuildRoot"/> stage confined to the screen's visible, non-letterboxed area:

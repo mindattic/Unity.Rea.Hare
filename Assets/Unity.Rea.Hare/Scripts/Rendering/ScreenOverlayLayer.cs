@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Rendering
+namespace Unity.Rea.Hare.Rendering
 {
     /// <summary>
     /// The full-screen layer the room-fade transitions (<c>obj_fade_*</c>, planned UH-T50) and the flashbomb

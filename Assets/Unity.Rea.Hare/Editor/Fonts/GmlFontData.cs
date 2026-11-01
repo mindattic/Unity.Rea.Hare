@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Unity.Hare.Text;
+using Unity.Rea.Hare.Text;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Fonts/gml-fonts.json, the file tools/import-gml-fonts.ps1 writes from HARE.gmx: every GML font with its

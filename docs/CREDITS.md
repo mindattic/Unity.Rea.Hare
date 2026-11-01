@@ -2,7 +2,7 @@
 
 Everything here is third-party material that ships in, or is rasterised into, the Unity.Rea.Hare rebuild of the GameMaker
 game HARE (`gmlHARE\HARE.gmx`). The same list is shown in game: the title's **Credits** link (bottom right, once the
-menu is up) opens it (`Assets/Unity.Hare/Scripts/UI/CreditsView.cs`). Keep the two in step.
+menu is up) opens it (`Assets/Unity.Rea.Hare/Scripts/UI/CreditsView.cs`). Keep the two in step.
 
 The original game had no credits room and its only credit file is `datafiles/credits.txt`; the in-game screen is a
 recorded deviation (`docs/BIBLE.md` V52).
@@ -14,10 +14,10 @@ is **unverified** and the source of the claim is named. Nothing below has been l
 
 | Asset | Author | Source | Licence |
 |---|---|---|---|
-| Minigun sound effect (which clip(s) it became is not recorded; the vulcan sounds are the likely ones) | Jim Rogers | http://soundbible.com/1920-Minigun.html, from the original's `datafiles/credits.txt` (kept as `Assets/Unity.Hare/Audio/credits.txt`) | unverified: the credit file gives no licence |
-| The sound effects (69 `sfx_*` clips under `Assets/Unity.Hare/Audio/Sounds`) apart from whatever the minigun credit covers | unverified | `HARE.gmx\sound\audio`; no credit or licence recorded anywhere in the original | unverified |
+| Minigun sound effect (which clip(s) it became is not recorded; the vulcan sounds are the likely ones) | Jim Rogers | http://soundbible.com/1920-Minigun.html, from the original's `datafiles/credits.txt` (kept as `Assets/Unity.Rea.Hare/Audio/credits.txt`) | unverified: the credit file gives no licence |
+| The sound effects (69 `sfx_*` clips under `Assets/Unity.Rea.Hare/Audio/Sounds`) apart from whatever the minigun credit covers | unverified | `HARE.gmx\sound\audio`; no credit or licence recorded anywhere in the original | unverified |
 
-## Music (`Assets/Unity.Hare/Audio/Sounds/music`)
+## Music (`Assets/Unity.Rea.Hare/Audio/Sounds/music`)
 
 Author and title come from each file's ID3 tag. No tag or file states a licence; the tags on four say the album is
 "Royalty Free", which is not a licence grant by itself.
@@ -36,7 +36,7 @@ list is the attribution) and identify the author of Pinball Spring.
 
 ## Fonts
 
-From `Assets/Unity.Hare/Fonts/gml-fonts.json` and `docs/BIBLE.md` section 6.
+From `Assets/Unity.Rea.Hare/Fonts/gml-fonts.json` and `docs/BIBLE.md` section 6.
 
 | Face | Owner | Licence | What ships |
 |---|---|---|---|
@@ -49,7 +49,7 @@ confirmed or swap in open faces (every screen follows through `HareTextStyles`).
 
 ## Sprites and backgrounds
 
-All art comes from `HARE.gmx` (`Assets/Unity.Hare/Art`). The original project records no author, source or licence for
+All art comes from `HARE.gmx` (`Assets/Unity.Rea.Hare/Art`). The original project records no author, source or licence for
 any sprite, background or splash image: **unverified**. Before release, establish who drew each, or replace the ones
 nobody can vouch for.
 

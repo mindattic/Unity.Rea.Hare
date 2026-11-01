@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Rendering;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_moon_surface (U.HARE-T58): spr_moon_surface at depth 1, risen into its room by Core's <see cref="MoonSurface"/>

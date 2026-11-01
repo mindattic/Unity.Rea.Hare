@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Rendering
+namespace Unity.Rea.Hare.Rendering
 {
     /// <summary>
     /// Keeps the game camera at the original's 1920x1080 reference aspect whatever the window is resized to
@@ -9,7 +9,7 @@ namespace Unity.Hare.Rendering
     /// rendered image itself. <see cref="CameraRig"/> pairs this with a full-screen "bars" camera so the area
     /// outside the rect is always solid black rather than whatever the previous frame left there. Plain
     /// <see cref="UnityEngine.Camera"/> API only, so this has nothing to do with which render pipeline is
-    /// active; URP's own per-camera setup is the Editor-only seam in <c>Unity.Hare.EditorTools.Rendering</c>.
+    /// active; URP's own per-camera setup is the Editor-only seam in <c>Unity.Rea.Hare.EditorTools.Rendering</c>.
     /// </summary>
     [RequireComponent(typeof(Camera))]
     public sealed class LetterboxCamera : MonoBehaviour

@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.TextCore;
 using UnityEngine.TextCore.LowLevel;
 using UnityEngine.TextCore.Text;
-using Unity.Hare.Text;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Text;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Turns Fonts/gml-fonts.json (written by tools/import-gml-fonts.ps1) into the rebuild's fonts: one static bitmap
@@ -32,7 +32,7 @@ namespace Unity.Hare.EditorTools
     /// source font, no fallbacks, and saved (not DontSave) hide flags. A rebuild rewrites the existing asset, material and
     /// atlas in place, so their GUIDs and file IDs hold and the same data writes the same bytes.
     ///
-    /// Batch: tools/unity.ps1 -Method Unity.Hare.EditorTools.GmlFontBuilder.BuildAll (tools/import-gml-fonts.ps1 runs it).
+    /// Batch: tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.GmlFontBuilder.BuildAll (tools/import-gml-fonts.ps1 runs it).
     /// </summary>
     public static class GmlFontBuilder
     {
@@ -43,7 +43,7 @@ namespace Unity.Hare.EditorTools
 
         public static string AssetPath(string fontName) => OutputFolder + fontName + ".asset";
 
-        [MenuItem("Unity.Hare/Build Fonts From gml-fonts.json")]
+        [MenuItem("Unity.Rea.Hare/Build Fonts From gml-fonts.json")]
         public static void BuildAll()
         {
             var data = GmlFontData.Load() ?? throw new FileNotFoundException(
@@ -54,13 +54,13 @@ namespace Unity.Hare.EditorTools
             AssetDatabase.SaveAssets();
             HareFonts.ClearCache();
 
-            Debug.Log($"[Unity.Hare] GML fonts built: {data.fonts.Length} fonts, {data.skipped.Length} skipped");
+            Debug.Log($"[Unity.Rea.Hare] GML fonts built: {data.fonts.Length} fonts, {data.skipped.Length} skipped");
             foreach (var f in data.fonts)
             {
                 var asset = AssetDatabase.LoadAssetAtPath<FontAsset>(AssetPath(f.name));
-                Debug.Log($"[Unity.Hare] Font {f.name}: {f.Description}, {f.glyphs.Length} glyphs, line {GmlFontMetrics.LineHeight(f.Glyphs())} px, atlas {asset.atlasWidth}x{asset.atlasHeight}");
+                Debug.Log($"[Unity.Rea.Hare] Font {f.name}: {f.Description}, {f.glyphs.Length} glyphs, line {GmlFontMetrics.LineHeight(f.Glyphs())} px, atlas {asset.atlasWidth}x{asset.atlasHeight}");
             }
-            foreach (var s in data.skipped) Debug.Log($"[Unity.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
+            foreach (var s in data.skipped) Debug.Log($"[Unity.Rea.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
         }
 
         /// <summary>GameMaker's atlas for <paramref name="font"/> as RGBA pixels, bottom row first, read from the PNG itself.</summary>

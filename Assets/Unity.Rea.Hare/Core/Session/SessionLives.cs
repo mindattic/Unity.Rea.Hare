@@ -1,7 +1,7 @@
 using System;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// The session's LIVES as a ship's <see cref="ILivesLedger"/> (U.HARE-T54): a death and a flight out of the arena

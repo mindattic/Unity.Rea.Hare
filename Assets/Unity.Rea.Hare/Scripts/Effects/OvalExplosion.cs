@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// Ports obj_oval_explosion (gmlHARE, depth -4): spr_explosion_oval (256x128 px, origin 128, 64, 12 frames)

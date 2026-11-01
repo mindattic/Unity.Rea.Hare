@@ -1,8 +1,8 @@
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports shoot_mine and fire_secondary's in-air branch (gmlHARE). obj_player starts with

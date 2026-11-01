@@ -1,4 +1,4 @@
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// The only way the startup room changes. A command carries the id of the seat it acts for (no global current

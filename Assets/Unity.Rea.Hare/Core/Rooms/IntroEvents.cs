@@ -1,6 +1,6 @@
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>Something that happened in room_intro, returned by every <see cref="IntroCommand"/>.</summary>
     public abstract class IntroEvent

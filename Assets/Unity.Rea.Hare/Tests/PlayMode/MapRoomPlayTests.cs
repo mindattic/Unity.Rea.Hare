@@ -10,14 +10,14 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Map;
-using Unity.Hare.Popups;
-using Unity.Hare.Session;
-using Unity.Hare.Story;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Map;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Story;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T19, played: room_map comes up with obj_map over bg_nightsky, the earth, the ship, a marker for each of the
@@ -173,7 +173,7 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(director.Session.Mode, Is.EqualTo(GameMode.Campaign));
             Assert.That(director.Session.Scenario, Is.EqualTo(6));
             Assert.That(director.Session.MissionLevel, Is.EqualTo(6), "the mission is kept (BIBLE V42)");
-            var intro = UnityEngine.Object.FindAnyObjectByType<Unity.Hare.Rooms.IntroRoom>();
+            var intro = UnityEngine.Object.FindAnyObjectByType<Unity.Rea.Hare.Rooms.IntroRoom>();
             yield return WaitFor(() => intro != null && intro.State != null, "obj_intro");
             Assert.That(intro.State.MissionScenario, Is.EqualTo(6));
             Assert.That(intro.State.MissionLevel, Is.EqualTo(6));

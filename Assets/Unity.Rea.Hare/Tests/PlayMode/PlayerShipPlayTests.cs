@@ -4,10 +4,10 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>UH-T77: the main scene's ship wakes up armed under Unity's own loop and its weapons fire.</summary>
     public class PlayerShipPlayTests

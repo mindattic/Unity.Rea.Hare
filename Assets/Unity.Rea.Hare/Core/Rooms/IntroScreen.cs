@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// room_intro, engine-free: obj_drop_intro falling in through obj_drop_emitter's clouds over bg_nightsky and

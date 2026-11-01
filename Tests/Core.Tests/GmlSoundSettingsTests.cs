@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 
 namespace MindAttic.Hare.Tests
 {

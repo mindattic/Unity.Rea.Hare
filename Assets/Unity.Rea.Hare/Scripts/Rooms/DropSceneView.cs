@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Art;
-using Unity.Hare.Effects;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// Draws Core's <see cref="DropScene"/> (U.HARE-T62), room_title's and room_intro's shared half: the backgrounds
@@ -86,7 +86,7 @@ namespace Unity.Hare.Rooms
             if (string.IsNullOrEmpty(name)) return null;
             if (sprites.TryGetValue(name, out var sprite)) return sprite;
             sprite = manifest != null ? manifest.Frame(name) : null;
-            if (sprite == null) Debug.LogWarning("[Unity.Hare] " + name + " is not imported.");
+            if (sprite == null) Debug.LogWarning("[Unity.Rea.Hare] " + name + " is not imported.");
             sprites[name] = sprite;
             return sprite;
         }
@@ -159,7 +159,7 @@ namespace Unity.Hare.Rooms
 
                 var background = manifest != null ? manifest.FindBackground(layer.Name) : null;
                 var size = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(Scene.RoomWidth, Scene.RoomHeight);
-                if (background == null) Debug.LogWarning("[Unity.Hare] background " + layer.Name + " is not imported.");
+                if (background == null) Debug.LogWarning("[Unity.Rea.Hare] background " + layer.Name + " is not imported.");
                 else renderer.sprite = background.sprite;
 
                 int columns = Mathf.CeilToInt(Scene.RoomWidth / (float)size.x) + 1;

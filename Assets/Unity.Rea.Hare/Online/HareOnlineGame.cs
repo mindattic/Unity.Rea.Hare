@@ -1,10 +1,10 @@
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 using Unity.Multiplayer;    // NetBootstrap
 using Unity.Multiplayer.UI; // NetFrontEnd, MenuPlacement
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Unity.Hare.Online
+namespace Unity.Rea.Hare.Online
 {
     /// <summary>
     /// The online scene's one game component (U.HARE-T35). The menus are the kit's drop-in front end (Host, Join by IP,
@@ -29,7 +29,7 @@ namespace Unity.Hare.Online
             var bootstrap = NetBootstrap.Instance;
             if (bootstrap == null || bootstrap.Session == null)
             {
-                Debug.LogError("[Unity.Hare] The online scene has no NetBootstrap; run Unity.Hare > Rebuild Online Scene.", this);
+                Debug.LogError("[Unity.Rea.Hare] The online scene has no NetBootstrap; run Unity.Rea.Hare > Rebuild Online Scene.", this);
                 return;
             }
             if (!bootstrap.Session.IsActive)
@@ -45,7 +45,7 @@ namespace Unity.Hare.Online
                 s.AddText("Perched on a rock, the boost and brake keys raise your shield.");
                 s.AddText("Esc opens the menu: invite players, change your name and colour, or leave.");
             }, MenuPlacement.Both);
-            frontEnd.GameStarted += () => Debug.Log("[Unity.Hare] Online as " + frontEnd.Session.Identity.DisplayName + ".");
+            frontEnd.GameStarted += () => Debug.Log("[Unity.Rea.Hare] Online as " + frontEnd.Session.Identity.DisplayName + ".");
         }
 
         /// <summary>

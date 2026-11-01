@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>obj_drop_title's and obj_drop_intro's <c>phase</c>.</summary>
     public enum DropPhase

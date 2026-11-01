@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="MeatballEnemy"/> (obj_meatball): Core holds its colour, bursts and sprays; this shows them.</summary>
     public class Meatball : SetPieceEnemy
@@ -24,7 +24,7 @@ namespace Unity.Hare.Enemies
         {
             DrawLayer("eyes", "spr_meatball_eyes", bodyOrder, 2, Position, 0f);
             DrawLayer("pupils", "spr_meatball_pupils", bodyOrder, 1,
-                Position + Unity.Hare.Effects.HareArt.GmlOffset(EyeOffset.x, EyeOffset.y), 0f);
+                Position + Unity.Rea.Hare.Effects.HareArt.GmlOffset(EyeOffset.x, EyeOffset.y), 0f);
         }
 
         /// <summary>GML RGB: image_blend's grey level.</summary>

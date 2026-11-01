@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Rendering;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>U.HARE-T45: the PanelSettings every screen is built on matches the original's 1920x1080 reference.</summary>
     public class HarePanelTests

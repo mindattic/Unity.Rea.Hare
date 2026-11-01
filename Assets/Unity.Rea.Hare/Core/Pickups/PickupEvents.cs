@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>Something the pickup field did; presentation plays these (sprites, effects, sounds) and never writes back.</summary>
     public abstract class PickupEvent { }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Audio
+namespace Unity.Rea.Hare.Audio
 {
     /// <summary>A sound.gmx <c>kind</c>: how GameMaker: Studio 1.x plays the sound.</summary>
     public enum GmlSoundKind

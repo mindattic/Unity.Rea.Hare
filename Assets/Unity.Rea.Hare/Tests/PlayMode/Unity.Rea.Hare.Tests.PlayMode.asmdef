@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Tests.PlayMode",
-    "rootNamespace": "Unity.Hare.Tests.PlayMode",
+    "rootNamespace": "Unity.Rea.Hare.Tests.PlayMode",
     "references": [
         "Unity.Rea.Hare.Core",
         "Unity.Rea.Hare.Runtime",

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Online
+namespace Unity.Rea.Hare.Online
 {
     /// <summary>
     /// The content registry's <c>online</c> section (AGENTS.md rule 4). The original has no online play, so none of

@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Rocks
+namespace Unity.Rea.Hare.Rocks
 {
     /// <summary>What removed a rock.</summary>
     public enum RockRemoval

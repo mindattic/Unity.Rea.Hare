@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Rocks;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T17: par_rock, create_new_rock, move_rocks, rock_destroyed and obj_flotsum.</summary>
     public class RockFieldTests

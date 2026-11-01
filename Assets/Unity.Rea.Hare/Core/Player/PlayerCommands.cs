@@ -1,6 +1,6 @@
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// The only way a ship's state changes. A command carries the id of the player it acts for (no global current

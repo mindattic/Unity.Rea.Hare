@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_levelstart drawn (U.HARE-T57): Core's <see cref="LevelStartBanner"/> on the 1920x1080 GUI layer, as its Draw GUI

@@ -3,10 +3,10 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>UH-T12's shared ammo economy (obj_player Create, set_ammo_cost, subtract_ground_ammo, Alarms 9/10), run outside Unity.</summary>
     public class PlayerAmmoTests

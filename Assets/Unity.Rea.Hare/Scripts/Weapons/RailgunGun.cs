@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports shoot_railgun on the perched ground primary slot (gmlHARE): the railgun is a weapon of Q's cycle

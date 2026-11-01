@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Unity.Hare.Art
+namespace Unity.Rea.Hare.Art
 {
     /// <summary>One GML sprite (sprites/*.sprite.gmx) as imported: its frames, animation and collision mask.</summary>
     [Serializable]
@@ -59,7 +59,7 @@ namespace Unity.Hare.Art
     /// GmlArtBuilder turns that into this asset (Resources/Hare/HareArtManifest) along with the animation clips and
     /// sprite atlases. Load it with <see cref="Load"/>.
     /// </summary>
-    [CreateAssetMenu(menuName = "Unity.Hare/Art Manifest", fileName = "HareArtManifest")]
+    [CreateAssetMenu(menuName = "Unity.Rea.Hare/Art Manifest", fileName = "HareArtManifest")]
     public sealed class HareArtManifest : ScriptableObject
     {
         public const string ResourcePath = "Hare/HareArtManifest";

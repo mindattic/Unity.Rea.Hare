@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// obj_textdone as data (U.HARE-T87): the blinking "text done" marker in the bottom right corner of a typed box. The

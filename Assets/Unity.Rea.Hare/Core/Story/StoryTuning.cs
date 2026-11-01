@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// One scenario of load_scenario: the level scripts its <c>current_level</c> 1, 2, ... run.

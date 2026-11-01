@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// A ship's seat in the Core world (no global current player: every view finds its own seat on its own ship).

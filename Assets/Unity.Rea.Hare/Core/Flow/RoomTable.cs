@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// One room as its .room.gmx and controller object define it: its size and room_speed, which <c>obj_fade_*</c>

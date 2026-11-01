@@ -3,9 +3,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T45: proves the UI foundation actually works together once Unity's own UI Toolkit loop is running —

@@ -11,7 +11,7 @@ $root = Split-Path -Parent $PSScriptRoot
 $exe = Join-Path $root 'Build/Hare/Hare.exe'
 if (Test-Path $exe) { Remove-Item $exe -Force }
 
-& (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Hare.EditorTools.HareBuild.BuildWindows -Log deploy
+& (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Rea.Hare.EditorTools.HareBuild.BuildWindows -Log deploy
 $exitCode = $LASTEXITCODE
 if ($exitCode -ne 0) { exit $exitCode }
 if (-not (Test-Path $exe)) {

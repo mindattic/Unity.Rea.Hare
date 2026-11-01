@@ -1,6 +1,6 @@
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>Something that happened in room_map, returned by every <see cref="MapCommand"/>.</summary>
     public abstract class MapEvent

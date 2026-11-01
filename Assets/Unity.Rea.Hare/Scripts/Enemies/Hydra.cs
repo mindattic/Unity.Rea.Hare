@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="HydraEnemy"/> (obj_hydra): its rules live in Core; this shows the body and plays its shots.</summary>
     public class Hydra : SetPieceEnemy
@@ -36,7 +36,7 @@ namespace Unity.Hare.Enemies
         public event Action<Hydra, Bullet> Fired;
 
         /// <summary>GML Create. Optional values pin the random ones for tests.</summary>
-        public void Init(Vector2 position, Rect? room = null, Unity.Hare.Player.PlayerShipController player = null,
+        public void Init(Vector2 position, Rect? room = null, Unity.Rea.Hare.Player.PlayerShipController player = null,
             int? arms = null, int? rotationDirection = null) =>
             Begin(EnemyKind.Hydra, position, room, player, new EnemyOptions { Arms = arms, RotationDirection = rotationDirection });
 

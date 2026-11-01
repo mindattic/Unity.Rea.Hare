@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// next_ground_weapon (gmlHARE, obj_player's Q key press): the ground primary slot (what left mouse fires while

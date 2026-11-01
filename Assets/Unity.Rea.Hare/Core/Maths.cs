@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>The few UnityEngine.Mathf helpers the rules need, so Core has no engine reference.</summary>
     internal static class Maths

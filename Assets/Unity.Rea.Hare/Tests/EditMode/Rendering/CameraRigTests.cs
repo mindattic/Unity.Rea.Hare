@@ -1,8 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>U.HARE-T44: the 2D camera rig's hierarchy and per-camera setup, independent of any render pipeline.</summary>
     public class CameraRigTests

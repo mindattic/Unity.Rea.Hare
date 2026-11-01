@@ -3,15 +3,15 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Import settings for the original's art, so nothing has to be set by hand in the Inspector.
     /// Frames under Resources/Hare/Sprites (gmlHARE's sprites/images/*.png, named spr_name_frame)
-    /// become single sprites at <see cref="Unity.Hare.Weapons.Gml.PixelsPerUnit"/> with their pivot
+    /// become single sprites at <see cref="Unity.Rea.Hare.Weapons.Gml.PixelsPerUnit"/> with their pivot
     /// on the GML origin listed in sprites.txt, filtered bilinearly (HARE's option_interpolate is
     /// on) and uncompressed. The GameMaker particle shapes under Resources/Hare/Particles stay
-    /// textures, clamped, for <see cref="Unity.Hare.Effects.GmlEffectBurst"/> to draw.
+    /// textures, clamped, for <see cref="Unity.Rea.Hare.Effects.GmlEffectBurst"/> to draw.
     /// </summary>
     public class HareArtImporter : AssetPostprocessor
     {
@@ -27,7 +27,7 @@ namespace Unity.Hare.EditorTools
             {
                 importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Single;
-                importer.spritePixelsPerUnit = Unity.Hare.Weapons.Gml.PixelsPerUnit;
+                importer.spritePixelsPerUnit = Unity.Rea.Hare.Weapons.Gml.PixelsPerUnit;
                 importer.mipmapEnabled = false;
                 importer.alphaIsTransparency = true;
                 importer.filterMode = FilterMode.Bilinear;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>
     /// A small, dependency-free JSON reader for the content data files. Core has no engine reference

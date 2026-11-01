@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// Ports obj_tinyexplosion (gmlHARE, depth -4): spr_explosion (32 px, 7 frames, origin at its

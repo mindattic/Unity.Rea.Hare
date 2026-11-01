@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// Ports the purely visual leftovers of the set-piece enemies, which share one Step: drift along

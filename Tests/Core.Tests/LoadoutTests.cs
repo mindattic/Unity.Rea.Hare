@@ -2,10 +2,10 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>next_ground_weapon and next_air_weapon (the weapon cycles) the air primary (rocket and mine) and the perched laser and railgun, run outside Unity.</summary>
     public class LoadoutTests

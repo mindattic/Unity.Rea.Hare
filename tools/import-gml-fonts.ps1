@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Imports the original's eight fonts (gmlHARE's HARE.gmx font resources) into Assets/Unity.Hare/Fonts.
+  Imports the original's eight fonts (gmlHARE's HARE.gmx font resources) into Assets/Unity.Rea.Hare/Fonts.
 .DESCRIPTION
   GameMaker never ships a font file: at build time it rasterises each font resource once, at its size and style,
   into a glyph atlas (fonts/<name>.png, white glyphs on transparency) and a glyph table (fonts/<name>.font.gmx:
@@ -10,8 +10,8 @@
 
   It reads HARE.project.gmx (which fonts are in the resource tree), every fonts/*.font.gmx (face name, size, bold,
   italic, charset, anti-aliasing, ranges, glyphs, kerning pairs, atlas image) and every object and script for its
-  draw_set_font calls (outside comments), mirrors each atlas to Assets/Unity.Hare/Fonts/Atlases/<name>.png (copying
-  only changed bytes, deleting atlases the original no longer has), and writes Assets/Unity.Hare/Fonts/gml-fonts.json:
+  draw_set_font calls (outside comments), mirrors each atlas to Assets/Unity.Rea.Hare/Fonts/Atlases/<name>.png (copying
+  only changed bytes, deleting atlases the original no longer has), and writes Assets/Unity.Rea.Hare/Fonts/gml-fonts.json:
   one entry per font with its fields, glyphs, atlas, the objects that draw with it and any notes, the licence of each
   typeface, and a skipped list.
 
@@ -35,7 +35,7 @@ Set-StrictMode -Version 2
 . (Join-Path $PSScriptRoot 'gml-json.ps1')
 
 $root = Split-Path -Parent $PSScriptRoot
-$fontAssets = 'Assets/Unity.Hare/Fonts'
+$fontAssets = 'Assets/Unity.Rea.Hare/Fonts'
 $fontDir = Join-Path $root $fontAssets
 $atlasDir = Join-Path $fontDir 'Atlases'
 $manifestPath = Join-Path $fontDir 'gml-fonts.json'
@@ -208,11 +208,11 @@ $json = (To-Json $manifest '') + "`n"
 $old = if (Test-Path $manifestPath) { [IO.File]::ReadAllText($manifestPath) } else { '' }
 if ($old -ne $json) { [IO.File]::WriteAllText($manifestPath, $json, (New-Object Text.UTF8Encoding $false)) }
 
-Write-Host "[Unity.Hare] GML fonts: $($fonts.Count) fonts, $($skipped.Count) skipped; $copied atlases copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
+Write-Host "[Unity.Rea.Hare] GML fonts: $($fonts.Count) fonts, $($skipped.Count) skipped; $copied atlases copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
 foreach ($f in $fonts) { Write-Host ("  {0,-10} {1} {2}{3}{4}, {5} glyphs, {6}x{7}; used by {8}" -f $f.name, $f.family, $f.size, $(if ($f.bold) { ' bold' } else { '' }), $(if ($f.italic) { ' italic' } else { '' }), $f.glyphs.Count, $f.atlasWidth, $f.atlasHeight, $(if ($f.usedBy.Count) { $f.usedBy.Count.ToString() + ' objects' } else { 'nothing' })) }
 foreach ($s in $skipped) { Write-Host "  skipped $($s.kind) $($s.name): $($s.reason)" }
 
 if (-not $NoUnity) {
-    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Hare.EditorTools.GmlFontBuilder.BuildAll -Log fonts
+    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Rea.Hare.EditorTools.GmlFontBuilder.BuildAll -Log fonts
     exit $LASTEXITCODE
 }

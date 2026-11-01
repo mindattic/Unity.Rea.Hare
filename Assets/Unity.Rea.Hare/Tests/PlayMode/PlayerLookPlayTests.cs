@@ -6,13 +6,13 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
-using Unity.Hare.Art;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Rocks;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T55, played: under Unity's own loop the ship flies in drawn as spr_rabbit_leap trailing its orange spawn

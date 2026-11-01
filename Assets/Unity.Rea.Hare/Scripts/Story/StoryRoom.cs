@@ -2,17 +2,17 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Flow;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// room_story played (U.HARE-T28): obj_story, obj_typewriter_story and obj_scroll_world, the story room's view of
@@ -180,7 +180,7 @@ namespace Unity.Hare.Story
             Background.sortingLayerName = HareSortingLayers.Backdrop;
             var background = manifest != null ? manifest.FindBackground(tuning.Background) : null;
             backgroundSize = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(room.Width, room.Height);
-            if (background == null) Debug.LogWarning("[Unity.Hare] background " + tuning.Background + " is not imported.");
+            if (background == null) Debug.LogWarning("[Unity.Rea.Hare] background " + tuning.Background + " is not imported.");
             else Background.sprite = background.sprite;
             int columns = Mathf.CeilToInt(room.Width / (float)backgroundSize.x) + 1;
             int rows = Mathf.CeilToInt(room.Height / (float)backgroundSize.y) + 1;
@@ -194,7 +194,7 @@ namespace Unity.Hare.Story
             Earth.sortingLayerName = HareSortingLayers.Default;
             Earth.sortingOrder = HareArt.SortingOrderForDepth(0);
             Earth.sprite = manifest != null ? manifest.Frame(tuning.EarthSprite) : null;
-            if (Earth.sprite == null) Debug.LogWarning("[Unity.Hare] " + tuning.EarthSprite + " is not imported.");
+            if (Earth.sprite == null) Debug.LogWarning("[Unity.Rea.Hare] " + tuning.EarthSprite + " is not imported.");
         }
 
         void BuildPanel(StoryTuning tuning)

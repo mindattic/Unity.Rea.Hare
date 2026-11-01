@@ -1,7 +1,7 @@
 using System;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>obj_energybar's <c>mode</c>: what its Alarm 0 does to the bar every <c>rate</c> steps.</summary>
     public enum EnergyMode

@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Arena;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Pointer;
-using Unity.Hare.Rendering;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Pointer;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Input
+namespace Unity.Rea.Hare.Input
 {
     /// <summary>
     /// obj_mouse drawn (U.HARE-T61): Core's <see cref="GameMouse"/> as one sprite at depth -5000 that sits on the mouse.
@@ -162,7 +162,7 @@ namespace Unity.Hare.Input
             if (string.IsNullOrEmpty(name)) return null;
             if (sprites.TryGetValue(name, out var sprite)) return sprite;
             sprite = manifest != null ? manifest.Frame(name) : null;
-            if (sprite == null) Debug.LogWarning("[Unity.Hare] " + name + " is not imported.");
+            if (sprite == null) Debug.LogWarning("[Unity.Rea.Hare] " + name + " is not imported.");
             sprites[name] = sprite;
             return sprite;
         }

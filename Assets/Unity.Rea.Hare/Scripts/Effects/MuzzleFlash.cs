@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// Ports obj_muzzleflash (gmlHARE, depth -2): spr_muzzleflash_new (96 px, 4 frames, origin at its centre)

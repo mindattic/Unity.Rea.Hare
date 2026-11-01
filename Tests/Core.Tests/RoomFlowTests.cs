@@ -3,10 +3,10 @@ using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The room flow (U.HARE-T50): next_room, the obj_fade_* objects' Create and Step, room_goto, the room

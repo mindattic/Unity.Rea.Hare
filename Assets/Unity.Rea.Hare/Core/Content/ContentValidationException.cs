@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>
     /// Raised by <see cref="ContentRegistry"/> when a content/tuning data file fails validation. Carries every

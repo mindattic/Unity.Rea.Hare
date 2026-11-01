@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c03f3f47bf4252946b9098436fcf96c5, type: 3}
   m_Name: HareArtManifest
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Art.HareArtManifest
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Art.HareArtManifest
   sprites:
   - name: spr_tip_box
     group: 

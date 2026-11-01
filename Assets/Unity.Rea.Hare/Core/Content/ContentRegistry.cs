@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Arena;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Helper;
-using Unity.Hare.Online;
-using Unity.Hare.Pickups;
-using Unity.Hare.Popups;
-using Unity.Hare.Player;
-using Unity.Hare.Pointer;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.Story;
-using Unity.Hare.Weapons;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Helper;
+using Unity.Rea.Hare.Online;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Pointer;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Story;
+using Unity.Rea.Hare.Weapons;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>
     /// The game's tuning and content, as data (AGENTS.md rule 4): weapon stats, ammo pools, enemy stats and point

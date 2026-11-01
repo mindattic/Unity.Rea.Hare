@@ -7,14 +7,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Arena;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Rocks;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T57, played: obj_game's setup_level in room_gamescreen places level_01's rocks (clear of the spawn point),

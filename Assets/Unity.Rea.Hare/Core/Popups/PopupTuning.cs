@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// obj_float_text's numbers (U.HARE-T27): its Create's defaults, the colours its Step cycles through while it flashes,
@@ -54,7 +54,7 @@ namespace Unity.Hare.Popups
 
         internal static void CheckColor(List<string> errors, string path, string value)
         {
-            if (!global::Unity.Hare.Rooms.StartupTuning.IsHexColor(value)) errors.Add($"{path}: must be #RRGGBB (was {value ?? "null"}).");
+            if (!global::Unity.Rea.Hare.Rooms.StartupTuning.IsHexColor(value)) errors.Add($"{path}: must be #RRGGBB (was {value ?? "null"}).");
         }
     }
 

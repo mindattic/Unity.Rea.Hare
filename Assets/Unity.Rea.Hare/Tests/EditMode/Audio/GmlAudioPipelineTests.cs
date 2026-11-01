@@ -3,10 +3,10 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
-using Unity.Hare.Audio;
-using Unity.Hare.EditorTools;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.EditorTools;
 
-namespace Unity.Hare.Tests.EditMode.Audio
+namespace Unity.Rea.Hare.Tests.EditMode.Audio
 {
     /// <summary>
     /// The imported sound (U.HARE-T47): what tools/import-gml-audio.ps1 and GmlAudioBuilder produced from HARE.gmx is

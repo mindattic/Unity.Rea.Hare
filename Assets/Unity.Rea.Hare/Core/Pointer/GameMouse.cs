@@ -1,7 +1,7 @@
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Pointer
+namespace Unity.Rea.Hare.Pointer
 {
     /// <summary>
     /// obj_mouse (U.HARE-T61), engine-free, in room pixels (y down). Create: <c>on_gui = false</c>, its sprite

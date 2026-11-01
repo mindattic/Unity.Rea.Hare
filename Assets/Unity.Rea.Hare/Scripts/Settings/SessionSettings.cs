@@ -1,8 +1,8 @@
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// The globals the player's profile keeps across runs (U.HARE-T60): <c>master_volume</c> and <c>use_metric</c>,
@@ -32,7 +32,7 @@ namespace Unity.Hare
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] No profile units, using imperial: " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] No profile units, using imperial: " + e.Message);
                 return HareSettings.DefaultUseMetric;
             }
         }
@@ -49,7 +49,7 @@ namespace Unity.Hare
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The units were not saved: " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] The units were not saved: " + e.Message);
                 return false;
             }
         }

@@ -3,10 +3,10 @@ using System.IO;
 using NUnit.Framework;
 using Unity.Shared.Core;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
-    /// Unity.Hare's own use of the shared Unity.Shared profile store (U.HARE-T43): <see cref="ActiveProfile"/>
+    /// Unity.Rea.Hare's own use of the shared Unity.Shared profile store (U.HARE-T43): <see cref="ActiveProfile"/>
     /// reaches the current profile and its Hare block, and <see cref="HareSettings"/> is typed and persisted the
     /// same way Unity.Shared's own <c>CommonSettings</c> is. Unity.Shared.Core's own format, defaults and
     /// round-trip rules are tested in its own repo; this only checks Hare's wiring into them.

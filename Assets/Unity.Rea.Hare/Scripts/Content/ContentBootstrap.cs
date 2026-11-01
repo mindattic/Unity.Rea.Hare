@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// Loads the game's tuning/content data file (Resources/Hare/Content/GameContent.json) into

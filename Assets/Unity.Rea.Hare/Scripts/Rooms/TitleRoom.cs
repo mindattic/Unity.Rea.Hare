@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Session;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// obj_title and the menu, played (U.HARE-T26, U.HARE-T62): the title room's view of Core's <see cref="TitleScreen"/>.
@@ -315,7 +315,7 @@ namespace Unity.Hare.Rooms
         {
             if (Application.isEditor)
             {
-                Debug.Log("[Unity.Hare] game_end(): the player would quit here; the Editor keeps running.");
+                Debug.Log("[Unity.Rea.Hare] game_end(): the player would quit here; the Editor keeps running.");
                 return;
             }
             Application.Quit();
@@ -483,7 +483,7 @@ namespace Unity.Hare.Rooms
             box.style.opacity = d.Alpha;
             var sprite = manifest != null ? manifest.Frame(d.Sprite) : null;
             if (sprite != null) box.style.backgroundImage = new StyleBackground(sprite);
-            else Debug.LogWarning("[Unity.Hare] " + d.Sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + d.Sprite + " is not imported.");
             dialogView.Add(box);
 
             Centred(dialog.Text, HareTextStyles.MenuTitle, dialog.X + d.Width / 2d, dialog.Y + d.Margin, d.Outline, "text");

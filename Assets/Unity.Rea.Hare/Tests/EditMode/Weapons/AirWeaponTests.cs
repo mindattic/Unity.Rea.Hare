@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     public class AirWeaponTests
     {

@@ -1,7 +1,7 @@
 using Unity.Shared.Core;
 using UnityEngine;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// The player profile this run uses, from the shared MindAttic profile store (the Unity.Shared package,

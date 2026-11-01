@@ -1,10 +1,10 @@
 using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// obj_flashbomb (U.HARE-T67), obj_player's F: the blinking white flash, the growing circles and the bomb's fade to

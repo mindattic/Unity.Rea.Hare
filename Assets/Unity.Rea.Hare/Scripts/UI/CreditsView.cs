@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>One credited third-party asset: what it is, who made it, where it came from and its licence.</summary>
     public sealed class CreditEntry

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Unity.Hare.Art;
-using Unity.Hare.Popups;
-using Unity.Hare.Story;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Story;
 
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>The way obj_map turns the earth (GML's global <c>rotate_direction</c>).</summary>
     public enum MapTurn

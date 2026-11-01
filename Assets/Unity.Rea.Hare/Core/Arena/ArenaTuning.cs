@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// One of a room's views as its .room.gmx defines it: the part of the room it shows (<c>wview</c>/<c>hview</c>),
@@ -130,7 +130,7 @@ namespace Unity.Hare.Arena
             ValidationHelpers.NonNegative(errors, path + ".SplashBand", SplashBand);
             ValidationHelpers.NonNegative(errors, path + ".SplashLead", SplashLead);
             if (SplashSize < 0 || SplashSize > 2) errors.Add($"{path}.SplashSize: an effect size is 0, 1 or 2 (was {SplashSize}).");
-            if (!global::Unity.Hare.Rooms.StartupTuning.IsHexColor(SplashColor)) errors.Add($"{path}.SplashColor: must be #RRGGBB (was {SplashColor ?? "null"}).");
+            if (!global::Unity.Rea.Hare.Rooms.StartupTuning.IsHexColor(SplashColor)) errors.Add($"{path}.SplashColor: must be #RRGGBB (was {SplashColor ?? "null"}).");
         }
     }
 
@@ -583,7 +583,7 @@ namespace Unity.Hare.Arena
             ValidationHelpers.Positive(errors, path + ".LeapLineDash", LeapLineDash);
             ValidationHelpers.Positive(errors, path + ".LeapLineWidth", LeapLineWidth);
             if (LeapLineAlpha < 0f || LeapLineAlpha > 1f) errors.Add($"{path}.LeapLineAlpha: must be between 0 and 1 (was {LeapLineAlpha}).");
-            if (!global::Unity.Hare.Rooms.StartupTuning.IsHexColor(LeapLineColor)) errors.Add($"{path}.LeapLineColor: must be #RRGGBB (was {LeapLineColor ?? "null"}).");
+            if (!global::Unity.Rea.Hare.Rooms.StartupTuning.IsHexColor(LeapLineColor)) errors.Add($"{path}.LeapLineColor: must be #RRGGBB (was {LeapLineColor ?? "null"}).");
             ValidationHelpers.Positive(errors, path + ".HudWidth", HudWidth);
             ValidationHelpers.Positive(errors, path + ".HudHeight", HudHeight);
             ValidationHelpers.Required(errors, path + ".LevelStartSound", LevelStartSound);

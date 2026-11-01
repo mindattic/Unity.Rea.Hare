@@ -8,16 +8,16 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Popups;
-using Unity.Hare.Rendering;
-using Unity.Hare.UI;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.UI;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T27, played: in room_gamescreen a rocket kill scores the dagger's 10 and floats "10" up from where it died,

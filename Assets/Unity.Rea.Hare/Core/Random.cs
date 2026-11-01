@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// The one source of randomness the rules use. GML's irandom_range and random_range become these two calls, so a

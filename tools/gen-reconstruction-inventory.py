@@ -10,7 +10,7 @@ Every resource named in HARE.project.gmx (objects, scripts, rooms, sprites, back
 data files) gets one row: its resource-tree group, where the original uses it (by name, found by scanning
 every object event, script and room file for the identifier) and its port status. The status is derived:
 
-  ported         the name appears in Unity.Hare's runtime code, content or tuning (Core, Scripts, Resources),
+  ported         the name appears in Unity.Rea.Hare's runtime code, content or tuning (Core, Scripts, Resources),
                  not counting the importer tables (gml-*.json, Gml*.cs)
   in progress    the OVERRIDES table below (work not landed yet)
   imported       a sprite, background, sound or font that is imported as an asset but no code names it
@@ -125,13 +125,13 @@ def main():
     unity_c = {}    # token -> files naming it only in comments
     stems = set()   # code tokens, for family (prefix + index) matches
     strip = re.compile(r"//[^" + chr(10) + r"]*|/\*.*?\*/", re.S)
-    for base in ("Assets/Unity.Hare/Core", "Assets/Unity.Hare/Scripts", "Assets/Unity.Hare/Resources"):
+    for base in ("Assets/Unity.Rea.Hare/Core", "Assets/Unity.Rea.Hare/Scripts", "Assets/Unity.Rea.Hare/Resources"):
         for dp, dn, fn in os.walk(os.path.join(REPO, base)):
             for f in fn:
                 if not f.endswith((".cs", ".json")) or re.match(r"Gml.*\.cs$", f) or f.startswith("gml-"):
                     continue
                 rel = os.path.relpath(os.path.join(dp, f), REPO).replace("\\", "/")
-                rel = rel.replace("Assets/Unity.Hare/", "")
+                rel = rel.replace("Assets/Unity.Rea.Hare/", "")
                 text = read(os.path.join(dp, f))
                 code = strip.sub(" ", text) if f.endswith(".cs") else text
                 ct = tokens(code)
@@ -141,12 +141,12 @@ def main():
                     unity_c.setdefault(t, set()).add(rel)
     imported = {"sprite": set(), "background": set(), "sound": set(), "font": set()}
     try:
-        d = json.load(open(os.path.join(REPO, "Assets/Unity.Hare/Art/gml-art.json"), encoding="utf-8-sig"))
+        d = json.load(open(os.path.join(REPO, "Assets/Unity.Rea.Hare/Art/gml-art.json"), encoding="utf-8-sig"))
         imported["sprite"] = {s["name"] for s in d["sprites"]}
         imported["background"] = {s["name"] for s in d["backgrounds"]}
-        d = json.load(open(os.path.join(REPO, "Assets/Unity.Hare/Audio/gml-audio.json"), encoding="utf-8-sig"))
+        d = json.load(open(os.path.join(REPO, "Assets/Unity.Rea.Hare/Audio/gml-audio.json"), encoding="utf-8-sig"))
         imported["sound"] = {s["name"] for s in d["sounds"]}
-        d = json.load(open(os.path.join(REPO, "Assets/Unity.Hare/Fonts/gml-fonts.json"), encoding="utf-8-sig"))
+        d = json.load(open(os.path.join(REPO, "Assets/Unity.Rea.Hare/Fonts/gml-fonts.json"), encoding="utf-8-sig"))
         imported["font"] = {s["name"] for s in d["fonts"]}
     except Exception as e:
         print("warning: importer tables not read:", e, file=sys.stderr)

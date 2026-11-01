@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Weather
+namespace Unity.Rea.Hare.Weather
 {
     /// <summary>
     /// The five weather emitters of gmlHARE (the content file's <c>weather</c> section): obj_cloud_emitter's

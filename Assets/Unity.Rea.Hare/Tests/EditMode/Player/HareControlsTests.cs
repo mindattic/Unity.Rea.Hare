@@ -1,10 +1,10 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Hare.Input;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T42: HareControls.inputactions reads the bindings the five views (PlayerShipController,

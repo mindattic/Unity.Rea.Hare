@@ -6,9 +6,9 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Turns Audio/gml-audio.json (written by tools/import-gml-audio.ps1) into the Unity side of the original's sound:
@@ -23,14 +23,14 @@ namespace Unity.Hare.EditorTools
     /// AudioMixerController (the same calls the Audio Mixer window makes) by reflection, pinned to this project's
     /// Unity version and checked by the EditMode tests.
     ///
-    /// Batch: tools/unity.ps1 -Method Unity.Hare.EditorTools.GmlAudioBuilder.BuildAll (tools/import-gml-audio.ps1 runs it).
+    /// Batch: tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.GmlAudioBuilder.BuildAll (tools/import-gml-audio.ps1 runs it).
     /// </summary>
     public static class GmlAudioBuilder
     {
         public const string ManifestPath = "Assets/Unity.Rea.Hare/Resources/" + HareAudioManifest.ResourcePath + ".asset";
         const string CreditsName = "credits.txt";
 
-        [MenuItem("Unity.Hare/Build Audio From gml-audio.json")]
+        [MenuItem("Unity.Rea.Hare/Build Audio From gml-audio.json")]
         public static void BuildAll()
         {
             var data = GmlAudioData.Load() ?? throw new FileNotFoundException(
@@ -42,9 +42,9 @@ namespace Unity.Hare.EditorTools
             BuildManifest(data, mixer);
             AssetDatabase.SaveAssets();
 
-            Debug.Log($"[Unity.Hare] GML audio built: {data.sounds.Length} sounds, {data.datafiles.Length} data files, " +
+            Debug.Log($"[Unity.Rea.Hare] GML audio built: {data.sounds.Length} sounds, {data.datafiles.Length} data files, " +
                       $"{reimported} clips reimported, {data.skipped.Length} skipped");
-            foreach (var s in data.skipped) Debug.Log($"[Unity.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
+            foreach (var s in data.skipped) Debug.Log($"[Unity.Rea.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
         }
 
         /// <summary>Reimports any clip whose settings are not yet the importer's (e.g. imported before it compiled).</summary>

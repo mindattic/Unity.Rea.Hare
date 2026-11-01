@@ -1,12 +1,12 @@
 using UnityEngine;
-using Unity.Hare.Enemies;
-using Unity.Hare.Pickups;
-using Unity.Hare.Rocks;
-using Unity.Hare.Structures;
-using Unity.Hare.Weapons;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Structures;
+using Unity.Rea.Hare.Weapons;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// setup_level's "Clear Objects" block (U.HARE-T56), run before a level places anything:

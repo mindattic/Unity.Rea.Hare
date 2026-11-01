@@ -3,14 +3,14 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// setup_level and the objective engine (U.HARE-T57): which script runs for the game mode and level and the room it

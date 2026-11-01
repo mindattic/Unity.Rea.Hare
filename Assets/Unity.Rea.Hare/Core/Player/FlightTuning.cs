@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>Mirrors obj_player's top-level states (GML: state_idle / state_moving / state_dead / state_leave).</summary>
     public enum PlayerFlightState

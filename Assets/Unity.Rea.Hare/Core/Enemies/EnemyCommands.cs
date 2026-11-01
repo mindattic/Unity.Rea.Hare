@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The only way the enemy world changes. A command runs in <see cref="EnemyWorld.Execute"/>, which returns whether

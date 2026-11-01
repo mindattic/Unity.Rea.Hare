@@ -1,4 +1,4 @@
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>obj_tip's mode.</summary>
     public enum TipMode

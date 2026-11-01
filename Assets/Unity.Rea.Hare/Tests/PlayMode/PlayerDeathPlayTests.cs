@@ -6,14 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Arena;
-using Unity.Hare.Effects;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Session;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T54, played through the room flow: the ship in room_gamescreen spends the session's LIVES whether it dies

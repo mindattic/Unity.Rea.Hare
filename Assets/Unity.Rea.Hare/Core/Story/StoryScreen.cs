@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// room_story, engine-free (U.HARE-T28): obj_story's typewriter (obj_typewriter_story) typing the introduction over

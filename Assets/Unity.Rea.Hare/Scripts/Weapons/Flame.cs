@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// One burst of flame (GML: obj_flame, sprite spr_powder_fire). Drifts at 4 px/step along the

@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Core",
-    "rootNamespace": "Unity.Hare",
+    "rootNamespace": "Unity.Rea.Hare",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

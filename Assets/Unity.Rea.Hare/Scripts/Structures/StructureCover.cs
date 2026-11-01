@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Structures
+namespace Unity.Rea.Hare.Structures
 {
     /// <summary>
     /// Ports par_structure_cover (gmlHARE, depth -1, U.HARE-T56): the detailed spr_structure1_cover art drawn over its

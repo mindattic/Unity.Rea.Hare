@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// room_intro as data (the content registry's <c>intro</c> section, AGENTS.md rule 4): obj_drop_intro and its clouds

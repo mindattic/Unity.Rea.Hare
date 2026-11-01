@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_trilobyte (gmlHARE, par_enemy): a crawler that sweeps the room at a steady 2 px/step on a

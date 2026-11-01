@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>What removed an enemy.</summary>
     public enum EnemyDeathCause

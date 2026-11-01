@@ -1,6 +1,6 @@
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>Something that happened in room_story, returned by every <see cref="StoryCommand"/>.</summary>
     public abstract class StoryEvent

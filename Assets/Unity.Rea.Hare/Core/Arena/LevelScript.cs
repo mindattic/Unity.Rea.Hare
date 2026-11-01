@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// A level script's "Enemies" block (U.HARE-T20): each kind's <c>X_min</c> / <c>X_max</c>, all 0 after setup_level's

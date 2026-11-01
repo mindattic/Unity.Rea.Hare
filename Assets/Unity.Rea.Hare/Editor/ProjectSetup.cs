@@ -3,17 +3,17 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using Unity.Hare.Arena;
-using Unity.Hare.Audio;
-using Unity.Hare.EditorTools.Rendering;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Story;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.EditorTools.Rendering;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Story;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Writes the project's URP 2D pipeline, its sorting layers and its scenes: one per room of the original
@@ -26,7 +26,7 @@ namespace Unity.Hare.EditorTools
     /// (U.HARE-T44): the 2D pipeline assets, camera data and Light2D are created through <see cref="UrpSeam"/>, the
     /// one place that does.
     ///
-    /// Batch: Unity -batchmode -quit -projectPath . -executeMethod Unity.Hare.EditorTools.ProjectSetup.SetUpAll
+    /// Batch: Unity -batchmode -quit -projectPath . -executeMethod Unity.Rea.Hare.EditorTools.ProjectSetup.SetUpAll
     /// </summary>
     public static class ProjectSetup
     {
@@ -58,8 +58,8 @@ namespace Unity.Hare.EditorTools
         /// </summary>
         public static System.Type RoomControllerType(RoomId room) =>
             room == RoomId.Startup ? typeof(StartupRoom) : room == RoomId.Title ? typeof(TitleRoom) : room == RoomId.Intro ? typeof(IntroRoom)
-            : room == RoomId.Story ? typeof(StoryRoom) : room == RoomId.Map ? typeof(Unity.Hare.Map.MapRoom)
-            : room == RoomId.Upgrade ? typeof(Unity.Hare.Upgrade.UpgradeRoom)
+            : room == RoomId.Story ? typeof(StoryRoom) : room == RoomId.Map ? typeof(Unity.Rea.Hare.Map.MapRoom)
+            : room == RoomId.Upgrade ? typeof(Unity.Rea.Hare.Upgrade.UpgradeRoom)
             : IsPlayRoom(room) ? typeof(ArenaRoom) : null;
 
         /// <summary>
@@ -83,13 +83,13 @@ namespace Unity.Hare.EditorTools
         }
 
         /// <summary>A URP asset whose only renderer is the 2D renderer, made the default for every quality level.</summary>
-        [MenuItem("Unity.Hare/Set Up URP 2D")]
+        [MenuItem("Unity.Rea.Hare/Set Up URP 2D")]
         public static void SetUpRendering()
         {
             Directory.CreateDirectory(SettingsFolder);
             UrpSeam.EnsureUrp2DPipeline(RendererPath, PipelinePath);
             AssetDatabase.SaveAssets();
-            Debug.Log("[Unity.Hare] URP 2D pipeline: " + PipelinePath);
+            Debug.Log("[Unity.Rea.Hare] URP 2D pipeline: " + PipelinePath);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Unity.Hare.EditorTools
         /// scales it to the window at runtime); the sorting layers' back-to-front order
         /// (<see cref="HareSortingLayers"/>).
         /// </summary>
-        [MenuItem("Unity.Hare/Set Up Project Settings")]
+        [MenuItem("Unity.Rea.Hare/Set Up Project Settings")]
         public static void SetUpProjectSettings()
         {
             Physics2D.gravity = Vector2.zero;
@@ -157,14 +157,14 @@ namespace Unity.Hare.EditorTools
                 PlayerSettings.SetIcons(target, icons, UnityEditor.IconKind.Application);
             }
             else
-                Debug.LogWarning("[Unity.Hare] Icon source missing: " + IconSourcePath);
+                Debug.LogWarning("[Unity.Rea.Hare] Icon source missing: " + IconSourcePath);
         }
 
         /// <summary>
         /// The bootstrap scene: the <see cref="RoomFlowDirector"/> and nothing else. On Start it sends the game to
         /// the rooms table's first room (startup), whose scene then replaces this one.
         /// </summary>
-        [MenuItem("Unity.Hare/Rebuild Main Scene (Bootstrap)")]
+        [MenuItem("Unity.Rea.Hare/Rebuild Main Scene (Bootstrap)")]
         public static void RebuildMainScene()
         {
             if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -174,11 +174,11 @@ namespace Unity.Hare.EditorTools
             EditorSceneManager.SaveScene(scene, ScenePath);
             EnsureBuildSettings();
             AssetDatabase.SaveAssets();
-            Debug.Log("[Unity.Hare] Bootstrap scene written to " + ScenePath);
+            Debug.Log("[Unity.Rea.Hare] Bootstrap scene written to " + ScenePath);
         }
 
         /// <summary>Rewrites every room scene and the bootstrap, then the build settings.</summary>
-        [MenuItem("Unity.Hare/Rebuild Room Scenes")]
+        [MenuItem("Unity.Rea.Hare/Rebuild Room Scenes")]
         public static void RebuildAllScenes()
         {
             if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -194,9 +194,9 @@ namespace Unity.Hare.EditorTools
         /// its obj_title (<see cref="TitleRoom"/>, which builds its backgrounds, falling rabbit, stand, logo, menu, dialog and
         /// pointer itself) and room_intro its obj_intro (<see cref="IntroRoom"/>, which builds its backgrounds, falling rabbit
         /// and tip itself) and room_story its obj_story (<see cref="StoryRoom"/>, which builds its sky, earth and typewriter
-        /// itself) and room_map its obj_map (<see cref="Unity.Hare.Map.MapRoom"/>, which builds its sky, earth, ship,
+        /// itself) and room_map its obj_map (<see cref="Unity.Rea.Hare.Map.MapRoom"/>, which builds its sky, earth, ship,
         /// markers, white dot, panel, Upgrades button, comm box, tip and pointer itself) and room_upgrade its obj_upgrade
-        /// (<see cref="Unity.Hare.Upgrade.UpgradeRoom"/>, which builds its bg_metal, Observation Deck button and pointer
+        /// (<see cref="Unity.Rea.Hare.Upgrade.UpgradeRoom"/>, which builds its bg_metal, Observation Deck button and pointer
         /// itself; U.HARE-T64). What else each room
         /// holds (its controller, menus, emitters) is its own ticket's.
         /// </summary>
@@ -213,10 +213,10 @@ namespace Unity.Hare.EditorTools
             if (room == RoomId.Title) TitleRoom.Create();
             if (room == RoomId.Intro) IntroRoom.Create();
             if (room == RoomId.Story) StoryRoom.Create();
-            if (room == RoomId.Map) Unity.Hare.Map.MapRoom.Create();
-            if (room == RoomId.Upgrade) Unity.Hare.Upgrade.UpgradeRoom.Create();
+            if (room == RoomId.Map) Unity.Rea.Hare.Map.MapRoom.Create();
+            if (room == RoomId.Upgrade) Unity.Rea.Hare.Upgrade.UpgradeRoom.Create();
             EditorSceneManager.SaveScene(scene, path);
-            Debug.Log("[Unity.Hare] Room scene written to " + path);
+            Debug.Log("[Unity.Rea.Hare] Room scene written to " + path);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Unity.Hare.EditorTools
                 var asset = HareAudio.Clip(clip);
                 if (property == null || asset == null)
                 {
-                    Debug.LogWarning("[Unity.Hare] Could not wire " + clip + " into " + component.GetType().Name + "." + field);
+                    Debug.LogWarning("[Unity.Rea.Hare] Could not wire " + clip + " into " + component.GetType().Name + "." + field);
                     continue;
                 }
                 property.objectReferenceValue = asset;

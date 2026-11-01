@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>A vortex's GML mode string.</summary>
     public enum VortexMode

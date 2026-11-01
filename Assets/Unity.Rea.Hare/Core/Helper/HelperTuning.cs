@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>
     /// obj_helper's numbers, as gmlHARE has them (the content file's <c>helper</c> section): its Create (sfx_hawk,

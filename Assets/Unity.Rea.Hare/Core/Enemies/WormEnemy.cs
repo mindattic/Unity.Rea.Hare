@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_worm (gmlHARE, par_enemy): the head of a chain of 6-8 <see cref="WormSegmentBody"/>s (one, then

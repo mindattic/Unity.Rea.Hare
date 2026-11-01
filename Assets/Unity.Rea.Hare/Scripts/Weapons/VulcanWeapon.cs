@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// The view on the vulcan (gmlHARE: fire_primary's weapon_vulcan branch, shoot_vulcan, stop_vulcan_sfx and the

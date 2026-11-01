@@ -1,4 +1,4 @@
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// The only way the arena changes. A command carries the id of the seat it acts for (no global current player) and

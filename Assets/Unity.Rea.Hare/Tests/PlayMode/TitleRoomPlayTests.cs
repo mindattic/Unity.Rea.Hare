@@ -11,15 +11,15 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Effects;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T26, played: room_title comes up with obj_title's hidden pointer; a key brings in obj_logo's buttons and

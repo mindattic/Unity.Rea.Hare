@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_phalanx (gmlHARE, par_enemy): a slow body (two counter-rotating layers, image_angle +2 and

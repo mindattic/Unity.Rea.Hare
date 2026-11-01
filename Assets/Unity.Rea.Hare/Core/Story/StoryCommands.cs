@@ -1,4 +1,4 @@
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// The only way the story room changes. A command carries the id of the seat it acts for (no global current player)

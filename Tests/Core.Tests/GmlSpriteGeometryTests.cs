@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
-using Unity.Hare;
-using Unity.Hare.Art;
+using Unity.Rea.Hare;
+using Unity.Rea.Hare.Art;
 
 namespace MindAttic.Hare.Tests
 {

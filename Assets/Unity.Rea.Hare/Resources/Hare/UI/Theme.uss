@@ -1,4 +1,4 @@
-/* Unity.Hare — UI foundation theme (U.HARE-T45). Every screen (HUD, menus, results, upgrade, story) is built in
+/* Unity.Rea.Hare — UI foundation theme (U.HARE-T45). Every screen (HUD, menus, results, upgrade, story) is built in
    code with Scripts/UI/HareUi.cs against these classes; nothing is wired up by hand in the Editor. Colours and
    sizes here are a placeholder pass (dark cockpit navy, cyan accent) until the screens built on the original's art
    (U.HARE-T46) restyle them. Text is the original's (U.HARE-T48): every face is a bitmap FontAsset baked from

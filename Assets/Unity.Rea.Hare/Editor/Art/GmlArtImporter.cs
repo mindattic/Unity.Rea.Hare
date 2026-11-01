@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
-using Unity.Hare.Art;
+using Unity.Rea.Hare.Art;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Import settings for the art tools/import-gml-art.ps1 mirrors into Assets/Unity.Rea.Hare/Art, read from
@@ -34,20 +34,20 @@ namespace Unity.Hare.EditorTools
             var data = GmlArtData.Load();
             if (data == null)
             {
-                Debug.LogWarning("[Unity.Hare] " + path + " has no " + GmlArtData.DataPath + "; run tools/import-gml-art.ps1");
+                Debug.LogWarning("[Unity.Rea.Hare] " + path + " has no " + GmlArtData.DataPath + "; run tools/import-gml-art.ps1");
                 return;
             }
             var importer = (TextureImporter)assetImporter;
             if (sprite)
             {
                 var entry = data.SpriteForFrame(path);
-                if (entry == null) Debug.LogWarning("[Unity.Hare] " + path + " is not a frame in " + GmlArtData.DataPath);
+                if (entry == null) Debug.LogWarning("[Unity.Rea.Hare] " + path + " is not a frame in " + GmlArtData.DataPath);
                 else Configure(importer, entry, data.pixelsPerUnit);
             }
             else
             {
                 var entry = data.BackgroundForTexture(path);
-                if (entry == null) Debug.LogWarning("[Unity.Hare] " + path + " is not a background in " + GmlArtData.DataPath);
+                if (entry == null) Debug.LogWarning("[Unity.Rea.Hare] " + path + " is not a background in " + GmlArtData.DataPath);
                 else Configure(importer, entry, data.pixelsPerUnit);
             }
         }

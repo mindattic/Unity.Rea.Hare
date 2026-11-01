@@ -6,12 +6,12 @@ using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The arena (U.HARE-T52): room_gamescreen and its siblings as the level scripts set them up, the backgrounds' scroll,

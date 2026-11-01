@@ -1,4 +1,4 @@
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>
     /// The live <see cref="ContentRegistry"/> every Core rule reads its tuning and content from, instead of a

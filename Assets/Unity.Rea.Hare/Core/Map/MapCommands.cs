@@ -1,4 +1,4 @@
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>
     /// The only way the map changes. A command carries the id of the seat it acts for (no global current player) and

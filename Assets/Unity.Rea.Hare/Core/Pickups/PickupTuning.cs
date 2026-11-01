@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>
     /// The pickups' and the kicked-up scraps' numbers, as gmlHARE has them (the content file's <c>pickups</c> section):

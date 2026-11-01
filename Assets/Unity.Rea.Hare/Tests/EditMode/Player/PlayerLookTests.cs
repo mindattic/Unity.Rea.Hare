@@ -3,14 +3,14 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Rocks;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T55: obj_player drawn from the imported art (PlayerLook): the spr_rabbit_* pose, the held ground weapon at

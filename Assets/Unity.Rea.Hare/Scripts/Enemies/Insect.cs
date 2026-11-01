@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on an <see cref="InsectBody"/> (obj_butterfly, obj_firefly, obj_fly). None of the three has a parent or

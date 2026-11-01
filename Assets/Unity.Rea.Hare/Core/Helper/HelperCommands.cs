@@ -1,4 +1,4 @@
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>The only way the helper field changes. Runs in <see cref="HelperField.Execute"/>.</summary>
     public abstract class HelperCommand

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// globals.gml's session state, engine-free: LIVES, COINS, SKILLPOINTS, KILLS, current_score and goal_score,

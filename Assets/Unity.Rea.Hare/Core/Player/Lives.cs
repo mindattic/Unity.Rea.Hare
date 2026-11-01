@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// Where a ship's lives are counted: globals.gml's LIVES. obj_player never owns LIVES in the original; player_hurt's

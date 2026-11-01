@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_flashbomb's numbers (U.HARE-T67), the <c>arena.Flashbomb</c> section. obj_player's key press F (70) makes one with

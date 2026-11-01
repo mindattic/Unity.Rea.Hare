@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// The original's rooms, in HARE.project.gmx's room order. room_boss1 is left out: no script or object ever

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="MimicIllusionBody"/> (obj_mimic_illusion, masked by spr_rock1): the fake rock riding on a <see cref="Mimic"/>.</summary>
     public class MimicIllusion : SetPieceEnemy

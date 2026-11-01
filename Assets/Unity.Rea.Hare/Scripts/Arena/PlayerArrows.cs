@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Art;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_player's Draw event's arrows (U.HARE-T52), drawn for the arena's ship while it is not dead:

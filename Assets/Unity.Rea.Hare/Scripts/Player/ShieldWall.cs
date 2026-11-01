@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// Anything the shield wall can stop: enemy bodies (GML: obj_dagger/obj_sawblade/... die on

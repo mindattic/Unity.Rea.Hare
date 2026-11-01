@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Pickups;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T23: the pickups and scraps in Unity: a carrot or coin drawn where Core has it with its sprite's mask, a ship

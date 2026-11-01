@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Input;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// The view on obj_player's flight state machine (gmlHARE, Create/Step/Alarm events). The rules (continuous

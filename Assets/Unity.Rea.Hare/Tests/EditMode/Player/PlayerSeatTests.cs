@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// The glue between the thin views and Core: commands go through a seat, the events come back to the views.

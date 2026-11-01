@@ -2,9 +2,9 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>obj_player's flight and energy state machine and the Idle-only shield, run outside Unity.</summary>
     public class PlayerFlightTests

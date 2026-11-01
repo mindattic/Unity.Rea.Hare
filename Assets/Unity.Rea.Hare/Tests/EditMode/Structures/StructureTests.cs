@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Arena;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Rocks;
-using Unity.Hare.Structures;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Structures;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T56: par_structure and par_structure_cover as setup_level places them, the bullets, rockets and laser they

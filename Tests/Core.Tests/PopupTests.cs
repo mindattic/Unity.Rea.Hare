@@ -1,10 +1,10 @@
 using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using Unity.Hare.Content;
-using Unity.Hare.Popups;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Popups;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>U.HARE-T27: obj_float_text, obj_tip and obj_alert, step by step as HARE.gmx runs them.</summary>
     public class PopupTests

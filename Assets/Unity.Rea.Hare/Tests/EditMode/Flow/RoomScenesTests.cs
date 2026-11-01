@@ -5,16 +5,16 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Arena;
-using Unity.Hare.EditorTools;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.EditorTools;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T50: the scenes ProjectSetup composes in code, one per room plus the bootstrap, are in Build Settings in
@@ -136,16 +136,16 @@ namespace Unity.Hare.Tests.EditMode
             foreach (var room in RoomList.All)
             {
                 var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
-                var stories = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Hare.Story.StoryRoom>(true)).ToList();
+                var stories = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Rea.Hare.Story.StoryRoom>(true)).ToList();
                 if (room == RoomId.Story)
                 {
                     Assert.That(stories.Count, Is.EqualTo(1), "room_story.room.gmx places one obj_story");
-                    Assert.That(stories[0].name, Is.EqualTo(Unity.Hare.Story.StoryRoom.ObjectName));
+                    Assert.That(stories[0].name, Is.EqualTo(Unity.Rea.Hare.Story.StoryRoom.ObjectName));
                     Assert.That(stories[0].transform.childCount, Is.EqualTo(0), "it builds its sky, earth and typewriter itself, at runtime");
                 }
                 else Assert.That(stories, Is.Empty, room + ": obj_story is room_story's alone");
             }
-            Assert.That(ProjectSetup.RoomControllerType(RoomId.Story), Is.EqualTo(typeof(Unity.Hare.Story.StoryRoom)));
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Story), Is.EqualTo(typeof(Unity.Rea.Hare.Story.StoryRoom)));
         }
 
         [Test]
@@ -154,16 +154,16 @@ namespace Unity.Hare.Tests.EditMode
             foreach (var room in RoomList.All)
             {
                 var scene = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(room), OpenSceneMode.Single);
-                var maps = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Hare.Map.MapRoom>(true)).ToList();
+                var maps = scene.GetRootGameObjects().SelectMany(r => r.GetComponentsInChildren<Unity.Rea.Hare.Map.MapRoom>(true)).ToList();
                 if (room == RoomId.Map)
                 {
                     Assert.That(maps.Count, Is.EqualTo(1), "room_map.room.gmx places one obj_map");
-                    Assert.That(maps[0].name, Is.EqualTo(Unity.Hare.Map.MapRoom.ObjectName));
+                    Assert.That(maps[0].name, Is.EqualTo(Unity.Rea.Hare.Map.MapRoom.ObjectName));
                     Assert.That(maps[0].transform.childCount, Is.EqualTo(0), "it builds its sky, earth, markers, panel and tip itself, at runtime");
                 }
                 else Assert.That(maps, Is.Empty, room + ": obj_map is room_map's alone");
             }
-            Assert.That(ProjectSetup.RoomControllerType(RoomId.Map), Is.EqualTo(typeof(Unity.Hare.Map.MapRoom)));
+            Assert.That(ProjectSetup.RoomControllerType(RoomId.Map), Is.EqualTo(typeof(Unity.Rea.Hare.Map.MapRoom)));
         }
 
         [Test]

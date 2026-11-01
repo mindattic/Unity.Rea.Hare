@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on a Core <see cref="EnemyBody"/>: it sends the body's time and contacts to the world as commands
@@ -284,8 +284,8 @@ namespace Unity.Hare.Enemies
         {
             string name = BodySprite;
             if (name == null) return;
-            var renderer = Unity.Hare.Effects.HareArt.Show(gameObject, name, BodyDepth, Core.ImageAlpha);
-            renderer.sprite = Unity.Hare.Effects.HareArt.Frame(name, BodyFrame);
+            var renderer = Unity.Rea.Hare.Effects.HareArt.Show(gameObject, name, BodyDepth, Core.ImageAlpha);
+            renderer.sprite = Unity.Rea.Hare.Effects.HareArt.Frame(name, BodyFrame);
             float g = Mathf.Clamp01(BodyBlend);
             renderer.color = new Color(g, g, g, Core.ImageAlpha);
             DrawLayers(renderer.sortingOrder);
@@ -311,7 +311,7 @@ namespace Unity.Hare.Enemies
             }
             var t = renderer.transform;
             t.SetPositionAndRotation(new Vector3(position.x, position.y, transform.position.z), Quaternion.Euler(0f, 0f, angle));
-            renderer.sprite = Unity.Hare.Effects.HareArt.Frame(sprite);
+            renderer.sprite = Unity.Rea.Hare.Effects.HareArt.Frame(sprite);
             renderer.sortingOrder = bodyOrder - beneath;
             float g = Mathf.Clamp01(blend);
             renderer.color = new Color(g, g, g, 1f);

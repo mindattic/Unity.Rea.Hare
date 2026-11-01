@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    U.HARE-T70: runs Unity.Hare's scripted full run and stores a screenshot of every room and mode.
+    U.HARE-T70: runs Unity.Rea.Hare's scripted full run and stores a screenshot of every room and mode.
 .DESCRIPTION
     Builds the capture-enabled player (MindAttic.Capture's CaptureBuild.BuildWindows, to Builds/Capture) unless
-    -NoBuild or one is already there, launches it with -demo (Unity.Hare.Demo.ScriptedRun: startup, title, story,
+    -NoBuild or one is already there, launches it with -demo (Unity.Rea.Hare.Demo.ScriptedRun: startup, title, story,
     map, intro, a level, a kill, the level results, the side scroll, the shaft and the garage) and
     -capture screen, muted, and waits for it. The images land in R:\MindAttic\Capture\<repo>\ (MindAttic.Capture's
     output folder); this script lists the ones this run wrote. Exit code is the player's: non-zero when a room never

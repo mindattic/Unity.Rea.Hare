@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Upgrade
+namespace Unity.Rea.Hare.Upgrade
 {
     /// <summary>
     /// room_upgrade played (U.HARE-T64): obj_upgrade's way around the garage, the room's view of Core's
@@ -257,7 +257,7 @@ namespace Unity.Hare.Upgrade
             element.style.height = height;
             var frame = manifest != null && !string.IsNullOrEmpty(sprite) ? manifest.Frame(sprite) : null;
             if (frame != null) element.style.backgroundImage = new StyleBackground(frame);
-            else if (!string.IsNullOrEmpty(sprite)) Debug.LogWarning("[Unity.Hare] " + sprite + " is not imported.");
+            else if (!string.IsNullOrEmpty(sprite)) Debug.LogWarning("[Unity.Rea.Hare] " + sprite + " is not imported.");
             drawLayer.Add(element);
             dimmedImages.Add(element);
             return element;
@@ -271,8 +271,8 @@ namespace Unity.Hare.Upgrade
         {
             pipEmpty = manifest != null ? manifest.Frame(screen.PipEmptySprite) : null;
             pipFilled = manifest != null ? manifest.Frame(screen.PipFilledSprite) : null;
-            if (pipEmpty == null) Debug.LogWarning("[Unity.Hare] " + screen.PipEmptySprite + " is not imported.");
-            if (pipFilled == null) Debug.LogWarning("[Unity.Hare] " + screen.PipFilledSprite + " is not imported.");
+            if (pipEmpty == null) Debug.LogWarning("[Unity.Rea.Hare] " + screen.PipEmptySprite + " is not imported.");
+            if (pipFilled == null) Debug.LogWarning("[Unity.Rea.Hare] " + screen.PipFilledSprite + " is not imported.");
 
             foreach (var icon in screen.Icons)
                 if (icon != null) AddSprite(icon.Object, icon.Sprite, icon.X, icon.Y, screen.SpriteWidth, screen.SpriteHeight);
@@ -326,7 +326,7 @@ namespace Unity.Hare.Upgrade
             Background.sortingLayerName = HareSortingLayers.Backdrop;
             var background = manifest != null ? manifest.FindBackground(screen.Background) : null;
             backgroundSize = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(room.Width, room.Height);
-            if (background == null) Debug.LogWarning("[Unity.Hare] background " + screen.Background + " is not imported.");
+            if (background == null) Debug.LogWarning("[Unity.Rea.Hare] background " + screen.Background + " is not imported.");
             else Background.sprite = background.sprite;
             int columns = Mathf.CeilToInt(room.Width / (float)backgroundSize.x) + 2;
             int rows = Mathf.CeilToInt(room.Height / (float)backgroundSize.y) + 2;
@@ -366,7 +366,7 @@ namespace Unity.Hare.Upgrade
             buttonSprite.style.height = b.Height;
             var frame = manifest != null ? manifest.Frame(b.Sprite) : null;
             if (frame != null) buttonSprite.style.backgroundImage = new StyleBackground(frame);
-            else Debug.LogWarning("[Unity.Hare] " + b.Sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + b.Sprite + " is not imported.");
             drawLayer.Add(buttonSprite);
 
             MapCaption = HareUi.OutlineText(b.Label, b.Outline, HareTextStyles.MenuText.UssClass, drawLayer);

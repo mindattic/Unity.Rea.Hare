@@ -1,6 +1,6 @@
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>obj_helper's <c>state</c>.</summary>
     public enum HelperState

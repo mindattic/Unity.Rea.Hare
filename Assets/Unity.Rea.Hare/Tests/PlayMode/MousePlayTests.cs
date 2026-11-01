@@ -8,13 +8,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Arena;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T61, played: the map and upgrade rooms come up with obj_mouse's spr_pointer on the mouse, the title's

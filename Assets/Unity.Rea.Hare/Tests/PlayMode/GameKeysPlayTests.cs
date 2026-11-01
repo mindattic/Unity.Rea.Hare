@@ -7,14 +7,14 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Arena;
-using Unity.Hare.Audio;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 using Unity.Shared.Core;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T60, played with real key presses through HareControls' Meta actions: obj_game's P (pause, not once the

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 
-namespace Unity.Hare.EditorTools.Rendering
+namespace Unity.Rea.Hare.EditorTools.Rendering
 {
     /// <summary>
     /// Writes the project's sorting layers in code (U.HARE-T44), the Tags and Layers window's equivalent of
-    /// <c>ProjectSetup</c>'s other project-settings edits: puts <see cref="Unity.Hare.Rendering.HareSortingLayers.Order"/>'s
+    /// <c>ProjectSetup</c>'s other project-settings edits: puts <see cref="Unity.Rea.Hare.Rendering.HareSortingLayers.Order"/>'s
     /// layers first, in that back-to-front order, creating any of them that is missing and leaving an existing
     /// one's id alone (a sorting layer is referenced by id, not name, so changing a kept layer's id would
     /// silently move every <c>SpriteRenderer</c> already assigned to it). Any other sorting layer the project

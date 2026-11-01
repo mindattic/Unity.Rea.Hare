@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Session;
-using Unity.Hare.Upgrade;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Upgrade;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// room_upgrade's garage (U.HARE-T24, docs/BIBLE.md V49, D27): the shipped pips, hovering and buying them with

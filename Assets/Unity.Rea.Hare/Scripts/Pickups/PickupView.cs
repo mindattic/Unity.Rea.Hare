@@ -1,9 +1,9 @@
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>
     /// Draws one obj_carrot (spr_pickup_health) or obj_coin (spr_coin_blue/silver/gold) at depth 0 where its Core body is,

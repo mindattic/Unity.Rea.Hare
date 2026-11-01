@@ -3,12 +3,12 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Pickups;
-using Unity.Hare.Player;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// gmlHARE's pickups and scraps run outside Unity: random_pickup's rolls, obj_carrot's hover, ping and heal,

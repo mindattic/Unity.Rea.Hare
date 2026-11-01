@@ -6,11 +6,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.LowLevel;
 using UnityEngine.TextCore.Text;
-using Unity.Hare.EditorTools;
-using Unity.Hare.Text;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.EditorTools;
+using Unity.Rea.Hare.Text;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.EditMode.Fonts
+namespace Unity.Rea.Hare.Tests.EditMode.Fonts
 {
     /// <summary>
     /// The imported fonts (U.HARE-T48): what tools/import-gml-fonts.ps1 and GmlFontBuilder produced from HARE.gmx is all

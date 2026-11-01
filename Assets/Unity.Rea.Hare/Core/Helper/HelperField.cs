@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
-using Unity.Hare.Pickups;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Pickups;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>
     /// The helper hawks of a room, engine-free (gmlHARE: create_helper and obj_helper). An arrow key calls one at the ship

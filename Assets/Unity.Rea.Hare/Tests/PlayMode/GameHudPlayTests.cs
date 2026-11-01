@@ -9,13 +9,13 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Arena;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T25, played: room_gamescreen's HUD (obj_healthbar's lives, strTime, coins and health pips, obj_weapon_gui,
@@ -101,8 +101,8 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(frame.Sprite("weapon-secondary").Value.Sprite, Is.EqualTo("spr_icon_shotgun"));
             Assert.That(view.SpriteElement("weapon-select").layout.x, Is.EqualTo(view.SpriteElement("weapon-primary").layout.x));
             var ship = arena.Player.GetComponent<PlayerSeat>().Ship;
-            Assert.That(view.TextOf("ammo-primary"), Is.EqualTo(ship.Ammo.Current(Unity.Hare.Weapons.AmmoPool.GroundPrimary) + " / "
-                + ship.Ammo.Max(Unity.Hare.Weapons.AmmoPool.GroundPrimary)), "ground_ammo_primary / ground_ammo_primary_max");
+            Assert.That(view.TextOf("ammo-primary"), Is.EqualTo(ship.Ammo.Current(Unity.Rea.Hare.Weapons.AmmoPool.GroundPrimary) + " / "
+                + ship.Ammo.Max(Unity.Rea.Hare.Weapons.AmmoPool.GroundPrimary)), "ground_ammo_primary / ground_ammo_primary_max");
             Press(keyboard.leftCtrlKey);
             yield return null;
             yield return null;
@@ -139,7 +139,7 @@ namespace Unity.Hare.Tests.PlayMode
             Assert.That(score.style.left.value.value, Is.EqualTo(1920f - 200f));
             Assert.That(score.style.top.value.value, Is.EqualTo(1080f - 90f));
             Assert.That(view.TextElement("objective").style.top.value.value, Is.EqualTo(1080f - 35f));
-            arena.Session.Execute(new Unity.Hare.Session.AddScore(RoomFlowDirector.Seat, 120));
+            arena.Session.Execute(new Unity.Rea.Hare.Session.AddScore(RoomFlowDirector.Seat, 120));
             yield return null;
             Assert.That(view.TextOf("score"), Is.EqualTo(arena.Session.Score.ToString()));
 

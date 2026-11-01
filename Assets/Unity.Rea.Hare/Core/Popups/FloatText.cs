@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// One obj_float_text (U.HARE-T27), engine-free, in room pixels (y down). Its Step, once a room step: while

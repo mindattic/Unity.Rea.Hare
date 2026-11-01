@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Text
+namespace Unity.Rea.Hare.Text
 {
     /// <summary>
     /// One glyph of a GameMaker font.gmx: its cell in the baked atlas (x right and y down from the atlas's top left,

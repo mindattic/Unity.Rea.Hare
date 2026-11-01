@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Pickups;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Pickups;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>Steps the helper field once per physics step, after the pickups (whose collision events it raises).</summary>
     [DefaultExecutionOrder(1002)]

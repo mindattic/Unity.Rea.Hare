@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-  Runs the Unity.Hare project in Unity batch mode and surfaces compile and build errors.
+  Runs the Unity.Rea.Hare project in Unity batch mode and surfaces compile and build errors.
 .EXAMPLE
-  powershell -File tools/unity.ps1 -Method Unity.Hare.EditorTools.ProjectSetup.SetUpAll -Log setup
+  powershell -File tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.ProjectSetup.SetUpAll -Log setup
 .NOTES
   Unity batch mode needs the Editor closed on this project. This script refuses to run if it is open.
 #>

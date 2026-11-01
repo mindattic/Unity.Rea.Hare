@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer;      // NetSession
 using Unity.Multiplayer.Core; // Seat, Disconnection
 using UnityEngine;
 
-namespace Unity.Hare.Online
+namespace Unity.Rea.Hare.Online
 {
     /// <summary>
     /// The one authority of an online game (U.HARE-T35, BIBLE 5.3): on the server (a listen server's host or a

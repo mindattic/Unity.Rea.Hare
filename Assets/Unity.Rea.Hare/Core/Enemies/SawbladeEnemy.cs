@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_sawblade (gmlHARE, par_enemy): a small spinning blade (image_angle +rot_speed, its back layer

@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_rocket (gmlHARE). Launched at rest; after 50 steps it ignites at 1 px/step and
@@ -121,7 +121,7 @@ namespace Unity.Hare.Weapons
             else transform.position = next;
 
             // GML: (x + buffer_zone < 0) || (x - buffer_zone > room_width) || ... instance_destroy().
-            var outOfPlay = Unity.Hare.Arena.ArenaRoom.OutOfPlay(next);
+            var outOfPlay = Unity.Rea.Hare.Arena.ArenaRoom.OutOfPlay(next);
             if (outOfPlay.HasValue ? outOfPlay.Value : (next - launchPosition).sqrMagnitude > MaxRangeUnits * MaxRangeUnits) Remove();
         }
 

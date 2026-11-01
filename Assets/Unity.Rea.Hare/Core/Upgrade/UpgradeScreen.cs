@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Map;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Map;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Upgrade
+namespace Unity.Rea.Hare.Upgrade
 {
     /// <summary>
     /// A sprite's collision box in GameMaker's terms: bbox_left..bbox_right and bbox_top..bbox_bottom, inclusive, from

@@ -1,8 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>U.HARE-T44: the 1920x1080 reference resolution's pillarbox/letterbox viewport math.</summary>
     public class LetterboxCameraTests

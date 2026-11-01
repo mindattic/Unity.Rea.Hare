@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Helper;
-using Unity.Hare.Pickups;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Helper;
+using Unity.Rea.Hare.Pickups;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// U.HARE-T66: gmlHARE's create_helper and obj_helper run outside Unity: one helper a ship, called at the ship along its

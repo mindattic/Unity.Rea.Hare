@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// The view on a gun of the ship (shotgun, flamer, mine launcher). The firing rules of

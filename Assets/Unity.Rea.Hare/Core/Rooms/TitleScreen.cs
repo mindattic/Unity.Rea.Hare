@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>One title button as it stands: where it is and whether the mouse is over it.</summary>
     public sealed class TitleButton

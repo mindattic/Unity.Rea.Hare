@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Weather
+namespace Unity.Rea.Hare.Weather
 {
     /// <summary>One cloud, raindrop, snowflake, grain of sand or bank of fog, in room pixels (from the top left, y down).</summary>
     public sealed class WeatherParticle

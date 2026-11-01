@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T11: the mine (obj_mine/shoot_mine), obj_grenade_explosion and next_ground_weapon.</summary>
     public class GroundWeaponTests

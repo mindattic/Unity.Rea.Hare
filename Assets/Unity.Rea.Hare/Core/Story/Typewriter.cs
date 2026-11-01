@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Popups;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Popups;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// One of the original's typewriters as data (U.HARE-T28): obj_typewriter_story (room_story's), obj_conversation's

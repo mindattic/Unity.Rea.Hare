@@ -4,11 +4,11 @@ using System.Text;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>UH-T40: the enemy world running under Unity's own loop, as in play (the director steps it each physics step).</summary>
     public class EnemyPlayTests

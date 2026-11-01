@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Pointer
+namespace Unity.Rea.Hare.Pointer
 {
     /// <summary>
     /// One room's obj_mouse (U.HARE-T61): the room's controller creates it in its Create event and sets its sprite and

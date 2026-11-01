@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Rendering;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>
     /// obj_startup, played (U.HARE-T51): the startup room's view of Core's <see cref="StartupScreen"/>. ProjectSetup puts
@@ -145,7 +145,7 @@ namespace Unity.Hare.Rooms
 
                 var background = manifest != null ? manifest.FindBackground(layer.Name) : null;
                 var size = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(room.Width, room.Height);
-                if (background == null) Debug.LogWarning("[Unity.Hare] obj_startup: background " + layer.Name + " is not imported.");
+                if (background == null) Debug.LogWarning("[Unity.Rea.Hare] obj_startup: background " + layer.Name + " is not imported.");
                 else renderer.sprite = background.sprite;
 
                 int columns = Mathf.CeilToInt(room.Width / (float)size.x) + 1;

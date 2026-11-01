@@ -3,9 +3,9 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>obj_player's health and lives (player_hurt, reset_player, Alarms 1/4/5/6/7), run outside Unity.</summary>
     public class PlayerHealthTests

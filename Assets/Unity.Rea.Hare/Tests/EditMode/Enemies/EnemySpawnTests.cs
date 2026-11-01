@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Enemies;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T15: generate_enemy_list, par_enemy_emitter, obj_wormhole(_emitter) and setup_level's placement.</summary>
     public class EnemySpawnTests

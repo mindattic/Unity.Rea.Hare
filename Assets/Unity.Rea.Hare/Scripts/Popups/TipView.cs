@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// obj_tip drawn and played (U.HARE-T27): Core's <see cref="TipBox"/> on a 1920x1080 GUI layer, as its Draw GUI draws
@@ -48,7 +48,7 @@ namespace Unity.Hare.Popups
             var manifest = HareArtManifest.Load();
             var sprite = manifest != null ? manifest.Frame(tip.Definition.Sprite) : null;
             if (sprite != null) box.style.backgroundImage = new StyleBackground(sprite);
-            else Debug.LogWarning("[Unity.Hare] " + tip.Definition.Sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + tip.Definition.Sprite + " is not imported.");
             Add(box);
 
             text = HareUi.OutlineText(tip.DrawText, tip.Definition.Outline, HareTextStyles.MenuText.UssClass, this);

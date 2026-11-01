@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Runtime",
-    "rootNamespace": "Unity.Hare",
+    "rootNamespace": "Unity.Rea.Hare",
     "references": [
         "Unity.Rea.Hare.Core",
         "MindAttic.Capture.Unity",

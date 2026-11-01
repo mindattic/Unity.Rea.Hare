@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// GML image_index += image_speed each step over a sprite's frames, with the Animation End

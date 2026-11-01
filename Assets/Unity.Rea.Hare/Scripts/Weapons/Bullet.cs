@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Anything a projectile can hit: enemies (par_enemy), rocks (par_rock) and structures
@@ -111,7 +111,7 @@ namespace Unity.Hare.Weapons
             }
             if (body != null) body.linearVelocity = Gml.Dir(Direction) * Speed;
             Age += dt;
-            var outOfPlay = Unity.Hare.Arena.ArenaRoom.OutOfPlay(transform.position);
+            var outOfPlay = Unity.Rea.Hare.Arena.ArenaRoom.OutOfPlay(transform.position);
             if (outOfPlay.HasValue ? outOfPlay.Value : Age >= Lifetime) Despawn();
         }
 

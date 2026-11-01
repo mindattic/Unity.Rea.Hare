@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Arena;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_railgun + generate_swirl/obj_rail_swirl (gmlHARE): a fixed 2000 px rail from the

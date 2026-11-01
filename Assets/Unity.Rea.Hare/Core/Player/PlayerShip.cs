@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// One player's ship as the rules see it: flight and energy, health and lives, the four ammo pools, the guns

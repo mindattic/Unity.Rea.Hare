@@ -4,10 +4,10 @@ using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// U.HARE-T41: the content/tuning registry loads from a data file and validates on load with clear errors.

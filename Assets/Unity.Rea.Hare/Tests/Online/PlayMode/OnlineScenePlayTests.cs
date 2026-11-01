@@ -1,15 +1,15 @@
 using System.Collections;
 using NUnit.Framework;
-using Unity.Hare.Content;
-using Unity.Hare.Online;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Online;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer;
 using Unity.Multiplayer.Testing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-namespace Unity.Hare.Tests.Online
+namespace Unity.Rea.Hare.Tests.Online
 {
     /// <summary>
     /// The generated online scene itself (U.HARE-T35): it hosts from its own NetBootstrap and seats the host's ship on

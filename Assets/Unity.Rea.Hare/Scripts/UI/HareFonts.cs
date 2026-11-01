@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// The original's eight <c>draw_set_font</c> faces (<c>fnt_basic</c>, <c>fnt_medium</c>, <c>fnt_point</c>,

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_scrapmental (gmlHARE, par_enemy): Scrap Mental, level_08's boss and its o_defeat target. A spinning

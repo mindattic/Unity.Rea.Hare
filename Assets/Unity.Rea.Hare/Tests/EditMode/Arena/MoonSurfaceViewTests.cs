@@ -1,8 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Arena;
+using Unity.Rea.Hare.Arena;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>U.HARE-T58: obj_moon_surface as drawn, spr_moon_surface at depth 1, risen into its room once turned on.</summary>
     public class MoonSurfaceViewTests

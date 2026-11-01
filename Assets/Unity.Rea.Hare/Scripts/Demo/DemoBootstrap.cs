@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Demo
+namespace Unity.Rea.Hare.Demo
 {
     /// <summary>
     /// U.HARE-T70: the <c>-demo</c> command-line flag Unity.Chain, Unity.SpaceGod and Unity.GridGame share for a

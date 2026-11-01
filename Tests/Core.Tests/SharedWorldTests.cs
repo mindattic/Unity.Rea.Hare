@@ -3,11 +3,11 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Online;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Online;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The online authority's one world (U.HARE-T35): seats map to player ids, every seat's ship lives in one

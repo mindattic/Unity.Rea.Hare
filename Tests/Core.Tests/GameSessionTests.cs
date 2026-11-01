@@ -2,10 +2,10 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>globals.gml's session state and the rules that change it (obj_game, obj_coin, player_hurt, the menus).</summary>
     public class GameSessionTests

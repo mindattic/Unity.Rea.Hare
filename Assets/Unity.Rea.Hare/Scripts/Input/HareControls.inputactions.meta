@@ -11,4 +11,4 @@ ScriptedImporter:
   generateWrapperCode: 1
   wrapperCodePath: Assets/Unity.Rea.Hare/Scripts/Input/HareControls.cs
   wrapperClassName: HareControls
-  wrapperCodeNamespace: Unity.Hare.Input
+  wrapperCodeNamespace: Unity.Rea.Hare.Input

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_surface_reflection as it stands (U.HARE-T58): room_sidescroll's water line over bg_tropicalocean and the ship's

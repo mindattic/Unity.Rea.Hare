@@ -6,13 +6,13 @@ using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The level scripts as data (U.HARE-T20): level_01..level_10, level_default and level_enemygenerator's surfaces,

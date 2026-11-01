@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>One of the campaign's ten rooms (docs/RECONSTRUCTION.md): its scenario, difficulty and composition.</summary>
     [Serializable]

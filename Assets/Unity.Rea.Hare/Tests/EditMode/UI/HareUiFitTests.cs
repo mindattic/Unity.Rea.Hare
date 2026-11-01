@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Rendering;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>U.HARE-T45: HareUiFit's pure sizing math mirrors LetterboxCamera's pillarbox/letterbox branch.</summary>
     public class HareUiFitTests

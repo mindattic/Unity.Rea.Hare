@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>
     /// Fills a plain data class's public fields from a parsed JSON object (<see cref="MiniJson"/>'s tree), by
     /// name, case-insensitive, leaving a field at its existing (compiled-in) value when the data file doesn't
     /// mention it -- so a content file only needs to say what it changes from the baked default. Every DTO in
-    /// <c>Unity.Hare.Content</c>/<c>Unity.Hare.Weapons</c>/<c>Unity.Hare.Player</c> that the registry loads is a
+    /// <c>Unity.Rea.Hare.Content</c>/<c>Unity.Rea.Hare.Weapons</c>/<c>Unity.Rea.Hare.Player</c> that the registry loads is a
     /// plain class of public fields (floats, ints, bools, strings, enums, arrays of those, or a nested class of
     /// the same shape), so one reflective binder covers every section instead of one hand-written reader each.
     /// Every problem (wrong type, an unknown field, a bad enum name) is appended to <paramref name="errors"/>

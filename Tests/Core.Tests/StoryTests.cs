@@ -4,12 +4,12 @@ using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Story;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Story;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The story and cutscene system (U.HARE-T28): room_story's obj_story, obj_typewriter_story and obj_scroll_world,

@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="WormSegmentBody"/> (obj_worm_segment): one link of a <see cref="Worm"/>.</summary>
     public class WormSegment : SetPieceEnemy

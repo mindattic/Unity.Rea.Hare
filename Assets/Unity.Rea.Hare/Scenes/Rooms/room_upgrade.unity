@@ -280,7 +280,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc518398f4ac6094eaf35517993639b8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Rendering.ScreenOverlayLayer
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Rendering.ScreenOverlayLayer
 --- !u!212 &955086811
 SpriteRenderer:
   serializedVersion: 2
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 799a0b56ad41bdc478fd96bd58dd469b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Rendering.LetterboxCamera
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Rendering.LetterboxCamera
 --- !u!20 &1222084510
 Camera:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed39f21bcd715b644b889962f1f19b87, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Upgrade.UpgradeRoom
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Upgrade.UpgradeRoom
 --- !u!4 &1499801075
 Transform:
   m_ObjectHideFlags: 0

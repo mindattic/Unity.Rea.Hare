@@ -1,11 +1,11 @@
 using System.Linq;
 using NUnit.Framework;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// U.HARE-T55: what obj_player draws and the trails it leaves (ShipLook): Alarm 2's smoke trail, Alarm 3's spark

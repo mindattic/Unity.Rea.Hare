@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="DaggerEnemy"/> (obj_dagger): its rotate, fly and stop flight, its collisions and its

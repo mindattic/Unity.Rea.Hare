@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// The font seam (U.HARE-T45) now resolves every one of the original's eight faces to the bitmap FontAsset the font

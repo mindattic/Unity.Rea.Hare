@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="FireflyBody"/> (obj_firefly, ai_firefly). Each think has a 1-in-5 chance to blink:

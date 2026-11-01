@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Editor.Rendering",
-    "rootNamespace": "Unity.Hare.EditorTools.Rendering",
+    "rootNamespace": "Unity.Rea.Hare.EditorTools.Rendering",
     "references": [
         "Unity.Rea.Hare.Core",
         "Unity.Rea.Hare.Runtime",

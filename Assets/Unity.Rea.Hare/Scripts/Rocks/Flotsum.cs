@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Rocks
+namespace Unity.Rea.Hare.Rocks
 {
     /// <summary>
     /// Ports obj_flotsum (gmlHARE, depth 0, no collisions): a shard of a broken rock, created only by

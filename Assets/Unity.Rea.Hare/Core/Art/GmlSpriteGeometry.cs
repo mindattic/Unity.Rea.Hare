@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Art
+namespace Unity.Rea.Hare.Art
 {
     /// <summary>A sprite.gmx colkind: the shape GameMaker tests collisions against.</summary>
     public enum GmlMaskKind

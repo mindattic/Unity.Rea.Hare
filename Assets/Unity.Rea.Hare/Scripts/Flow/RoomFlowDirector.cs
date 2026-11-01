@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Content;
-using Unity.Hare.Input;
-using Unity.Hare.Rendering;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// Plays Core's <see cref="RoomFlow"/> (U.HARE-T50): the one object that owns the flow, created by the bootstrap
@@ -302,7 +302,7 @@ namespace Unity.Hare.Flow
                     else if (!warnedLevelAdvance)
                     {
                         warnedLevelAdvance = true;
-                        Debug.LogWarning("[Unity.Hare] obj_fade_game reached black, but nothing sets up the next level yet (U.HARE-T57).");
+                        Debug.LogWarning("[Unity.Rea.Hare] obj_fade_game reached black, but nothing sets up the next level yet (U.HARE-T57).");
                     }
                     break;
             }

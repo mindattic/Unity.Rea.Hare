@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Unity.Hare.Input
+namespace Unity.Rea.Hare.Input
 {
     /// <summary>
     /// HARE.gmx's <c>option_showcursor</c> (False, U.HARE-T61): the system cursor is hidden while the game's rooms run, so

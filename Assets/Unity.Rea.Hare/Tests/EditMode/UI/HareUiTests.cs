@@ -2,9 +2,9 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T45: the widget kit, in particular <see cref="HareUi.OutlineText"/> reproducing gmlHARE's

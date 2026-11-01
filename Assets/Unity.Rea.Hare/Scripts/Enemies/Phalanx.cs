@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="PhalanxEnemy"/> (obj_phalanx): the body that creeps behind its <see cref="PhalanxShield"/>.</summary>
     public class Phalanx : SetPieceEnemy

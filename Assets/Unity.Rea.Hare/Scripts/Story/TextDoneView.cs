@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
+using Unity.Rea.Hare.Art;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// obj_textdone drawn (U.HARE-T87): spr_textdone's frame at its 8x scale where Core's <see cref="TextDoneMarker"/>
@@ -32,7 +32,7 @@ namespace Unity.Hare.Story
             style.width = d.Width * d.Scale;
             style.height = d.Height * d.Scale;
             style.display = DisplayStyle.None;
-            if (manifest == null || manifest.Frame(d.Sprite) == null) Debug.LogWarning("[Unity.Hare] " + d.Sprite + " is not imported.");
+            if (manifest == null || manifest.Frame(d.Sprite) == null) Debug.LogWarning("[Unity.Rea.Hare] " + d.Sprite + " is not imported.");
         }
 
         /// <summary>Shows the marker's frame, <paramref name="originY"/> being the GUI y of this element's parent.</summary>

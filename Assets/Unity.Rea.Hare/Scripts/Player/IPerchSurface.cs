@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// Something the ship lands on (U.HARE-T53): obj_player's par_rock and par_structure collision events. A rock

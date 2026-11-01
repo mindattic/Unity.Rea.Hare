@@ -10,12 +10,12 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Flow;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T51, played: the startup scene comes up fullscreen with its three circuit boards drifting over the veil and

@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>Steps the pickup field once per physics step, after the enemies (whose kills drop pickups).</summary>
     [DefaultExecutionOrder(1001)]

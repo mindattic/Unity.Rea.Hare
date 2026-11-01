@@ -1,11 +1,11 @@
 using System.Linq;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>Shared fixtures for the UH-T14 set-piece enemy tests.</summary>
     static class EnemyTestKit

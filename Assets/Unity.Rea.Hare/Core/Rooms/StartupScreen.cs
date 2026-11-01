@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>One startup background as it stands: where GameMaker has scrolled it to and how fast it is moving.</summary>
     public sealed class StartupLayer

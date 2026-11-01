@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// The view on obj_player's four ammo pools. The economy (Create's pools, set_ammo_cost, subtract_ground_ammo,

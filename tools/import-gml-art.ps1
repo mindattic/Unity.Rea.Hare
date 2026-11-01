@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Imports the original's art (gmlHARE's HARE.gmx sprites and backgrounds) into Assets/Unity.Hare/Art.
+  Imports the original's art (gmlHARE's HARE.gmx sprites and backgrounds) into Assets/Unity.Rea.Hare/Art.
 .DESCRIPTION
   Reads HARE.project.gmx (the resource tree, so every sprite keeps its GameMaker group), every
   sprites/*.sprite.gmx (frames, origin, bounding box, collision-mask shape) and background/*.background.gmx
@@ -9,9 +9,9 @@
   at (the speeds of every room from which those objects are reachable, by placement or by being named in the
   code of something already reachable).
 
-  It mirrors the frame images into Assets/Unity.Hare/Art/Sprites/<group>/<sprite>/<sprite>_<frame>.png and the
-  backgrounds into Assets/Unity.Hare/Art/Backgrounds/<background>.png (copying only files whose bytes changed,
-  deleting any the original no longer has), and writes Assets/Unity.Hare/Art/gml-art.json: one entry per GML
+  It mirrors the frame images into Assets/Unity.Rea.Hare/Art/Sprites/<group>/<sprite>/<sprite>_<frame>.png and the
+  backgrounds into Assets/Unity.Rea.Hare/Art/Backgrounds/<background>.png (copying only files whose bytes changed,
+  deleting any the original no longer has), and writes Assets/Unity.Rea.Hare/Art/gml-art.json: one entry per GML
   sprite and background with its source data and the Unity assets it becomes (frames, animation clip, sprite
   atlas), plus every sprite that was not imported and why.
 
@@ -35,7 +35,7 @@ Set-StrictMode -Version 2
 $inv = [Globalization.CultureInfo]::InvariantCulture
 
 $root = Split-Path -Parent $PSScriptRoot
-$artAssets = 'Assets/Unity.Hare/Art'
+$artAssets = 'Assets/Unity.Rea.Hare/Art'
 $artDir = Join-Path $root $artAssets
 $manifestPath = Join-Path $artDir 'gml-art.json'
 
@@ -299,10 +299,10 @@ $old = if (Test-Path $manifestPath) { [IO.File]::ReadAllText($manifestPath) } el
 if ($old -ne $json) { [IO.File]::WriteAllText($manifestPath, $json, (New-Object Text.UTF8Encoding $false)) }
 
 $frameCount = ($sprites | ForEach-Object { $_.frames.Count } | Measure-Object -Sum).Sum
-Write-Host "[Unity.Hare] GML art: $($sprites.Count) sprites ($frameCount frames), $($backgrounds.Count) backgrounds, $($skipped.Count) skipped; $copied files copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
+Write-Host "[Unity.Rea.Hare] GML art: $($sprites.Count) sprites ($frameCount frames), $($backgrounds.Count) backgrounds, $($skipped.Count) skipped; $copied files copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
 foreach ($s in $skipped) { Write-Host "  skipped $($s.kind) $($s.name): $($s.reason)" }
 
 if (-not $NoUnity) {
-    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Hare.EditorTools.GmlArtBuilder.BuildAll -Log art
+    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Rea.Hare.EditorTools.GmlArtBuilder.BuildAll -Log art
     exit $LASTEXITCODE
 }

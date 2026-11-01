@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The spawnable par_enemy objects, numbered as generate_enemy_list's index_* values

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>A 2D point or vector in world units (y up) that Core's rules use, so Core has no engine reference.</summary>
     public readonly struct Vec2 : IEquatable<Vec2>

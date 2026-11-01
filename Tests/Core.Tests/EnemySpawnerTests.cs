@@ -4,11 +4,11 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using static Unity.Hare.Tests.Core.EnemyRig;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using static Unity.Rea.Hare.Tests.Core.EnemyRig;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>The insects, emitters, wormholes, composition and the world's reproducibility, run outside Unity.</summary>
     public class EnemySpawnerTests

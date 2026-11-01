@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// The named text styles every HUD, menu and typewriter screen draws with (U.HARE-T48), each the face the original's

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// The original's room flow, engine-free: which room the game is in, <c>next_room</c>, and the room's

@@ -4,24 +4,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Player;
-using Unity.Hare.Popups;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rocks;
-using Unity.Hare.Session;
-using Unity.Hare.Structures;
-using Unity.Hare.UI;
-using Unity.Hare.Weapons;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Structures;
+using Unity.Rea.Hare.UI;
+using Unity.Rea.Hare.Weapons;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// The arena, played (U.HARE-T52): the play rooms' view of Core's <see cref="ArenaWorld"/>, as obj_game, the room's
@@ -436,7 +436,7 @@ namespace Unity.Hare.Arena
             if (!HasTarget && !warnedTarget)
             {
                 warnedTarget = true;
-                Debug.LogWarning("[Unity.Hare] " + objective.TargetObject + " is not ported, so this level's o_defeat objective cannot be met.");
+                Debug.LogWarning("[Unity.Rea.Hare] " + objective.TargetObject + " is not ported, so this level's o_defeat objective cannot be met.");
             }
         }
 
@@ -472,7 +472,7 @@ namespace Unity.Hare.Arena
             var session = Session;
             if (back.HasValue && flow != null)
             {
-                RunSession(new Unity.Hare.Session.SetPaused(Seat, false));
+                RunSession(new Unity.Rea.Hare.Session.SetPaused(Seat, false));
                 flow.Execute(new GoToRoom(Seat, back.Value));
                 return;
             }
@@ -554,7 +554,7 @@ namespace Unity.Hare.Arena
                 case SecondElapsed _:
                     Clock.Tick(); // obj_healthbar's alarm: seconds += 1 ... strTime
                     break;
-                case Unity.Hare.Session.LevelCompleted completed:
+                case Unity.Rea.Hare.Session.LevelCompleted completed:
                     ShowResults(); // set_level_complete: instance_create(0,0, obj_level_results) at (screen_width/2, screen_height/4)
                     LevelCompleted?.Invoke(completed.Level);
                     break;
@@ -587,7 +587,7 @@ namespace Unity.Hare.Arena
             if (Results == null) return false;
             var definition = Results.Definition;
             RemoveResults();
-            RunSession(new Unity.Hare.Session.SetPaused(Seat, false));
+            RunSession(new Unity.Rea.Hare.Session.SetPaused(Seat, false));
             HareAudio.Play(definition.ContinueSound);
             if (Player == null)
             {
@@ -1204,7 +1204,7 @@ namespace Unity.Hare.Arena
 
                 var background = manifest != null ? manifest.FindBackground(layer.Name) : null;
                 var image = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(State.Width, State.Height);
-                if (background == null) Debug.LogWarning("[Unity.Hare] arena: background " + layer.Name + " is not imported.");
+                if (background == null) Debug.LogWarning("[Unity.Rea.Hare] arena: background " + layer.Name + " is not imported.");
                 else renderer.sprite = background.sprite;
 
                 // The tile: the image, or the room for a stretched background.

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>GML's geometry and angle scripts, as the enemies' rules call them.</summary>
     public static class GmlMath

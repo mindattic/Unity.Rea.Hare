@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T16: the enemies' death effects, the GameMaker effects behind them, tiny explosions and death particles.</summary>
     public class DeathEffectsTests

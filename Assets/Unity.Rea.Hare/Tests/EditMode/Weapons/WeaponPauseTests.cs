@@ -1,8 +1,8 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T60: the ship's projectiles honour the global paused flag, as obj_bullet's, obj_rocket's and obj_mine's

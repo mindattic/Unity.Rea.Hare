@@ -1,4 +1,4 @@
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// The only way the room flow changes. A command carries the id of the seat it acts for (no global current

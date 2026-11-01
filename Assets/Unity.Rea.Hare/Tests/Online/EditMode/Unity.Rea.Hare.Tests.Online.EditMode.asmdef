@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Tests.Online.EditMode",
-    "rootNamespace": "Unity.Hare.Tests.Online.EditMode",
+    "rootNamespace": "Unity.Rea.Hare.Tests.Online.EditMode",
     "references": [
         "Unity.Rea.Hare.Core",
         "Unity.Rea.Hare.Runtime",

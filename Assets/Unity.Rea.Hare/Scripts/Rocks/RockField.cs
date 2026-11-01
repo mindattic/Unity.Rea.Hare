@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Rocks
+namespace Unity.Rea.Hare.Rocks
 {
     /// <summary>
     /// The level's asteroid field, porting gmlHARE's rock scripts:

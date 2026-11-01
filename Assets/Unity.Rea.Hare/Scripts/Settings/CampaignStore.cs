@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using UnityEngine;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// Where the campaign save is kept (U.HARE-T65, a deliberate addition, docs/BIBLE.md V50; the map's won missions
@@ -34,7 +34,7 @@ namespace Unity.Hare
             }
             catch (Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The campaign save was not read, starting a new one:" + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] The campaign save was not read, starting a new one:" + e.Message);
                 if (path != null && e is FormatException) SetAside(path);
                 return new CampaignProgress();
             }
@@ -57,7 +57,7 @@ namespace Unity.Hare
             }
             catch (Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The campaign save was not written:" + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] The campaign save was not written:" + e.Message);
                 return false;
             }
         }
@@ -72,7 +72,7 @@ namespace Unity.Hare
             }
             catch (Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The unreadable campaign file was left in place: " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] The unreadable campaign file was left in place: " + e.Message);
             }
         }
     }

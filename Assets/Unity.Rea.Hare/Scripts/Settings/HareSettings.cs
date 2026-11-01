@@ -1,7 +1,7 @@
 using Unity.Shared.Core;
 using Unity.Shared.Core.Json;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// Hare's own block of settings.json: Unity.Shared's free-form <c>Profile.Settings.Game</c>, typed for this

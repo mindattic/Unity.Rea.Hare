@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="FlyBody"/> (obj_fly, ai_fly). Create's image_index = choose(spr_fly, spr_fly2) assigns a

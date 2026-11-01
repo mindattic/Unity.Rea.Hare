@@ -1,9 +1,9 @@
 using System.Linq;
 using NUnit.Framework;
-using Unity.Hare.EditorTools;
-using Unity.Hare.EditorTools.Online;
-using Unity.Hare.Online;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.EditorTools;
+using Unity.Rea.Hare.EditorTools.Online;
+using Unity.Rea.Hare.Online;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer;
 using Unity.Multiplayer.Editor;
 using Unity.Multiplayer.UI;
@@ -13,7 +13,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Unity.Hare.Tests.Online.EditMode
+namespace Unity.Rea.Hare.Tests.Online.EditMode
 {
     /// <summary>
     /// The online scene (U.HARE-T35) is wired the way the kit needs it, beside a local game that has none of it: a
@@ -54,9 +54,9 @@ namespace Unity.Hare.Tests.Online.EditMode
             Scene main = EditorSceneManager.OpenScene(ProjectSetup.ScenePath, OpenSceneMode.Single);
             var roots = main.GetRootGameObjects();
             Assert.That(roots.All(r => r.GetComponentInChildren<NetworkManager>(true) == null), "the local game has no NetworkManager");
-            Assert.That(roots.Any(r => r.GetComponentInChildren<Unity.Hare.Flow.RoomFlowDirector>(true) != null),
+            Assert.That(roots.Any(r => r.GetComponentInChildren<Unity.Rea.Hare.Flow.RoomFlowDirector>(true) != null),
                 "the local game's bootstrap starts the room flow (U.HARE-T50)");
-            Scene arena = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(Unity.Hare.Flow.RoomId.GameScreen), OpenSceneMode.Single);
+            Scene arena = EditorSceneManager.OpenScene(ProjectSetup.RoomScenePath(Unity.Rea.Hare.Flow.RoomId.GameScreen), OpenSceneMode.Single);
             Assert.That(arena.GetRootGameObjects().Any(r => r.GetComponentInChildren<PlayerShipController>(true) != null), "the local game still has its ship");
             Assert.That(arena.GetRootGameObjects().All(r => r.GetComponentInChildren<NetworkManager>(true) == null), "the local arena has no NetworkManager");
             Assert.That(HareOnlineGame.SoloScene, Is.EqualTo(System.IO.Path.GetFileNameWithoutExtension(ProjectSetup.ScenePath)),

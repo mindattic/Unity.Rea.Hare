@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 using Random = UnityEngine.Random;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>The GameMaker built-in effects the game uses (GML ef_* constants).</summary>
     public enum GmlEffectKind

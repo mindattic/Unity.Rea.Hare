@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>
     /// obj_scanner (spr_scanner_beam, depth 0; U.HARE-T63): the beam under the USS Warren, placed at x 1045 with its

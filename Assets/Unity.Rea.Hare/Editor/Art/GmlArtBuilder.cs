@@ -6,9 +6,9 @@ using UnityEditor;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
-using Unity.Hare.Art;
+using Unity.Rea.Hare.Art;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Turns Art/gml-art.json (written by tools/import-gml-art.ps1) into the Unity side of the original's art: makes
@@ -18,7 +18,7 @@ namespace Unity.Hare.EditorTools
     /// (Resources/Hare/HareArtManifest) mapping every GML sprite and background name to its assets. Stale clips and
     /// atlases are deleted. Rerunning it on the same data rewrites the same files.
     ///
-    /// Batch: tools/unity.ps1 -Method Unity.Hare.EditorTools.GmlArtBuilder.BuildAll (tools/import-gml-art.ps1 runs it).
+    /// Batch: tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.GmlArtBuilder.BuildAll (tools/import-gml-art.ps1 runs it).
     /// </summary>
     public static class GmlArtBuilder
     {
@@ -27,7 +27,7 @@ namespace Unity.Hare.EditorTools
         /// <summary>Atlas pages are at most this big; a sprite over gml-art.json's atlasMaxSide is never packed.</summary>
         public const int AtlasMaxTextureSize = 4096;
 
-        [MenuItem("Unity.Hare/Build Art From gml-art.json")]
+        [MenuItem("Unity.Rea.Hare/Build Art From gml-art.json")]
         public static void BuildAll()
         {
             var data = GmlArtData.Load() ?? throw new FileNotFoundException(
@@ -44,9 +44,9 @@ namespace Unity.Hare.EditorTools
             BuildManifest(data);
             AssetDatabase.SaveAssets();
 
-            Debug.Log($"[Unity.Hare] GML art built: {data.sprites.Length} sprites, {data.backgrounds.Length} backgrounds, " +
+            Debug.Log($"[Unity.Rea.Hare] GML art built: {data.sprites.Length} sprites, {data.backgrounds.Length} backgrounds, " +
                       $"{clips} clips, {atlases} atlases, {reimported} textures reimported, {data.skipped.Length} skipped");
-            foreach (var s in data.skipped) Debug.Log($"[Unity.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
+            foreach (var s in data.skipped) Debug.Log($"[Unity.Rea.Hare] Not imported: {s.kind} {s.name}: {s.reason}");
         }
 
         /// <summary>Reimports any texture whose settings are not yet the importer's (e.g. imported before it compiled).</summary>

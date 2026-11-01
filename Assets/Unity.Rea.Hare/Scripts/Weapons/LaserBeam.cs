@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_laser (gmlHARE): a continuous beam that lives while the trigger is held. Every step

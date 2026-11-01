@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using Unity.Hare.Text;
+using Unity.Rea.Hare.Text;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace MindAttic.Hare.Tests

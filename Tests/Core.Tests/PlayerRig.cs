@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>One seated player in a world, with the commands the views send as one-liners and every event kept.</summary>
     internal sealed class PlayerRig

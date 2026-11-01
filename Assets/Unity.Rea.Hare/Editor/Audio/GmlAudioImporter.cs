@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Import settings for the sounds tools/import-gml-audio.ps1 mirrors into Assets/Unity.Rea.Hare/Audio/Sounds, read from
@@ -27,11 +27,11 @@ namespace Unity.Hare.EditorTools
             var data = GmlAudioData.Load();
             if (data == null)
             {
-                Debug.LogWarning("[Unity.Hare] " + path + " has no " + GmlAudioData.DataPath + "; run tools/import-gml-audio.ps1");
+                Debug.LogWarning("[Unity.Rea.Hare] " + path + " has no " + GmlAudioData.DataPath + "; run tools/import-gml-audio.ps1");
                 return;
             }
             var sound = data.SoundForClip(path);
-            if (sound == null) Debug.LogWarning("[Unity.Hare] " + path + " is not a sound in " + GmlAudioData.DataPath);
+            if (sound == null) Debug.LogWarning("[Unity.Rea.Hare] " + path + " is not a sound in " + GmlAudioData.DataPath);
             else Configure((AudioImporter)assetImporter, sound, data.vorbisQuality);
         }
 

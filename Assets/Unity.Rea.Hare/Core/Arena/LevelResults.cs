@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>obj_level_results' numbers and text (U.HARE-T22), as its Create, Draw GUI and Enter events have them.</summary>
     [Serializable]

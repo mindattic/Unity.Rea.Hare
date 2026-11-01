@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Launches a playable Unity.Hare for development, muted.
+    Launches a playable Unity.Rea.Hare for development, muted.
 .DESCRIPTION
     Starts Build/Hare/Hare.exe (building it with tools/run.ps1 first when it is missing or -Build is given)
     with MINDATTIC_CLI_MUTED=1 and -muted, so a CLI or agent launching the game never plays sound. The mute is
@@ -45,7 +45,7 @@ try {
     if ($null -eq $previous) { Remove-Item Env:MINDATTIC_CLI_MUTED -ErrorAction SilentlyContinue } else { $env:MINDATTIC_CLI_MUTED = $previous }
 }
 
-Write-Host ("Launched Unity.Hare (pid {0}, {1}); log {2}" -f $process.Id, $(if ($Sound) { 'with sound' } else { 'muted' }), $log)
+Write-Host ("Launched Unity.Rea.Hare (pid {0}, {1}); log {2}" -f $process.Id, $(if ($Sound) { 'with sound' } else { 'muted' }), $log)
 if ($Wait) {
     $process.WaitForExit()
     exit $process.ExitCode

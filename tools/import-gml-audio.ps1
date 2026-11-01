@@ -1,16 +1,16 @@
 <#
 .SYNOPSIS
   Imports the original's sound (gmlHARE's HARE.gmx sound resources and its credits data file) into
-  Assets/Unity.Hare/Audio.
+  Assets/Unity.Rea.Hare/Audio.
 .DESCRIPTION
   Reads HARE.project.gmx (the resource tree, so every sound keeps its GameMaker group: music, player, vulcan or
   none) and every sound/*.sound.gmx (kind, file, volume, pan, compressed/streamed/uncompress-on-load, target type,
   sample rate, bit rate and depth, preload), and checks each one's audio file under sound/audio (its extension,
   and for a WAV its format, channels, sample rate and length from the RIFF header).
 
-  It mirrors the audio files into Assets/Unity.Hare/Audio/Sounds/<group>/<sound><ext> and the original's data
-  files (datafiles/credits.txt, the sound credits) into Assets/Unity.Hare/Audio/, copying only files whose bytes
-  changed and deleting any the original no longer has, and writes Assets/Unity.Hare/Audio/gml-audio.json: one entry
+  It mirrors the audio files into Assets/Unity.Rea.Hare/Audio/Sounds/<group>/<sound><ext> and the original's data
+  files (datafiles/credits.txt, the sound credits) into Assets/Unity.Rea.Hare/Audio/, copying only files whose bytes
+  changed and deleting any the original no longer has, and writes Assets/Unity.Rea.Hare/Audio/gml-audio.json: one entry
   per GML sound with its sound.gmx fields, its source file's facts and the Unity clip it becomes, the data files,
   and every file or resource that was not imported and why.
 
@@ -34,7 +34,7 @@ Set-StrictMode -Version 2
 . (Join-Path $PSScriptRoot 'gml-json.ps1')
 
 $root = Split-Path -Parent $PSScriptRoot
-$audioAssets = 'Assets/Unity.Hare/Audio'
+$audioAssets = 'Assets/Unity.Rea.Hare/Audio'
 $audioDir = Join-Path $root $audioAssets
 $manifestPath = Join-Path $audioDir 'gml-audio.json'
 
@@ -232,10 +232,10 @@ $old = if (Test-Path $manifestPath) { [IO.File]::ReadAllText($manifestPath) } el
 if ($old -ne $json) { [IO.File]::WriteAllText($manifestPath, $json, (New-Object Text.UTF8Encoding $false)) }
 
 $music = @($sounds | Where-Object { $_.kind -eq 1 -or $_.kind -eq 3 }).Count
-Write-Host "[Unity.Hare] GML audio: $($sounds.Count) sounds ($music music, $($sounds.Count - $music) sfx), $($datafiles.Count) data files, $($skipped.Count) skipped; $copied files copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
+Write-Host "[Unity.Rea.Hare] GML audio: $($sounds.Count) sounds ($music music, $($sounds.Count - $music) sfx), $($datafiles.Count) data files, $($skipped.Count) skipped; $copied files copied, $removed removed; manifest $(if ($old -ne $json) { 'updated' } else { 'unchanged' })"
 foreach ($s in $skipped) { Write-Host "  skipped $($s.kind) $($s.name): $($s.reason)" }
 
 if (-not $NoUnity) {
-    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Hare.EditorTools.GmlAudioBuilder.BuildAll -Log audio
+    & powershell -NoProfile -File (Join-Path $PSScriptRoot 'unity.ps1') -Method Unity.Rea.Hare.EditorTools.GmlAudioBuilder.BuildAll -Log audio
     exit $LASTEXITCODE
 }

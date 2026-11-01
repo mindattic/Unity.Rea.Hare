@@ -1,8 +1,8 @@
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports shoot_laser on the perched ground primary slot (gmlHARE): the laser is a weapon of Q's cycle

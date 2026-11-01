@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Unity.Hare.Audio;
+using Unity.Rea.Hare.Audio;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Audio/gml-audio.json, the file tools/import-gml-audio.ps1 writes from HARE.gmx: every GML sound, its sound.gmx

@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Enemies;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// Every object a weapon or an enemy spawns draws its GML sprite (U.HARE-T95): the views once held a serialized Sprite
@@ -39,8 +39,8 @@ namespace Unity.Hare.Tests.EditMode
         [Test]
         public void TheShipsRocketAndBothMinesDrawTheirSprites()
         {
-            var go = Unity.Hare.Player.PlayerShipBuilder.Build(Vector3.zero);
-            go.GetComponent<Unity.Hare.Player.PlayerShipController>().SetAimDirection(0f);
+            var go = Unity.Rea.Hare.Player.PlayerShipBuilder.Build(Vector3.zero);
+            go.GetComponent<Unity.Rea.Hare.Player.PlayerShipController>().SetAimDirection(0f);
             var air = go.GetComponent<AirWeaponLoadout>();
             Assert.IsTrue(air.TryFire());
             AssertDrawn(Object.FindAnyObjectByType<Rocket>(), "spr_rocket_anime", -3);
@@ -140,7 +140,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsNotNull(pupils.sprite);
             Assert.Less(eyes.sortingOrder, pupils.sortingOrder);
             Assert.Less(pupils.sortingOrder, bodyOrder);
-            var expected = (Vector2)ball.transform.position + Unity.Hare.Effects.HareArt.GmlOffset(ball.EyeOffset.x, ball.EyeOffset.y);
+            var expected = (Vector2)ball.transform.position + Unity.Rea.Hare.Effects.HareArt.GmlOffset(ball.EyeOffset.x, ball.EyeOffset.y);
             Assert.AreEqual(expected.x, pupils.transform.position.x, 0.001f);
             Assert.AreEqual(expected.y, pupils.transform.position.y, 0.001f);
         }

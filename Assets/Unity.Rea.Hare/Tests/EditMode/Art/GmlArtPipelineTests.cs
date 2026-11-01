@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 using UnityEngine.U2D;
-using Unity.Hare.Art;
-using Unity.Hare.EditorTools;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.EditorTools;
 
-namespace Unity.Hare.Tests.EditMode.Art
+namespace Unity.Rea.Hare.Tests.EditMode.Art
 {
     /// <summary>
     /// The imported art (U.HARE-T46): what tools/import-gml-art.ps1 and GmlArtBuilder produced from HARE.gmx is all

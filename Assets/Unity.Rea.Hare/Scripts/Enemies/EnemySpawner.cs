@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>What <see cref="EnemyCompositionViews.Place"/> created, as views.</summary>
     public sealed class EnemyPlacement

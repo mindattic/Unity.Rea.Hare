@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>Small, repeated checks every content table's own Validate method uses, so the error wording is consistent.</summary>
     static class ValidationHelpers

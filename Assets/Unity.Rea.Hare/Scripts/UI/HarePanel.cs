@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// Builds the PanelSettings and the <see cref="BuildRoot"/>'s stage every screen (HUD, menus, results, upgrade,
@@ -50,7 +50,7 @@ namespace Unity.Hare.UI
 
             settings.themeStyleSheet = Resources.Load<ThemeStyleSheet>(ThemeStyleSheetResourcePath);
             if (settings.themeStyleSheet == null)
-                Debug.LogError($"[Unity.Hare] missing {ThemeStyleSheetResourcePath} — native UI Toolkit controls will render unstyled");
+                Debug.LogError($"[Unity.Rea.Hare] missing {ThemeStyleSheetResourcePath} — native UI Toolkit controls will render unstyled");
 
             return settings;
         }

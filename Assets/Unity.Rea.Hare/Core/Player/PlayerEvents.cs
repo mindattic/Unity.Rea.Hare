@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// Something that happened to a player's ship, returned by every command. Presentation plays these (sound,

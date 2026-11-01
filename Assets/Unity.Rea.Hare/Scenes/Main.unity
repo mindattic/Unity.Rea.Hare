@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9368e1ff5935b4547a1ba52a60c5456c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Flow.RoomFlowDirector
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Flow.RoomFlowDirector
   enterFirstRoom: 1
 --- !u!4 &1825971174
 Transform:

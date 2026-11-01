@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Unity.Hare.EditorTools
+namespace Unity.Rea.Hare.EditorTools
 {
     /// <summary>
     /// Art/gml-art.json, the file tools/import-gml-art.ps1 writes from HARE.gmx: every GML sprite and background, its
@@ -33,7 +33,7 @@ namespace Unity.Hare.EditorTools
         {
             public string name, group;
             public int width, height, xorig, yorig;
-            /// <summary>0 precise, 1 rectangle, 2 ellipse, 3 diamond (<see cref="Unity.Hare.Art.GmlMaskKind"/>).</summary>
+            /// <summary>0 precise, 1 rectangle, 2 ellipse, 3 diamond (<see cref="Unity.Rea.Hare.Art.GmlMaskKind"/>).</summary>
             public int colkind, coltolerance;
             public bool sepmasks;
             public int bboxmode, bboxLeft, bboxTop, bboxRight, bboxBottom;

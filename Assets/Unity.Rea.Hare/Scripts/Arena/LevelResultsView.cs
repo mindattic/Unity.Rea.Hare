@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_level_results drawn (U.HARE-T22): Core's <see cref="LevelResults"/> on the 1920x1080 GUI layer, as its Draw GUI
@@ -48,7 +48,7 @@ namespace Unity.Hare.Arena
             var manifest = HareArtManifest.Load();
             var sprite = manifest != null ? manifest.Frame(results.Definition.Sprite) : null;
             if (sprite != null) Panel.style.backgroundImage = new StyleBackground(sprite);
-            else Debug.LogWarning("[Unity.Hare] " + results.Definition.Sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + results.Definition.Sprite + " is not imported.");
             Add(Panel);
 
             lines = new VisualElement { name = "lines", pickingMode = PickingMode.Ignore };

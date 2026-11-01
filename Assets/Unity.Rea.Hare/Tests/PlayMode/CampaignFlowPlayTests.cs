@@ -6,18 +6,18 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Arena;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T70, played end to end: the bootstrap loads, the campaign flows from the title through the story and the
     /// map to a level, the level starts, a laser kill scores, completing the level shows its results. The one run
-    /// tools/capture.ps1 repeats with screenshots (Unity.Hare.Demo.ScriptedRun).
+    /// tools/capture.ps1 repeats with screenshots (Unity.Rea.Hare.Demo.ScriptedRun).
     /// </summary>
     public class CampaignFlowPlayTests : InputTestFixture
     {

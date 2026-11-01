@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>What the ship perched on: obj_player's par_rock and par_structure collision events.</summary>
     public enum SurfaceKind

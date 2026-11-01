@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="WormholeBody"/> (obj_wormhole and create_wormhole, gmlHARE): a one-shot vortex for a single

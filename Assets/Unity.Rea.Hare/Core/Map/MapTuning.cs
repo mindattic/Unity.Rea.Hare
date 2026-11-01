@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>
     /// obj_btn_upgrade, the map's one button (depth -5): spr_button_area_small drawn by its draw_self, "Upgrades" over it

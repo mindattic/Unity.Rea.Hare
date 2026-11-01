@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="ButterflyBody"/> (obj_butterfly, ai_butterfly). The sprite faces its dX (image_xscale = 1

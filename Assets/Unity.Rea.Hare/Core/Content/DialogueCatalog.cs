@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Content
+namespace Unity.Rea.Hare.Content
 {
     /// <summary>One line of obj_conversation's story text or room_story's scenario text.</summary>
     [Serializable]

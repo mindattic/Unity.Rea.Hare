@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// One of play_random_music's tracks (U.HARE-T29): the GML sound it plays (<c>current_track</c>) and the name the

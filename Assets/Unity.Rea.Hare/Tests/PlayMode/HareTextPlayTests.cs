@@ -7,9 +7,9 @@ using UnityEngine.Rendering;
 using UnityEngine.TestTools;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T48: the original's fonts actually reach the screen. On a live UI Toolkit panel every named text style's

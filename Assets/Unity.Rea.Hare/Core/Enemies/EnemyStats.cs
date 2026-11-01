@@ -1,6 +1,6 @@
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>One enemy type's tuning: the numbers the rules read, kept as data in one table.</summary>
     public readonly struct EnemyStats

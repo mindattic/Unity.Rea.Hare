@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.UI
+namespace Unity.Rea.Hare.UI
 {
     /// <summary>
     /// obj_losthealth drawn (U.HARE-T54): Core's <see cref="LostHealthPip"/> as spr_lost_health on the 1920x1080 GUI
@@ -31,7 +31,7 @@ namespace Unity.Hare.UI
                 style.width = sprite.rect.width;
                 style.height = sprite.rect.height;
             }
-            else Debug.LogWarning("[Unity.Hare] " + LostHealthPip.Sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + LostHealthPip.Sprite + " is not imported.");
             Place();
             schedule.Execute(state => Step(state.deltaTime / 1000f)).Every(0);
         }

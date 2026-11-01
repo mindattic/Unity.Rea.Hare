@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Flow;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T50, played: the bootstrap scene starts the room flow, room scenes load by their GML names, every room

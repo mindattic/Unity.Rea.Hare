@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_rocket_explosion (gmlHARE, depth -4): spr_bigexplosion (96 px, origin at its centre, 20 frames

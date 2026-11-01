@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>Core's engine-free types and Unity's, converted at the seam between the rules and what is drawn.</summary>
     public static class CoreConvert

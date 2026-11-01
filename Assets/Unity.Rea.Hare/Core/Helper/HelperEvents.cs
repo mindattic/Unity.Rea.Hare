@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Pickups;
+using Unity.Rea.Hare.Pickups;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>Something the helper field did; presentation plays these (the sprite, effects, sounds) and never writes back.</summary>
     public abstract class HelperEvent

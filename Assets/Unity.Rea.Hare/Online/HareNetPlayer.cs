@@ -1,13 +1,13 @@
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Input;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer;      // NetEntity, NetBots, NetPlayer
 using Unity.Multiplayer.Core; // [ToServer], [Synced]
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Unity.Hare.Online
+namespace Unity.Rea.Hare.Online
 {
     /// <summary>
     /// An online player's ship (U.HARE-T35): the NetworkManager's Player Prefab, one per connection, carrying its

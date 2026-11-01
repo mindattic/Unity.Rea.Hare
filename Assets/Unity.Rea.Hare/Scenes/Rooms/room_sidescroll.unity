@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dad4105e555cfb94b8c3a67c7777fb87, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.AirWeaponLoadout
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.AirWeaponLoadout
 --- !u!114 &1303910332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5415f3b2b02546f3b978be1a52b8aa7c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.GroundWeaponLoadout
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.GroundWeaponLoadout
 --- !u!114 &1303910333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c3cb93c3b46492992690ae5952c8977, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.MineLauncher
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.MineLauncher
   slot: 1
 --- !u!114 &1303910334
 MonoBehaviour:
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 700205f5c45aa3344ab9cf69b98d27c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.Shotgun
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.Shotgun
   slot: 1
 --- !u!114 &1303910335
 MonoBehaviour:
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81853cf6989d3ec4983c54e18a27207c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.Flamethrower
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.Flamethrower
   slot: 0
 --- !u!114 &1303910336
 MonoBehaviour:
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 700205f5c45aa3344ab9cf69b98d27c1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.Shotgun
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.Shotgun
   slot: 0
 --- !u!114 &1303910337
 MonoBehaviour:
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38d315d8fcc7471080476f99e93c8991, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.RailgunGun
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.RailgunGun
   slot: 0
 --- !u!114 &1303910338
 MonoBehaviour:
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcc2e6b5b4de4b0cbee81d94c1dfff47, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Player.PlayerSeat
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Player.PlayerSeat
 --- !u!114 &1303910339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 399503e772c94df09b4104d8b776a427, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.LaserGun
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.LaserGun
   slot: 0
 --- !u!114 &1303910340
 MonoBehaviour:
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c40ef3277f0e84b4f89ec7cccb0703bd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.VulcanWeapon
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.VulcanWeapon
   bulletSprite: {fileID: 0}
   spinUpClip: {fileID: 8300000, guid: c400192197660b248b26c7bd58559efd, type: 3}
   loopClip: {fileID: 8300000, guid: af0278de46f4ae645b7e9c1c8ee80df1, type: 3}
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db42e6fe0f0e37a42a7f7131c5078a8b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Player.PlayerLook
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Player.PlayerLook
 --- !u!114 &1303910342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46fff5946a87d1c47adf2d1976405953, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Weapons.PlayerAmmo
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Weapons.PlayerAmmo
   reloadHalfClip: {fileID: 8300000, guid: 7487a87e58f54ff4d9274add0955b53f, type: 3}
   reloadFullClip: {fileID: 8300000, guid: 10c0e13ae69756a48b6b28ccd92e713d, type: 3}
 --- !u!114 &1303910343
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acfe82e9617186746995b5ba3464588b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Player.PlayerHealth
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Player.PlayerHealth
   respawnPoint: {fileID: 0}
   reloadSceneOnGameOver: 1
 --- !u!114 &1303910344
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fa522cbca30b8e439dbe461ced010c5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Player.PlayerShipController
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Player.PlayerShipController
 --- !u!50 &1303910345
 Rigidbody2D:
   serializedVersion: 5
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e317c029de5250c42b8f4f0726f7216b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Arena.ArenaRoom
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Arena.ArenaRoom
 --- !u!4 &1330221536
 Transform:
   m_ObjectHideFlags: 0
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 799a0b56ad41bdc478fd96bd58dd469b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Rendering.LetterboxCamera
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Rendering.LetterboxCamera
 --- !u!20 &1373504061
 Camera:
   m_ObjectHideFlags: 0
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc518398f4ac6094eaf35517993639b8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Hare.Rendering.ScreenOverlayLayer
+  m_EditorClassIdentifier: Unity.Rea.Hare.Runtime::Unity.Rea.Hare.Rendering.ScreenOverlayLayer
 --- !u!212 &1557584866
 SpriteRenderer:
   serializedVersion: 2

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports shoot_shotgun (gmlHARE): one blast of 16 pellets, each an obj_bullet with spr_pellet

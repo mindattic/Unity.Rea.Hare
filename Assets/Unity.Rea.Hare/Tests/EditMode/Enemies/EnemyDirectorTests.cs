@@ -1,12 +1,12 @@
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T40: the seam between Core's enemy world and the views that show it.</summary>
     public class EnemyDirectorTests

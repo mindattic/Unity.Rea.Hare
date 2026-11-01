@@ -5,15 +5,15 @@ using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
 using StringAssert = NUnit.Framework.Legacy.StringAssert;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Map;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.Story;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Map;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Story;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// room_map (U.HARE-T19): obj_map, obj_earthball, obj_destination's pixel-exact touch of the mission markers,

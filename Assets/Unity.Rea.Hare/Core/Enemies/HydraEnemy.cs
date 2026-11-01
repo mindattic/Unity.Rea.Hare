@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_hydra (gmlHARE, par_enemy): a spinning body (image_angle += rot_dir, 1 degree a step, the sign

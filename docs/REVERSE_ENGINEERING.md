@@ -623,8 +623,8 @@ record (every sound.gmx field, the source file's real format, channels, rate and
 ## Rebuild backlog
 
 The full implementation plan is tracked as epics/stories/tickets in the MindAttic ticket
-database under project code `UH` (`tickets story list --repo Unity.Hare`,
-`tickets ticket list --repo Unity.Hare`), not duplicated here — see `docs/USER_STORIES.md`
+database under project code `UH` (`tickets story list --repo Unity.Rea.Hare`,
+`tickets ticket list --repo Unity.Rea.Hare`), not duplicated here — see `docs/USER_STORIES.md`
 (generated) for the current list. Epics: Foundation, Player Movement, Air Weapons, Ground
 Weapons, Enemies & AI, Rocks/Environment, Levels & Map, Pickups & Upgrades, UI/HUD/Menus,
 Story/Dialogue, Audio, VFX, Boss Encounters.

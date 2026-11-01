@@ -1,18 +1,18 @@
 // Hare's online scaffolding (U.HARE-T35) over a real connection, on Unity.Multiplayer's test kit: every test gets a
 // real host or dedicated server and real clients over Unity Transport on a free loopback port.
-//   Unity -batchmode -projectPath . -runTests -testPlatform PlayMode -assemblyNames Unity.Hare.Tests.Online
+//   Unity -batchmode -projectPath . -runTests -testPlatform PlayMode -assemblyNames Unity.Rea.Hare.Tests.Online
 using System.Collections;
 using System.Linq;
 using NUnit.Framework;
-using Unity.Hare.Online;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Online;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer;
 using Unity.Multiplayer.Core;
 using Unity.Multiplayer.Testing;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Unity.Hare.Tests.Online
+namespace Unity.Rea.Hare.Tests.Online
 {
     internal static class HarePrefabs
     {
@@ -21,7 +21,7 @@ namespace Unity.Hare.Tests.Online
             get
             {
                 var prefab = Resources.Load<GameObject>(HareNetPlayer.PrefabResource);
-                Assert.That(prefab, Is.Not.Null, "Resources/" + HareNetPlayer.PrefabResource + ".prefab is missing; run Unity.Hare > Rebuild Online Scene");
+                Assert.That(prefab, Is.Not.Null, "Resources/" + HareNetPlayer.PrefabResource + ".prefab is missing; run Unity.Rea.Hare > Rebuild Online Scene");
                 return prefab;
             }
         }
@@ -114,7 +114,7 @@ namespace Unity.Hare.Tests.Online
             yield return WaitUntil(() => Mathf.Abs(Mathf.DeltaAngle(start, annOnHost.Result.Direction)) > 10f, "Ann's ship never turned");
             annOnAnn.Result.Turn(0f);
             float seconds = Time.time - began;
-            float turnRate = Unity.Hare.Content.GameContent.Current.Flight.TurnSpeedDegreesPerSecond;
+            float turnRate = Unity.Rea.Hare.Content.GameContent.Current.Flight.TurnSpeedDegreesPerSecond;
             Assert.That(annOnHost.Result.Direction - start, Is.LessThanOrEqualTo(turnRate * (seconds + 0.25f)));
         }
     }

@@ -1,8 +1,8 @@
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports shoot_flamer (gmlHARE, the version fire_primary/fire_secondary call; the older

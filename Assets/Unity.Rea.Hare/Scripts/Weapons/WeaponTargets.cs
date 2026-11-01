@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>What dealt a <see cref="WeaponHit"/>.</summary>
     public enum WeaponHitKind

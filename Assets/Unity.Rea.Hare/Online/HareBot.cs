@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 using Unity.Multiplayer; // IBotDriver, NetBot, [NetBotDriver]
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace Unity.Hare.Online
+namespace Unity.Rea.Hare.Online
 {
     /// <summary>
     /// Hare's bot (U.HARE-T35): launched with <c>-bot A</c> (mp-host game smoke, NetBotTest) the kit joins the game by

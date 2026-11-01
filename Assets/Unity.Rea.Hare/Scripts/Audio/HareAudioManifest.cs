@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Unity.Hare.Audio
+namespace Unity.Rea.Hare.Audio
 {
     /// <summary>One GML sound (sound/*.sound.gmx) as imported.</summary>
     [Serializable]
@@ -26,7 +26,7 @@ namespace Unity.Hare.Audio
     /// (Resources/Hare/HareAudioManifest) along with the mixer (Audio/HareMixer.mixer). Load it with <see cref="Load"/>;
     /// play through <see cref="HareAudio"/>.
     /// </summary>
-    [CreateAssetMenu(menuName = "Unity.Hare/Audio Manifest", fileName = "HareAudioManifest")]
+    [CreateAssetMenu(menuName = "Unity.Rea.Hare/Audio Manifest", fileName = "HareAudioManifest")]
     public sealed class HareAudioManifest : ScriptableObject
     {
         public const string ResourcePath = "Hare/HareAudioManifest";

@@ -1,8 +1,8 @@
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Helper
+namespace Unity.Rea.Hare.Helper
 {
     /// <summary>
     /// Draws one obj_helper (spr_helper at depth 0, turned to its image_angle) where its Core body is (U.HARE-T66), and

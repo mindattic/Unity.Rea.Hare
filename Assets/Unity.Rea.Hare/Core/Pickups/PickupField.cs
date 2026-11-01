@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>
     /// The pickups and the scraps of a room, engine-free (gmlHARE: par_pickup's obj_carrot and obj_coin, random_pickup,

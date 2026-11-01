@@ -8,13 +8,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using Unity.Hare.Arena;
-using Unity.Hare.Flow;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
-using Unity.Hare.Structures;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Structures;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T52, played: room_gamescreen comes up as level 1 sets it (bg_worldcurve stretched over the 3840x2160 room),
@@ -265,7 +265,7 @@ namespace Unity.Hare.Tests.PlayMode
 
             // setup_level now also places level_04's rocks and vortices (U.HARE-T57): take them away so nothing but the
             // structure is in the ship's path or hits it on the way down.
-            Unity.Hare.Enemies.EnemyDirector.ClearAll();
+            Unity.Rea.Hare.Enemies.EnemyDirector.ClearAll();
             arena.Rocks.ClearAll();
             yield return null;
 

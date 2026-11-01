@@ -1,11 +1,11 @@
 using UnityEngine;
-using Unity.Hare.Art;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Rendering;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// obj_player as it is seen (U.HARE-T55), built in code from the imported art: its Draw event and the trails its

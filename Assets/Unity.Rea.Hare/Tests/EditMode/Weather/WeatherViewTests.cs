@@ -1,12 +1,12 @@
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Arena;
-using Unity.Hare.Effects;
-using Unity.Hare.Weapons;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Weapons;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T18: the weather drawn from Core's <see cref="WeatherField"/> with the original's sprites, depths, alphas and

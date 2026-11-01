@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// A seat at the game. GML's global "player" becomes this: every command carries the id of the player it

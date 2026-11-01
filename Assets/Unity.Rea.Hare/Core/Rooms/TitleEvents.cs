@@ -1,6 +1,6 @@
-using Unity.Hare.Flow;
+using Unity.Rea.Hare.Flow;
 
-namespace Unity.Hare.Rooms
+namespace Unity.Rea.Hare.Rooms
 {
     /// <summary>Something that happened on the title, returned by every <see cref="TitleCommand"/>.</summary>
     public abstract class TitleEvent

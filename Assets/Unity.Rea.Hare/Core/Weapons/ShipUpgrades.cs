@@ -1,4 +1,4 @@
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// What the garage's bought pips do to one ship's weapons (U.HARE-T24, docs/BIBLE.md V49): scales on the vulcan's

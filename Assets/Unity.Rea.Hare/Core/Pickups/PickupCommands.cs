@@ -1,4 +1,4 @@
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>The only way the pickup field changes. Runs in <see cref="PickupField.Execute"/>.</summary>
     public abstract class PickupCommand

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Rocks;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Structures
+namespace Unity.Rea.Hare.Structures
 {
     /// <summary>
     /// The level's structures, porting setup_level's structure pass (U.HARE-T56):

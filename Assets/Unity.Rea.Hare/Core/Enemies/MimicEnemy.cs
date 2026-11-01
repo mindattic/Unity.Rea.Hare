@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_mimic (gmlHARE, par_enemy): a creature disguised as a rock. It drifts along GML's default

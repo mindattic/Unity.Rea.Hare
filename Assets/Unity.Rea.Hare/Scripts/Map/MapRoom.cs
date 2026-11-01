@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Popups;
-using Unity.Hare.Rendering;
-using Unity.Hare.Rooms;
-using Unity.Hare.Session;
-using Unity.Hare.Story;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Popups;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Rooms;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Story;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Map
+namespace Unity.Rea.Hare.Map
 {
     /// <summary>
     /// room_map played (U.HARE-T19): obj_map and the room's other instances, the map room's view of Core's
@@ -353,7 +353,7 @@ namespace Unity.Hare.Map
             Background.sortingLayerName = HareSortingLayers.Backdrop;
             var background = manifest != null ? manifest.FindBackground(map.Background) : null;
             backgroundSize = background != null ? new Vector2Int(background.width, background.height) : new Vector2Int(room.Width, room.Height);
-            if (background == null) Debug.LogWarning("[Unity.Hare] background " + map.Background + " is not imported.");
+            if (background == null) Debug.LogWarning("[Unity.Rea.Hare] background " + map.Background + " is not imported.");
             else Background.sprite = background.sprite;
             int columns = Mathf.CeilToInt(room.Width / (float)backgroundSize.x) + 2;
             int rows = Mathf.CeilToInt(room.Height / (float)backgroundSize.y) + 1;
@@ -388,7 +388,7 @@ namespace Unity.Hare.Map
             renderer.sortingLayerName = HareSortingLayers.Default;
             renderer.sortingOrder = HareArt.SortingOrderForDepth(depth);
             renderer.sprite = HareArt.Frame(sprite);
-            if (renderer.sprite == null) Debug.LogWarning("[Unity.Hare] " + sprite + " is not imported.");
+            if (renderer.sprite == null) Debug.LogWarning("[Unity.Rea.Hare] " + sprite + " is not imported.");
             return renderer;
         }
 
@@ -477,7 +477,7 @@ namespace Unity.Hare.Map
             image.style.height = height;
             var frame = manifest != null ? manifest.Frame(sprite) : null;
             if (frame != null) image.style.backgroundImage = new StyleBackground(frame);
-            else Debug.LogWarning("[Unity.Hare] " + sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + sprite + " is not imported.");
             return image;
         }
 

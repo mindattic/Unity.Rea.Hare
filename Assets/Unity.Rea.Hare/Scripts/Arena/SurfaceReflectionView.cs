@@ -1,9 +1,9 @@
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Rendering;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rendering;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// obj_surface_reflection's Draw (U.HARE-T58): <c>draw_sprite_ext(player.sprite_index, 0, player.x, y, xscale, yscale,

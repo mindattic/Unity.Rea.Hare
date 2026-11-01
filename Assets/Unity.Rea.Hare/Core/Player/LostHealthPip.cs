@@ -1,7 +1,7 @@
 using System;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// obj_losthealth, engine-free: the pip player_hurt leaves where the HP it just lost was drawn,

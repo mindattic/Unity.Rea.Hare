@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Story
+namespace Unity.Rea.Hare.Story
 {
     /// <summary>
     /// obj_conversation drawn and played (U.HARE-T28): Core's <see cref="ConversationBox"/> on a 1920x1080 GUI layer, as
@@ -158,7 +158,7 @@ namespace Unity.Hare.Story
             image.style.height = height;
             var frame = manifest != null ? manifest.Frame(sprite) : null;
             if (frame != null) image.style.backgroundImage = new StyleBackground(frame);
-            else Debug.LogWarning("[Unity.Hare] " + sprite + " is not imported.");
+            else Debug.LogWarning("[Unity.Rea.Hare] " + sprite + " is not imported.");
             return image;
         }
 

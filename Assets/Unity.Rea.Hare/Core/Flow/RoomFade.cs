@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>obj_fade_*'s <c>mode</c>: "off", "fadein" (to opaque) or "fadeout" (to clear).</summary>
     public enum FadeMode

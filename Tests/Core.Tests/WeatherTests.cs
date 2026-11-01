@@ -3,10 +3,10 @@ using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 using CollectionAssert = NUnit.Framework.Legacy.CollectionAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Weather;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Weather;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// gmlHARE's weather emitters run outside Unity (U.HARE-T18): obj_cloud_emitter/obj_cloud, obj_rain_emitter/obj_raindrop,

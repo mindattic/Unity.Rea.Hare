@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Structures
+namespace Unity.Rea.Hare.Structures
 {
     /// <summary>
     /// Ports par_structure (gmlHARE, depth 0, U.HARE-T56): a still landmark the ship perches on, drawn as spr_structure1's

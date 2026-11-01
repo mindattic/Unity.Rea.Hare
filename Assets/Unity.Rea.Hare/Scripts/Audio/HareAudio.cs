@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using Unity.Shared.Core;
 
-namespace Unity.Hare.Audio
+namespace Unity.Rea.Hare.Audio
 {
     /// <summary>
     /// The game's sound, by GML sound name, through the AudioMixer the audio pipeline builds (U.HARE-T47):
@@ -74,7 +74,7 @@ namespace Unity.Hare.Audio
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] No profile volumes, the mixer stays at full: " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] No profile volumes, the mixer stays at full: " + e.Message);
                 return false;
             }
             return ApplyVolumes(common);
@@ -92,7 +92,7 @@ namespace Unity.Hare.Audio
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] No profile master volume, using " + HareSettings.DefaultMasterVolume + ": " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] No profile master volume, using " + HareSettings.DefaultMasterVolume + ": " + e.Message);
                 return HareSettings.DefaultMasterVolume;
             }
         }
@@ -114,7 +114,7 @@ namespace Unity.Hare.Audio
             }
             catch (System.Exception e)
             {
-                Debug.LogWarning("[Unity.Hare] The master volume was not saved: " + e.Message);
+                Debug.LogWarning("[Unity.Rea.Hare] The master volume was not saved: " + e.Message);
                 return false;
             }
         }

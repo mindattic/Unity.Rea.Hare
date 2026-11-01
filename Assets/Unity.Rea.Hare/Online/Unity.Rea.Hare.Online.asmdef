@@ -1,6 +1,6 @@
 {
     "name": "Unity.Rea.Hare.Online",
-    "rootNamespace": "Unity.Hare.Online",
+    "rootNamespace": "Unity.Rea.Hare.Online",
     "references": [
         "Unity.Rea.Hare.Core",
         "Unity.Rea.Hare.Runtime",

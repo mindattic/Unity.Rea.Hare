@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// Which level script setup_level runs (U.HARE-T57, U.HARE-T64): <c>if(gamemode == gm_quickstart)</c> level_01..level_10

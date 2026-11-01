@@ -129,5 +129,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b57156d47ce3be842bafcb876ca2c3ba, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Rea.Hare.Online::Unity.Hare.Online.HareNetPlayer
+  m_EditorClassIdentifier: Unity.Rea.Hare.Online::Unity.Rea.Hare.Online.HareNetPlayer
   ShowTopMostFoldoutHeaderGroup: 1

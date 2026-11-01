@@ -1,4 +1,4 @@
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The rules of obj_meatball (gmlHARE, par_enemy): a big (181x172) blob that closes on the ship at 1 px/step until

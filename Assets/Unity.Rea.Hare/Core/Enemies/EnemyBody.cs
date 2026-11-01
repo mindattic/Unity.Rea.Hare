@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>Which piece of an enemy a body is.</summary>
     public enum BodyPart

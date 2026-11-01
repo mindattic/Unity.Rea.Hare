@@ -1,12 +1,12 @@
 using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using Unity.Hare.Arena;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// U.HARE-T25: obj_healthbar, obj_weapon_gui, obj_energybar and obj_speedometer, laid out on the 1920x1080 GUI layer

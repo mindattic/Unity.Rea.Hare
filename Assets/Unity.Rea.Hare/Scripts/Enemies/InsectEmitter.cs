@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// Ports obj_butterfly_emitter, obj_firefly_emitter and obj_fly_emitter (gmlHARE): on Create each one creates its

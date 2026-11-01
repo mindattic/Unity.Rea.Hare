@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using Unity.Hare.Enemies;
-using static Unity.Hare.Tests.Core.EnemyRig;
+using Unity.Rea.Hare.Enemies;
+using static Unity.Rea.Hare.Tests.Core.EnemyRig;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>The meatball, phalanx, wraith, mimic and worm rules, run outside Unity.</summary>
     public class EnemySetPieceTests

@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>The view on <see cref="MimicEnemy"/> (obj_mimic): a creature disguised as a rock, its <see cref="MimicIllusion"/> drawn over it.</summary>
     public class Mimic : SetPieceEnemy

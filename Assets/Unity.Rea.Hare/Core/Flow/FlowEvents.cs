@@ -1,4 +1,4 @@
-namespace Unity.Hare.Flow
+namespace Unity.Rea.Hare.Flow
 {
     /// <summary>
     /// Something that happened to the room flow, returned by every <see cref="FlowCommand"/>. Presentation plays these

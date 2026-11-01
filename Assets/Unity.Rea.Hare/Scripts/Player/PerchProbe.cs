@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// The physics half of obj_player's par_rock / par_structure collisions (U.HARE-T53): which surface the flying ship's

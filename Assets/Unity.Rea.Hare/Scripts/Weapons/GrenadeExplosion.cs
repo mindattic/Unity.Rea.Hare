@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_grenade_explosion (gmlHARE, depth -4): spr_grenade_explode (200x182 px, origin

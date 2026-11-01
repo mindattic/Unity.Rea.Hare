@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Audio;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>
     /// Ports obj_mine (gmlHARE, a par_projectile). Dropped facing a random whole degree, it drifts

@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Popups
+namespace Unity.Rea.Hare.Popups
 {
     /// <summary>
     /// obj_alert (U.HARE-T27), engine-free, in room pixels (y down): a mission marker obj_map's Create pins to

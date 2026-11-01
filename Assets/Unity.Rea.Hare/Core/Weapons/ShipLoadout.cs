@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Weapons
+namespace Unity.Rea.Hare.Weapons
 {
     /// <summary>One gun on the ship: which weapon, and which trigger it answers (left mouse or Ctrl + left mouse).</summary>
     [Serializable]

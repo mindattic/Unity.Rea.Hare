@@ -1,11 +1,11 @@
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Player;
-using Unity.Hare.Rocks;
-using Unity.Hare.Weapons;
-using static Unity.Hare.Tests.EditMode.EnemyTestKit;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Rocks;
+using Unity.Rea.Hare.Weapons;
+using static Unity.Rea.Hare.Tests.EditMode.EnemyTestKit;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>
     /// U.HARE-T53: the ship on the rock field, through its view. A flying ship whose mask touches a rock perches on it

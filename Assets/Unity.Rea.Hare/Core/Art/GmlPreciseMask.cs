@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unity.Hare.Art
+namespace Unity.Rea.Hare.Art
 {
     /// <summary>
     /// A sprite's precise (per pixel, colkind 0) collision mask as data (U.HARE-T19): its bounding box in the frame's

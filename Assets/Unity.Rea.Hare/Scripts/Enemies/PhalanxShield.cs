@@ -1,7 +1,7 @@
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>
     /// The view on <see cref="PhalanxShieldBody"/> (obj_phalanx_shield, spr_shield_hitbox: the half disc in front of its

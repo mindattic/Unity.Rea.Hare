@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
 
-namespace Unity.Hare.Player
+namespace Unity.Rea.Hare.Player
 {
     /// <summary>
     /// The view on obj_player's health and lives (gmlHARE: player_hurt, reset_player, the hit collisions and

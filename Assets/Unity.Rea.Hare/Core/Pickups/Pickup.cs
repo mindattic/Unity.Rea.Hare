@@ -1,4 +1,4 @@
-namespace Unity.Hare.Pickups
+namespace Unity.Rea.Hare.Pickups
 {
     /// <summary>The two par_pickup objects.</summary>
     public enum PickupKind

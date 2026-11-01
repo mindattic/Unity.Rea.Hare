@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>What obj_dagger is in when it moves (GML mode).</summary>
     public enum DaggerMode

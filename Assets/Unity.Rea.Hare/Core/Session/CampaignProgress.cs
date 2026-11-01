@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Unity.Hare.Content;
-using Unity.Hare.Popups;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Popups;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// The campaign save (U.HARE-T65, a deliberate addition, docs/BIBLE.md V50): the map missions the player has won

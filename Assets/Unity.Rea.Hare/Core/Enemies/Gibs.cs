@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>obj_*_gib's random Create, dealt from the world's random source so a seed reproduces the scatter.</summary>
     public static class Gibs

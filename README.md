@@ -70,7 +70,7 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   folder (U.HARE-T65)
 - the presentation seam: sorting layers (`Backdrop`/`Default`/`Overlay`), a 2D camera rig letterboxed to the
   original's 1920x1080 reference resolution, and the screen-fade/flash layer later tickets will drive
-  (`Rendering/`); URP itself stays behind `Unity.Hare.Editor.Rendering`'s seam
+  (`Rendering/`); URP itself stays behind `Unity.Rea.Hare.Editor.Rendering`'s seam
 - the UI foundation every HUD, menu, results, upgrade and story screen will build on: a PanelSettings and root
   VisualElement at the 1920x1080 reference resolution built entirely in code (`HarePanel`, `HareUiFit`), a shared
   theme (`Resources/Hare/UI/Theme.uss`), the original's eight `draw_set_font` faces (`HareFonts`) and the named
@@ -78,13 +78,13 @@ placed in a playable room yet; the generated scene holds a camera and a light):
   original's `draw_text_outline` scripts exactly, plus `Button`, `Bar`, `Window` and `Dialog` (`UI/`)
 
 - the art pipeline (U.HARE-T46): all 213 of the original's sprites (398 frames) and 18 backgrounds, imported from
-  `HARE.gmx` by `tools/import-gml-art.ps1` into `Assets/Unity.Hare/Art` with their GML origins, collision masks,
+  `HARE.gmx` by `tools/import-gml-art.ps1` into `Assets/Unity.Rea.Hare/Art` with their GML origins, collision masks,
   bounding boxes and tiling, a looping animation clip per animated sprite timed from its `image_speed`, a sprite
   atlas per group, and `HareArtManifest` mapping every GML name to its Unity assets (`Art/`; the views don't draw
   from it yet)
 
 - the audio pipeline (U.HARE-T47): all 75 of the original's sounds (69 `sfx_*`, 6 `music_*`), imported from
-  `HARE.gmx` by `tools/import-gml-audio.ps1` into `Assets/Unity.Hare/Audio` with the load type each sound.gmx asks
+  `HARE.gmx` by `tools/import-gml-audio.ps1` into `Assets/Unity.Rea.Hare/Audio` with the load type each sound.gmx asks
   for (the music streamed Vorbis, the sfx PCM), an AudioMixer (`Audio/HareMixer.mixer`: Master, with Music and Sfx
   under it) whose volumes follow the profile's music and sfx volume and mutes, `HareAudioManifest` mapping every
   GML sound name to its clip and channel, `HareAudio` to play them by name, and the original's sound credits
@@ -101,24 +101,24 @@ placed in a playable room yet; the generated scene holds a camera and a light):
 Still to come, in build order: the rooms,
 landing, levels, HUD, menus, story, map, garage, boss and music. The full list, one ticket per step, is
 [docs/RECONSTRUCTION.md, build order](docs/RECONSTRUCTION.md#build-order); open tickets are in the MindAttic ticket
-database (`tickets ticket list --repo Unity.Hare`).
+database (`tickets ticket list --repo Unity.Rea.Hare`).
 
 ## Build, run and test
 
 Prerequisites: Unity 6000.4.3f1 and the .NET SDK (for the Core tests). Close the Editor before any batchmode run;
 `tools/unity.ps1` refuses to run while it is open.
 
-In the Editor, open the project and use the **Unity.Hare** menu:
+In the Editor, open the project and use the **Unity.Rea.Hare** menu:
 
-- **Set Up URP 2D** writes the 2D renderer and pipeline assets under `Assets/Unity.Hare/Settings/`.
+- **Set Up URP 2D** writes the 2D renderer and pipeline assets under `Assets/Unity.Rea.Hare/Settings/`.
 - **Set Up Project Settings** sets the Input System as the active input handler, the 1920x1080 reference
   resolution, and the `Backdrop`/`Default`/`Overlay` sorting layers.
-- **Rebuild Main Scene (Bootstrap)** regenerates `Assets/Unity.Hare/Scenes/Main.unity`, the bootstrap: only the
+- **Rebuild Main Scene (Bootstrap)** regenerates `Assets/Unity.Rea.Hare/Scenes/Main.unity`, the bootstrap: only the
   room flow's director, which sends the game to the first room. **Rebuild Room Scenes** regenerates every room's
-  scene under `Assets/Unity.Hare/Scenes/Rooms/` (named after the GML rooms: `startup`, `room_title`, ...,
+  scene under `Assets/Unity.Rea.Hare/Scenes/Rooms/` (named after the GML rooms: `startup`, `room_title`, ...,
   `room_gamescreen` with the player ship) and the bootstrap, and the build settings (bootstrap first, then the
   rooms). Press Play on `Main.unity` to run the room flow, or on a room scene to start in that room.
-- **Rebuild Online Scene** regenerates `Assets/Unity.Hare/Scenes/Online.unity`: the online game on the shared
+- **Rebuild Online Scene** regenerates `Assets/Unity.Rea.Hare/Scenes/Online.unity`: the online game on the shared
   Unity.Multiplayer kit (U.HARE-T35). Open it and press Play: the kit's menu offers **Host**, **Join by IP**,
   **Join by code** and **Play solo** (the local game). For a second player, host in the Editor and join `127.0.0.1`
   from a build (or Multiplayer Play Mode). The local game, `Main.unity`, stays first in Build Settings and has none
@@ -134,10 +134,10 @@ From the command line (PowerShell, from the repo root):
 
 ```powershell
 # pipeline, project settings and the main scene (each only if missing); prints compile errors
-powershell -File tools/unity.ps1 -Method Unity.Hare.EditorTools.ProjectSetup.SetUpAll -Log setup
+powershell -File tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.ProjectSetup.SetUpAll -Log setup
 
 # the online scene, its player prefab and prefab list, and mp-host.json (each only if missing)
-powershell -File tools/unity.ps1 -Method Unity.Hare.EditorTools.Online.OnlineSceneBuilder.BuildAll -Log online
+powershell -File tools/unity.ps1 -Method Unity.Rea.Hare.EditorTools.Online.OnlineSceneBuilder.BuildAll -Log online
 
 # the original's sprites and backgrounds, from HARE.gmx (default: the R:\ source path; -Source to point elsewhere),
 # then the clips, atlases and HareArtManifest in Unity; rerunning it changes nothing (-NoUnity skips the Unity step)
@@ -161,7 +161,7 @@ powershell -File tools/unity.ps1 -Log editmode -Extra "-runTests -testPlatform E
 powershell -File tools/unity.ps1 -Graphics -Log playmode -Extra "-runTests -testPlatform PlayMode -testResults TestResults-PlayMode.xml"
 
 # only the online tests (a real host or dedicated server and real clients on a free loopback port)
-powershell -File tools/unity.ps1 -Log online-tests -Extra "-runTests -testPlatform PlayMode -assemblyNames Unity.Hare.Tests.Online -testResults TestResults-Online.xml"
+powershell -File tools/unity.ps1 -Log online-tests -Extra "-runTests -testPlatform PlayMode -assemblyNames Unity.Rea.Hare.Tests.Online -testResults TestResults-Online.xml"
 
 # the H.O.P. High Orbit Patrol Windows player (name, icon, window defaults: U.HARE-T71) to Build/Hare/Hare.exe
 powershell -File tools/run.ps1
@@ -193,7 +193,7 @@ and don't need it.
 ## Controls
 
 What the components read today, through the generated `HareControls` wrapper over
-`Assets/Unity.Hare/Scripts/Input/HareControls.inputactions` (U.HARE-T42: an Input Actions asset with
+`Assets/Unity.Rea.Hare/Scripts/Input/HareControls.inputactions` (U.HARE-T42: an Input Actions asset with
 a keyboard&mouse scheme and a gamepad scheme, replacing the raw `Keyboard.current`/`Mouse.current`
 polling the five views used before):
 
@@ -246,9 +246,9 @@ It picks up carrots and coins for its ship and flies home once it leaves the vie
 ## Project layout
 
 ```
-Assets/Unity.Hare/
-  Core/                Unity.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
-  Scripts/             Unity.Hare.Runtime asmdef: the components
+Assets/Unity.Rea.Hare/
+  Core/                Unity.Rea.Hare.Core asmdef (noEngineReferences): player, weapon and enemy rules (commands, events, tuning), EnemyKind, EnemyList
+  Scripts/             Unity.Rea.Hare.Runtime asmdef: the components
     Player/  Weapons/  Enemies/  Rocks/  Effects/  Settings/ (ActiveProfile, HareSettings, SessionSettings)
     Art/               HareArtManifest: every GML sprite and background name to its imported assets
     Audio/             HareAudioManifest (every GML sound name to its clip and mixer channel), HareAudio (play by name, mixer volumes)
@@ -265,13 +265,13 @@ Assets/Unity.Hare/
   Fonts/               generated by tools/import-gml-fonts.ps1; do not edit by hand:
     gml-fonts.json     every GML font, its font.gmx fields and glyph table, who draws with it, the typeface licences
     Atlases/           GameMaker's baked glyph atlases (GmlFontBuilder's source)
-  Online/              Unity.Hare.Online asmdef (U.HARE-T35, on Unity.Multiplayer): HareNetPlayer (the NetEntity player), HareAuthority (the server's one world), HareOnlineGame (the front end's items), HareBot
-  Editor/              Unity.Hare.Editor asmdef: ProjectSetup, HareArtImporter, HareBuild (the dev build tools/run.ps1 runs); Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
-    Rendering/         Unity.Hare.Editor.Rendering asmdef: UrpSeam, SortingLayerSetup (the only code that references UnityEngine.Rendering.Universal)
-    Online/            Unity.Hare.Editor.Online asmdef: OnlineSceneBuilder (Online.unity, the player prefab, the prefab list, mp-host.json)
-  Tests/EditMode/      Unity.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
-  Tests/PlayMode/      Unity.Hare.Tests.PlayMode: scripted play (UH-T70)
-  Tests/Online/        Unity.Hare.Tests.Online (PlayMode on the kit's NetSessionTest/NetBotTest) and .Online.EditMode (the scene's wiring)
+  Online/              Unity.Rea.Hare.Online asmdef (U.HARE-T35, on Unity.Multiplayer): HareNetPlayer (the NetEntity player), HareAuthority (the server's one world), HareOnlineGame (the front end's items), HareBot
+  Editor/              Unity.Rea.Hare.Editor asmdef: ProjectSetup, HareArtImporter, HareBuild (the dev build tools/run.ps1 runs); Art/ (GmlArtData, GmlArtImporter, GmlArtBuilder); Audio/ (GmlAudioData, GmlAudioImporter, GmlAudioBuilder)
+    Rendering/         Unity.Rea.Hare.Editor.Rendering asmdef: UrpSeam, SortingLayerSetup (the only code that references UnityEngine.Rendering.Universal)
+    Online/            Unity.Rea.Hare.Editor.Online asmdef: OnlineSceneBuilder (Online.unity, the player prefab, the prefab list, mp-host.json)
+  Tests/EditMode/      Unity.Rea.Hare.Tests.EditMode: NUnit component tests (Unity Test Framework)
+  Tests/PlayMode/      Unity.Rea.Hare.Tests.PlayMode: scripted play (UH-T70)
+  Tests/Online/        Unity.Rea.Hare.Tests.Online (PlayMode on the kit's NetSessionTest/NetBotTest) and .Online.EditMode (the scene's wiring)
   Resources/Hare/      the original's sprites (with sprites.txt origins), particle shapes; HareArtManifest, HareAudioManifest; UI/Theme.uss (U.HARE-T45)
   Scenes/Main.unity    generated by ProjectSetup; do not edit by hand
   Scenes/Online.unity  generated by OnlineSceneBuilder; do not edit by hand
@@ -280,9 +280,9 @@ Tests/Core.Tests/      dotnet test project that compiles Core/ directly (NUnit, 
 tools/
   unity.ps1            Unity batchmode runner that surfaces compile and build errors
   run-core-tests.ps1   dotnet test for Core
-  import-gml-art.ps1   imports the original's sprites and backgrounds into Assets/Unity.Hare/Art
-  import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Hare/Audio
-  import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Hare/Fonts
+  import-gml-art.ps1   imports the original's sprites and backgrounds into Assets/Unity.Rea.Hare/Art
+  import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Rea.Hare/Audio
+  import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Rea.Hare/Fonts
   gml-json.ps1         the stable JSON writer the import scripts share
   run.ps1              the Windows player build (HareBuild.BuildWindows) to Build/Hare/Hare.exe, with the release settings of ProjectSetup.ApplyReleaseSettings (U.HARE-T80, U.HARE-T71)
   play.ps1             builds if needed, then launches Build/Hare/Hare.exe muted by default (-Sound to opt in; U.HARE-T80)

@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Hare.Art;
-using Unity.Hare.UI;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.UI;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// The gameplay HUD drawn (U.HARE-T25): Core's <see cref="GameHud"/> frame on the 1920x1080 GUI layer, one element per
@@ -109,7 +109,7 @@ namespace Unity.Hare.Arena
                 else
                 {
                     e.style.backgroundImage = StyleKeyword.None;
-                    if (warned.Add(s.Sprite)) Debug.LogWarning("[Unity.Hare] " + s.Sprite + " is not imported.");
+                    if (warned.Add(s.Sprite)) Debug.LogWarning("[Unity.Rea.Hare] " + s.Sprite + " is not imported.");
                 }
             }
             else sprite = e.style.backgroundImage.value.sprite;

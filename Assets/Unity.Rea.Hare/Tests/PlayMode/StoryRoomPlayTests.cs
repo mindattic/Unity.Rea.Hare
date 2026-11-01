@@ -9,14 +9,14 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
-using Unity.Hare.Content;
-using Unity.Hare.Flow;
-using Unity.Hare.Input;
-using Unity.Hare.Rendering;
-using Unity.Hare.Session;
-using Unity.Hare.Story;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Input;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Story;
 
-namespace Unity.Hare.Tests.PlayMode
+namespace Unity.Rea.Hare.Tests.PlayMode
 {
     /// <summary>
     /// U.HARE-T28, played: room_story comes up with obj_story over bg_nightsky, the typewriter types the introduction

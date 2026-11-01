@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.Hare.Content;
+using Unity.Rea.Hare.Content;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>globals.gml's game modes: gm_quickstart, gm_campaign, gm_generator (their GML values).</summary>
     public enum GameMode

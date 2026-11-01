@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using Unity.Hare.Enemies;
-using Unity.Hare.Player;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Tests.EditMode
+namespace Unity.Rea.Hare.Tests.EditMode
 {
     /// <summary>UH-T13: obj_dagger's rotate / fly / stop flight and its collisions.</summary>
     public class DaggerTests

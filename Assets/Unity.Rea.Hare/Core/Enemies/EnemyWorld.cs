@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Hare.Player;
+using Unity.Rea.Hare.Player;
 
-namespace Unity.Hare.Enemies
+namespace Unity.Rea.Hare.Enemies
 {
     /// <summary>Values that pin the random ones in an enemy's GML Create (tests and level scripts); null leaves it random.</summary>
     public sealed class EnemyOptions

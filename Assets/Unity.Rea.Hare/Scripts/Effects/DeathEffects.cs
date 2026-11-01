@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// The death burst every gmlHARE enemy shares, sized per enemy: in each kill branch of its

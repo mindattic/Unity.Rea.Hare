@@ -2,13 +2,13 @@ using System.Collections;
 using MindAttic.Capture.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Hare.Arena;
-using Unity.Hare.Enemies;
-using Unity.Hare.Flow;
-using Unity.Hare.Session;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Arena;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Session;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Demo
+namespace Unity.Rea.Hare.Demo
 {
     /// <summary>
     /// U.HARE-T70: plays the whole game once through the same commands the rooms use (the flow's GoToRoom, the
@@ -36,7 +36,7 @@ namespace Unity.Hare.Demo
                 capturing = CaptureUnity.Engine.Enabled;
                 if (!capturing)
                 {
-                    Debug.LogError("[Unity.Hare] MindAttic.Capture did not start; the run will not be captured.");
+                    Debug.LogError("[Unity.Rea.Hare] MindAttic.Capture did not start; the run will not be captured.");
                     failed = true;
                 }
             }
@@ -107,7 +107,7 @@ namespace Unity.Hare.Demo
                 yield return Shot(capturing, "09-" + RoomList.GmlName(room));
             }
 
-            Debug.Log("[Unity.Hare] ScriptedRun finished" + (failed ? " with failures." : "."));
+            Debug.Log("[Unity.Rea.Hare] ScriptedRun finished" + (failed ? " with failures." : "."));
             Application.Quit(failed ? 1 : 0);
         }
 
@@ -130,14 +130,14 @@ namespace Unity.Hare.Demo
             if (!capturing) yield break;
             var shot = CaptureUnity.Engine.ScreenshotAsync(tag);
             while (!shot.IsCompleted) yield return null;
-            if (shot.Result.Succeeded) Debug.Log("[Unity.Hare] Captured " + shot.Result.PrimaryFile);
+            if (shot.Result.Succeeded) Debug.Log("[Unity.Rea.Hare] Captured " + shot.Result.PrimaryFile);
             else Fail("the " + tag + " shot failed");
         }
 
         void Fail(string why)
         {
             failed = true;
-            Debug.LogError("[Unity.Hare] ScriptedRun: " + why);
+            Debug.LogError("[Unity.Rea.Hare] ScriptedRun: " + why);
         }
     }
 }

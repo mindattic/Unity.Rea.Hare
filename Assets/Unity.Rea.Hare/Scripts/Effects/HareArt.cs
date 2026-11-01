@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Art;
-using Unity.Hare.Audio;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Art;
+using Unity.Rea.Hare.Audio;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>
     /// Loads the original's art and sound from Resources/Hare, in code, so no object needs a

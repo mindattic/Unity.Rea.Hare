@@ -1,4 +1,4 @@
-namespace Unity.Hare
+namespace Unity.Rea.Hare
 {
     /// <summary>
     /// The one place the original's units are converted (docs/BIBLE.md 5.4): room_gamescreen runs at 120 steps a

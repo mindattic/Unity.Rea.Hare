@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Weapons;
 using Random = UnityEngine.Random;
 
-namespace Unity.Hare.Effects
+namespace Unity.Rea.Hare.Effects
 {
     /// <summary>Which of obj_death_particle's three sprites a particle shows.</summary>
     public enum DeathParticleSize

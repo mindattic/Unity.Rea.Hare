@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Effects;
-using Unity.Hare.Enemies;
-using Unity.Hare.Rendering;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Enemies;
+using Unity.Rea.Hare.Rendering;
+using Unity.Rea.Hare.Weapons;
 using Object = UnityEngine.Object;
 
-namespace Unity.Hare.Arena
+namespace Unity.Rea.Hare.Arena
 {
     /// <summary>
     /// One obj_flashbomb as drawn (U.HARE-T67), at depth -1000 over everything in the room: its Draw's <c>draw_self()</c>,

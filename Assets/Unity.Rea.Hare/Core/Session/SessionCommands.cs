@@ -1,6 +1,6 @@
 using System;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// The only way the session changes. A command carries the id of the seat it acts for (no global current

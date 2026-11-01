@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
-using Unity.Hare.Content;
-using Unity.Hare.Player;
-using Unity.Hare.Session;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Player;
+using Unity.Rea.Hare.Session;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>
     /// The death and respawn flow (U.HARE-T54): player_hurt's death and the out-of-bounds rule spending the session's

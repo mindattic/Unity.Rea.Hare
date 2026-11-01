@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.Hare.Rendering
+namespace Unity.Rea.Hare.Rendering
 {
     /// <summary>
     /// The 2D camera rig (U.HARE-T44): a full-screen "bars" camera that clears the whole window solid black so
@@ -9,7 +9,7 @@ namespace Unity.Hare.Rendering
     /// screen-fade/flash overlay (<see cref="ScreenOverlayLayer"/>) riding along with it. Built in code like
     /// every other object <c>ProjectSetup</c> composes; nothing here references URP, so a pipeline change never
     /// touches this file. URP's own per-camera data is added separately by the Editor-only seam in
-    /// <c>Unity.Hare.EditorTools.Rendering</c>, the only code that references UnityEngine.Rendering.Universal.
+    /// <c>Unity.Rea.Hare.EditorTools.Rendering</c>, the only code that references UnityEngine.Rendering.Universal.
     /// </summary>
     public static class CameraRig
     {

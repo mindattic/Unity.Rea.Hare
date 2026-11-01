@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Hare.Enemies;
+using Unity.Rea.Hare.Enemies;
 
-namespace Unity.Hare.Tests.Core
+namespace Unity.Rea.Hare.Tests.Core
 {
     /// <summary>One enemy world on a seeded random, with the commands the views send as one-liners and every event kept.</summary>
     internal sealed class EnemyRig

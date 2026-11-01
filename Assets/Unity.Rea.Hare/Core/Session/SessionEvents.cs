@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Unity.Hare.Session
+namespace Unity.Rea.Hare.Session
 {
     /// <summary>
     /// Something that happened to the session, returned by every <see cref="SessionCommand"/>. The HUD, results

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Hare.Content;
-using Unity.Hare.Effects;
-using Unity.Hare.Weapons;
+using Unity.Rea.Hare.Content;
+using Unity.Rea.Hare.Effects;
+using Unity.Rea.Hare.Weapons;
 
-namespace Unity.Hare.Weather
+namespace Unity.Rea.Hare.Weather
 {
     /// <summary>
     /// A play room's weather, played (U.HARE-T18): the room's view of Core's <see cref="WeatherField"/>. The arena
