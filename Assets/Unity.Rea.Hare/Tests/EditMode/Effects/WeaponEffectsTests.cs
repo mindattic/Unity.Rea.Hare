@@ -54,7 +54,7 @@ namespace Unity.Hare.Tests.EditMode
 
         static void DestroyAll<T>() where T : Component
         {
-            foreach (var c in Object.FindObjectsByType<T>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<T>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 

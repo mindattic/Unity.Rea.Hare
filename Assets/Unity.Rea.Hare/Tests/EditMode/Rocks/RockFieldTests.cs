@@ -273,7 +273,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsTrue(effects.All(e => e.Size == DeathEffects.Large), "size 2");
             Assert.AreEqual(1, effects.Count(e => e.Kind == GmlEffectKind.SmokeUp));
             Assert.AreEqual(1, effects.Count(e => e.Kind == GmlEffectKind.Firework));
-            var shards = Object.FindObjectsByType<Flotsum>(FindObjectsSortMode.None);
+            var shards = Object.FindObjectsByType<Flotsum>();
             Assert.That(shards.Length, Is.InRange(RockField.FlotsumMin, RockField.FlotsumMax));
             foreach (var s in shards)
             {

@@ -29,7 +29,7 @@ namespace Unity.Hare.Tests.EditMode
             Steps(meatball, 1);
             Assert.That(sprayed, Is.InRange(4, 6));
             Assert.AreEqual(sprayed, EnemyRoundCount());
-            foreach (var b in Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None))
+            foreach (var b in Object.FindObjectsByType<Bullet>())
             {
                 Assert.IsTrue(b.GetComponent<PlayerDamageSource>().DestroyOnHit, "enemy rounds hurt the ship and go");
                 Assert.AreEqual(Gml.Px(2f) * Gml.StepsPerSecond, b.Speed, 1e-4f, "2 px/step");

@@ -20,10 +20,10 @@ namespace Unity.Hare.Tests.EditMode
         public void TearDown()
         {
             Gml.Paused = false;
-            foreach (var c in Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None)) Object.DestroyImmediate(c.gameObject);
-            foreach (var c in Object.FindObjectsByType<Rocket>(FindObjectsSortMode.None)) Object.DestroyImmediate(c.gameObject);
-            foreach (var c in Object.FindObjectsByType<Mine>(FindObjectsSortMode.None)) Object.DestroyImmediate(c.gameObject);
-            foreach (var c in Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None)) Object.DestroyImmediate(c.gameObject);
+            foreach (var c in Object.FindObjectsByType<Bullet>()) Object.DestroyImmediate(c.gameObject);
+            foreach (var c in Object.FindObjectsByType<Rocket>()) Object.DestroyImmediate(c.gameObject);
+            foreach (var c in Object.FindObjectsByType<Mine>()) Object.DestroyImmediate(c.gameObject);
+            foreach (var c in Object.FindObjectsByType<RocketExplosion>()) Object.DestroyImmediate(c.gameObject);
         }
 
         static void Run(System.Action<float> tick, int steps)

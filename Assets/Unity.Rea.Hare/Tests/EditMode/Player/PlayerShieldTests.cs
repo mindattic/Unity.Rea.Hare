@@ -24,9 +24,9 @@ namespace Unity.Hare.Tests.EditMode
         [TearDown]
         public void TearDown()
         {
-            foreach (var p in Object.FindObjectsByType<PlayerShipController>(FindObjectsSortMode.None))
+            foreach (var p in Object.FindObjectsByType<PlayerShipController>())
                 Object.DestroyImmediate(p.gameObject);
-            foreach (var w in Object.FindObjectsByType<ShieldWall>(FindObjectsSortMode.None))
+            foreach (var w in Object.FindObjectsByType<ShieldWall>())
                 Object.DestroyImmediate(w.gameObject);
         }
 
@@ -48,7 +48,7 @@ namespace Unity.Hare.Tests.EditMode
             var player = NewPerchedController();
             Assert.IsTrue(player.TryShield());
             Assert.IsFalse(player.TryShield());
-            Assert.AreEqual(1, Object.FindObjectsByType<ShieldWall>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(1, Object.FindObjectsByType<ShieldWall>().Length);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsFalse(player.IsShielding);
             Assert.IsFalse(player.BlocksDamage);
             Assert.IsNull(player.Shield);
-            Assert.AreEqual(0, Object.FindObjectsByType<ShieldWall>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(0, Object.FindObjectsByType<ShieldWall>().Length);
         }
 
         [Test]

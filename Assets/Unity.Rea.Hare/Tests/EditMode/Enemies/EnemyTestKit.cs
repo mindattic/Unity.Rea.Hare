@@ -14,7 +14,7 @@ namespace Unity.Hare.Tests.EditMode
 
         public static void DestroyAll<T>() where T : Component
         {
-            foreach (var c in Object.FindObjectsByType<T>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<T>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 
@@ -73,13 +73,13 @@ namespace Unity.Hare.Tests.EditMode
             for (int i = 0; i < steps && enemy != null && !enemy.IsDead; i++) enemy.Tick(Step);
         }
 
-        public static int Count<T>() where T : Component => Object.FindObjectsByType<T>(FindObjectsSortMode.None).Length;
+        public static int Count<T>() where T : Component => Object.FindObjectsByType<T>().Length;
 
         public static int EnemyRoundCount() =>
-            Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None).Count(b => b.FromEnemy);
+            Object.FindObjectsByType<Bullet>().Count(b => b.FromEnemy);
 
         public static int DebrisCount(DebrisKind kind) =>
-            Object.FindObjectsByType<FadingDebris>(FindObjectsSortMode.None).Count(d => d.Kind == kind);
+            Object.FindObjectsByType<FadingDebris>().Count(d => d.Kind == kind);
 
         /// <summary>GML x/y = ...: puts an enemy somewhere (a command, since Core owns where it is).</summary>
         public static void Place(EnemyBodyView enemy, Vector2 at)

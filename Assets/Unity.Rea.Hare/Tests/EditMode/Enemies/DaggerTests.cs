@@ -29,7 +29,7 @@ namespace Unity.Hare.Tests.EditMode
 
         static void DestroyAll<T>() where T : Component
         {
-            foreach (var c in Object.FindObjectsByType<T>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<T>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 
@@ -185,12 +185,12 @@ namespace Unity.Hare.Tests.EditMode
             Assert.IsTrue(dagger == null);
             Assert.AreEqual(EnemyDeathCause.Rocket, kill.Value.Cause);
             Assert.IsTrue(kill.Value.AwardsScore);
-            Assert.AreEqual(1, Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(1, Object.FindObjectsByType<RocketExplosion>().Length);
 
             var blasted = Spawn(Vector2.zero, 0f, 0f);
             EnemyKill? blast = null;
             blasted.Killed += (_, k) => blast = k;
-            var explosion = Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None)[0];
+            var explosion = Object.FindObjectsByType<RocketExplosion>()[0];
             explosion.Touch(blasted.GetComponent<Collider2D>());
             Assert.AreEqual(EnemyDeathCause.RocketExplosion, blast.Value.Cause);
             Assert.IsTrue(blast.Value.AwardsScore && blast.Value.DropsPickup);

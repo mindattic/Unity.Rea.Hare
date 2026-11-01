@@ -20,15 +20,15 @@ namespace Unity.Hare.Tests.EditMode
 
         public static void DestroyAll()
         {
-            foreach (var b in Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None))
+            foreach (var b in Object.FindObjectsByType<Bullet>())
                 Object.DestroyImmediate(b.gameObject);
-            foreach (var f in Object.FindObjectsByType<Flame>(FindObjectsSortMode.None))
+            foreach (var f in Object.FindObjectsByType<Flame>())
                 Object.DestroyImmediate(f.gameObject);
-            foreach (var p in Object.FindObjectsByType<PlayerShipController>(FindObjectsSortMode.None))
+            foreach (var p in Object.FindObjectsByType<PlayerShipController>())
                 Object.DestroyImmediate(p.gameObject);
-            foreach (var c in Object.FindObjectsByType<Collider2D>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<Collider2D>())
                 Object.DestroyImmediate(c.gameObject);
-            foreach (var s in Object.FindObjectsByType<Pickups.ScrapView>(FindObjectsSortMode.None))
+            foreach (var s in Object.FindObjectsByType<Pickups.ScrapView>())
                 Object.DestroyImmediate(s.gameObject);
             Pickups.PickupDirector.Reset();
         }
@@ -45,7 +45,7 @@ namespace Unity.Hare.Tests.EditMode
         [TearDown]
         public void TearDown() => PerchedWeaponTestUtil.DestroyAll();
 
-        static int PelletsAlive() => Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None).Length;
+        static int PelletsAlive() => Object.FindObjectsByType<Bullet>().Length;
 
         [Test]
         public void ShotgunDefaultsToTheSecondaryTrigger()

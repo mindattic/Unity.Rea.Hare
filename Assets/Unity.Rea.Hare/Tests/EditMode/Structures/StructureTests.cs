@@ -200,14 +200,14 @@ namespace Unity.Hare.Tests.EditMode
                     bool overSpawn = s.Position.y > room.yMax - 8f && Mathf.Abs(s.Position.x - room.center.x) <= 4f;
                     Assert.IsFalse(overSpawn, "move_rocks: y < 800 within 400 px of room_width / 2 is cleared");
                 }
-                Assert.AreEqual(field.Structures.Count, Object.FindObjectsByType<StructureCover>(FindObjectsSortMode.None).Length,
+                Assert.AreEqual(field.Structures.Count, Object.FindObjectsByType<StructureCover>().Length,
                     "the last setup's structures and covers went before these");
             }
             Assert.That(counts.Max(), Is.GreaterThanOrEqualTo(4));
 
             field.Setup(0, 0);
-            Assert.AreEqual(0, Object.FindObjectsByType<Structure>(FindObjectsSortMode.None).Length);
-            Assert.AreEqual(0, Object.FindObjectsByType<StructureCover>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(0, Object.FindObjectsByType<Structure>().Length);
+            Assert.AreEqual(0, Object.FindObjectsByType<StructureCover>().Length);
         }
 
         [Test]

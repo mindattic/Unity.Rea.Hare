@@ -19,7 +19,7 @@ namespace Unity.Hare.Tests.EditMode
         [TearDown]
         public void TearDown() => PerchedWeaponTestUtil.DestroyAll();
 
-        static int FlamesAlive() => Object.FindObjectsByType<Flame>(FindObjectsSortMode.None).Length;
+        static int FlamesAlive() => Object.FindObjectsByType<Flame>().Length;
 
         static Burnable NewBurnable()
         {

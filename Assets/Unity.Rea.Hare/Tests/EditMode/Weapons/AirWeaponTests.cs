@@ -41,7 +41,7 @@ namespace Unity.Hare.Tests.EditMode
 
         static void DestroyAll<T>() where T : Component
         {
-            foreach (var c in Object.FindObjectsByType<T>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<T>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 
@@ -92,15 +92,15 @@ namespace Unity.Hare.Tests.EditMode
             loadout.SetTrigger(true);
             loadout.Tick(Step);
 
-            var rockets = Object.FindObjectsByType<Rocket>(FindObjectsSortMode.None);
+            var rockets = Object.FindObjectsByType<Rocket>();
             Assert.AreEqual(1, rockets.Length);
             Assert.AreEqual(90f, rockets[0].Direction, 1e-3f);
             Assert.That(Vector2.Distance(rockets[0].Position, loadout.MuzzlePosition), Is.LessThan(1e-4f));
 
             Run(loadout.Tick, 20 * Step);
-            Assert.AreEqual(1, Object.FindObjectsByType<Rocket>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(1, Object.FindObjectsByType<Rocket>().Length);
             Run(loadout.Tick, 6 * Step);
-            Assert.AreEqual(2, Object.FindObjectsByType<Rocket>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(2, Object.FindObjectsByType<Rocket>().Length);
         }
 
 

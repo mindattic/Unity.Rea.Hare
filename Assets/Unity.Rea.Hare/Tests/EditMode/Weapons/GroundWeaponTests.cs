@@ -23,7 +23,7 @@ namespace Unity.Hare.Tests.EditMode
 
         static void DestroyAll<T>() where T : Component
         {
-            foreach (var c in Object.FindObjectsByType<T>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<T>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 
@@ -48,7 +48,7 @@ namespace Unity.Hare.Tests.EditMode
             for (int i = 0; i < steps && !mine.IsGone; i++) mine.Tick(Step);
         }
 
-        static int Count<T>() where T : Object => Object.FindObjectsByType<T>(FindObjectsSortMode.None).Length;
+        static int Count<T>() where T : Object => Object.FindObjectsByType<T>().Length;
 
         // ---- Mine ----
 
@@ -108,7 +108,7 @@ namespace Unity.Hare.Tests.EditMode
 
             Steps(mine, 1200);
             Assert.IsTrue(mine == null, "the mine is gone");
-            var explosions = Object.FindObjectsByType<RocketExplosion>(FindObjectsSortMode.None);
+            var explosions = Object.FindObjectsByType<RocketExplosion>();
             Assert.AreEqual(1, explosions.Length);
             float gap = Vector2.Distance(explosions[0].transform.position, enemy.transform.position) - 0.1f - Gml.Px(Mine.RadiusPx);
             Assert.Less(gap, Gml.Px(Mine.DetonateDistancePx));

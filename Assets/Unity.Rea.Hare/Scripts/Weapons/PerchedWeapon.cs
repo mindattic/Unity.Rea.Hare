@@ -13,8 +13,7 @@ namespace Unity.Hare.Weapons
     /// <see cref="WeaponTable"/>. This component installs the gun, reads the mouse into commands and, when the
     /// rules say a shot went out, spawns its projectiles.
     /// Positions use 1 unit = 100 GML pixels; speeds keep the original's ratio to flight_speed
-    /// (5 px/step there, 5 units/s in <see cref="FlightTuning"/>), so GML px/step map to units/s one to one. Both
-    /// are placeholders until real sprites set the world scale.
+    /// (5 px/step there, 5 units/s in <see cref="FlightTuning"/>), so GML px/step map to units/s one to one.
     /// </summary>
     [RequireComponent(typeof(PlayerShipController))]
     public abstract class PerchedWeapon : SeatView

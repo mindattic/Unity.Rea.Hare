@@ -18,7 +18,7 @@ namespace Unity.Hare.Tests.EditMode
         public void TearDown()
         {
             EnemyDirector.Reset();
-            foreach (var c in Object.FindObjectsByType<Insect>(FindObjectsSortMode.None))
+            foreach (var c in Object.FindObjectsByType<Insect>())
                 if (c != null) Object.DestroyImmediate(c.gameObject);
         }
 
@@ -197,9 +197,9 @@ namespace Unity.Hare.Tests.EditMode
                 emitter.Kind = InsectKind.Fly;
                 Assert.AreEqual(32, emitter.Emit(Room).Count);
 
-                Assert.AreEqual(100, Object.FindObjectsByType<Butterfly>(FindObjectsSortMode.None).Length);
-                Assert.AreEqual(28, Object.FindObjectsByType<Firefly>(FindObjectsSortMode.None).Length);
-                Assert.AreEqual(32, Object.FindObjectsByType<Fly>(FindObjectsSortMode.None).Length);
+                Assert.AreEqual(100, Object.FindObjectsByType<Butterfly>().Length);
+                Assert.AreEqual(28, Object.FindObjectsByType<Firefly>().Length);
+                Assert.AreEqual(32, Object.FindObjectsByType<Fly>().Length);
             }
             finally
             {

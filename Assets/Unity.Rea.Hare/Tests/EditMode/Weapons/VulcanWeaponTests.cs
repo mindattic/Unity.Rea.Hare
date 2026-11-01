@@ -33,9 +33,9 @@ namespace Unity.Hare.Tests.EditMode
         [TearDown]
         public void TearDown()
         {
-            foreach (var b in Object.FindObjectsByType<Bullet>(FindObjectsSortMode.None))
+            foreach (var b in Object.FindObjectsByType<Bullet>())
                 Object.DestroyImmediate(b.gameObject);
-            foreach (var w in Object.FindObjectsByType<ShieldWall>(FindObjectsSortMode.None))
+            foreach (var w in Object.FindObjectsByType<ShieldWall>())
                 Object.DestroyImmediate(w.gameObject);
             if (ship != null) Object.DestroyImmediate(ship.gameObject);
         }

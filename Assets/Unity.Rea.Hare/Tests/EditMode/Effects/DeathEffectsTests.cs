@@ -145,7 +145,7 @@ namespace Unity.Hare.Tests.EditMode
         public void SpawnDeathParticlesScattersLargeMediumAndSmallWithin32Px()
         {
             int total = DeathParticle.SpawnDeathParticles(new Vector2(2f, 3f));
-            var all = Object.FindObjectsByType<DeathParticle>(FindObjectsSortMode.None);
+            var all = Object.FindObjectsByType<DeathParticle>();
             Assert.AreEqual(total, all.Length);
             Assert.That(all.Count(p => p.Size == DeathParticleSize.Large), Is.InRange(3, 6));
             Assert.That(all.Count(p => p.Size == DeathParticleSize.Medium), Is.InRange(12, 18));
@@ -340,7 +340,7 @@ namespace Unity.Hare.Tests.EditMode
             var ship = Ship(new Vector2(40f, 0f));
             var worm = Spawn<Worm>();
             worm.Init(Vector2.zero, Gml.Room, ship);
-            var tail = Object.FindObjectsByType<WormSegment>(FindObjectsSortMode.None).Single(s => s.IsExposed);
+            var tail = Object.FindObjectsByType<WormSegment>().Single(s => s.IsExposed);
             Vector2 at = tail.Position;
             int hits = 0;
             while (tail != null && !tail.IsDead && hits < 100)

@@ -15,7 +15,7 @@ namespace Unity.Hare.Tests.EditMode
         public void TearDown()
         {
             PerchedWeaponTestUtil.DestroyAll();
-            foreach (var go in Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
+            foreach (var go in Object.FindObjectsByType<SpriteRenderer>())
                 if (go != null) Object.DestroyImmediate(go.gameObject);
         }
 

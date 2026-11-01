@@ -15,8 +15,8 @@ namespace Unity.Hare.Tests.EditMode
         public void TearDown()
         {
             PerchedWeaponTestUtil.DestroyAll();
-            foreach (var b in Object.FindObjectsByType<LaserBeam>(FindObjectsSortMode.None)) Object.DestroyImmediate(b.gameObject);
-            foreach (var r in Object.FindObjectsByType<RailgunShot>(FindObjectsSortMode.None)) Object.DestroyImmediate(r.gameObject);
+            foreach (var b in Object.FindObjectsByType<LaserBeam>()) Object.DestroyImmediate(b.gameObject);
+            foreach (var r in Object.FindObjectsByType<RailgunShot>()) Object.DestroyImmediate(r.gameObject);
         }
 
         sealed class TestEnemy

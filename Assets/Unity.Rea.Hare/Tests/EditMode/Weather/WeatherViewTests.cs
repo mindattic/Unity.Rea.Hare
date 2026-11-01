@@ -27,7 +27,7 @@ namespace Unity.Hare.Tests.EditMode
         public void TearDown()
         {
             Gml.Paused = false;
-            foreach (var v in Object.FindObjectsByType<WeatherView>(FindObjectsSortMode.None)) Object.DestroyImmediate(v.gameObject);
+            foreach (var v in Object.FindObjectsByType<WeatherView>()) Object.DestroyImmediate(v.gameObject);
         }
 
         [Test]

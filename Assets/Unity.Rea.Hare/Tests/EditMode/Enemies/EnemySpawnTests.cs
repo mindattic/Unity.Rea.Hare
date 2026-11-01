@@ -162,7 +162,7 @@ namespace Unity.Hare.Tests.EditMode
             var emitter = new GameObject("WE").AddComponent<WormholeEmitter>();
             emitter.Init(Enumerable.Repeat(EnemyKind.Hydra, 25), Gml.Room, null, 10);
             Assert.AreEqual(2, emitter.CurrentEnemy, "repeat(25 * 0.1)");
-            Assert.AreEqual(2, Object.FindObjectsByType<Wormhole>(FindObjectsSortMode.None).Length);
+            Assert.AreEqual(2, Object.FindObjectsByType<Wormhole>().Length);
 
             for (int i = 0; i < 9; i++) emitter.Tick(Step);
             Assert.AreEqual(2, emitter.CurrentEnemy);
@@ -185,7 +185,7 @@ namespace Unity.Hare.Tests.EditMode
             Assert.AreEqual(1, completed);
             Assert.IsTrue(emitter == null, "instance_destroy");
             Assert.IsTrue(Gml.Paused, "set_level_complete pauses");
-            var kinds = Object.FindObjectsByType<Wormhole>(FindObjectsSortMode.None).Select(w => w.Instance).OrderBy(k => k);
+            var kinds = Object.FindObjectsByType<Wormhole>().Select(w => w.Instance).OrderBy(k => k);
             CollectionAssert.AreEqual(new[] { EnemyKind.Sawblade, EnemyKind.Dagger, EnemyKind.Worm }, kinds);
         }
 
