@@ -58,6 +58,6 @@ if (Test-Path $out) {
     Get-ChildItem $out -Recurse -File | Where-Object { $_.LastWriteTime -ge $started } |
         ForEach-Object { Write-Host $_.FullName }
 }
-if (Test-Path $log) { Select-String -Path $log -Pattern '\[Unity\.Hare\]' | ForEach-Object { $_.Line } }
+if (Test-Path $log) { Select-String -Path $log -Pattern '\[Unity\.Rea\.Hare\]' | ForEach-Object { $_.Line } }
 Write-Host "exit=$($process.ExitCode)  log=$log"
 exit $process.ExitCode

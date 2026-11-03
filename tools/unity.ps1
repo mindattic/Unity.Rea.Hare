@@ -34,7 +34,7 @@ if ($Extra) { $argList += $Extra.Split(' ') }
 if ($Extra -notmatch 'runTests') { $argList += "-quit" }
 
 $p = Start-Process -FilePath $unity -ArgumentList $argList -Wait -PassThru -NoNewWindow
-Select-String -Path $logFile -Pattern 'error CS|\[Unity\.Hare\]|\[Build\]|Shader error|Compilation failed' |
+Select-String -Path $logFile -Pattern 'error CS|\[Unity\.Rea\.Hare\]|\[Build\]|Shader error|Compilation failed' |
     Select-Object -First 80 | ForEach-Object { $_.Line }
 Write-Host "exit=$($p.ExitCode)  log=$logFile"
 exit $p.ExitCode
