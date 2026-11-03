@@ -7,7 +7,11 @@ namespace Unity.Rea.Hare
     {
         public static float Clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
 
-        public static float Repeat(float t, float length) => Clamp(t - (float)Math.Floor(t / length) * length, 0f, length);
+        public static float Repeat(float t, float length)
+        {
+            float r = Clamp(t - (float)Math.Floor(t / length) * length, 0f, length);
+            return r >= length ? 0f : r; // a tiny negative t rounds up to exactly length: that is 0, not a full turn
+        }
 
         public static float DeltaAngle(float current, float target)
         {

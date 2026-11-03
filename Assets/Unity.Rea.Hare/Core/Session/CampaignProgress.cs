@@ -139,7 +139,7 @@ namespace Unity.Rea.Hare.Session
             foreach (string id in upgrades)
             {
                 if (!first) builder.Append(", ");
-                builder.Append('"').Append(id.Replace("\\", "\\\\").Replace("\"", "\\\"")).Append('"');
+                AppendJsonString(builder, id);
                 first = false;
             }
             builder.Append("],\n  \"Coins\": ").Append(Coins.ToString(CultureInfo.InvariantCulture));
@@ -156,6 +156,27 @@ namespace Unity.Rea.Hare.Session
             }
             builder.Append("}\n}\n");
             return builder.ToString();
+        }
+
+        static void AppendJsonString(StringBuilder builder, string text)
+        {
+            builder.Append('"');
+            foreach (char c in text)
+            {
+                switch (c)
+                {
+                    case '\\': builder.Append("\\\\"); break;
+                    case '"': builder.Append("\\\""); break;
+                    case '\n': builder.Append("\\n"); break;
+                    case '\r': builder.Append("\\r"); break;
+                    case '\t': builder.Append("\\t"); break;
+                    default:
+                        if (c < ' ') builder.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+                        else builder.Append(c);
+                        break;
+                }
+            }
+            builder.Append('"');
         }
 
         /// <summary>
