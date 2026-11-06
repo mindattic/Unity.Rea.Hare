@@ -132,7 +132,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 
 ## End-to-end verification (U.HARE-T33, 2026-10-30)
 
-- **Build**: `tools/run.ps1` (headless `HareBuild.BuildWindows`) built `Build/Hare/Hare.exe` with 0 errors. A normal
+- **Build**: `tools/build.ps1` (headless `HareBuild.BuildWindows`) built `Build/Hare/Hare.exe` with 0 errors. A normal
   launch opens fullscreen on the startup room's circuit boards with no exception in the player log; `Hare.exe -demo
   -muted` (U.HARE-T70's `ScriptedRun`: startup, title, story, map, intro, a level, a laser kill that scores, the level
   results, the side scroll, the shaft and the garage) exits 0 with "ScriptedRun finished.".
