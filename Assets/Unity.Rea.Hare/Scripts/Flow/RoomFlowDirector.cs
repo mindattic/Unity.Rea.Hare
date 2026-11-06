@@ -101,7 +101,7 @@ namespace Unity.Rea.Hare.Flow
             Flow = new RoomFlow(GameContent.Current);
             Session = NewSession();
             Campaign = CampaignStore.Load();
-            controls = new HareControls();
+            controls = HareBindings.Create();
             controls.Meta.Menu.Enable();
             controls.Meta.Fullscreen.Enable();
             SceneManager.sceneLoaded += OnSceneLoaded;

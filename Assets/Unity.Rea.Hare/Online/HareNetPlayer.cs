@@ -141,7 +141,7 @@ namespace Unity.Rea.Hare.Online
         {
             if (controls == null)
             {
-                controls = new HareControls();
+                controls = HareBindings.Create();
                 controls.Player.Enable();
             }
             var player = controls.Player;

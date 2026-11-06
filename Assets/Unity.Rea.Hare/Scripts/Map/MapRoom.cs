@@ -131,7 +131,7 @@ namespace Unity.Rea.Hare.Map
             Pointer = MouseView.Create(RoomId.Map, gameObject.scene, transform);
             if (Pointer != null) Pointer.DrawOnUi = DrawPointer;
 
-            controls = new HareControls();
+            controls = HareBindings.Create();
             anyKey = new InputAction("AnyKey", InputActionType.Button, "<Keyboard>/anyKey");
             aKey = new InputAction("A", InputActionType.Button, "<Keyboard>/a");
             dKey = new InputAction("D", InputActionType.Button, "<Keyboard>/d");

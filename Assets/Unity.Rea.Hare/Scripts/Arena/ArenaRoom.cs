@@ -247,7 +247,7 @@ namespace Unity.Rea.Hare.Arena
 
             // obj_game's own keys (U.HARE-T60), all HareControls' Meta actions: the key presses M (77), F12 (123), P (80),
             // R (82), U (85) and F11 (122), and the held keypad + (107) and - (109). Esc and F1 belong to the room flow.
-            controls = new HareControls();
+            controls = HareBindings.Create();
             foreach (var action in GameKeys) action.Enable();
             Flashbombs = new FlashbombField(content.Arena.Flashbomb);
 

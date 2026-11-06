@@ -58,7 +58,7 @@ namespace Unity.Rea.Hare.Player
             {
                 if (controls == null)
                 {
-                    controls = new HareControls();
+                    controls = HareBindings.Create();
                     controls.Player.Enable();
                     controls.Helper.Enable(); // the arrows, Page Down and Delete: obj_helper's keys (U.HARE-T66)
                 }

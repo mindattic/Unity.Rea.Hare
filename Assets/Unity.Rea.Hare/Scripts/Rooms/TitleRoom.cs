@@ -61,6 +61,8 @@ namespace Unity.Rea.Hare.Rooms
         SpriteRenderer moon, eye, pupil, stand, logo;
         Vector2 lastMouse;
         VisualElement creditsLink, creditsView;
+        VisualElement controlsLink;
+        ControlsView controlsView;
 
         sealed class ButtonView
         {
@@ -121,7 +123,7 @@ namespace Unity.Rea.Hare.Rooms
             Pointer = MouseView.Create(RoomId.Title, gameObject.scene, transform);
             if (Pointer != null) Pointer.DrawOnUi = DrawPointer;
 
-            controls = new HareControls();
+            controls = HareBindings.Create();
             anyKey = new InputAction("AnyKey", InputActionType.Button, "<Keyboard>/anyKey");
             leftButton = new InputAction("LeftButton", InputActionType.Button, "<Mouse>/leftButton");
             f1Key = new InputAction("F1", InputActionType.Button, "<Keyboard>/f1");
@@ -170,6 +172,7 @@ namespace Unity.Rea.Hare.Rooms
                 controls.Dispose();
             }
             foreach (var action in Actions()) action?.Dispose();
+            if (controlsView != null) controlsView.Dispose();
             if (panelSettings != null) Destroy(panelSettings);
         }
 
@@ -189,6 +192,33 @@ namespace Unity.Rea.Hare.Rooms
             {
                 if (escapeKey.WasPressedThisFrame() || leftButton.WasPressedThisFrame()) CloseCredits();
                 return;
+            }
+            // The controls screen (U.HARE-T120, BIBLE V55), a deliberate addition: the original has no rebinding. While it
+            // is open it takes the mouse and Esc; a key or click that ends a rebinding is the binding's, not the screen's.
+            if (controlsView != null)
+            {
+                if (controlsView.Busy) return;
+                if (escapeKey.WasPressedThisFrame())
+                {
+                    CloseControls();
+                    return;
+                }
+                if (TryReadMouse(out var controlsMouse))
+                {
+                    controlsView.Hover(controlsMouse);
+                    if (leftButton.WasPressedThisFrame() && controlsView.Click(controlsMouse) == ControlsView.ClickResult.Back) CloseControls();
+                }
+                return;
+            }
+            if (controlsLink != null && State.Dialog == null && TryReadMouse(out var controlsLinkMouse))
+            {
+                bool over = controlsLinkMouse.x <= ControlsLinkWidth && controlsLinkMouse.y >= room.Height - CreditsLinkHeight;
+                SetLinkHover(controlsLink, over);
+                if (over && leftButton.WasPressedThisFrame())
+                {
+                    OpenControls();
+                    return;
+                }
             }
             if (creditsLink != null && State.Dialog == null && TryReadMouse(out var creditsMouse))
             {
@@ -261,6 +291,7 @@ namespace Unity.Rea.Hare.Rooms
                     case MenuShown _:
                         BuildMenu();
                         BuildCreditsLink();
+                        BuildControlsLink();
                         if (Pointer != null) Pointer.State.SetVisible(true); // obj_logo: obj_mouse.visible = true
                         break;
                     case TitleHoverChanged hover:
@@ -434,10 +465,44 @@ namespace Unity.Rea.Hare.Rooms
             creditsLink.style.bottom = 20;
         }
 
-        void SetCreditsLinkHover(bool hover)
+        void SetCreditsLinkHover(bool hover) => SetLinkHover(creditsLink, hover);
+
+        void SetLinkHover(VisualElement link, bool hover)
         {
-            var text = TopLabel(creditsLink);
+            var text = TopLabel(link);
             if (text != null) text.style.color = hover ? hoverColor : normalColor;
+        }
+
+        const float ControlsLinkWidth = 260f;
+
+        /// <summary>The title's Controls link, bottom left (U.HARE-T120), across from Credits.</summary>
+        void BuildControlsLink()
+        {
+            if (controlsLink != null) return;
+            controlsLink = HareUi.OutlineText("Controls", 2, HareTextStyles.MenuText.UssClass, menuLayer);
+            controlsLink.name = "controls-link";
+            controlsLink.style.position = Position.Absolute;
+            controlsLink.style.left = 30;
+            controlsLink.style.bottom = 20;
+        }
+
+        /// <summary>The controls screen as drawn, or null.</summary>
+        public ControlsView ControlsScreen => controlsView;
+
+        /// <summary>Opens the controls screen over the title (U.HARE-T120).</summary>
+        public void OpenControls()
+        {
+            if (controlsView != null) return;
+            HareAudio.Play("sfx_click");
+            controlsView = ControlsView.Open(guiLayer, room.Width, room.Height);
+        }
+
+        /// <summary>Closes the controls screen; its rebindings are already saved and in force.</summary>
+        public void CloseControls()
+        {
+            if (controlsView == null) return;
+            controlsView.Dispose();
+            controlsView = null;
         }
 
         void OpenCredits()

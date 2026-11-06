@@ -149,7 +149,7 @@ namespace Unity.Rea.Hare.Input
             if (camera == null || UnityEngine.InputSystem.Mouse.current == null) return null;
             if (controls == null)
             {
-                controls = new HareControls();
+                controls = HareBindings.Create();
                 controls.Player.Aim.Enable();
             }
             Vector3 screen = controls.Player.Aim.ReadValue<Vector2>();

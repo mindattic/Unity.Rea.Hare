@@ -97,7 +97,7 @@ namespace Unity.Rea.Hare.Upgrade
             Pointer = MouseView.Create(RoomId.Upgrade, gameObject.scene, transform);
             if (Pointer != null) Pointer.DrawOnUi = DrawPointer;
 
-            controls = new HareControls();
+            controls = HareBindings.Create();
             leftButton = new InputAction("LeftButton", InputActionType.Button, "<Mouse>/leftButton");
         }
 
