@@ -29,114 +29,114 @@ _Nothing recorded yet._
 
 ## Epic C — Weapons: Air-to-Air Arsenal
 - **U.HARE-US-C1 ✅** As a player, I can fire the primary air weapon (vulcan) with spin-up/spin-down and a looping fire sound
-- **U.HARE-US-C2 ⬜** As a player, I can fire a secondary air weapon (laser, railgun or rocket) and cycle between unlocked air weapons with next_air_weapon
-- **U.HARE-US-C3 ⬜** As a player, I can fire the shotgun and flamethrower weapons with their own spread/cone behaviour
+- **U.HARE-US-C2 ✅** As a player, I can fire a secondary air weapon (laser, railgun or rocket) and cycle between unlocked air weapons with next_air_weapon
+- **U.HARE-US-C3 ✅** As a player, I can fire the shotgun and flamethrower weapons with their own spread/cone behaviour
 - **U.HARE-US-C4 ✅** As a player, my ship carries its weapons in play: the vulcan, shotgun, flamer and mine launcher, the perched laser and railgun and the air rocket loadout are added to the player ship (prefab or scene) with their ground and air loadouts, so every weapon fires in the running game
 
 
 ## Epic D — Weapons: Ground/Surface Arsenal
-- **U.HARE-US-D1 ⬜** As a player, I can fire a separate ground weapon loadout (mine, grenade) at surface targets, cycling with next_ground_weapon
-- **U.HARE-US-D2 ⬜** As a player, ammo cost and resupply (set_ammo_cost, subtract_ground_ammo) work the same as the original for both air and ground loadouts
+- **U.HARE-US-D1 ✅** As a player, I can fire a separate ground weapon loadout (mine, grenade) at surface targets, cycling with next_ground_weapon
+- **U.HARE-US-D2 ✅** As a player, ammo cost and resupply (set_ammo_cost, subtract_ground_ammo) work the same as the original for both air and ground loadouts
 
 
 ## Epic E — Enemies & AI
-- **U.HARE-US-E1 ⬜** As a player, I fight flying insect-style enemies (butterfly, firefly, fly, dagger) driven by their original ai_* flight patterns
-- **U.HARE-US-E2 ⬜** As a player, I fight the larger set-piece enemies (hydra, phalanx with phalanx_shield, meatball, wraith, sawblade, worm with segments/gibs, trilobyte, mimic with mimic_illusion)
-- **U.HARE-US-E3 ⬜** As a player, enemies spawn through the original emitter objects (obj_*_emitter) and generate_enemy_list so spawn pacing matches the source game
-- **U.HARE-US-E4 ⬜** As a player, enemies die with the right gib/explosion/death-particle effects per enemy type (meatball_gib, worm_gib, rocket_explosion, death_particle)
+- **U.HARE-US-E1 ✅** As a player, I fight flying insect-style enemies (butterfly, firefly, fly, dagger) driven by their original ai_* flight patterns
+- **U.HARE-US-E2 ✅** As a player, I fight the larger set-piece enemies (hydra, phalanx with phalanx_shield, meatball, wraith, sawblade, worm with segments/gibs, trilobyte, mimic with mimic_illusion)
+- **U.HARE-US-E3 ✅** As a player, enemies spawn through the original emitter objects (obj_*_emitter) and generate_enemy_list so spawn pacing matches the source game
+- **U.HARE-US-E4 ✅** As a player, enemies die with the right gib/explosion/death-particle effects per enemy type (meatball_gib, worm_gib, rocket_explosion, death_particle)
 
 
 ## Epic F — Rocks, Hazards & Environment
-- **U.HARE-US-F1 ⬜** As a player, I navigate around destructible rocks (rock1-5, create_new_rock, move_rocks, rock_destroyed) that behave like the original's par_rock family
-- **U.HARE-US-F2 ⬜** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
+- **U.HARE-US-F1 ✅** As a player, I navigate around destructible rocks (rock1-5, create_new_rock, move_rocks, rock_destroyed) that behave like the original's par_rock family
+- **U.HARE-US-F2 ✅** As a player, I see weather/ambient environment layers (clouds, rain, snow, sand, fog emitters) matching each room's backdrop
 
 
 ## Epic G — Levels, Map & Procedural Generation
-- **U.HARE-US-G1 ⬜** As a player, I can select a level from the overworld map (room_map, obj_map, obj_destination, obj_btn_level01-09) the way the original campaign does
-- **U.HARE-US-G2 ⬜** As a player, each level (level_01..level_10, level_default, level_composition, level_objective, level_setting) loads its own enemy composition, objective and time limit
-- **U.HARE-US-G3 ⬜** As a player, I play the side-scroll and shaft stage variants (room_sidescroll, room_shaft) in addition to the open gamescreen arena
-- **U.HARE-US-G4 ⬜** As a player, finishing a level shows level_results and level-complete state (set_level_complete) before returning to the map
+- **U.HARE-US-G1 ✅** As a player, I can select a level from the overworld map (room_map, obj_map, obj_destination, obj_btn_level01-09) the way the original campaign does
+- **U.HARE-US-G2 ✅** As a player, each level (level_01..level_10, level_default, level_composition, level_objective, level_setting) loads its own enemy composition, objective and time limit
+- **U.HARE-US-G3 ✅** As a player, I play the side-scroll and shaft stage variants (room_sidescroll, room_shaft) in addition to the open gamescreen arena
+- **U.HARE-US-G4 ✅** As a player, finishing a level shows level_results and level-complete state (set_level_complete) before returning to the map
 
 
 ## Epic H — Pickups, Economy & Upgrades
-- **U.HARE-US-H1 ⬜** As a player, I collect carrots, coins, chips and cartridges dropped by enemies/rocks (random_pickup, spawn_chips, obj_drop*) as the game's currency/ammo pickups
-- **U.HARE-US-H2 ⬜** As a player, I spend currency in the upgrade/garage screen (room_upgrade, obj_upgrade, obj_upgrade_vulcan1, obj_upgrade_shotgun1, obj_upgrade_missle1, obj_rabbit_schematic) to improve my ship
+- **U.HARE-US-H1 ✅** As a player, I collect carrots, coins, chips and cartridges dropped by enemies/rocks (random_pickup, spawn_chips, obj_drop*) as the game's currency/ammo pickups
+- **U.HARE-US-H2 ✅** As a player, I spend currency in the upgrade/garage screen (room_upgrade, obj_upgrade, obj_upgrade_vulcan1, obj_upgrade_shotgun1, obj_upgrade_missle1, obj_rabbit_schematic) to improve my ship
 
 
 ## Epic I — UI, HUD & Menus
-- **U.HARE-US-I1 ⬜** As a player, I see a HUD with health bar, energy bar, weapon GUI and speedometer during gameplay (obj_healthbar, obj_energybar, obj_weapon_gui, obj_speedometer)
-- **U.HARE-US-I2 ⬜** As a player, I navigate title and quit/confirm menus (obj_title, obj_btn_quickstart, obj_btn_campaign, obj_btn_quit, obj_yesno_dialog) with the same flow as the original
-- **U.HARE-US-I3 ⬜** As a player, I see floating damage/pickup text and tips (obj_float_text, obj_tip, obj_alert) during play
+- **U.HARE-US-I1 ✅** As a player, I see a HUD with health bar, energy bar, weapon GUI and speedometer during gameplay (obj_healthbar, obj_energybar, obj_weapon_gui, obj_speedometer)
+- **U.HARE-US-I2 ✅** As a player, I navigate title and quit/confirm menus (obj_title, obj_btn_quickstart, obj_btn_campaign, obj_btn_quit, obj_yesno_dialog) with the same flow as the original
+- **U.HARE-US-I3 ✅** As a player, I see floating damage/pickup text and tips (obj_float_text, obj_tip, obj_alert) during play
 
 
 ## Epic J — Story, Dialogue & Cutscenes
-- **U.HARE-US-J1 ⬜** As a player, I read the intro and story scenes (room_intro, room_story, obj_conversation, obj_typewriter_story, load_scenario) with a typewriter-style text reveal
+- **U.HARE-US-J1 ✅** As a player, I read the intro and story scenes (room_intro, room_story, obj_conversation, obj_typewriter_story, load_scenario) with a typewriter-style text reveal
 
 
 ## Epic K — Audio: Music & SFX
-- **U.HARE-US-K1 ⬜** As a player, I hear the original's music tracks with random selection between levels (play_random_music, obj_jukebox)
-- **U.HARE-US-K2 ⬜** As a player, I hear weapon and UI sound effects ported from the gmlHARE/gmlRabbit sound libraries (102-152 original sound assets)
+- **U.HARE-US-K1 ✅** As a player, I hear the original's music tracks with random selection between levels (play_random_music, obj_jukebox)
+- **U.HARE-US-K2 ✅** As a player, I hear weapon and UI sound effects ported from the gmlHARE/gmlRabbit sound libraries (102-152 original sound assets)
 
 
 ## Epic L — VFX & Particles
-- **U.HARE-US-L1 ⬜** As a player, I see muzzle flashes, explosions (oval_explosion, tinyexplosion, rocket_explosion, grenade_explosion) and trail/swirl effects (rail_swirl) matching each weapon
+- **U.HARE-US-L1 ✅** As a player, I see muzzle flashes, explosions (oval_explosion, tinyexplosion, rocket_explosion, grenade_explosion) and trail/swirl effects (rail_swirl) matching each weapon
 
 
 ## Epic M — Boss Encounters
-- **U.HARE-US-M1 ⬜** As a player, I fight Scrap Mental, the level 8 boss (obj_scrapmental with its obj_shrapnel_back/piece/harpoon parts) in the open arena, and destroying it completes the level
+- **U.HARE-US-M1 ✅** As a player, I fight Scrap Mental, the level 8 boss (obj_scrapmental with its obj_shrapnel_back/piece/harpoon parts) in the open arena, and destroying it completes the level
 
 
 ## Epic N — Architecture, Standards & Tooling
-- **U.HARE-US-N1 ⬜** As a developer, the project is split into separate Core, Runtime, Editor and Test assemblies with one-way references, and Core runs under plain dotnet test, so the rules can be tested without Unity
-- **U.HARE-US-N2 ⬜** As a developer, the repo has a README and a BIBLE that say what the game is, how it is built and where it deliberately differs from the original, so any agent can pick it up
-- **U.HARE-US-N3 ⬜** As a developer, the player's and weapons' rules live in the engine-free Core as commands that produce events, so presentation only reads state and plays events
-- **U.HARE-US-N4 ⬜** As a developer, enemy behaviour, spawn pacing and generate_enemy_list live in the engine-free Core, so every enemy rule is tested outside Unity
-- **U.HARE-US-N5 ⬜** As a developer, every tuning number and all content (levels, enemy ranges, weapon and enemy stats, text) live in validated data, so nothing is hard-coded in behaviour
-- **U.HARE-US-N6 ⬜** As a player, all controls go through one Input System actions asset and can be rebound, so keyboard, mouse and a gamepad work the same way
-- **U.HARE-US-N7 ⬜** As a player, my profile, volumes and campaign progress are kept the same way as in every other MindAttic game, so my settings follow me
-- **U.HARE-US-N8 ⬜** As a developer, rendering goes through a thin pipeline-agnostic layer over URP 2D, so presentation code never touches pipeline types
-- **U.HARE-US-N9 ⬜** As a developer, all screens are built from one UI foundation (UI Toolkit or the shared MindAttic components) with the original's look, so menus and HUD share a style
+- **U.HARE-US-N1 ✅** As a developer, the project is split into separate Core, Runtime, Editor and Test assemblies with one-way references, and Core runs under plain dotnet test, so the rules can be tested without Unity
+- **U.HARE-US-N2 ✅** As a developer, the repo has a README and a BIBLE that say what the game is, how it is built and where it deliberately differs from the original, so any agent can pick it up
+- **U.HARE-US-N3 ✅** As a developer, the player's and weapons' rules live in the engine-free Core as commands that produce events, so presentation only reads state and plays events
+- **U.HARE-US-N4 ✅** As a developer, enemy behaviour, spawn pacing and generate_enemy_list live in the engine-free Core, so every enemy rule is tested outside Unity
+- **U.HARE-US-N5 ✅** As a developer, every tuning number and all content (levels, enemy ranges, weapon and enemy stats, text) live in validated data, so nothing is hard-coded in behaviour
+- **U.HARE-US-N6 🟡** As a player, all controls go through one Input System actions asset and can be rebound, so keyboard, mouse and a gamepad work the same way
+- **U.HARE-US-N7 ✅** As a player, my profile, volumes and campaign progress are kept the same way as in every other MindAttic game, so my settings follow me
+- **U.HARE-US-N8 ✅** As a developer, rendering goes through a thin pipeline-agnostic layer over URP 2D, so presentation code never touches pipeline types
+- **U.HARE-US-N9 ✅** As a developer, all screens are built from one UI foundation (UI Toolkit or the shared MindAttic components) with the original's look, so menus and HUD share a style
 
 
 ## Epic O — Game State, Shell & Flow
-- **U.HARE-US-O1 ⬜** As a player, the game remembers my lives, coins, skill points, score, difficulty and place in the campaign through one game-session state, the same way the original's globals did
-- **U.HARE-US-O2 ⬜** As a player, the game moves between its rooms (startup, title, intro, story, map, game, upgrade) with the original's fade transitions and Esc behaviour, so it flows like the original
-- **U.HARE-US-O3 ⬜** As a player, I see the startup screen with the circuit-board backdrop and the controller note before the title, the way the original opens
-- **U.HARE-US-O4 ⬜** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
-- **U.HARE-US-O5 ⬜** As a player, each level starts with its name banner, its objective and its time limit, runs its enemy emitters, and ends when I have met the objective, like the original
-- **U.HARE-US-O6 ⬜** As a player, I see my score, the level objective, the elapsed time, my extra lives and my health pips on screen while I play
-- **U.HARE-US-O7 ⬜** As a player, I can pause, restart the level, toggle the minimap, units, volume and fullscreen with the original's keys
-- **U.HARE-US-O8 ⬜** As a player, I aim with the original's blue reticle in the game and its pointer on menus
-- **U.HARE-US-O9 ⬜** As a player, the title screen opens with the original's falling drop, the standing rabbit and the logo before the menu appears
-- **U.HARE-US-O10 ⬜** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot
-- **U.HARE-US-O11 ⬜** As a player, I can start a quick game, the campaign or the enemy generator at a difficulty I choose, like the original's three game modes
-- **U.HARE-US-O12 ⬜** As a player, my campaign progress, coins, skill points and purchased upgrades are saved to my profile and restored when I return
-- **U.HARE-US-O13 ⬜** As a player, I can see who made the music and sound effects I hear, as the original's licences require
+- **U.HARE-US-O1 ✅** As a player, the game remembers my lives, coins, skill points, score, difficulty and place in the campaign through one game-session state, the same way the original's globals did
+- **U.HARE-US-O2 ✅** As a player, the game moves between its rooms (startup, title, intro, story, map, game, upgrade) with the original's fade transitions and Esc behaviour, so it flows like the original
+- **U.HARE-US-O3 ✅** As a player, I see the startup screen with the circuit-board backdrop and the controller note before the title, the way the original opens
+- **U.HARE-US-O4 ✅** As a player, I play in the original's open arena with a camera that follows my rabbit, scrolling backgrounds, wrap-around edges and a lost life when I fly out of bounds
+- **U.HARE-US-O5 ✅** As a player, each level starts with its name banner, its objective and its time limit, runs its enemy emitters, and ends when I have met the objective, like the original
+- **U.HARE-US-O6 ✅** As a player, I see my score, the level objective, the elapsed time, my extra lives and my health pips on screen while I play
+- **U.HARE-US-O7 ✅** As a player, I can pause, restart the level, toggle the minimap, units, volume and fullscreen with the original's keys
+- **U.HARE-US-O8 ✅** As a player, I aim with the original's blue reticle in the game and its pointer on menus
+- **U.HARE-US-O9 ✅** As a player, the title screen opens with the original's falling drop, the standing rabbit and the logo before the menu appears
+- **U.HARE-US-O10 ✅** As a player, the map looks like the original: the spinning earth, the scanner sweep, the USS Warren, mission alerts and the travel dot
+- **U.HARE-US-O11 ✅** As a player, I can start a quick game, the campaign or the enemy generator at a difficulty I choose, like the original's three game modes
+- **U.HARE-US-O12 ✅** As a player, my campaign progress, coins, skill points and purchased upgrades are saved to my profile and restored when I return
+- **U.HARE-US-O13 ✅** As a player, I can see who made the music and sound effects I hear, as the original's licences require
 
 
 ## Epic P — Asset Import (art, audio, fonts)
-- **U.HARE-US-P1 ⬜** As a developer, the original's 214 sprites and 18 backgrounds are imported into Unity with their frames, origins, collision shapes and animation speeds, so the game can look like the original
-- **U.HARE-US-P2 ⬜** As a developer, the original's sound effects and music are imported into Unity as audio clips with their mixer groups, so every sound can be played by name
-- **U.HARE-US-P3 ⬜** As a developer, the original's fonts are available as Unity font assets, so text matches the original's weight and size
+- **U.HARE-US-P1 ✅** As a developer, the original's 214 sprites and 18 backgrounds are imported into Unity with their frames, origins, collision shapes and animation speeds, so the game can look like the original
+- **U.HARE-US-P2 ✅** As a developer, the original's sound effects and music are imported into Unity as audio clips with their mixer groups, so every sound can be played by name
+- **U.HARE-US-P3 ✅** As a developer, the original's fonts are available as Unity font assets, so text matches the original's weight and size
 
 
 ## Epic Q — Player & World Parity
-- **U.HARE-US-Q1 ⬜** As a player, my rabbit lands on rocks and structures, crouches there, aims from the rock and leaps off to the next one, exactly as in the original
-- **U.HARE-US-Q2 ⬜** As a player, I lose a life when I die or leave the arena, drop back in from the top of the screen, and the game restarts when my lives run out, like the original
-- **U.HARE-US-Q3 ⬜** As a player, my rabbit looks and animates like the original: idle, crouch, leap and hurt poses, the weapon held at my aim, smoke and spark trails, and the flashing when invulnerable
-- **U.HARE-US-Q4 ⬜** As a player, I find structures with their covers on the rocks of a level (and can land on them), as set by each level's structure range
-- **U.HARE-US-Q5 ⬜** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage
+- **U.HARE-US-Q1 ✅** As a player, my rabbit lands on rocks and structures, crouches there, aims from the rock and leaps off to the next one, exactly as in the original
+- **U.HARE-US-Q2 ✅** As a player, I lose a life when I die or leave the arena, drop back in from the top of the screen, and the game restarts when my lives run out, like the original
+- **U.HARE-US-Q3 ✅** As a player, my rabbit looks and animates like the original: idle, crouch, leap and hurt poses, the weapon held at my aim, smoke and spark trails, and the flashing when invulnerable
+- **U.HARE-US-Q4 ✅** As a player, I find structures with their covers on the rocks of a level (and can land on them), as set by each level's structure range
+- **U.HARE-US-Q5 ✅** As a player, I see the original's backdrop props: the moon surface, floating debris and the water-surface reflection in the side-scroll stage
 
 
 ## Epic R — Companion, Special Abilities & Boss
-- **U.HARE-US-R1 ⬜** As a player, I can call a helper hawk that flies with me, picks up my drops and dies to a hit, like the original's obj_helper
-- **U.HARE-US-R2 ⬜** As a player, I can set off the flashbomb that flashes the screen and blows up the enemies and shots around me, like the original
-- **U.HARE-US-R3 ⬜** As a player, I fight Scrap Mental, the level 8 boss that shoots, spawns saws and daggers and sheds its hull pieces, and I win the level by destroying it
+- **U.HARE-US-R1 ✅** As a player, I can call a helper hawk that flies with me, picks up my drops and dies to a hit, like the original's obj_helper
+- **U.HARE-US-R2 ✅** As a player, I can set off the flashbomb that flashes the screen and blows up the enemies and shots around me, like the original
+- **U.HARE-US-R3 ✅** As a player, I fight Scrap Mental, the level 8 boss that shoots, spawns saws and daggers and sheds its hull pieces, and I win the level by destroying it
 
 
 ## Epic S — Verification & Release
-- **U.HARE-US-S1 ⬜** As a developer, the game is verified by play: PlayMode tests and a scripted run drive the real game and capture screenshots of every room
-- **U.HARE-US-S2 ⬜** As a player, I can install and launch a polished Windows build with the right name, icon, resolution and settings, so the proof of concept is complete
+- **U.HARE-US-S1 ✅** As a developer, the game is verified by play: PlayMode tests and a scripted run drive the real game and capture screenshots of every room
+- **U.HARE-US-S2 ✅** As a player, I can install and launch a polished Windows build with the right name, icon, resolution and settings, so the proof of concept is complete
 
 ## Tickets
 > Permanent log of every change and fix — this repo's ticket system. Rows are append-only: never
@@ -259,3 +259,10 @@ _Nothing recorded yet._
 | U.HARE-T112 | 2026-10-30 | fix | closed | CreditsView hard-codes its entries instead of reading the imported credits.txt (found by U.HARE-T33): REVERSE_ENGINEERING.md says Audio/credits.txt is mirrored for the credits screen (U.HARE-T69), but Scripts/UI/CreditsView.cs:29-43 has its own list and HareAudioManifest.Credits is read only by tests; build the screen from the manifest's credits. Also fix the BIBLE reference in CreditsView.cs:20 and TitleRoom.cs:186 (the credits screen is V52, not V50) | 238173e |
 | U.HARE-T113 | 2026-10-30 | fix | closed | obj_phalanx's per-step ef_spark (gold, below) was never ported to Core: PhalanxEnemy.StepEvent has no spark event at all, so Phalanx never has anything to wire through GmlEffects (found auditing U.HARE-T110) | ece9412 |
 | U.HARE-T114 | 2026-10-31 | docs | closed | Update USER_STORIES.md | — |
+| U.HARE-T115 | 2026-11-02 | docs | closed | Adopt MindAttic.Agency docs-site pipeline, publish README to GitHub Pages (HOUSE-LAW-14) | 736c72a543fbbb43a98fd5b29661d908148003d9 |
+| U.HARE-T116 | 2026-11-02 | fix | closed | Bughunt sweep, two passes: find and fix real bugs across tracked source (user request 2026-11-02) | b21c5d21cb12eb6815193e6d92f65c3becf84f9d |
+| U.HARE-T117 | 2026-11-03 | chore | closed | Make mindattic/Unity.Rea.Hare public so GitHub Pages can publish the docs site (U.HARE-T115 hit HTTP 422 on a private repo) | 736c72a |
+| U.HARE-T118 | 2026-11-06 | chore | open | Reconcile the 59 planned stories against the built game: mark each one already built done (with evidence, linked to the ticket that built it), file an approved feature ticket for each genuinely missing one, so the port can be finished and re-verified end to end | — |
+| U.HARE-T119 | 2026-11-06 | chore | closed | Standardize run.ps1/run.bat at repo root per the Unity.Rea.* convention (part of U.CHN-T112) | fdfdec0 |
+| U.HARE-T120 | 2026-11-06 | feature | open | Build U.HARE-US-N6's remainder, control rebinding: U.HARE-T42 (94f0912) gave HareControls.inputactions with the original's keys as defaults and a gamepad scheme, but nothing can rebind them (no PerformInteractiveRebinding, no binding-override save/load anywhere in Scripts/). Add a controls screen reachable from the title (UI Toolkit via HarePanel/HareUi) that rebinds each Player/Helper/Meta action per scheme with InputActionRebindingExtensions, saves the overrides as JSON under the Unity.Shared profile (ActiveProfile, beside campaign.json) and reapplies them at boot, with a reset-to-defaults; the original has no rebinding, so record it as a deliberate addition in BIBLE §8 (RECONSTRUCTION standards audit, rule 6 Input System) | — |
+| U.HARE-T121 | 2026-11-06 | feature | open | End-to-end port verification (re-run after U.HARE-T118's gap tickets): Windows build launches, every room/mode of gmlHARE + Rabbit reachable and playable start to finish, mechanics match docs/REVERSE_ENGINEERING.md; file a fix ticket for every gap | — |

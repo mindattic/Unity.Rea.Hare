@@ -37,7 +37,9 @@ title *H.O.P., High Orbit Patrol*) as a modern Unity 6 game.
 - **A living rock field.** Rocks drift, spin, darken under fire, heal, break into flotsam and are replaced, and are
   the ground the rabbit stands on.
 - **The whole game.** Title, story, map, ten levels across arena, shaft and side-scroll rooms, the Scrap Mental
-  boss, the garage and the HUD all come across (most planned, see [RECONSTRUCTION, build order](RECONSTRUCTION.md#build-order)).
+  boss, the garage and the HUD all come across (all built on main, see the
+  [RECONSTRUCTION parity matrix](RECONSTRUCTION.md#parity-matrix); U.HARE-T118's audit left only player
+  control rebinding open, U.HARE-T120, then a re-run of the end-to-end verification, U.HARE-T121).
 
 ## 3. What it is not {#UH-§3}
 
