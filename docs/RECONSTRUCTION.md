@@ -122,7 +122,7 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
 | Music and jukebox | `obj_jukebox`, `play_random_music` | Built: Core's `Session/PlayRandomMusic` (`irandom_range(1, 5)` over `session.Tracks`, the original's five tracks in order, into `CurrentTrack`/`TrackName`, raising `MusicTrackChosen`); Runtime's `Audio/Jukebox` (obj_jukebox, made by `ArenaRoom.Begin`, asking whenever no music plays) and `HareAudio.PlayMusic` (once, not looped, on the persistent host's Music source); the original's `audio_is_playing(0)` and commented-out play fixed, BIBLE D33, V51 | done: U.HARE-T29 |
 | Sound effects | 69 `sfx_*` | All imported, none skipped: `tools/import-gml-audio.ps1` + `GmlAudioBuilder` into `Assets/Unity.Rea.Hare/Audio` (PCM, decompressed on load, as GameMaker played them), named by `HareAudioManifest`, played by `HareAudio` through the mixer's Sfx group at the moment the original plays each; U.HARE-T30 wired the last ones (sfx_bounce off shield walls and the phalanx shield, sfx_brake and its stop on landing, sfx_hologram / sfx_hologram_pass, Ctrl's sfx_switch / sfx_switch_back, the laser's sfx_fire_laser and sfx_loop_laser hum, sfx_fire_railgun, sfx_fire_shotgun), with `HareAudio.PlayVoice` / `IsPlaying` / `Stop` for GML's audio_is_playing and audio_stop_sound. sfx_crash is only in commented-out code (see 'Content the original never reaches') | done: U.HARE-T47 (import), U.HARE-T30 (wiring) |
 | Music tracks, mixer, volumes | 6 `music_*`, `master_volume`, `sound_global_volume` | The six tracks imported as streamed Vorbis on the Music group; `Audio/HareMixer.mixer` (Master > Music, Sfx) follows the profile's music and sfx volume and mutes and the session `HareAudio.MasterVolume` (`master_volume`); the jukebox plays them (U.HARE-T29) and the numpad keys are UH-T60's | import done: U.HARE-T47; played: U.HARE-T29 |
-| Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); `CreditsView` from the title's Credits button (BIBLE V52), its entries still hard-coded rather than read from the manifest | data: U.HARE-T47; screen: U.HARE-T69, done; data link: U.HARE-T112 |
+| Credits | `datafiles/credits.txt` | Data imported beside the clips (`Audio/credits.txt`, `HareAudioManifest.Credits`); `CreditsView` from the title's Credits button (BIBLE V52), its minigun entry built from the imported file | data: U.HARE-T47; screen: U.HARE-T69, done; data link: U.HARE-T112, done |
 | Startup room | `obj_startup` | Core's `Rooms/StartupScreen` (Create's fullscreen and alarm[0..2], each alarm re-rolling its circuit board's speeds to `irandom_range(-2,2)` and re-arming for 1 to 12 s, the backgrounds' scroll, any key and the global left button to `room_title`; startup.room.gmx's five backgrounds and the note as data in `startup`), played by `StartupRoom` in the generated startup scene (tiled imported backgrounds, the red-on-black `fnt_point` note at `room_height - 60`) on the room flow's clock | done: U.HARE-T51 |
 | Room flow and fades | `obj_fade_*`, `next_room` | Core's `Flow/RoomFlow` and `RoomFade` (room_goto, next_room, the fades, Esc to the title, F1 fullscreen, the rooms as data in `rooms`), played by `RoomFlowDirector` from the `Main.unity` bootstrap; one generated scene per room | done: U.HARE-T50 |
 | Sprites, backgrounds | 213 (398 frames) / 18 | All imported, none skipped: `tools/import-gml-art.ps1` + `GmlArtBuilder` into `Assets/Unity.Rea.Hare/Art`, mapped by `HareArtManifest` (not yet drawn by the views, which still use `Resources/Hare/Sprites`) | done: U.HARE-T46 |
@@ -151,6 +151,29 @@ generated `Main.unity`; the art and sound are imported, U.HARE-T46 and U.HARE-T4
   nothing", the level buttons' room, stale rows above) are corrected in place.
 - **Source**: the ticket's `GameMaker\gmlHARE` copy and the `_PRE_2017\gmlHARE` copy the notes are read from differ
   only as recorded in REVERSE_ENGINEERING.md, "Source locations". Rabbit.gmx is the earlier build, reference only.
+
+## End-to-end re-verification (U.HARE-T121, 2026-11-06)
+
+Re-run after U.HARE-T118's story reconciliation and its gap ticket U.HARE-T120 (control rebinding), at 74abdfd.
+
+- **Build**: `tools/build.ps1` built `Build/Hare/Hare.exe` with 0 errors; `Hare.exe -demo -muted` exits 0 with
+  "ScriptedRun finished." and no exception in the player log; `tools/capture.ps1 -Rebuild` rebuilt the capture
+  player and shot all eleven rooms and modes (startup, title, story, map, intro, a level, a scoring laser kill, the
+  level results, the side scroll, the shaft, the garage), exit 0.
+- **Rooms**: unchanged since U.HARE-T33: every room but `room_boss1` (entered by nothing) is reachable with real
+  input along the same paths. New since then: the title's Controls link (bottom left, U.HARE-T120, BIBLE V55) opens
+  `ControlsView`; Esc or Back returns to the title.
+- **U.HARE-T33's gaps**: all closed and present in the code: U.HARE-T109 (sfx_switch, sfx_fire_grenade,
+  sfx_set_rocket, sfx_empty_clip played), U.HARE-T110 (dagger, mine and enemy mine effects drawn and played),
+  U.HARE-T111 (the score reset after a won mission's return to the map), U.HARE-T112 (`CreditsView` reads
+  `credits.txt`; the Credits row above corrected), and U.HARE-T113 (the phalanx's per-step spark) found on the way.
+- **Mechanics**: the commits since U.HARE-T33 (the gap fixes, the Unity.Rea.Hare rename, U.HARE-T116's bughunt,
+  U.HARE-T120) change no number REVERSE_ENGINEERING.md records; the default bindings are still the original's keys,
+  so a player who never opens the Controls screen plays the original's controls.
+- **Gaps filed**: U.HARE-T122 (U.HARE-T120's rebinding has no test and is not in the scripted run or capture, so it
+  was never verified by play as rule 7 asks; a live drive of the screen on the shared desktop was not possible),
+  U.HARE-T123 (while a binding listens, the room flow's always-on Fullscreen action still fires, so F1 toggles the
+  window during a rebinding).
 
 ## Standards audit
 
