@@ -63,6 +63,7 @@ namespace Unity.Rea.Hare.Rooms
         VisualElement creditsLink, creditsView;
         VisualElement controlsLink;
         ControlsView controlsView;
+        bool headlessCampaign;
 
         sealed class ButtonView
         {
@@ -161,6 +162,8 @@ namespace Unity.Rea.Hare.Rooms
             director = RoomFlowDirector.Active;
             if (director != null) director.RoomStepped += OnRoomStepped;
             Play(State.Execute(new CreateTitle(RoomFlowDirector.Seat)));
+            // U.HARE-T124: --headless has nobody to click the menu, so Update calls it and presses Campaign (off by default).
+            Unity.Shared.Core.Headless.WhenActive(() => headlessCampaign = true);
         }
 
         void OnDestroy()
@@ -185,6 +188,8 @@ namespace Unity.Rea.Hare.Rooms
         {
             if (!State.Created) return;
             var seat = RoomFlowDirector.Seat;
+
+            if (headlessCampaign && FadeIdle) PlayHeadlessCampaign(seat);
 
             // The credits screen (U.HARE-T69, BIBLE V52), a deviation: the original has no credits room. While it is
             // open it takes every click and Esc, and the title underneath hears nothing.
@@ -251,6 +256,27 @@ namespace Unity.Rea.Hare.Rooms
             if (!State.MenuShown && !State.Stand.On && !f1Key.IsPressed()
                 && (anyKey.WasPressedThisFrame() || (leftButton.IsPressed() && !escapeKey.IsPressed())))
                 Play(State.Execute(new CallTitleMenu(seat)));
+        }
+
+        /// <summary>
+        /// U.HARE-T124, <c>--headless</c> only: the title's own flow with no player. Calls the menu (any key), and once it is
+        /// up presses the Campaign button the way a click would (<see cref="PressTitle"/> at its position), then stops.
+        /// </summary>
+        void PlayHeadlessCampaign(PlayerId seat)
+        {
+            if (!State.MenuShown)
+            {
+                if (!State.Stand.On) Play(State.Execute(new CallTitleMenu(seat)));
+                return;
+            }
+            headlessCampaign = false;
+            foreach (var button in State.Menu)
+            {
+                var d = button.Definition;
+                if (d.Action != TitleAction.FadeToRoom || d.Mode != TitleMode.Campaign) continue;
+                Play(State.Execute(new PressTitle(seat, button.X, button.Y, true)));
+                return;
+            }
         }
 
         /// <summary><c>obj_fade_title.mode == "off"</c>; with no room flow (a scene opened on its own) there is no fade to wait for.</summary>

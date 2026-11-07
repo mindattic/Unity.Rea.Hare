@@ -11,6 +11,10 @@
     Rebuild the player with tools/build.ps1 before launching.
 .PARAMETER Sound
     Launch with audio (no MINDATTIC_CLI_MUTED, no -muted).
+.PARAMETER Headless
+    Launch with no window for scripted testing (U.HARE-T124): runs the player through
+    ..\Unity.Shared\tools\Start-Headless.ps1 (--headless -batchmode -nographics, log to Logs/play.log), waits for its
+    MINDATTIC_HEADLESS_READY line and returns. The title room then starts the Campaign by itself. Off by default.
 .PARAMETER Wait
     Wait for the player to exit and return its exit code.
 #>
@@ -18,6 +22,7 @@ param(
     [switch]$Build,
     [switch]$Sound,
     [switch]$Wait,
+    [switch]$Headless,
     [Parameter(ValueFromRemainingArguments = $true)][string[]]$PlayerArgs
 )
 
@@ -31,6 +36,14 @@ if ($Build -or -not (Test-Path $exe)) {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 New-Item -ItemType Directory -Force (Split-Path $log) | Out-Null
+
+if ($Headless) {
+    # U.HARE-T124: the shared launcher adds --headless -batchmode -nographics -logFile and waits for the ready line.
+    $headlessArgs = @{ Exe = $exe; LogFile = $log; Wait = $true }
+    if ($PlayerArgs) { & (Join-Path $root '..\Unity.Shared\tools\Start-Headless.ps1') @headlessArgs @PlayerArgs }
+    else { & (Join-Path $root '..\Unity.Shared\tools\Start-Headless.ps1') @headlessArgs }
+    exit $LASTEXITCODE
+}
 
 $arguments = @('-logFile', "`"$log`"")
 if (-not $Sound) { $arguments += '-muted' }

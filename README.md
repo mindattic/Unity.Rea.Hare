@@ -170,6 +170,13 @@ powershell -File tools/build.ps1
 powershell -File tools/play.ps1
 ```
 
+### Headless launches
+
+For scripted testing (off by default), `powershell -File tools/play.ps1 -Headless` runs `Build/Hare/Hare.exe` with no window through
+the shared launcher (`..\Unity.Shared\tools\Start-Headless.ps1`: `--headless -batchmode -nographics`, log to `Logs/play.log`) and
+waits for the `MINDATTIC_HEADLESS_READY` log line. With `--headless` the title room calls its menu and presses Campaign by itself
+(`TitleRoom.PlayHeadlessCampaign`) instead of waiting for a click. Without `--headless` nothing changes.
+
 ### Muted launches
 
 `tools/play.ps1` launches muted: it sets `MINDATTIC_CLI_MUTED=1` and passes `-muted`, so a CLI or agent
