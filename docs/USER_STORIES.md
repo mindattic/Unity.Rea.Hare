@@ -270,4 +270,5 @@ _Nothing recorded yet._
 | U.HARE-T123 | 2026-11-06 | fix | open | Controls screen: while a binding listens, RoomFlowDirector's always-enabled Meta.Fullscreen still fires, so pressing F1 to rebind Fullscreen (or any key already bound to Fullscreen) also toggles the window, and the end frame's Busy guard only covers TitleRoom; suspend the director's Meta actions while ControlsView.Busy (found by U.HARE-T121) | U.HARE-T120 74abdfd |
 | U.HARE-T124 | 2026-11-06 | feature | closed | Adopt the shared off-by-default --headless launch mode (Unity.Shared) | 6393916 |
 | U.HARE-T125 | 2026-11-10 | chore | closed | Crash recovery: commit the command-catalog sync (.agent/commands/*.md) and regenerated docs/USER_STORIES.md left uncommitted by the session crash | — |
-| U.HARE-T126 | 2026-11-10 | chore | open | Crash recovery: commit the command-catalog sync (.agent/commands/*.md) and regenerated docs/USER_STORIES.md left uncommitted by the session crash | — |
+| U.HARE-T126 | 2026-11-10 | chore | closed | Crash recovery: commit the command-catalog sync (.agent/commands/*.md) and regenerated docs/USER_STORIES.md left uncommitted by the session crash | — |
+| U.HARE-T127 | 2026-11-10 | chore | open | Crash recovery / fleet sync: commit the regenerated docs/USER_STORIES.md left uncommitted after other tickets closed elsewhere | — |
