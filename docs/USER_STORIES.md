@@ -273,3 +273,7 @@ _Nothing recorded yet._
 | U.HARE-T126 | 2026-11-10 | chore | closed | Crash recovery: commit the command-catalog sync (.agent/commands/*.md) and regenerated docs/USER_STORIES.md left uncommitted by the session crash | — |
 | U.HARE-T127 | 2026-11-10 | chore | closed | Crash recovery / fleet sync: commit the regenerated docs/USER_STORIES.md left uncommitted after other tickets closed elsewhere | — |
 | U.HARE-T128 | 2026-11-17 | docs | closed | Update USER_STORIES.md | — |
+| U.HARE-T129 | 2026-11-22 | fix | open | Add EditMode/PlayMode tests for HareBindings and ControlsView: controls.json round trip via PathOverride, unreadable file set aside as .bad, Save reapplying to HareControls, ResetToDefaults | — |
+| U.HARE-T130 | 2026-11-22 | fix | open | Add tests that the title's Controls link opens and Esc/Back closes, plus an InputTestFixture rebinding test | — |
+| U.HARE-T131 | 2026-11-22 | fix | open | Add Credits and Controls screen shots to ScriptedRun and tools/capture.ps1 | — |
+| U.HARE-T132 | 2026-11-22 | docs | closed | 2026-11-22 morning | — |
