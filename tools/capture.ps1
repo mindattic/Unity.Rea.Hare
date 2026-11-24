@@ -2,12 +2,12 @@
 .SYNOPSIS
     U.HARE-T70: runs Unity.Rea.Hare's scripted full run and stores a screenshot of every room and mode.
 .DESCRIPTION
-    Builds the capture-enabled player (MindAttic.Capture's CaptureBuild.BuildWindows, to Builds/Capture) unless
+    Builds the capture-enabled player (MindAttic.Media.Capture's CaptureBuild.BuildWindows, to Builds/Capture) unless
     -NoBuild or one is already there, launches it with -demo (Unity.Rea.Hare.Demo.ScriptedRun: startup, title, story,
     map, intro, a level, a kill, the level results, the side scroll, the shaft and the garage) and
-    -capture screen, muted, and waits for it. The images land in R:\MindAttic\Capture\<repo>\ (MindAttic.Capture's
+    -capture screen, muted, and waits for it. The images land in R:\MindAttic\Capture\<repo>\ (MindAttic.Media.Capture's
     output folder); this script lists the ones this run wrote. Exit code is the player's: non-zero when a room never
-    came up, a kill did not score or a shot failed. Needs ffmpeg on PATH, as MindAttic.Capture does.
+    came up, a kill did not score or a shot failed. Needs ffmpeg on PATH, as MindAttic.Media.Capture does.
 .PARAMETER NoBuild
     Skip building even when no capture player exists (fails then).
 .PARAMETER Rebuild
@@ -34,7 +34,7 @@ function Find-Player {
 $player = Find-Player
 if ($Rebuild -or (-not $player -and -not $NoBuild)) {
     & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'unity.ps1') `
-        -Method MindAttic.Capture.Unity.Editor.CaptureBuild.BuildWindows -Log capture-build
+        -Method MindAttic.Media.Capture.Unity.Editor.CaptureBuild.BuildWindows -Log capture-build
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     $player = Find-Player
 }

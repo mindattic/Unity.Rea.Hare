@@ -1,5 +1,5 @@
 using System.Collections;
-using MindAttic.Capture.Unity;
+using MindAttic.Media.Capture.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Rea.Hare.Arena;
@@ -36,7 +36,7 @@ namespace Unity.Rea.Hare.Demo
                 capturing = CaptureUnity.Engine.Enabled;
                 if (!capturing)
                 {
-                    Debug.LogError("[Unity.Rea.Hare] MindAttic.Capture did not start; the run will not be captured.");
+                    Debug.LogError("[Unity.Rea.Hare] MindAttic.Media.Capture did not start; the run will not be captured.");
                     failed = true;
                 }
             }

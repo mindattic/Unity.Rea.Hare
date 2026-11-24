@@ -7,7 +7,7 @@ namespace Unity.Rea.Hare.Demo
     /// U.HARE-T70: the <c>-demo</c> command-line flag Unity.Chain, Unity.SpaceGod and Unity.GridGame share for a
     /// scripted, capturable run. A normal launch is unaffected: with no <c>-demo</c> this does nothing and the game
     /// boots as a player gets it. With it, a <see cref="ScriptedRun"/> plays every room and mode once and (under
-    /// <c>-capture screen</c>, parsed by MindAttic.Capture) screenshots each. tools/capture.ps1 launches it.
+    /// <c>-capture screen</c>, parsed by MindAttic.Media.Capture) screenshots each. tools/capture.ps1 launches it.
     /// </summary>
     public static class DemoBootstrap
     {
