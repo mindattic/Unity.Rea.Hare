@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Unity.Rea.Hare.Arena;
 using Unity.Rea.Hare.Enemies;
 using Unity.Rea.Hare.Flow;
+using Unity.Rea.Hare.Rooms;
 using Unity.Rea.Hare.Session;
 using Unity.Rea.Hare.Weapons;
 
@@ -13,7 +14,7 @@ namespace Unity.Rea.Hare.Demo
     /// <summary>
     /// U.HARE-T70: plays the whole game once through the same commands the rooms use (the flow's GoToRoom, the
     /// session's ChooseCampaign, CompleteLevel...) and takes a named screenshot of every room and mode: startup,
-    /// title, story, map, intro, a level, a kill, the level-complete results, the side scroll, the shaft and the
+    /// title, its Credits and Controls screens, story, map, intro, a level, a kill, the level-complete results, the side scroll, the shaft and the
     /// garage. Exits with code 1 when a room never loads or a shot fails, so a script can gate on it. Without
     /// <c>-capture</c> it still plays, it is just not recorded.
     /// </summary>
@@ -56,6 +57,21 @@ namespace Unity.Rea.Hare.Demo
             yield return Settle(director, RoomId.Title);
             yield return new WaitForSecondsRealtime(1.5f); // the menu rises once the logo is up
             yield return Shot(capturing, "02-title");
+
+            var title = FindAnyObjectByType<TitleRoom>();
+            if (title == null) Fail("the title room was not found");
+            else
+            {
+                title.OpenCredits();
+                yield return new WaitForSecondsRealtime(0.5f);
+                yield return Shot(capturing, "02-title-credits");
+                title.CloseCredits();
+                title.OpenControls();
+                yield return new WaitForSecondsRealtime(0.5f);
+                if (title.ControlsScreen == null) Fail("the controls screen did not open");
+                yield return Shot(capturing, "02-title-controls");
+                title.CloseControls();
+            }
 
             director.ExecuteSession(new ChooseCampaign(RoomFlowDirector.Seat));
             director.Execute(new GoToRoom(RoomFlowDirector.Seat, RoomId.Story));

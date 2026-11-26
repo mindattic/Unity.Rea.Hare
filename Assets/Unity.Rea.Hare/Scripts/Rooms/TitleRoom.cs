@@ -531,14 +531,15 @@ namespace Unity.Rea.Hare.Rooms
             controlsView = null;
         }
 
-        void OpenCredits()
+        /// <summary>Opens the credits screen over the title.</summary>
+        public void OpenCredits()
         {
             if (creditsView != null) return;
             HareAudio.Play("sfx_click");
             creditsView = CreditsView.Build(guiLayer, room.Width, room.Height);
         }
 
-        void CloseCredits()
+        public void CloseCredits()
         {
             if (creditsView == null) return;
             creditsView.RemoveFromHierarchy();
