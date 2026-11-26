@@ -155,6 +155,11 @@ namespace Unity.Rea.Hare.Tests.PlayMode
             yield return Tap(keyboard.escapeKey);
             yield return WaitFor(() => title.ControlsScreen == null, "Esc to close the controls screen");
             Assert.That(title.State.Dialog, Is.Null, "the Esc was the controls screen's, not the title's quit dialog");
+            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo("room_title"));
+            Assert.That(quits, Is.EqualTo(0));
+            yield return Tap(keyboard.escapeKey);
+            Assert.That(title.ControlsScreen, Is.Null);
+            Assert.That(quits, Is.EqualTo(0));
         }
 
         [UnityTest]
@@ -187,7 +192,7 @@ namespace Unity.Rea.Hare.Tests.PlayMode
 
                 Press(keyboard.f9Key, queueEventOnly: true);
                 float until = Time.realtimeSinceStartup + 5f;
-                while (view.Slots.Single(s => s.Action == slot.Action && s.BindingIndex == slot.BindingIndex).Text == "press...")
+                while (view.Busy)
                 {
                     if (Time.realtimeSinceStartup > until) Assert.Fail("Timed out waiting for the rebinding to complete");
                     currentTime += 0.05;
@@ -210,6 +215,7 @@ namespace Unity.Rea.Hare.Tests.PlayMode
             finally
             {
                 using (var controls = new HareControls()) HareBindings.ResetToDefaults(controls);
+                Assert.That(HareBindings.OverridesJson, Does.Not.Contain("<Keyboard>/f9"));
                 HareBindings.PathOverride = null;
                 File.Delete(path);
             }
