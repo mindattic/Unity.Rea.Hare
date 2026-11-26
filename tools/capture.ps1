@@ -5,7 +5,7 @@
     Builds the capture-enabled player (MindAttic.Media.Capture's CaptureBuild.BuildWindows, to Builds/Capture) unless
     -NoBuild or one is already there, launches it with -demo (Unity.Rea.Hare.Demo.ScriptedRun: startup, title, story,
     map, intro, a level, a kill, the level results, the side scroll, the shaft and the garage) and
-    -capture screen, muted, and waits for it. The images land in R:\MindAttic\Capture\<repo>\ (MindAttic.Media.Capture's
+    -capture screen, muted, and waits for it. The images land in R:\MindAttic\Media\Capture\<repo>\ (MindAttic.Media.Capture's
     output folder); this script lists the ones this run wrote. Exit code is the player's: non-zero when a room never
     came up, a kill did not score or a shot failed. Needs ffmpeg on PATH, as MindAttic.Media.Capture does.
 .PARAMETER NoBuild
@@ -53,7 +53,9 @@ try {
     if ($null -eq $previous) { Remove-Item Env:MINDATTIC_CLI_MUTED -ErrorAction SilentlyContinue } else { $env:MINDATTIC_CLI_MUTED = $previous }
 }
 
-$out = 'R:\MindAttic\Capture'
+$out = 'R:\MindAttic\Media\Capture'
+$legacy = 'R:\MindAttic\Capture'
+if (-not (Test-Path $out) -and (Test-Path $legacy)) { $out = $legacy }  # one-release fallback
 if (Test-Path $out) {
     Get-ChildItem $out -Recurse -File | Where-Object { $_.LastWriteTime -ge $started } |
         ForEach-Object { Write-Host $_.FullName }
