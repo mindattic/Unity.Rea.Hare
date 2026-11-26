@@ -291,7 +291,7 @@ tools/
   import-gml-audio.ps1 imports the original's sounds and credits into Assets/Unity.Rea.Hare/Audio
   import-gml-fonts.ps1 imports the original's fonts (baked glyph atlases and tables) into Assets/Unity.Rea.Hare/Fonts
   gml-json.ps1         the stable JSON writer the import scripts share
-  run.ps1 (repo root)  Deploy & Run: pulls, builds, publishes to C:\Apps\Unity.Rea.Hare and refreshes the Desktop shortcut (run.bat asks 1) Deploy & Run or 2) Run)
+  run.ps1 (repo root)  the shared run menu (Invoke-AppRun; run.bat opens it): 1) Redeploy builds Debug and Release into R:\MindAttic\Apps\Unity.Rea.Hare, 2) Run Debug, 3) Run Release; 13 is Deploy & Run
   build.ps1            the Windows player build (HareBuild.BuildWindows) to Build/Hare/Hare.exe, with the release settings of ProjectSetup.ApplyReleaseSettings (U.HARE-T80, U.HARE-T71)
   play.ps1             builds if needed, then launches Build/Hare/Hare.exe muted by default (-Sound to opt in; U.HARE-T80)
 docs/
