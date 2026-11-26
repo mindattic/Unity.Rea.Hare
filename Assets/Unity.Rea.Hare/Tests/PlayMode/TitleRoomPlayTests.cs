@@ -123,6 +123,98 @@ namespace Unity.Rea.Hare.Tests.PlayMode
 
         static TitleButton Button(TitleRoom title, string obj) => title.State.Buttons.Single(b => b.Definition.Object == obj);
 
+        /// <summary>The middle of <paramref name="element"/> in room pixels, as the controls screen hit-tests it.</summary>
+        static Vector2 CenterOf(ControlsView view, string name) => view.Root.WorldToLocal(view.Root.Q(name).worldBound).center;
+
+        IEnumerator ClickControlsAt(TitleRoom title, Vector2 roomPixel)
+        {
+            yield return MoveTo(title, roomPixel.x, roomPixel.y);
+            yield return Tap(mouse.leftButton);
+        }
+
+        /// <summary>The title with its menu up and the Controls link clicked (U.HARE-T130, U.HARE-T120).</summary>
+        IEnumerator OpenControlsFromTheLink()
+        {
+            yield return TitleWithMenu();
+            var title = Title();
+            Assert.That(title.ControlsScreen, Is.Null);
+            yield return MoveTo(title, 100, 1050);
+            yield return Tap(mouse.leftButton);
+            yield return WaitFor(() => title.ControlsScreen != null, "the Controls link to open the controls screen");
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator TheControlsLinkOpensTheControlsScreen_EscClosesIt()
+        {
+            yield return OpenControlsFromTheLink();
+            var title = Title();
+            Assert.That(title.ControlsScreen.Root.panel, Is.Not.Null);
+            Assert.That(title.ControlsScreen.Root.name, Is.EqualTo(ControlsView.ElementName));
+
+            yield return Tap(keyboard.escapeKey);
+            yield return WaitFor(() => title.ControlsScreen == null, "Esc to close the controls screen");
+            Assert.That(title.State.Dialog, Is.Null, "the Esc was the controls screen's, not the title's quit dialog");
+        }
+
+        [UnityTest]
+        public IEnumerator TheControlsScreensBackClosesIt()
+        {
+            yield return OpenControlsFromTheLink();
+            var title = Title();
+            var view = title.ControlsScreen;
+            yield return ClickControlsAt(title, CenterOf(view, "back"));
+            yield return WaitFor(() => title.ControlsScreen == null, "Back to close the controls screen");
+            Assert.That(view.Root.panel, Is.Null);
+        }
+
+        [UnityTest]
+        public IEnumerator ARebindingMadeOnTheControlsScreenIsKeptAndSaved()
+        {
+            string path = Path.Combine(Application.temporaryCachePath, "controls-t130.json");
+            File.Delete(path);
+            HareBindings.PathOverride = path;
+            try
+            {
+                yield return OpenControlsFromTheLink();
+                var title = Title();
+                var view = title.ControlsScreen;
+                var slot = view.Slots.First(s => s.Action.bindings[s.BindingIndex].overridePath == null);
+                string box = slot.Action.actionMap.name + "-" + slot.Action.name + "-" + slot.BindingIndex;
+                yield return ClickControlsAt(title, CenterOf(view, box));
+                yield return WaitFor(() => view.Busy, "the slot to start listening");
+                Assert.That(view.Slots.Single(s => s.Action == slot.Action && s.BindingIndex == slot.BindingIndex).Text, Is.EqualTo("press..."));
+
+                Press(keyboard.f9Key, queueEventOnly: true);
+                float until = Time.realtimeSinceStartup + 5f;
+                while (view.Slots.Single(s => s.Action == slot.Action && s.BindingIndex == slot.BindingIndex).Text == "press...")
+                {
+                    if (Time.realtimeSinceStartup > until) Assert.Fail("Timed out waiting for the rebinding to complete");
+                    currentTime += 0.05;
+                    yield return null;
+                }
+                Release(keyboard.f9Key, queueEventOnly: true);
+                yield return null;
+
+                Assert.That(view.Slots.Single(s => s.Action == slot.Action && s.BindingIndex == slot.BindingIndex).Text, Does.Contain("F9").And.EndsWith(" *"));
+                Assert.That(slot.Action.bindings[slot.BindingIndex].overridePath, Is.EqualTo("<Keyboard>/f9"));
+                Assert.That(File.Exists(path), "the rebinding is saved");
+                Assert.That(HareBindings.OverridesJson, Does.Contain("<Keyboard>/f9"));
+
+                using (var fresh = HareBindings.Create())
+                {
+                    var rebound = fresh.asset.FindAction(slot.Action.actionMap.name + "/" + slot.Action.name);
+                    Assert.That(rebound.bindings[slot.BindingIndex].overridePath, Is.EqualTo("<Keyboard>/f9"), "a new HareControls carries it");
+                }
+            }
+            finally
+            {
+                using (var controls = new HareControls()) HareBindings.ResetToDefaults(controls);
+                HareBindings.PathOverride = null;
+                File.Delete(path);
+            }
+        }
+
         [UnityTest]
         public IEnumerator TheTitleMakesItsHiddenPointerAndAKeyBringsInTheMenu()
         {
